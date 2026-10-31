@@ -1,6 +1,6 @@
 # فاز ۱ — نسخهی رایگان `v1.0.0`
 
-> **Status:** 🔵 in-progress · **Progress:** ۳ از ۱۱ تسک (۲۷٪) · **Last updated:** 2026-10-31
+> **Status:** 🔵 in-progress · **Progress:** ۵ از ۱۱ تسک (۴۵٪) · **Last updated:** 2026-10-31
 > **هدف:** نسخهی رایگانِ کامل، سالم و قابل انتشار در WordPress.org — بدون هیچ کد تجاری.
 
 ---
@@ -20,14 +20,14 @@
 | P1-T01 | جداسازی کد ابر از نسخهی رایگان | ✅ done | `pro/src/Storage/*`، `StorageManager` فیلترمحور، حذف فیلدهای S3 از تنظیمات |
 | P1-T02 | لینک دائمی دانلود «آخرین بکاپ» | ✅ done | `?backupino_download=latest&backupino_key=…` → ورود → دانلود، بدون انقضا |
 | P1-T03 | کانال اعلان تلگرام + بله (ربات شخصی) | ✅ done | `Notify\Notifier` + `BotApi`، گروه تنظیمات `notify`، دکمه‌ی «ارسال آزمایشی»، صف تلاش مجدد |
-| P1-T04 | بکاپ خودکار ماهانه (اول ماه) | ⚪ todo | شمسی برای `fa_IR`، میلادی برای بقیه؛ قابل خاموش کردن |
+| P1-T04 | بکاپ خودکار ماهانه (اول ماه) | ✅ done | شمسی برای `fa_IR`، میلادی برای بقیه؛ زمانبندی اول ماه با `Dates`؛ `SchedulerTest` (۴ سبز) |
 | P1-T05 | بازنگری تنظیمات و UX | ⚪ todo | retention پیشفرض ۳، چکباکس opt-in خبر، حذف بقایای ابر از UI |
 | P1-T06 | i18n، RTL و اعداد لاتین | ⚪ todo | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس زبان سایت، نرمالسازی ارقام به لاتین |
 | P1-T07 | بستهبندی انتشار | ⚪ todo | `bin/build-release.php` → `releases/backupino-x.y.z.zip` بدون `pro/tests/docs/tools` |
 | P1-T08 | بازبینی امنیتی و QA | ⚪ todo | ماتریس PHP 7.4–8.4، WP 6.0/6.8، تست روی نصب واقعی، چکلیست امنیتی |
 | P1-T09 | مستندات عمومی + CHANGELOG | ⚪ todo | `docs/Public/*`، `CHANGELOG.md`، `readme.txt` نهایی با External services |
 | P1-T10 | انتشار `v1.0.0` | ⚪ todo | SVN وردپرس + GitHub Release |
-| P1-T11 | تقویم شمسی/میلادی | ⚪ todo | `Support\Dates`: جلالی برای `fa_IR`، میلادی برای بقیه، ذخیره همیشه UTC |
+| P1-T11 | تقویم شمسی/میلادی | ✅ done | `Support\Dates`: جلالی برای `fa_IR`، میلادی برای بقیه، ذخیره همیشه UTC، ارقام لاتین؛ `DatesTest` (۷ سبز) |
 
 ---
 

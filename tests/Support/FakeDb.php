@@ -47,7 +47,9 @@ final class FakeDb implements Db {
 	 *
 	 * @var string
 	 */
-	private $prefix = 'wp_';
+	public $prefix = 'wp_';
+
+	public $insert_id = 1;
 
 	/**
 	 * {@inheritDoc}

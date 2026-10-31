@@ -81,8 +81,8 @@ final class Settings {
 			),
 			'schedule'  => array(
 				'enabled'  => false,
-				'interval' => 'daily',
-				'keep'     => 5,
+				'interval' => 'monthly',
+				'keep'     => 3,
 			),
 			'notify'    => array(
 				'service' => 'none',
@@ -225,8 +225,8 @@ final class Settings {
 			$clean['storage']['driver'] = 'local';
 		}
 
-		if ( ! in_array( $clean['schedule']['interval'], array( 'hourly', 'twicedaily', 'daily', 'weekly' ), true ) ) {
-			$clean['schedule']['interval'] = 'daily';
+		if ( ! in_array( $clean['schedule']['interval'], (array) apply_filters( 'backupino_schedule_intervals', array( 'monthly', 'hourly', 'twicedaily', 'daily', 'weekly' ) ), true ) ) {
+			$clean['schedule']['interval'] = 'monthly';
 		}
 
 		if ( ! in_array( $clean['notify']['service'], array( 'none', 'telegram', 'bale' ), true ) ) {

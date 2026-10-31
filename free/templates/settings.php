@@ -120,9 +120,9 @@ $backupino_values = $settings->all();
 			<label>
 				<?php esc_html_e( 'Frequency', 'backupino' ); ?>
 				<select name="schedule.interval">
-					<?php foreach ( array( 'hourly', 'twicedaily', 'daily', 'weekly' ) as $backupino_interval ) : ?>
+					<?php foreach ( (array) apply_filters( 'backupino_schedule_intervals_labels', array( 'monthly' => __( 'Monthly (first day of the month)', 'backupino' ) ) ) as $backupino_interval => $backupino_interval_label ) : ?>
 						<option value="<?php echo esc_attr( $backupino_interval ); ?>" <?php selected( $backupino_interval, $backupino_values['schedule']['interval'] ); ?>>
-							<?php echo esc_html( $backupino_interval ); ?>
+							<?php echo esc_html( is_string( $backupino_interval_label ) ? $backupino_interval_label : $backupino_interval ); ?>
 						</option>
 					<?php endforeach; ?>
 				</select>

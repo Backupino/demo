@@ -66,7 +66,7 @@ final class SettingsTest extends TestCase {
 		$this->assertSame( 10, $clean['runtime']['files_per_tick'] );
 		$this->assertSame( 'local', $clean['storage']['driver'] );
 		$this->assertSame( 1, $clean['schedule']['keep'] );
-		$this->assertSame( 'daily', $clean['schedule']['interval'] );
+		$this->assertSame( 'monthly', $clean['schedule']['interval'] );
 		$this->assertSame( array( 'a', 'b' ), $clean['archive']['exclude_rules'] );
 	}
 

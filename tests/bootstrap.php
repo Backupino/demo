@@ -231,3 +231,109 @@ if ( ! function_exists( 'esc_sql' ) ) {
 		);
 	}
 }
+
+
+if ( ! function_exists( 'get_option' ) ) {
+	function get_option( $option, $default = false ) {
+		return $GLOBALS['backupino_options'][ $option ] ?? $default;
+	}
+}
+
+if ( ! function_exists( 'update_option' ) ) {
+	function update_option( $option, $value, $autoload = null ) {
+		$GLOBALS['backupino_options'][ $option ] = $value;
+		return true;
+	}
+}
+
+if ( ! function_exists( 'wp_schedule_event' ) ) {
+	function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
+		$GLOBALS['backupino_cron'][ $hook ] = array(
+			'timestamp'  => $timestamp,
+			'recurrence' => $recurrence,
+			'args'       => $args,
+		);
+		return true;
+	}
+}
+
+if ( ! function_exists( 'wp_schedule_single_event' ) ) {
+	function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
+		$GLOBALS['backupino_cron'][ $hook ] = array(
+			'timestamp'  => $timestamp,
+			'recurrence' => false,
+			'args'       => $args,
+		);
+		return true;
+	}
+}
+
+if ( ! function_exists( 'wp_clear_scheduled_hook' ) ) {
+	function wp_clear_scheduled_hook( $hook, $args = array() ) {
+		unset( $GLOBALS['backupino_cron'][ $hook ] );
+		return 1;
+	}
+}
+
+if ( ! function_exists( 'wp_next_scheduled' ) ) {
+	function wp_next_scheduled( $hook, $args = array() ) {
+		return isset( $GLOBALS['backupino_cron'][ $hook ] ) ? (int) $GLOBALS['backupino_cron'][ $hook ]['timestamp'] : false;
+	}
+}
+
+
+if ( ! function_exists( 'add_filter' ) ) {
+	/**
+	 * Filter listener shim.
+	 *
+	 * @param string   $hook     Hook name.
+	 * @param callable $callback Callback.
+	 * @param int      $priority Priority.
+	 * @param int      $args     Accepted args.
+	 * @return bool
+	 */
+	function add_filter( $hook, $callback, $priority = 10, $args = 1 ) {
+		return true;
+	}
+}
+
+
+if ( ! function_exists( 'plugin_basename' ) ) {
+	/**
+	 * Plugin basename shim.
+	 *
+	 * @param string $file File path.
+	 * @return string
+	 */
+	function plugin_basename( $file ) {
+		return basename( dirname( (string) $file ) ) . '/' . basename( (string) $file );
+	}
+}
+
+
+if ( ! defined( 'ARRAY_A' ) ) {
+	define( 'ARRAY_A', 'ARRAY_A' );
+}
+
+if ( ! defined( 'ARRAY_N' ) ) {
+	define( 'ARRAY_N', 'ARRAY_N' );
+}
+
+if ( ! defined( 'OBJECT' ) ) {
+	define( 'OBJECT', 'OBJECT' );
+}
+
+
+if ( ! function_exists( 'wp_upload_dir' ) ) {
+	/**
+	 * Upload directory shim.
+	 *
+	 * @return array<string, string>
+	 */
+	function wp_upload_dir() {
+		return array(
+			'basedir' => sys_get_temp_dir() . '/wp-uploads',
+			'baseurl' => 'https://example.test/wp-content/uploads',
+		);
+	}
+}
