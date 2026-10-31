@@ -72,7 +72,7 @@ final class DatabaseStage implements Stage {
 		// Drop anything a previous, interrupted tick may have left behind.
 		$writer->truncate( (int) $state['bytes'] );
 
-		$dumper = new MySqlDumper( $context->db(), $writer );
+		$dumper       = new MySqlDumper( $context->db(), $writer );
 		$dumper_state = $dumper->step(
 			$state['dumper'],
 			$context->deadline(),

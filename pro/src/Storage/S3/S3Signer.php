@@ -65,8 +65,8 @@ final class S3Signer {
 			)
 		);
 
-		$date         = substr( $amz_date, 0, 8 );
-		$scope        = $date . '/' . $region . '/' . $service . '/aws4_request';
+		$date           = substr( $amz_date, 0, 8 );
+		$scope          = $date . '/' . $region . '/' . $service . '/aws4_request';
 		$string_to_sign = implode(
 			"\n",
 			array(

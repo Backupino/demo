@@ -1,6 +1,6 @@
 <?php
 /**
- * wp-config.php generator.
+ * Writes the wp-config.php of the restored site.
  *
  * @package Backupino
  */

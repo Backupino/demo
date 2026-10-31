@@ -17,8 +17,8 @@ final class WpOptions implements OptionsStore {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function get( string $key, $default = null ) {
-		return get_option( $key, $default );
+	public function get( string $key, $fallback = null ) {
+		return get_option( $key, $fallback );
 	}
 
 	/**

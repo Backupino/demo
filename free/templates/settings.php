@@ -25,9 +25,11 @@ $backupino_values = $settings->all();
 		<h2><?php esc_html_e( 'Archive', 'backupino' ); ?></h2>
 		<label>
 			<?php esc_html_e( 'Excluded paths and patterns (one per line)', 'backupino' ); ?>
-			<textarea name="archive.exclude_rules" rows="5" class="large-text code"><?php
+			<textarea name="archive.exclude_rules" rows="5" class="large-text code">
+			<?php
 				echo esc_textarea( implode( "\n", (array) $backupino_values['archive']['exclude_rules'] ) );
-			?></textarea>
+			?>
+			</textarea>
 		</label>
 		<p class="description">
 			<?php esc_html_e( 'Examples: wp-content/uploads/2022/, *.mp4, node_modules/. Cache and backup folders are always skipped.', 'backupino' ); ?>

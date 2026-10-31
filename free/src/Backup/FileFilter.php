@@ -122,7 +122,7 @@ final class FileFilter {
 		}
 
 		foreach ( $this->rules as $rule ) {
-			if ( $this->matches_rule( $rule, rtrim( $relative, '/' ), true ) ) {
+			if ( $this->matches_rule( $rule, rtrim( $relative, '/' ) ) ) {
 				return false;
 			}
 		}
@@ -149,7 +149,7 @@ final class FileFilter {
 		}
 
 		foreach ( $this->rules as $rule ) {
-			if ( $this->matches_rule( $rule, $relative, false ) ) {
+			if ( $this->matches_rule( $rule, $relative ) ) {
 				return false;
 			}
 		}
@@ -160,12 +160,11 @@ final class FileFilter {
 	/**
 	 * Test one rule against a path.
 	 *
-	 * @param string $rule     Rule pattern.
-	 * @param string $path     Relative path.
-	 * @param bool   $is_dir   Whether the subject is a directory.
+	 * @param string $rule Rule pattern.
+	 * @param string $path Relative path.
 	 * @return bool
 	 */
-	private function matches_rule( string $rule, string $path, bool $is_dir ): bool {
+	private function matches_rule( string $rule, string $path ): bool {
 		$rule     = ltrim( str_replace( '\\', '/', $rule ), '/' );
 		$dir_only = '/' === substr( $rule, -1 );
 
@@ -219,7 +218,7 @@ final class FileFilter {
 			if ( '*' === $char ) {
 				if ( $i + 1 < $length && '*' === $glob[ $i + 1 ] ) {
 					$out .= '.*';
-					$i++;
+					++$i;
 				} else {
 					$out .= '[^/]*';
 				}

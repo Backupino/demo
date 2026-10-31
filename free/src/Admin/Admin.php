@@ -99,10 +99,10 @@ final class Admin {
 			'backupino-admin',
 			'BackupinoData',
 			array(
-				'restUrl'  => esc_url_raw( rest_url( 'backupino/v1/' ) ),
-				'nonce'    => wp_create_nonce( 'wp_rest' ),
-				'isRtl'    => is_rtl(),
-				'strings'  => array(
+				'restUrl' => esc_url_raw( rest_url( 'backupino/v1/' ) ),
+				'nonce'   => wp_create_nonce( 'wp_rest' ),
+				'isRtl'   => is_rtl(),
+				'strings' => array(
 					'creating' => __( 'Starting…', 'backupino' ),
 					'running'  => __( 'Working…', 'backupino' ),
 					'failed'   => __( 'The job failed.', 'backupino' ),

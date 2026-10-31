@@ -65,11 +65,11 @@ final class WpDbAdapter implements Db {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function var( string $sql, $default = null ) {
+	public function var( string $sql, $fallback = null ) {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
 		$value = $this->wpdb->get_var( $sql );
 
-		return null === $value ? $default : $value;
+		return null === $value ? $fallback : $value;
 	}
 
 	/**

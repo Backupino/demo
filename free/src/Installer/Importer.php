@@ -92,7 +92,7 @@ final class Importer {
 					);
 				}
 
-				$executed++;
+				++$executed;
 			}
 
 			$offset = $batch['offset'];

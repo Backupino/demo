@@ -1,6 +1,6 @@
 <?php
 /**
- * mysqli connection.
+ * MySQLi connection.
  *
  * @package Backupino
  */
@@ -97,6 +97,7 @@ final class MysqliConnection implements Connection {
 
 		$rows = array();
 
+		// phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition -- canonical fetch loop.
 		while ( $row = mysqli_fetch_assoc( $result ) ) {
 			$rows[] = $row;
 		}

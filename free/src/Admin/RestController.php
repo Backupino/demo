@@ -399,13 +399,13 @@ final class RestController {
 			$package = $job->payload['package'];
 
 			$data['package'] = array(
-				'name'       => (string) ( $package['name'] ?? '' ),
-				'size'       => Bytes::format( (int) ( $package['size'] ?? 0 ) ),
-				'hash'       => (string) ( $package['hash'] ?? '' ),
-				'archiveUrl' => isset( $package['archive'] )
+				'name'         => (string) ( $package['name'] ?? '' ),
+				'size'         => Bytes::format( (int) ( $package['size'] ?? 0 ) ),
+				'hash'         => (string) ( $package['hash'] ?? '' ),
+				'archiveUrl'   => isset( $package['archive'] )
 					? add_query_arg(
 						array(
-							'page'   => 'backupino',
+							'page'     => 'backupino',
 							'download' => rawurlencode( basename( (string) $package['archive'] ) ),
 							'_wpnonce' => wp_create_nonce( 'backupino_download' ),
 						),

@@ -21,10 +21,10 @@ interface OptionsStore {
 	 * Read a value.
 	 *
 	 * @param string $key     Option name.
-	 * @param mixed  $default Fallback value.
+	 * @param mixed  $fallback Fallback value.
 	 * @return mixed
 	 */
-	public function get( string $key, $default = null );
+	public function get( string $key, $fallback = null );
 
 	/**
 	 * Persist a value.

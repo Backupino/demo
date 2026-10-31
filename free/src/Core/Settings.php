@@ -52,9 +52,9 @@ final class Settings {
 	public static function defaults(): array {
 		return array(
 			'archive'   => array(
-				'files'             => true,
-				'database'          => true,
-				'exclude_rules'     => array(),
+				'files'              => true,
+				'database'           => true,
+				'exclude_rules'      => array(),
 				'ignore_larger_than' => 0,
 			),
 			'runtime'   => array(
@@ -114,15 +114,15 @@ final class Settings {
 	 * Read a value using dot notation (`runtime.time_budget`).
 	 *
 	 * @param string $path    Dot separated path.
-	 * @param mixed  $default Fallback.
+	 * @param mixed  $fallback Fallback.
 	 * @return mixed
 	 */
-	public function get( string $path, $default = null ) {
+	public function get( string $path, $fallback = null ) {
 		$value = $this->all();
 
 		foreach ( explode( '.', $path ) as $segment ) {
 			if ( ! is_array( $value ) || ! array_key_exists( $segment, $value ) ) {
-				return $default;
+				return $fallback;
 			}
 
 			$value = $value[ $segment ];
@@ -251,35 +251,35 @@ final class Settings {
 	private static function sanitize_tree( array $defaults, array $values ): array {
 		$clean = array();
 
-		foreach ( $defaults as $key => $default ) {
-			$value = array_key_exists( $key, $values ) ? $values[ $key ] : $default;
+		foreach ( $defaults as $key => $fallback ) {
+			$value = array_key_exists( $key, $values ) ? $values[ $key ] : $fallback;
 
-			if ( is_array( $default ) ) {
+			if ( is_array( $fallback ) ) {
 				if ( ! is_array( $value ) ) {
-					$clean[ $key ] = $default;
+					$clean[ $key ] = $fallback;
 					continue;
 				}
 
 				// A list (e.g. exclusion rules) keeps its loose values, an
 				// associative group is sanitized recursively.
-				$clean[ $key ] = self::is_list( $default )
+				$clean[ $key ] = self::is_list( $fallback )
 					? array_values( $value )
-					: self::sanitize_tree( $default, $value );
+					: self::sanitize_tree( $fallback, $value );
 
 				continue;
 			}
 
-			if ( is_bool( $default ) ) {
+			if ( is_bool( $fallback ) ) {
 				$clean[ $key ] = (bool) $value;
 				continue;
 			}
 
-			if ( is_int( $default ) ) {
+			if ( is_int( $fallback ) ) {
 				$clean[ $key ] = max( 0, (int) $value );
 				continue;
 			}
 
-			$clean[ $key ] = is_scalar( $value ) ? (string) $value : (string) $default;
+			$clean[ $key ] = is_scalar( $value ) ? (string) $value : (string) $fallback;
 		}
 
 		return $clean;

@@ -19,18 +19,82 @@
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
 		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
+
+		<!--
+			Types are enforced by strict_types and the method signature, and our
+			comment policy asks for short docblocks. Param and throw tags would
+			only repeat the signature.
+		-->
+		<exclude name="Squiz.Commenting.FunctionComment.MissingParamTag"/>
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop"/>
+		<exclude name="Squiz.Commenting.FunctionCommentThrowTag.Missing"/>
+
+		<!-- Exception messages are caught and logged, never printed as HTML. -->
+		<exclude name="WordPress.Security.EscapeOutput.ExceptionNotEscaped"/>
+
+		<!--
+			Backups are streamed through native PHP I/O on purpose: WP_Filesystem
+			buffers whole files and cannot handle multi-gigabyte archives, and the
+			standalone installer has no WordPress at all.
+		-->
+		<exclude name="WordPress.WP.AlternativeFunctions"/>
+
+		<!-- base64 embeds the installer payload; it is not obfuscation. -->
+		<exclude name="WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode"/>
+
+		<!--
+			Every suppressed call is a filesystem probe whose failure is handled
+			through the return value (`false`), which is the documented idiom for
+			unlink, mkdir, fopen and friends.
+		-->
+		<exclude name="WordPress.PHP.NoSilencedErrors"/>
 	</rule>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="backupino"/>
+			<property name="text_domain" type="array">
+				<element value="backupino"/>
+			</property>
 		</properties>
 	</rule>
 
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
-			<property name="prefixes" type="array" value="backupino"/>
+			<property name="prefixes" type="array">
+				<element value="backupino"/>
+			</property>
 		</properties>
+	</rule>
+
+	<!--
+		The standalone installer is a WordPress-free script: it talks to MySQL
+		through mysqli/PDO because there is no $wpdb on the target server.
+	-->
+	<rule ref="WordPress.DB.RestrictedClasses">
+		<exclude-pattern>free/src/Installer/*</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.DB.RestrictedFunctions">
+		<exclude-pattern>free/src/Installer/*</exclude-pattern>
+	</rule>
+
+	<!--
+		The job runner is a background queue, not a scheduled backup: it drains
+		one time-boxed slice per minute so builds finish without blocking a
+		request. Scheduled backups are monthly.
+	-->
+	<rule ref="WordPress.WP.CronInterval">
+		<exclude-pattern>free/src/Cron/Scheduler.php</exclude-pattern>
+		<exclude-pattern>free/src/Core/Activator.php</exclude-pattern>
+	</rule>
+
+	<!--
+		WP-CLI hands these callbacks fixed arguments, and the installer keeps a
+		`__( $text, $domain )` shim so the extracted code stays portable.
+	-->
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+		<exclude-pattern>free/src/Cli/Commands.php</exclude-pattern>
+		<exclude-pattern>free/src/Installer/functions.php</exclude-pattern>
 	</rule>
 
 	<rule ref="PHPCompatibilityWP">

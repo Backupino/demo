@@ -24,3 +24,6 @@
 .phpcs-cache
 .phpunit.result.cache
 /coverage/
+
+# Local tooling cache (phpcs/wpcs downloads)
+/.tools/

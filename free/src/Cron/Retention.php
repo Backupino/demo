@@ -64,7 +64,7 @@ final class Retention {
 			$stem = preg_replace( '/\.zip$/', '', $file );
 
 			if ( Fs::delete( $file ) ) {
-				$removed++;
+				++$removed;
 			}
 
 			Fs::delete( $stem . '-installer.php' );

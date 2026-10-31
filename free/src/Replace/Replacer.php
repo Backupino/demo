@@ -128,7 +128,7 @@ final class Replacer {
 			}
 		}
 
-		$json = $this->from_json( $subject, $depth );
+		$json = $this->from_json( $subject );
 
 		if ( null !== $json ) {
 			return $json;
@@ -187,10 +187,9 @@ final class Replacer {
 	 * Replace inside a JSON document, preserving its structure.
 	 *
 	 * @param string $subject Subject.
-	 * @param int    $depth   Recursion depth.
 	 * @return string|null `null` when the subject is not JSON.
 	 */
-	private function from_json( string $subject, int $depth ): ?string {
+	private function from_json( string $subject ): ?string {
 		$trimmed = trim( $subject );
 
 		if ( '' === $trimmed ) {

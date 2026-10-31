@@ -96,7 +96,7 @@ final class UrlRewrite {
 				$columns = $this->text_columns( $table );
 
 				if ( array() === $columns ) {
-					$state['index']++;
+					++$state['index'];
 					continue;
 				}
 
@@ -119,7 +119,7 @@ final class UrlRewrite {
 			$state['changes'] += $result['changes'];
 
 			if ( $result['finished'] ) {
-				$state['index']++;
+				++$state['index'];
 				$state['columns'] = array();
 				$state['primary'] = '';
 				$state['cursor']  = null;
@@ -242,7 +242,7 @@ final class UrlRewrite {
 
 				if ( $new !== $value ) {
 					$updates[] = self::quote( $column ) . " = '" . $this->connection->escape( $new ) . "'";
-					$changes++;
+					++$changes;
 				}
 			}
 

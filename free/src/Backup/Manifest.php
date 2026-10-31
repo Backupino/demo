@@ -108,7 +108,11 @@ final class Manifest {
 
 		fseek( $handle, max( 0, $offset ) );
 
-		while ( count( $entries ) < $limit && ! feof( $handle ) ) {
+		while ( ! feof( $handle ) ) {
+			if ( count( $entries ) >= $limit ) {
+				break;
+			}
+
 			$line = fgets( $handle );
 
 			if ( false === $line ) {
@@ -172,7 +176,7 @@ final class Manifest {
 		fclose( $handle );
 
 		if ( '' !== $buffer && "\n" !== substr( $buffer, -1 ) ) {
-			$count++;
+			++$count;
 		}
 
 		return $count;

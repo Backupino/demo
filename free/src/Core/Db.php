@@ -45,10 +45,10 @@ interface Db {
 	 * Fetch a single scalar value.
 	 *
 	 * @param string $sql     SQL statement.
-	 * @param mixed  $default Value returned when the query yields nothing.
+	 * @param mixed  $fallback Value returned when the query yields nothing.
 	 * @return mixed
 	 */
-	public function var( string $sql, $default = null );
+	public function var( string $sql, $fallback = null );
 
 	/**
 	 * Fetch the first column of every row.

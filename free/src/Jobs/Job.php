@@ -163,12 +163,12 @@ final class Job {
 	 * Read a job option.
 	 *
 	 * @param string $key     Option key.
-	 * @param mixed  $default Fallback.
+	 * @param mixed  $fallback Fallback.
 	 * @return mixed
 	 */
-	public function option( string $key, $default = null ) {
+	public function option( string $key, $fallback = null ) {
 		if ( ! isset( $this->payload['options'][ $key ] ) ) {
-			return $default;
+			return $fallback;
 		}
 
 		return $this->payload['options'][ $key ];

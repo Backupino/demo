@@ -11,7 +11,7 @@
 
 declare( strict_types = 1 );
 
-defined( 'ABSPATH' ) || define( 'ABSPATH', dirname( __DIR__ ) . '/' );
+defined( 'ABSPATH' ) || define( 'ABSPATH', dirname( __DIR__ ) . '/' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- WordPress core constant.
 defined( 'BACKUPINO_VERSION' ) || define( 'BACKUPINO_VERSION', '0.1.0' );
 
 require_once dirname( __DIR__ ) . '/free/src/autoload.php';
@@ -62,4 +62,5 @@ if ( ! is_dir( $backupino_dir ) ) {
 
 file_put_contents( $backupino_out, $backupino_code );
 
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CLI output, not HTML.
 printf( "Installer written to %s (%d bytes)\n", $backupino_out, strlen( $backupino_code ) );

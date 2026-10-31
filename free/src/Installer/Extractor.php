@@ -67,13 +67,13 @@ final class Extractor {
 	 */
 	public function open(): bool {
 		if ( ! class_exists( 'ZipArchive' ) ) {
-			$this->error = __( 'The Zip extension is not available on this server.' );
+			$this->error = __( 'The Zip extension is not available on this server.', 'backupino' );
 
 			return false;
 		}
 
 		if ( ! is_file( $this->archive ) ) {
-			$this->error = __( 'The archive file is missing.' );
+			$this->error = __( 'The archive file is missing.', 'backupino' );
 
 			return false;
 		}
@@ -81,7 +81,7 @@ final class Extractor {
 		$this->zip = new \ZipArchive();
 
 		if ( true !== $this->zip->open( $this->archive ) ) {
-			$this->error = __( 'The archive cannot be opened. Is it complete?' );
+			$this->error = __( 'The archive cannot be opened. Is it complete?', 'backupino' );
 			$this->zip   = null;
 
 			return false;
@@ -126,10 +126,10 @@ final class Extractor {
 
 		while ( $offset < $total && $done < $limit ) {
 			$name = $this->names[ $offset ];
-			$offset++;
+			++$offset;
 
 			if ( ! self::is_safe( $name ) ) {
-				$this->error = sprintf( __( 'Skipped unsafe entry: %s' ), $name );
+				$this->error = sprintf( /* translators: %s: archive entry name. */ __( 'Skipped unsafe entry: %s', 'backupino' ), $name );
 				continue;
 			}
 
@@ -150,7 +150,7 @@ final class Extractor {
 			}
 
 			if ( $this->zip->extractTo( $this->directory, $name ) ) {
-				$done++;
+				++$done;
 			}
 		}
 

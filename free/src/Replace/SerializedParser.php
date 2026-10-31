@@ -47,7 +47,7 @@ final class SerializedParser {
 			return null;
 		}
 
-		if ( $token['end'] !== strlen( $input ) ) {
+		if ( strlen( $input ) !== $token['end'] ) {
 			return null;
 		}
 
@@ -90,8 +90,8 @@ final class SerializedParser {
 				return $out . '}';
 
 			case 'object':
-				$class = (string) $node['class'];
-				$out   = 'O:' . strlen( $class ) . ':"' . $class . '":' . count( $node['items'] ) . ':{';
+				$class_name = (string) $node['class'];
+				$out        = 'O:' . strlen( $class_name ) . ':"' . $class_name . '":' . count( $node['items'] ) . ':{';
 
 				foreach ( $node['items'] as $item ) {
 					$out .= self::render( $item[0], $mapper ) . self::render( $item[1], $mapper );
@@ -100,10 +100,10 @@ final class SerializedParser {
 				return $out . '}';
 
 			case 'custom':
-				$class = (string) $node['class'];
-				$data  = (string) call_user_func( $mapper, (string) $node['data'] );
+				$class_name = (string) $node['class'];
+				$data       = (string) call_user_func( $mapper, (string) $node['data'] );
 
-				return 'C:' . strlen( $class ) . ':"' . $class . '":' . strlen( $data ) . ':{' . $data . '}';
+				return 'C:' . strlen( $class_name ) . ':"' . $class_name . '":' . strlen( $data ) . ':{' . $data . '}';
 		}
 
 		return '';
@@ -157,8 +157,8 @@ final class SerializedParser {
 				return null;
 
 			case 'b':
-				$end    = $this->find( $input, $offset, ';' );
-				$value  = substr( $input, $offset + 2, $end - ( $offset + 2 ) );
+				$end   = $this->find( $input, $offset, ';' );
+				$value = substr( $input, $offset + 2, $end - ( $offset + 2 ) );
 
 				return array(
 					'node' => array(
@@ -195,10 +195,10 @@ final class SerializedParser {
 				return $this->read_string( $input, $offset, $type );
 
 			case 'a':
-				return $this->read_container( $input, $offset, 'array', null );
+				return $this->read_container( $input, $offset, 'array' );
 
 			case 'O':
-				return $this->read_container( $input, $offset, 'object', null );
+				return $this->read_container( $input, $offset, 'object' );
 		}
 
 		return null;
@@ -245,7 +245,7 @@ final class SerializedParser {
 			);
 		}
 
-		// C:<class-length>:"<class>":<data-length>:{<data>}
+		// C:<class-length>:"<class>":<data-length>:{<data>}.
 		if ( '"' !== $input[ $after ] || ! preg_match( '/^":(\d+):{/', substr( $input, $after + 1 ), $data_match ) ) {
 			return null;
 		}
@@ -276,13 +276,12 @@ final class SerializedParser {
 	/**
 	 * Read an array or object token.
 	 *
-	 * @param string      $input  Payload.
-	 * @param int         $offset Start offset.
-	 * @param string      $kind   `array` or `object`.
-	 * @param string|null $class  Ignored, kept for signature symmetry.
+	 * @param string $input  Payload.
+	 * @param int    $offset Start offset.
+	 * @param string $kind   `array` or `object`.
 	 * @return array{node: array<string, mixed>, end: int}|null
 	 */
-	private function read_container( string $input, int $offset, string $kind, ?string $class ): ?array {
+	private function read_container( string $input, int $offset, string $kind ): ?array {
 		if ( ! preg_match( '/^[aO]:(\d+):/', substr( $input, $offset ), $match ) ) {
 			return null;
 		}
@@ -304,19 +303,19 @@ final class SerializedParser {
 				return null;
 			}
 
-			$position++;
+			++$position;
 
 			if ( ! isset( $input[ $position ] ) || ':' !== $input[ $position ] ) {
 				return null;
 			}
 
-			$position++;
+			++$position;
 
 			if ( ! preg_match( '/^(\d+):/', substr( $input, $position ), $count_match ) ) {
 				return null;
 			}
 
-			$count    = (int) $count_match[1];
+			$count     = (int) $count_match[1];
 			$position += strlen( $count_match[0] );
 		}
 
@@ -324,8 +323,8 @@ final class SerializedParser {
 			return null;
 		}
 
-		$position++;
-		$items    = array();
+		++$position;
+		$items = array();
 
 		for ( $i = 0; $i < $count; $i++ ) {
 			$key = $this->read_token( $input, $position );

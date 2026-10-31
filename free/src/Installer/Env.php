@@ -77,9 +77,9 @@ final class Env {
 		}
 
 		if ( $exists ) {
-			$free  = @disk_free_space( $directory );
-			$need  = (int) filesize( $archive ) * 2;
-			$ok    = false !== $free && (int) $free > $need;
+			$free = @disk_free_space( $directory );
+			$need = (int) filesize( $archive ) * 2;
+			$ok   = false !== $free && (int) $free > $need;
 
 			$checks[] = self::result(
 				__( 'Free disk space', 'backupino' ),
@@ -136,7 +136,7 @@ final class Env {
 
 		while ( $value >= 1024 && $index < 4 ) {
 			$value /= 1024;
-			$index++;
+			++$index;
 		}
 
 		return round( $value, 2 ) . ' ' . $units[ $index ];

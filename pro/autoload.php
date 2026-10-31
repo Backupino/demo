@@ -21,18 +21,18 @@ spl_autoload_register(
 	/**
 	 * Map `Backupino\Foo\Bar` to `pro/src/Foo/Bar.php`.
 	 *
-	 * @param string $class Fully qualified class name.
+	 * @param string $class_name Fully qualified class name.
 	 * @return void
 	 */
-	function ( $class ) {
+	function ( $class_name ) {
 		$prefix = 'Backupino\\';
 		$length = strlen( $prefix );
 
-		if ( 0 !== strncmp( $class, $prefix, $length ) ) {
+		if ( 0 !== strncmp( $class_name, $prefix, $length ) ) {
 			return;
 		}
 
-		$relative = substr( $class, $length );
+		$relative = substr( $class_name, $length );
 		$file     = BACKUPINO_PRO_SRC . '/' . str_replace( '\\', '/', $relative ) . '.php';
 
 		if ( is_readable( $file ) ) {

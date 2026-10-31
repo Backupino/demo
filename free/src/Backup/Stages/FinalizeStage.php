@@ -54,7 +54,10 @@ final class FinalizeStage implements Stage {
 		$state = $job->stage_state( $this->id() );
 
 		if ( array() === $state ) {
-			$state = array( 'step' => 'seal', 'done' => false );
+			$state = array(
+				'step' => 'seal',
+				'done' => false,
+			);
 		}
 
 		$work    = $context->work_dir();
@@ -173,8 +176,8 @@ final class FinalizeStage implements Stage {
 			throw new JobException( $writer->error() );
 		}
 
-		$state['step']  = 'hash';
-		$state['name']  = isset( $state['name'] ) ? $state['name'] : Package::default_name( (string) wp_parse_url( home_url(), PHP_URL_HOST ) );
+		$state['step'] = 'hash';
+		$state['name'] = isset( $state['name'] ) ? $state['name'] : Package::default_name( (string) wp_parse_url( home_url(), PHP_URL_HOST ) );
 
 		return $state;
 	}

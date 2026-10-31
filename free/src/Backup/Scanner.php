@@ -64,12 +64,12 @@ final class Scanner {
 	 */
 	public static function initial_state(): array {
 		return array(
-			'stack'     => array( '' ),
-			'files'     => 0,
-			'bytes'     => 0,
+			'stack'       => array( '' ),
+			'files'       => 0,
+			'bytes'       => 0,
 			'directories' => 0,
-			'skipped'   => 0,
-			'done'      => false,
+			'skipped'     => 0,
+			'done'        => false,
 		);
 	}
 
@@ -101,11 +101,11 @@ final class Scanner {
 			$items = @scandir( $absolute_dir );
 
 			if ( false === $items ) {
-				$state['skipped']++;
+				++$state['skipped'];
 				continue;
 			}
 
-			$state['directories']++;
+			++$state['directories'];
 
 			foreach ( $items as $item ) {
 				if ( '.' === $item || '..' === $item ) {
@@ -116,20 +116,20 @@ final class Scanner {
 				$item_absolute = $absolute_dir . '/' . $item;
 
 				if ( is_link( $item_absolute ) ) {
-					$state['skipped']++;
+					++$state['skipped'];
 					continue;
 				}
 
 				if ( is_dir( $item_absolute ) ) {
 					if ( $this->paths->contains( $item_absolute ) ) {
-						$state['skipped']++;
+						++$state['skipped'];
 						continue;
 					}
 
 					if ( $this->filter->allows_dir( $item_relative ) ) {
 						$state['stack'][] = $item_relative;
 					} else {
-						$state['skipped']++;
+						++$state['skipped'];
 					}
 
 					continue;
@@ -139,13 +139,13 @@ final class Scanner {
 				$size = (int) @filesize( $item_absolute );
 
 				if ( ! $this->filter->allows_file( $item_relative, $size ) ) {
-					$state['skipped']++;
+					++$state['skipped'];
 					continue;
 				}
 
 				call_user_func( $on_file, new FileEntry( $item_absolute, $item_relative, $size ) );
 
-				$state['files']++;
+				++$state['files'];
 				$state['bytes'] += $size;
 			}
 		}

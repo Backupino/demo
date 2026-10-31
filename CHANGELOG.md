@@ -11,6 +11,11 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 - Permanent "latest backup" download link, login-gated, no expiry.
 - Monthly automatic backup (first day of the month; Jalali for `fa_IR`).
 
+### Changed
+- Coding standards are now enforced and clean: `phpcs.xml.dist` passes with zero
+  errors and zero warnings; every deliberate exclusion is documented inline.
+- Repository partitioned; free plugin carries no cloud code.
+
 ### Planned for 1.0.0
 - Persian translation and RTL admin.
 - Release build script producing a clean WordPress.org zip.

@@ -90,7 +90,7 @@ final class ScanStage implements Stage {
 		$job->set_stage_state( $this->id(), $state );
 
 		// Prime the archiving stage with the discovered totals.
-		$files_state = $job->stage_state( 'files' );
+		$files_state          = $job->stage_state( 'files' );
 		$files_state['total'] = $state['total'];
 		$job->set_stage_state( 'files', $files_state );
 

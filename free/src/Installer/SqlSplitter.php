@@ -82,7 +82,7 @@ final class SqlSplitter {
 			$result = $this->scan( $chunk );
 
 			if ( array() !== $result['statements'] || $offset + strlen( $chunk ) >= $size || $chunk_size >= self::MAX_CHUNK ) {
-				$new_offset = $offset + $result['consumed'];
+				$new_offset  = $offset + $result['consumed'];
 				$reached_eof = ( $offset + strlen( $chunk ) ) >= $size;
 
 				return array(
@@ -138,14 +138,14 @@ final class SqlSplitter {
 
 					if ( '-' === $char && '-' === $next ) {
 						$state = 'line';
-						$i++;
+						++$i;
 
 						break;
 					}
 
 					if ( '/' === $char && '*' === $next ) {
 						$state = 'block';
-						$i++;
+						++$i;
 
 						break;
 					}
@@ -165,14 +165,14 @@ final class SqlSplitter {
 				case 'single':
 				case 'double':
 					if ( '\\' === $char ) {
-						$i++;
+						++$i;
 
 						break;
 					}
 
 					if ( ( 'single' === $state && "'" === $char ) || ( 'double' === $state && '"' === $char ) ) {
 						if ( $char === $next ) {
-							$i++;
+							++$i;
 
 							break;
 						}
@@ -199,13 +199,13 @@ final class SqlSplitter {
 				case 'block':
 					if ( '*' === $char && '/' === $next ) {
 						$state = 'normal';
-						$i++;
+						++$i;
 					}
 
 					break;
 			}
 
-			$i++;
+			++$i;
 		}
 
 		return array(

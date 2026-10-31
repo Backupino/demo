@@ -134,7 +134,7 @@ final class ZipArchiveReader implements ArchiveReader {
 			}
 
 			if ( $this->zip->extractTo( $directory, $name ) ) {
-				$done++;
+				++$done;
 			}
 		}
 

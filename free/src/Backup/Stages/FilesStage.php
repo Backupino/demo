@@ -89,9 +89,9 @@ final class FilesStage implements Stage {
 
 			foreach ( $chunk['entries'] as $entry ) {
 				if ( $writer->add_file( $entry->path(), $entry->relative() ) ) {
-					$state['added']++;
+					++$state['added'];
 				} else {
-					$state['failed']++;
+					++$state['failed'];
 					$context->logger()->warning(
 						'File skipped.',
 						array(
@@ -102,7 +102,7 @@ final class FilesStage implements Stage {
 					);
 				}
 
-				$processed++;
+				++$processed;
 			}
 
 			$state['offset'] = $chunk['offset'];

@@ -52,10 +52,10 @@ function backupino_uninstall_site(): void {
 
 if ( defined( 'BACKUPINO_REMOVE_DATA' ) && BACKUPINO_REMOVE_DATA ) {
 	if ( is_multisite() ) {
-		$sites = get_sites( array( 'fields' => 'ids' ) );
+		$backupino_sites = get_sites( array( 'fields' => 'ids' ) );
 
-		foreach ( $sites as $site_id ) {
-			switch_to_blog( (int) $site_id );
+		foreach ( $backupino_sites as $backupino_site_id ) {
+			switch_to_blog( (int) $backupino_site_id );
 			backupino_uninstall_site();
 			restore_current_blog();
 		}

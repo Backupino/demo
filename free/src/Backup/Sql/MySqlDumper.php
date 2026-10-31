@@ -49,8 +49,8 @@ final class MySqlDumper {
 	/**
 	 * Constructor.
 	 *
-	 * @param Db                  $db      Database adapter.
-	 * @param SqlWriter           $writer  Output writer.
+	 * @param Db                   $db      Database adapter.
+	 * @param SqlWriter            $writer  Output writer.
 	 * @param array<string, mixed> $options Options: `tables`, `views`, `triggers`, `routines`.
 	 */
 	public function __construct( Db $db, SqlWriter $writer, array $options = array() ) {
@@ -136,7 +136,7 @@ final class MySqlDumper {
 
 				if ( 'BASE TABLE' !== $table['type'] ) {
 					$state['phase'] = 'schema';
-					$state['index']++;
+					++$state['index'];
 				}
 
 				continue;
@@ -148,8 +148,8 @@ final class MySqlDumper {
 			$state['count'] += $result['written'];
 
 			if ( $result['finished'] ) {
-				$state['phase']  = 'schema';
-				$state['index']++;
+				$state['phase'] = 'schema';
+				++$state['index'];
 				$state['cursor'] = null;
 				$state['offset'] = 0;
 				continue;
@@ -298,10 +298,10 @@ final class MySqlDumper {
 			);
 		}
 
-		$fields   = array();
-		$binary   = array();
-		$numeric  = array();
-		$primary  = array();
+		$fields     = array();
+		$binary     = array();
+		$is_numeric = array();
+		$primary    = array();
 
 		foreach ( $columns as $column ) {
 			$field = isset( $column['Field'] ) ? (string) $column['Field'] : '';
@@ -310,10 +310,10 @@ final class MySqlDumper {
 				continue;
 			}
 
-			$type              = isset( $column['Type'] ) ? strtolower( (string) $column['Type'] ) : '';
-			$fields[]          = $field;
-			$binary[ $field ]  = self::is_binary_type( $type );
-			$numeric[ $field ] = self::is_numeric_type( $type );
+			$type                 = isset( $column['Type'] ) ? strtolower( (string) $column['Type'] ) : '';
+			$fields[]             = $field;
+			$binary[ $field ]     = self::is_binary_type( $type );
+			$is_numeric[ $field ] = self::is_numeric_type( $type );
 
 			if ( isset( $column['Key'] ) && 'PRI' === $column['Key'] ) {
 				$primary[] = $field;
@@ -329,7 +329,7 @@ final class MySqlDumper {
 			);
 		}
 
-		$keyset = count( $primary ) === 1 && isset( $numeric[ $primary[0] ] ) && $numeric[ $primary[0] ];
+		$keyset = count( $primary ) === 1 && isset( $is_numeric[ $primary[0] ] ) && $is_numeric[ $primary[0] ];
 
 		$select = 'SELECT ' . implode(
 			',',
@@ -368,12 +368,12 @@ final class MySqlDumper {
 
 			foreach ( $fields as $field ) {
 				$value    = array_key_exists( $field, $row ) ? $row[ $field ] : null;
-				$values[] = $this->format_value( $value, $binary[ $field ], $numeric[ $field ] );
+				$values[] = $this->format_value( $value, $binary[ $field ], $is_numeric[ $field ] );
 			}
 
-			$tuple  = '(' . implode( ',', $values ) . ')';
+			$tuple    = '(' . implode( ',', $values ) . ')';
 			$buffer[] = $tuple;
-			$size   += strlen( $tuple );
+			$size    += strlen( $tuple );
 
 			if ( count( $buffer ) >= (int) $this->options['max_rows_insert'] || $size >= (int) $this->options['max_statement'] ) {
 				$this->flush_insert( $table, $fields, $buffer );
@@ -505,10 +505,10 @@ final class MySqlDumper {
 	 *
 	 * @param mixed $value   Raw value.
 	 * @param bool  $binary  Whether the column is binary.
-	 * @param bool  $numeric Whether the column is numeric.
+	 * @param bool  $is_numeric Whether the column is numeric.
 	 * @return string
 	 */
-	private function format_value( $value, bool $binary, bool $numeric ): string {
+	private function format_value( $value, bool $binary, bool $is_numeric ): string {
 		if ( null === $value ) {
 			return 'NULL';
 		}
@@ -519,7 +519,7 @@ final class MySqlDumper {
 			return '0x' . bin2hex( $value );
 		}
 
-		if ( $numeric && is_numeric( $value ) ) {
+		if ( $is_numeric && is_numeric( $value ) ) {
 			return $value;
 		}
 

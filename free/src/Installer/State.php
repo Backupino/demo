@@ -83,11 +83,11 @@ final class State {
 	 * Read a value.
 	 *
 	 * @param string $key     Key.
-	 * @param mixed  $default Fallback.
+	 * @param mixed  $fallback Fallback.
 	 * @return mixed
 	 */
-	public function get( string $key, $default = null ) {
-		return array_key_exists( $key, $this->data ) ? $this->data[ $key ] : $default;
+	public function get( string $key, $fallback = null ) {
+		return array_key_exists( $key, $this->data ) ? $this->data[ $key ] : $fallback;
 	}
 
 	/**

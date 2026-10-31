@@ -29,10 +29,11 @@ final class Bytes {
 		$units = array( 'KB', 'MB', 'GB', 'TB', 'PB' );
 		$value = $bytes / 1024;
 		$index = 0;
+		$last  = count( $units ) - 1;
 
-		while ( $value >= 1024 && $index < count( $units ) - 1 ) {
+		while ( $value >= 1024 && $index < $last ) {
 			$value /= 1024;
-			$index++;
+			++$index;
 		}
 
 		return number_format( $value, $decimals ) . ' ' . $units[ $index ];
