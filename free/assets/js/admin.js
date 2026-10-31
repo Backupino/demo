@@ -85,7 +85,7 @@
 			progressBar(
 				progress,
 				job.progress,
-				( job.stageLabel || data.strings.running ) + ' — ' + ( job.message || '' )
+				( job.stageLabel || data.strings.running ) + ' … ' + ( job.message || '' )
 			);
 
 			if ( job.status === 'completed' || job.status === 'failed' || job.status === 'cancelled' ) {
@@ -147,7 +147,7 @@
 		}
 
 		function collect( formElement ) {
-			var payload = { archive: {}, runtime: {}, storage: {}, schedule: {}, installer: {}, notify: {} };
+			var payload = { archive: {}, runtime: {}, storage: {}, schedule: {}, installer: {}, notify: {}, advanced: {} };
 
 			Array.prototype.forEach.call( formElement.querySelectorAll( 'input, select, textarea' ), function ( field ) {
 				var path = field.name.split( '.' );

@@ -137,13 +137,6 @@
 	white-space: pre-wrap;
 }
 
-.backupino-s3 {
-	border: 1px solid #dcdcde;
-	border-radius: 6px;
-	padding: 10px 14px;
-	margin: 10px 0 18px;
-}
-
 body.rtl .backupino-result {
 	margin-left: 0;
 	margin-right: 8px;

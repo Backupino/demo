@@ -24,7 +24,7 @@ final class Retention {
 	 * @return int Number of removed files.
 	 */
 	public static function enforce( Plugin $plugin ): int {
-		$keep = (int) $plugin->settings()->get( 'schedule.keep', 5 );
+		$keep = (int) $plugin->settings()->get( 'schedule.keep', 3 );
 
 		if ( $keep <= 0 ) {
 			return 0;

@@ -97,6 +97,7 @@ final class Settings {
 				'log_level'   => 'info',
 				'anonymize'   => true,
 				'compression' => true,
+				'opt_in_news' => false,
 			),
 		);
 	}
@@ -235,6 +236,8 @@ final class Settings {
 
 		$clean['notify']['token']   = trim( sanitize_text_field( $clean['notify']['token'] ) );
 		$clean['notify']['chat_id'] = trim( sanitize_text_field( $clean['notify']['chat_id'] ) );
+
+		$clean['advanced']['opt_in_news'] = (bool) ( $clean['advanced']['opt_in_news'] ?? false );
 
 		$clean['archive']['exclude_rules'] = array_values(
 			array_filter(

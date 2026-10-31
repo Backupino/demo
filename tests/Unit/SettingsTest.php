@@ -28,6 +28,9 @@ final class SettingsTest extends TestCase {
 
 		$this->assertSame( 'local', $settings->get( 'storage.driver' ) );
 		$this->assertSame( 20, $settings->get( 'runtime.time_budget' ) );
+		$this->assertSame( 3, $settings->get( 'schedule.keep' ) );
+		$this->assertSame( 'monthly', $settings->get( 'schedule.interval' ) );
+		$this->assertFalse( $settings->get( 'advanced.opt_in_news' ) );
 		$this->assertSame( 'fallback', $settings->get( 'nope.missing', 'fallback' ) );
 	}
 
@@ -40,11 +43,18 @@ final class SettingsTest extends TestCase {
 		$store    = new MemoryOptions();
 		$settings = new Settings( $store );
 
-		$settings->update( array( 'storage' => array( 'driver' => 's3' ) ) );
+		$settings->update(
+			array(
+				'storage'  => array( 'driver' => 's3' ),
+				'advanced' => array( 'opt_in_news' => true ),
+			)
+		);
 
 		$this->assertSame( 's3', $settings->get( 'storage.driver' ) );
 		$this->assertSame( 'us-east-1', $settings->get( 'storage.s3.region' ) );
+		$this->assertTrue( $settings->get( 'advanced.opt_in_news' ) );
 		$this->assertSame( 's3', $store->values[ Settings::OPTION ]['storage']['driver'] );
+		$this->assertTrue( $store->values[ Settings::OPTION ]['advanced']['opt_in_news'] );
 	}
 
 	/**
@@ -59,6 +69,7 @@ final class SettingsTest extends TestCase {
 				'storage'  => array( 'driver' => 'ftp' ),
 				'schedule' => array( 'keep' => 0, 'interval' => 'yearly' ),
 				'archive'  => array( 'exclude_rules' => array( '  a  ', '', 'b' ) ),
+				'advanced' => array( 'opt_in_news' => 1 ),
 			)
 		);
 
@@ -68,6 +79,7 @@ final class SettingsTest extends TestCase {
 		$this->assertSame( 1, $clean['schedule']['keep'] );
 		$this->assertSame( 'monthly', $clean['schedule']['interval'] );
 		$this->assertSame( array( 'a', 'b' ), $clean['archive']['exclude_rules'] );
+		$this->assertTrue( $clean['advanced']['opt_in_news'] );
 	}
 
 	/**
@@ -80,8 +92,11 @@ final class SettingsTest extends TestCase {
 		$settings = new Settings( $store );
 
 		$settings->set( 'archive.files', false );
+		$settings->set( 'advanced.opt_in_news', true );
 
 		$this->assertFalse( $settings->get( 'archive.files' ) );
+		$this->assertTrue( $settings->get( 'advanced.opt_in_news' ) );
 		$this->assertFalse( $store->values[ Settings::OPTION ]['archive']['files'] );
+		$this->assertTrue( $store->values[ Settings::OPTION ]['advanced']['opt_in_news'] );
 	}
 }

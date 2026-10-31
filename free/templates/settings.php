@@ -49,6 +49,9 @@ $backupino_values = $settings->all();
 		</div>
 
 		<h2><?php esc_html_e( 'Storage', 'backupino' ); ?></h2>
+		<p class="description">
+			<?php esc_html_e( 'Backup archives and standalone installers are stored locally in a secure, protected directory on your server.', 'backupino' ); ?>
+		</p>
 		<label>
 			<?php esc_html_e( 'Destination', 'backupino' ); ?>
 			<select name="storage.driver" id="backupino-driver">
@@ -60,7 +63,6 @@ $backupino_values = $settings->all();
 				<?php endforeach; ?>
 			</select>
 		</label>
-
 
 		<h2><?php esc_html_e( 'Notifications', 'backupino' ); ?></h2>
 		<p class="description">
@@ -112,6 +114,9 @@ $backupino_values = $settings->all();
 		<?php endif; ?>
 
 		<h2><?php esc_html_e( 'Schedule', 'backupino' ); ?></h2>
+		<p class="description">
+			<?php esc_html_e( 'Automatic recurring backups trigger via WordPress cron. In Persian locale, monthly schedules automatically align with the start of the Jalali month.', 'backupino' ); ?>
+		</p>
 		<label class="backupino-check">
 			<input type="checkbox" name="schedule.enabled" <?php checked( (bool) $backupino_values['schedule']['enabled'] ); ?>>
 			<?php esc_html_e( 'Run automatic backups', 'backupino' ); ?>
@@ -128,12 +133,15 @@ $backupino_values = $settings->all();
 				</select>
 			</label>
 			<label>
-				<?php esc_html_e( 'Keep at most', 'backupino' ); ?>
+				<?php esc_html_e( 'Keep at most (backups)', 'backupino' ); ?>
 				<input type="number" min="1" max="100" name="schedule.keep" value="<?php echo esc_attr( (string) $backupino_values['schedule']['keep'] ); ?>">
 			</label>
 		</div>
 
 		<h2><?php esc_html_e( 'Installer', 'backupino' ); ?></h2>
+		<p class="description">
+			<?php esc_html_e( 'Configure preset credentials for the standalone migration installer generated with each backup.', 'backupino' ); ?>
+		</p>
 		<div class="backupino-grid">
 			<label>
 				<?php esc_html_e( 'Installer password (optional)', 'backupino' ); ?>
@@ -144,6 +152,15 @@ $backupino_values = $settings->all();
 				<input type="url" name="installer.new_url" value="<?php echo esc_attr( (string) $backupino_values['installer']['new_url'] ); ?>">
 			</label>
 		</div>
+
+		<h2><?php esc_html_e( 'Updates & Community', 'backupino' ); ?></h2>
+		<label class="backupino-check">
+			<input type="checkbox" name="advanced.opt_in_news" <?php checked( (bool) ( $backupino_values['advanced']['opt_in_news'] ?? false ) ); ?>>
+			<?php esc_html_e( 'Receive critical security notices, product updates, and roadmap announcements (opt-in).', 'backupino' ); ?>
+		</label>
+		<p class="description">
+			<?php esc_html_e( 'We respect your privacy. No telemetry or personal data is collected or sent without your explicit consent.', 'backupino' ); ?>
+		</p>
 
 		<p class="backupino-save">
 			<button type="submit" class="button button-primary"><?php esc_html_e( 'Save settings', 'backupino' ); ?></button>
