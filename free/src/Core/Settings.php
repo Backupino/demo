@@ -1,0 +1,301 @@
+<?php
+/**
+ * Plugin settings.
+ *
+ * @package Backupino
+ */
+
+declare( strict_types = 1 );
+
+namespace Backupino\Core;
+
+use Backupino\Support\OptionsStore;
+
+/**
+ * Typed, dot-notation access to the plugin settings with sane defaults.
+ */
+final class Settings {
+
+	/**
+	 * Option key.
+	 */
+	public const OPTION = 'backupino_settings';
+
+	/**
+	 * Storage adapter.
+	 *
+	 * @var OptionsStore
+	 */
+	private $store;
+
+	/**
+	 * Cached settings array.
+	 *
+	 * @var array<string, mixed>|null
+	 */
+	private $cache = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param OptionsStore $store Options adapter.
+	 */
+	public function __construct( OptionsStore $store ) {
+		$this->store = $store;
+	}
+
+	/**
+	 * Default settings.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public static function defaults(): array {
+		return array(
+			'archive'   => array(
+				'files'             => true,
+				'database'          => true,
+				'exclude_rules'     => array(),
+				'ignore_larger_than' => 0,
+			),
+			'runtime'   => array(
+				'files_per_tick' => 250,
+				'rows_per_tick'  => 1000,
+				'time_budget'    => 20,
+				'retry_limit'    => 3,
+			),
+			'storage'   => array(
+				'driver' => 'local',
+				'local'  => array(
+					'path' => '',
+				),
+				's3'     => array(
+					'endpoint'    => '',
+					'region'      => 'us-east-1',
+					'bucket'      => '',
+					'access_key'  => '',
+					'secret_key'  => '',
+					'path_prefix' => 'backupino',
+					'path_style'  => true,
+					'use_ssl'     => true,
+				),
+			),
+			'schedule'  => array(
+				'enabled'  => false,
+				'interval' => 'daily',
+				'keep'     => 5,
+			),
+			'installer' => array(
+				'password' => '',
+				'new_url'  => '',
+			),
+			'advanced'  => array(
+				'log_level'   => 'info',
+				'anonymize'   => true,
+				'compression' => true,
+			),
+		);
+	}
+
+	/**
+	 * Whole settings tree.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function all(): array {
+		if ( null === $this->cache ) {
+			$stored      = $this->store->get( self::OPTION, array() );
+			$this->cache = self::merge( self::defaults(), is_array( $stored ) ? $stored : array() );
+		}
+
+		return $this->cache;
+	}
+
+	/**
+	 * Read a value using dot notation (`runtime.time_budget`).
+	 *
+	 * @param string $path    Dot separated path.
+	 * @param mixed  $default Fallback.
+	 * @return mixed
+	 */
+	public function get( string $path, $default = null ) {
+		$value = $this->all();
+
+		foreach ( explode( '.', $path ) as $segment ) {
+			if ( ! is_array( $value ) || ! array_key_exists( $segment, $value ) ) {
+				return $default;
+			}
+
+			$value = $value[ $segment ];
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Write a value using dot notation.
+	 *
+	 * @param string $path  Dot separated path.
+	 * @param mixed  $value Value to store.
+	 * @return bool
+	 */
+	public function set( string $path, $value ): bool {
+		$all  = $this->all();
+		$ref  = &$all;
+		$keys = explode( '.', $path );
+		$last = array_pop( $keys );
+
+		foreach ( $keys as $key ) {
+			if ( ! isset( $ref[ $key ] ) || ! is_array( $ref[ $key ] ) ) {
+				$ref[ $key ] = array();
+			}
+
+			$ref = &$ref[ $key ];
+		}
+
+		$ref[ $last ] = $value;
+
+		return $this->update( $all );
+	}
+
+	/**
+	 * Replace the whole settings tree.
+	 *
+	 * @param array<string, mixed> $values New values.
+	 * @return bool
+	 */
+	public function update( array $values ): bool {
+		$merged      = self::merge( self::defaults(), $values );
+		$sanitized   = self::sanitize( $merged );
+		$this->cache = $sanitized;
+
+		return $this->store->update( self::OPTION, $sanitized );
+	}
+
+	/**
+	 * Reset to defaults.
+	 *
+	 * @return bool
+	 */
+	public function reset(): bool {
+		$this->cache = null;
+
+		return $this->store->delete( self::OPTION );
+	}
+
+	/**
+	 * Recursive merge that keeps array keys from both sides.
+	 *
+	 * @param array<string, mixed> $base    Defaults.
+	 * @param array<string, mixed> $overlay Stored values.
+	 * @return array<string, mixed>
+	 */
+	public static function merge( array $base, array $overlay ): array {
+		foreach ( $overlay as $key => $value ) {
+			if ( is_array( $value ) && isset( $base[ $key ] ) && is_array( $base[ $key ] ) ) {
+				$base[ $key ] = self::merge( $base[ $key ], $value );
+				continue;
+			}
+
+			$base[ $key ] = $value;
+		}
+
+		return $base;
+	}
+
+	/**
+	 * Cast and clamp every known setting to its expected type.
+	 *
+	 * @param array<string, mixed> $values Raw values.
+	 * @return array<string, mixed>
+	 */
+	public static function sanitize( array $values ): array {
+		$clean = self::sanitize_tree( self::defaults(), $values );
+
+		$clean['runtime']['time_budget']    = min( 120, max( 5, (int) $clean['runtime']['time_budget'] ) );
+		$clean['runtime']['files_per_tick'] = min( 5000, max( 10, (int) $clean['runtime']['files_per_tick'] ) );
+		$clean['runtime']['rows_per_tick']  = min( 20000, max( 50, (int) $clean['runtime']['rows_per_tick'] ) );
+		$clean['schedule']['keep']          = min( 100, max( 1, (int) $clean['schedule']['keep'] ) );
+
+		if ( ! in_array( $clean['storage']['driver'], array( 'local', 's3' ), true ) ) {
+			$clean['storage']['driver'] = 'local';
+		}
+
+		if ( ! in_array( $clean['schedule']['interval'], array( 'hourly', 'twicedaily', 'daily', 'weekly' ), true ) ) {
+			$clean['schedule']['interval'] = 'daily';
+		}
+
+		$clean['archive']['exclude_rules'] = array_values(
+			array_filter(
+				array_map(
+					static function ( $rule ) {
+						return is_scalar( $rule ) ? trim( (string) $rule ) : '';
+					},
+					$clean['archive']['exclude_rules']
+				),
+				static function ( $rule ) {
+					return '' !== $rule;
+				}
+			)
+		);
+
+		return $clean;
+	}
+
+	/**
+	 * Recursively cast values to the shape of the defaults.
+	 *
+	 * @param array<string, mixed> $defaults Defaults of the group.
+	 * @param array<string, mixed> $values   Raw values.
+	 * @return array<string, mixed>
+	 */
+	private static function sanitize_tree( array $defaults, array $values ): array {
+		$clean = array();
+
+		foreach ( $defaults as $key => $default ) {
+			$value = array_key_exists( $key, $values ) ? $values[ $key ] : $default;
+
+			if ( is_array( $default ) ) {
+				if ( ! is_array( $value ) ) {
+					$clean[ $key ] = $default;
+					continue;
+				}
+
+				// A list (e.g. exclusion rules) keeps its loose values, an
+				// associative group is sanitized recursively.
+				$clean[ $key ] = self::is_list( $default )
+					? array_values( $value )
+					: self::sanitize_tree( $default, $value );
+
+				continue;
+			}
+
+			if ( is_bool( $default ) ) {
+				$clean[ $key ] = (bool) $value;
+				continue;
+			}
+
+			if ( is_int( $default ) ) {
+				$clean[ $key ] = max( 0, (int) $value );
+				continue;
+			}
+
+			$clean[ $key ] = is_scalar( $value ) ? (string) $value : (string) $default;
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * Whether an array is a plain list.
+	 *
+	 * @param array<mixed> $value Array.
+	 * @return bool
+	 */
+	private static function is_list( array $value ): bool {
+		if ( array() === $value ) {
+			return true;
+		}
+
+		return array_keys( $value ) === range( 0, count( $value ) - 1 );
+	}
+}

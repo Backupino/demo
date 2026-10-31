@@ -1,0 +1,57 @@
+<?php
+/**
+ * View renderer.
+ *
+ * @package Backupino
+ */
+
+declare( strict_types = 1 );
+
+namespace Backupino\Admin;
+
+use Backupino\Plugin;
+
+/**
+ * Loads admin templates with a shared set of variables.
+ */
+final class Views {
+
+	/**
+	 * Render a template.
+	 *
+	 * @param string               $template Template name without extension.
+	 * @param array<string, mixed> $vars     Extra variables.
+	 * @return void
+	 */
+	public static function render( string $template, array $vars = array() ): void {
+		$file = BACKUPINO_DIR . 'templates/' . $template . '.php';
+
+		if ( ! is_readable( $file ) ) {
+			return;
+		}
+
+		$plugin = Plugin::instance();
+
+		// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
+		extract( $vars, EXTR_SKIP );
+
+		// Variables consumed by every template.
+		$settings = $plugin->settings();
+		$paths    = $plugin->paths();
+		$jobs     = $plugin->jobs()->recent( 25 );
+
+		include $file;
+	}
+
+	/**
+	 * URL of a plugin admin screen.
+	 *
+	 * @param string $page Page slug suffix.
+	 * @return string
+	 */
+	public static function url( string $page = '' ): string {
+		$slug = '' === $page ? Admin::SLUG : Admin::SLUG . '-' . $page;
+
+		return admin_url( 'admin.php?page=' . $slug );
+	}
+}

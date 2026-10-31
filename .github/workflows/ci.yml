@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, 'arena/**' ]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: Tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: zip, mbstring, curl, json
+          coverage: none
+
+      - name: Lint every PHP file
+        run: |
+          find . -path ./node_modules -prune -o -path ./vendor -prune -o -name '*.php' -print0 \
+            | xargs -0 -n1 -P4 php -l > /dev/null
+
+      - name: Run the test suite
+        run: php tests/run.php
+
+  coding-standards:
+    name: Coding standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install PHPCS and the WordPress ruleset
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run PHPCS
+        run: vendor/bin/phpcs --report=full
+
+  installer:
+    name: Build the standalone installer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - name: Build installer
+        run: php bin/build-installer.php --out=releases/installer.php
+
+      - name: Verify the generated file
+        run: |
+          php -l releases/installer.php
+          test -s releases/installer.php
+          grep -q "class Extractor" releases/installer.php
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backupino-installer
+          path: releases/installer.php

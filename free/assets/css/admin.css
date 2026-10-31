@@ -1,0 +1,154 @@
+.backupino-wrap {
+	max-width: 1100px;
+}
+
+.backupino-title {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.backupino-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 18px;
+	margin-bottom: 18px;
+}
+
+.backupino-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	padding: 18px 20px;
+	margin-bottom: 18px;
+}
+
+.backupino-card h2 {
+	margin-top: 0;
+	font-size: 15px;
+}
+
+.backupino-form label,
+.backupino-card label {
+	display: block;
+	margin: 10px 0;
+	font-weight: 600;
+}
+
+.backupino-form input[type="text"],
+.backupino-card input[type="text"],
+.backupino-card input[type="url"],
+.backupino-card input[type="number"],
+.backupino-card input[type="password"],
+.backupino-card select,
+.backupino-card textarea {
+	width: 100%;
+	margin-top: 4px;
+	font-weight: 400;
+}
+
+.backupino-check {
+	display: flex !important;
+	align-items: center;
+	gap: 8px;
+	font-weight: 400 !important;
+}
+
+.backupino-check input {
+	margin: 0;
+}
+
+.backupino-progress {
+	margin-top: 16px;
+}
+
+.backupino-bar {
+	height: 8px;
+	background: #e2e8f0;
+	border-radius: 999px;
+	overflow: hidden;
+}
+
+.backupino-bar span {
+	display: block;
+	height: 100%;
+	width: 0;
+	background: #2271b1;
+	transition: width 0.25s ease;
+}
+
+.backupino-progress-text {
+	margin: 8px 0 0;
+	font-size: 12px;
+	color: #50575e;
+}
+
+.backupino-table td,
+.backupino-table th {
+	vertical-align: middle;
+}
+
+.backupino-status {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 999px;
+	font-size: 11px;
+	background: #f0f0f1;
+}
+
+.backupino-status--completed {
+	background: #dcfce7;
+	color: #166534;
+}
+
+.backupino-status--running,
+.backupino-status--queued {
+	background: #dbeafe;
+	color: #1e40af;
+}
+
+.backupino-status--failed {
+	background: #fee2e2;
+	color: #991b1b;
+}
+
+.backupino-result {
+	margin-left: 8px;
+	font-size: 12px;
+}
+
+.backupino-result.is-error {
+	color: #b32d2e;
+}
+
+.backupino-result.is-ok {
+	color: #1a7f37;
+}
+
+.backupino-system {
+	background: #0b1220;
+	color: #c7d2fe;
+	padding: 14px;
+	border-radius: 6px;
+	font-size: 12px;
+	max-height: 260px;
+	overflow: auto;
+	white-space: pre-wrap;
+}
+
+.backupino-s3 {
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 10px 14px;
+	margin: 10px 0 18px;
+}
+
+body.rtl .backupino-result {
+	margin-left: 0;
+	margin-right: 8px;
+}
+
+.hidden {
+	display: none;
+}
