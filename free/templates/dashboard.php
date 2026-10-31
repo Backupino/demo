@@ -95,6 +95,21 @@ $backupino_issues = \Backupino\Core\Compatibility::warnings();
 	</div>
 
 	<section class="backupino-card">
+		<h2><?php esc_html_e( 'Permanent download link', 'backupino' ); ?></h2>
+		<p class="description">
+			<?php esc_html_e( 'This link always points at the newest backup. It never expires, but the visitor must be signed in as an administrator before the download starts.', 'backupino' ); ?>
+		</p>
+		<p class="backupino-copy">
+			<input type="text" readonly class="large-text code" id="backupino-permalink"
+				value="<?php echo esc_attr( $plugin->download_link()->url() ); ?>">
+			<button type="button" class="button" id="backupino-copy-link">
+				<?php esc_html_e( 'Copy link', 'backupino' ); ?>
+			</button>
+		</p>
+		<p class="backupino-result" id="backupino-copy-result"></p>
+	</section>
+
+	<section class="backupino-card">
 		<h2><?php esc_html_e( 'Recent backups', 'backupino' ); ?></h2>
 		<table class="widefat striped backupino-table" id="backupino-jobs">
 			<thead>

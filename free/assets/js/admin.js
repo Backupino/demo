@@ -212,8 +212,32 @@
 		}
 	}
 
+	function bindPermanentLink() {
+		var button = document.getElementById( 'backupino-copy-link' );
+		var field = document.getElementById( 'backupino-permalink' );
+		var result = document.getElementById( 'backupino-copy-result' );
+
+		if ( ! button || ! field ) {
+			return;
+		}
+
+		button.addEventListener( 'click', function () {
+			field.select();
+
+			if ( navigator.clipboard && navigator.clipboard.writeText ) {
+				navigator.clipboard.writeText( field.value ).then( function () {
+					setResult( result, data.strings.copied, false );
+				} );
+				return;
+			}
+
+			setResult( result, field.value, false );
+		} );
+	}
+
 	document.addEventListener( 'DOMContentLoaded', function () {
 		bindDashboard();
 		bindSettings();
+		bindPermanentLink();
 	} );
 }() );

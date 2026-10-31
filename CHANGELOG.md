@@ -8,7 +8,8 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 - Notification channels: Telegram and Bale (personal bot) with a permanent download link.
-- Permanent "latest backup" download link, login-gated, no expiry.
+- Permanent "latest backup" download link (`?backupino_download=latest`), login-gated
+  and never expiring, with a copy-to-clipboard field on the dashboard.
 - Monthly automatic backup (first day of the month; Jalali for `fa_IR`).
 
 ### Changed

@@ -23,7 +23,8 @@ Plugin (container)
  ├── Jobs\JobRunner      (one time-boxed slice per call)
  │    └── Jobs\Pipeline → Stages: Scan → Files → Database → Finalize
  ├── Storage\StorageManager → LocalStorage | S3Storage (S3\S3Client + S3\S3Signer)
- ├── Admin\Admin         (menu, assets, REST, download handler)
+ ├── Download\PublicDownload  (permanent link: key + login + latest package)
+ ├── Admin\Admin         (menu, assets, REST, admin download handler)
  ├── Cli\Commands        (wp backupino …)
  └── Cron\Scheduler + Retention
 ```

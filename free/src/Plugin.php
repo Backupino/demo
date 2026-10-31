@@ -22,6 +22,8 @@ use Backupino\Core\Paths;
 use Backupino\Core\Settings;
 use Backupino\Core\WpDbAdapter;
 use Backupino\Cron\Scheduler;
+use Backupino\Download\DownloadLink;
+use Backupino\Download\PublicDownload;
 use Backupino\Jobs\JobRepository;
 use Backupino\Jobs\JobRunner;
 use Backupino\Jobs\Pipeline;
@@ -104,6 +106,13 @@ final class Plugin {
 	private $runner = null;
 
 	/**
+	 * Permanent download link.
+	 *
+	 * @var DownloadLink|null
+	 */
+	private $download_link = null;
+
+	/**
 	 * Storage manager.
 	 *
 	 * @var StorageManager|null
@@ -139,6 +148,7 @@ final class Plugin {
 		if ( Compatibility::is_supported() ) {
 			( new Admin() )->register();
 			( new Scheduler( $this ) )->register();
+			PublicDownload::register();
 		} else {
 			add_action( 'admin_notices', array( $this, 'render_compatibility_notice' ) );
 		}
@@ -222,6 +232,19 @@ final class Plugin {
 		}
 
 		return $this->db;
+	}
+
+	/**
+	 * Permanent download link service.
+	 *
+	 * @return DownloadLink
+	 */
+	public function download_link(): DownloadLink {
+		if ( null === $this->download_link ) {
+			$this->download_link = new DownloadLink( new WpOptions() );
+		}
+
+		return $this->download_link;
 	}
 
 	/**
