@@ -9,6 +9,8 @@
    the job payload, not in memory.
 3. **Small, named units.** One class, one job. No god objects; `Plugin` only wires things together.
 4. **Defensive I/O.** A missing/unreadable/locked file is a logged warning, not an exception.
+5. **100% self-contained & offline-first.** Zero external CDN, font, or script dependencies. Functions reliably even without international internet connectivity.
+6. **Pro as an Addon.** The commercial tier is an extension plugin (`backupino-pro`) that hooks into `free/` extension points, keeping code lean and avoiding duplication.
 
 ## 2. Module map
 
@@ -93,7 +95,7 @@ That gives us one implementation that is unit-testable *and* shippable as a sing
 | Hygiene | `SyntaxTest` parses every PHP file and enforces `strict_types` + docblocks |
 | CI | PHP 7.4 → 8.4 matrix, PHPCS (WordPress ruleset), installer build artifact |
 
-Run locally: `php tests/run.php`. Without PHP: `npm test` (php-wasm).
+Run locally during task development: `php tests/run.php --filter=TargetTest`. Full regression suite on phase completion: `php tests/run.php` or `npm test` (php-wasm).
 
 ## 6. Extension points
 

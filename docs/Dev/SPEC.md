@@ -33,6 +33,7 @@ Three jobs, one architecture:
 | Off-site storage we host | — | — | ✅ |
 
 **Rule we do not break:** restoring a backup you already own is never paywalled.
+**Architecture tier rule:** The Pro plugin is a lightweight **Addon** that requires the Free plugin to be active. It hooks into Free's filters/actions to enable commercial capabilities rather than shipping as a duplicate fat standalone plugin.
 
 ## 3. Package format
 
@@ -53,6 +54,7 @@ Invariants:
    a random 32-char token and an optional password.
 4. The installer refuses to run against a different archive (hash pairing).
 5. Both files must live in the same directory at the destination.
+6. 100% self-contained & offline-ready: zero external CDN or remote runtime dependencies; operates completely even without international internet access.
 
 ## 4. Build pipeline (source site)
 
