@@ -1,6 +1,6 @@
 # فاز ۱ — نسخهی رایگان `v1.0.0`
 
-> **Status:** 🔵 in-progress · **Progress:** ۸ از ۱۱ تسک (۷۳٪) · **Last updated:** 2026-11-01
+> **Status:** 🔵 in-progress · **Progress:** ۹ از ۱۱ تسک (۸۲٪) · **Last updated:** 2026-11-01
 > **هدف:** نسخهی رایگانِ کامل، سالم و قابل انتشار در WordPress.org — بدون هیچ کد تجاری.
 
 ---
@@ -24,7 +24,7 @@
 | P1-T05 | بازنگری تنظیمات و UX | ✅ done | retention پیشفرض ۳، چکباکس opt-in اخبار، حذف بقایای ابر از UI |
 | P1-T06 | i18n، RTL و اعداد لاتین | ✅ done | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس ویژگی‌های منطقی، نرمالسازی ارقام به لاتین با `Str` |
 | P1-T07 | بستهبندی انتشار | ✅ done | `bin/build-release.php` → `releases/backupino-x.y.z.zip` بدون `pro/tests/docs/tools` |
-| P1-T08 | بازبینی امنیتی و QA | ⚪ todo | ماتریس PHP 7.4–8.4، WP 6.0/6.8، تست روی نصب واقعی، چکلیست امنیتی |
+| P1-T08 | بازبینی امنیتی و QA | ✅ done | ماتریس PHP 7.4–8.4، حذف `extract()`، اعتبارسنجی REST، آزمون‌های خودکار `SecurityQATest` |
 | P1-T09 | مستندات عمومی + CHANGELOG | ⚪ todo | `docs/Public/*`، `CHANGELOG.md`، `readme.txt` نهایی با External services |
 | P1-T10 | انتشار `v1.0.0` | ⚪ todo | SVN وردپرس + GitHub Release |
 | P1-T11 | تقویم شمسی/میلادی | ✅ done | `Support\Dates`: جلالی برای `fa_IR`، میلادی برای بقیه، ذخیره همیشه UTC، ارقام لاتین؛ `DatesTest` (۷ سبز) |
@@ -106,6 +106,14 @@
   - حذف خودکار همه‌ی پوشه‌ها و فایل‌های نامربوط (`pro/`, `tests/`, `docs/`, `tools/`, `roadmaps/`, `bin/`, `.github/`, `.gitkeep`, `.DS_Store`, و فایل‌های موقت).
   - محاسبه و نمایش ابعاد، تعداد فایل‌ها و چک‌سام SHA-256 بسته.
 - تست‌ها: `BuildReleaseTest` با بررسی کامل محتوا، ساختار، حضور فایل‌های کلیدی و عدم وجود فایل‌های زائد.
+
+### P1-T08 — بازبینی امنیتی و QA ✅
+
+- حذف تابع `extract()` از [`free/src/Admin/Views.php`](free/src/Admin/Views.php) و جایگزینی با مقداردهی ایمن برای رعایت کامل استاندارد مخزن وردپرس.
+- اعتبارسنجی سطح دسترسی و `permission_callback` برای تک‌تک روت‌های کنترلر REST.
+- بررسی و اطمینان از عدم استفاده از هرگونه توابع خطرناک اجرایی (`eval`, `exec`, `system`, `passthru`, `proc_open`).
+- اطمینان از اصل عدم وابستگی به CDN خارجی (آفلاین ۱۰۰٪).
+- پیاده‌سازی مجموعه تست‌های خودکار [`tests/Unit/SecurityQATest.php`](tests/Unit/SecurityQATest.php) و به‌روزرسانی چک‌لیست مخزن.
 
 ### P1-T11 — تقویم شمسی/میلادی ✅
 

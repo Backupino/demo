@@ -32,8 +32,11 @@ final class Views {
 
 		$plugin = Plugin::instance();
 
-		// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
-		extract( $vars, EXTR_SKIP );
+		foreach ( $vars as $backupino_key => $backupino_value ) {
+			if ( is_string( $backupino_key ) && preg_match( '/^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/', $backupino_key ) ) {
+				${$backupino_key} = $backupino_value;
+			}
+		}
 
 		// Variables consumed by every template.
 		$settings = $plugin->settings();

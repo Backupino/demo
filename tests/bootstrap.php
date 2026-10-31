@@ -375,3 +375,16 @@ if ( ! function_exists( 'get_locale' ) ) {
 		return $GLOBALS['backupino_locale'] ?? 'en_US';
 	}
 }
+
+
+if ( ! function_exists( 'current_user_can' ) ) {
+	/**
+	 * Capability check shim.
+	 *
+	 * @param string $capability Capability.
+	 * @return bool
+	 */
+	function current_user_can( $capability ) {
+		return ! empty( $GLOBALS['backupino_current_user_can'][ $capability ] );
+	}
+}
