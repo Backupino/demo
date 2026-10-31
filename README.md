@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # Backupino — Monorepo
 
 > **Status:** 🔵 Phase 1 — free `v1.0.0` in progress · **Tests:** 86 green (PHP 7.4 / 8.3 / 8.4)
@@ -70,3 +72,5 @@ Read the rules first — they are short and enforced:
 ## License
 
 GPL-2.0-or-later. See [`LICENSE`](LICENSE).
+
+</div>

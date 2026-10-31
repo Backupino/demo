@@ -1,6 +1,8 @@
+<div align="right" dir="rtl">
+
 # فاز ۱ — نسخهی رایگان `v1.0.0`
 
-> **Status:** 🔵 in-progress · **Progress:** ۹ از ۱۱ تسک (۸۲٪) · **Last updated:** 2026-11-01
+> **Status:** 🔵 in-progress · **Progress:** ۱۰ از ۱۱ تسک (۹۱٪) · **Last updated:** 2026-11-01
 > **هدف:** نسخهی رایگانِ کامل، سالم و قابل انتشار در WordPress.org — بدون هیچ کد تجاری.
 
 ---
@@ -25,7 +27,7 @@
 | P1-T06 | i18n، RTL و اعداد لاتین | ✅ done | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس ویژگی‌های منطقی، نرمالسازی ارقام به لاتین با `Str` |
 | P1-T07 | بستهبندی انتشار | ✅ done | `bin/build-release.php` → `releases/backupino-x.y.z.zip` بدون `pro/tests/docs/tools` |
 | P1-T08 | بازبینی امنیتی و QA | ✅ done | ماتریس PHP 7.4–8.4، حذف `extract()`، اعتبارسنجی REST، آزمون‌های خودکار `SecurityQATest` |
-| P1-T09 | مستندات عمومی + CHANGELOG | ⚪ todo | `docs/Public/*`، `CHANGELOG.md`، `readme.txt` نهایی با External services |
+| P1-T09 | مستندات عمومی + CHANGELOG | ✅ done | `docs/Public/*`، `CHANGELOG.md`، `readme.txt` نهایی با External services |
 | P1-T10 | انتشار `v1.0.0` | ⚪ todo | SVN وردپرس + GitHub Release |
 | P1-T11 | تقویم شمسی/میلادی | ✅ done | `Support\Dates`: جلالی برای `fa_IR`، میلادی برای بقیه، ذخیره همیشه UTC، ارقام لاتین؛ `DatesTest` (۷ سبز) |
 
@@ -115,6 +117,20 @@
 - اطمینان از اصل عدم وابستگی به CDN خارجی (آفلاین ۱۰۰٪).
 - پیاده‌سازی مجموعه تست‌های خودکار [`tests/Unit/SecurityQATest.php`](tests/Unit/SecurityQATest.php) و به‌روزرسانی چک‌لیست مخزن.
 
+### P1-T09 — مستندات عمومی + CHANGELOG ✅
+
+- بازنگری و نهایی‌سازی `free/readme.txt` بر اساس استانداردهای رسمی مخزن WordPress.org:
+  - تگ‌های معتبر و حذف تگ زائد `s3` (`backup, restore, migration, clone, jalali`).
+  - نگارش بخش الزامی افشای سرویس‌های جانبی (`== External Services ==`) شامل مستندسازی دقیق Bot API تلگرام و بله، آدرس اندپوینت‌ها، داده‌های ارسالی، ماهیت کاملاً opt-in و پیوند به قوانین حریم خصوصی.
+  - اضافه شدن بخش‌های استاندارد `== Upgrade Notice ==` و تشریح جامع معماری آفلاین-فرست، اینستالر مستقل و لینک دائمی در بخش Description و FAQ.
+- نهایی‌سازی فایل `CHANGELOG.md` بر اساس فرمت استاندارد Keep a Changelog و نسخه پایدار `[1.0.0] - 2026-11-01` با پوشش کلیه تغییرات تسک‌های فاز ۱.
+- به‌روزرسانی و غنی‌سازی راهنماهای عمومی در `docs/Public/*`:
+  - [`README.md`](docs/Public/README.md): معرفی جامع، مزایا و نیازمندی‌ها.
+  - [`INSTALL.md`](docs/Public/INSTALL.md): آموزش گام‌به‌گام نصب، ساخت بکاپ، بازیابی و دستورات WP-CLI.
+  - [`FAQ.md`](docs/Public/FAQ.md): پاسخ به تمام پرسش‌های پرتکرار درباره امنیت، لینک دائمی، حجم و تقویم شمسی.
+  - [`BOT-SETUP.md`](docs/Public/BOT-SETUP.md): راهنمای گام‌به‌گام اتصال ربات شخصی تلگرام و بله به همراه صف تلاش مجدد و نکات امنیتی توکن.
+- هماهنگ‌سازی نسخه `1.0.0` در کلیه بخش‌های مرتبط (`free/backupino.php`، `free/readme.txt`، `CHANGELOG.md`، `package.json`، اسکریپت‌های توزیع و کاتالوگ‌های i18n).
+
 ### P1-T11 — تقویم شمسی/میلادی ✅
 
 - کلاس `Support\Dates`: تبدیل timestamp به تاریخ جلالی (پیادهسازی خالص PHP، بدون نیاز به افزونهی `intl`).
@@ -133,3 +149,5 @@
 | محاسبهی اول ماه شمسی خطا کند | تست واحد برای ۱۲ ماه + لبهی اسفند/کبیسه |
 | وابستگی به cURL در هاستهای ضعیف | استفاده از `wp_remote_post` (HTTP API) به جای cURL خام |
 | حجم بسته روی هاستهای اشتراکی | ادامهی build ریاستارتپذیر + محدودیت پیشفرض tick |
+
+</div>

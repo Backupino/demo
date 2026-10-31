@@ -12,7 +12,7 @@
 declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || define( 'ABSPATH', dirname( __DIR__ ) . '/' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- WordPress core constant.
-defined( 'BACKUPINO_VERSION' ) || define( 'BACKUPINO_VERSION', '0.1.0' );
+defined( 'BACKUPINO_VERSION' ) || define( 'BACKUPINO_VERSION', '1.0.0' );
 
 require_once dirname( __DIR__ ) . '/free/src/autoload.php';
 
@@ -27,7 +27,7 @@ foreach ( array_slice( $argv ?? array(), 1 ) as $backupino_arg ) {
 $backupino_builder = new \Backupino\Backup\InstallerBuilder();
 
 $backupino_payload = array(
-	'version'      => '0.1.0',
+	'version'      => '1.0.0',
 	'name'         => 'development_' . gmdate( 'Ymd_His' ),
 	'token'        => bin2hex( random_bytes( 16 ) ),
 	'archive'      => 'development.zip',

@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # Backupino — Product & Technical Specification
 
 Version 0.1 · 2026-10-31 · status: living document
@@ -194,3 +196,5 @@ Base: `/wp-json/backupino/v1/`
 | 5 | Installer built by flattening real classes | one implementation, still unit-testable |
 | 6 | Keyset pagination everywhere | `LIMIT offset` degrades linearly and breaks on gaps |
 | 7 | Token pairing instead of archive name matching | prevents “wrong installer for this archive” disasters |
+
+</div>

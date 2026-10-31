@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # ساختار مخزن — Repository Structure
 
 > **Status:** active · **Last updated:** 2026-10-31
@@ -67,3 +69,5 @@
 2. **`free/` و `pro/` هرگز به فایلهای یکدیگر import مستقیم نمیزنند**؛ اتصال فقط از طریق فیلترها/اینترفیسهای `free/`.
 3. مسیر `free/` در بستهی نهایی به `backupino/` تغییر نام میدهد (اسکریپت `bin/build-release.php`).
 4. مسیرها در تستها نسبیاند (`dirname( __DIR__ )`)؛ مسیر مطلق هاردکد نمیشود.
+
+</div>

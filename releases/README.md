@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # releases/
 
 > **Status:** active · **Last updated:** 2026-10-31
@@ -24,3 +26,5 @@ backupino/
 ## قاعده
 
 هر فایل در این پوشه باید از یک کامیت مشخص و با نسخهی ثبتشده در `CHANGELOG.md` ساخته شده باشد.
+
+</div>

@@ -35,7 +35,7 @@ final class ReleaseBuilder {
 	 * @param string $version Release version string.
 	 * @return array<string, mixed> Release build details.
 	 */
-	public static function build( string $freeDir, string $outZip, string $version = '0.1.0' ): array {
+	public static function build( string $freeDir, string $outZip, string $version = '1.0.0' ): array {
 		if ( ! class_exists( 'ZipArchive' ) ) {
 			throw new \RuntimeException( 'ZipArchive extension is required to build releases.' );
 		}
@@ -148,7 +148,7 @@ final class ReleaseBuilder {
 	 */
 	public static function detect_version( string $mainFile ): string {
 		if ( ! is_file( $mainFile ) ) {
-			return '0.1.0';
+			return '1.0.0';
 		}
 
 		$content = (string) file_get_contents( $mainFile );
@@ -160,12 +160,12 @@ final class ReleaseBuilder {
 			return $matches[1];
 		}
 
-		return '0.1.0';
+		return '1.0.0';
 	}
 }
 
 // CLI Execution entry point
-if ( PHP_SAPI === 'cli' && isset( $_SERVER['argv'][0] ) && false !== strpos( (string) $_SERVER['argv'][0], 'build-release.php' ) ) {
+if ( ! defined( 'BACKUPINO_TESTS' ) && ( ( isset( $_SERVER['argv'][0] ) && false !== strpos( (string) $_SERVER['argv'][0], 'build-release.php' ) ) || ( isset( $argv[0] ) && false !== strpos( (string) $argv[0], 'build-release.php' ) ) ) ) {
 	$root    = dirname( __DIR__ );
 	$free    = $root . '/free';
 	$version = ReleaseBuilder::detect_version( $free . '/backupino.php' );

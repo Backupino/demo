@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # Architecture
 
 ## 1. Principles
@@ -114,3 +116,5 @@ Run locally during task development: `php tests/run.php --filter=TargetTest`. Fu
 - No encryption yet; the local storage directory is protected by `.htaccess`/`index.php` only.
 - S3 uploads are single-PUT (no multipart resume yet); objects > 5 GB are rejected by S3 itself.
 - Restore in place (over a live site) is not implemented; the installer restores *to* a directory.
+
+</div>

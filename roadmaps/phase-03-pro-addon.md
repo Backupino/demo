@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # فاز ۳ — افزونهی Pro و فضاهای ابری
 
 > **Status:** ⚪ todo · **Progress:** ۰٪ · **پیشنیاز:** فاز ۲ (لایسنس)
@@ -34,3 +36,5 @@
 | `backupino_stages` | افزودن مرحله به خط لوله |
 | `backupino_job_completed` | پس از پایان موفق |
 | `backupino_limits` | اعمال محدودیت پلن |
+
+</div>

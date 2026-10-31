@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # فاز ۰ — زیرساخت و اسکلت پروژه
 
 > **Status:** ✅ done · **Progress:** ۱۰۰٪ · **Completed:** 2026-10-31
@@ -36,3 +38,5 @@
 
 - `pro/src/Storage/*` فعلاً پارک شده است و از `pro/autoload.php` فقط در تست لود میشود.
 - پس از پایان فاز ۱، `bin/build-release.php` باید پوشههای `pro/`, `tests/`, `docs/`, `tools/` را از zip حذف کند.
+
+</div>

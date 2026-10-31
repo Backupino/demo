@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # pro/ — معوق (Parked) — نسخهی تجاری
 
 این پوشه **هرگز** در بستهی افزونهی رایگان (که در WordPress.org منتشر میشود) قرار نمیگیرد.
@@ -18,3 +20,5 @@
 | `backupino_stages` | افزودن مرحله به خط لولهی بکاپ |
 
 مستندات کامل: [`docs/Dev/ARCHITECTURE.md`](../docs/Dev/ARCHITECTURE.md)
+
+</div>

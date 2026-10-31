@@ -1,3 +1,5 @@
+<div align="right" dir="rtl">
+
 # پلنها، سهمیهها و مدل لایسنس — Product Plans
 
 > **Status:** draft (approved by owner, awaiting implementation in Phase 2) · **Last updated:** 2026-10-31
@@ -78,3 +80,5 @@
 - [ ] قیمت نهایی هر پلن و نسبت ۱ : ۳.۵ : ۱۰
 - [ ] تعرفهی دقیق ابر اختصاصی و بستههای حجم اضافه
 - [ ] سیاست بازگشت وجه و تمدید
+
+</div>

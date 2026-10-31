@@ -32,9 +32,9 @@ final class BuildReleaseTest extends TestCase {
 		$root = dirname( __DIR__, 2 );
 		$freeDir = $root . '/free';
 
-		$stats = ReleaseBuilder::build( $freeDir, $zipPath, '0.1.0-test' );
+		$stats = ReleaseBuilder::build( $freeDir, $zipPath, '1.0.0-test' );
 
-		$this->assertSame( '0.1.0-test', $stats['version'] );
+		$this->assertSame( '1.0.0-test', $stats['version'] );
 		$this->assertSame( $zipPath, $stats['archive'] );
 		$this->assertGreaterThan( 50, $stats['files'] );
 		$this->assertGreaterThan( 1000, $stats['size'] );
@@ -88,6 +88,6 @@ final class BuildReleaseTest extends TestCase {
 		$mainFile = dirname( __DIR__, 2 ) . '/free/backupino.php';
 		$version  = ReleaseBuilder::detect_version( $mainFile );
 
-		$this->assertSame( '0.1.0', $version );
+		$this->assertSame( '1.0.0', $version );
 	}
 }

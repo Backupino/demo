@@ -204,7 +204,7 @@ $potHeader = <<<POT
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Backupino 0.1.0\\n"
+"Project-Id-Version: Backupino 1.0.0\\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/backupino\\n"
 "Last-Translator: Backupino Team <support@backupino.com>\\n"
 "Language-Team: English <support@backupino.com>\\n"
@@ -239,7 +239,7 @@ $poHeader = <<<PO
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Backupino 0.1.0\\n"
+"Project-Id-Version: Backupino 1.0.0\\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/backupino\\n"
 "Last-Translator: Backupino Team <support@backupino.com>\\n"
 "Language-Team: Persian <support@backupino.com>\\n"
@@ -282,7 +282,7 @@ $count = count( $entries ) + 1; // +1 for header entry "" => headers
 
 $origKeys = array_merge( array( '' ), array_keys( $entries ) );
 $transKeys = array_merge(
-	array( "Project-Id-Version: Backupino 0.1.0\nReport-Msgid-Bugs-To: https://wordpress.org/support/plugin/backupino\nLanguage: fa_IR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n > 1);\n" ),
+	array( "Project-Id-Version: Backupino 1.0.0\nReport-Msgid-Bugs-To: https://wordpress.org/support/plugin/backupino\nLanguage: fa_IR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n > 1);\n" ),
 	array_values( $entries )
 );
 
