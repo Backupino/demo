@@ -1,6 +1,6 @@
 # فاز ۱ — نسخهی رایگان `v1.0.0`
 
-> **Status:** 🔵 in-progress · **Progress:** ۷ از ۱۱ تسک (۶۴٪) · **Last updated:** 2026-11-01
+> **Status:** 🔵 in-progress · **Progress:** ۸ از ۱۱ تسک (۷۳٪) · **Last updated:** 2026-11-01
 > **هدف:** نسخهی رایگانِ کامل، سالم و قابل انتشار در WordPress.org — بدون هیچ کد تجاری.
 
 ---
@@ -23,7 +23,7 @@
 | P1-T04 | بکاپ خودکار ماهانه (اول ماه) | ✅ done | شمسی برای `fa_IR`، میلادی برای بقیه؛ زمانبندی اول ماه با `Dates`؛ `SchedulerTest` (۴ سبز) |
 | P1-T05 | بازنگری تنظیمات و UX | ✅ done | retention پیشفرض ۳، چکباکس opt-in اخبار، حذف بقایای ابر از UI |
 | P1-T06 | i18n، RTL و اعداد لاتین | ✅ done | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس ویژگی‌های منطقی، نرمالسازی ارقام به لاتین با `Str` |
-| P1-T07 | بستهبندی انتشار | ⚪ todo | `bin/build-release.php` → `releases/backupino-x.y.z.zip` بدون `pro/tests/docs/tools` |
+| P1-T07 | بستهبندی انتشار | ✅ done | `bin/build-release.php` → `releases/backupino-x.y.z.zip` بدون `pro/tests/docs/tools` |
 | P1-T08 | بازبینی امنیتی و QA | ⚪ todo | ماتریس PHP 7.4–8.4، WP 6.0/6.8، تست روی نصب واقعی، چکلیست امنیتی |
 | P1-T09 | مستندات عمومی + CHANGELOG | ⚪ todo | `docs/Public/*`، `CHANGELOG.md`، `readme.txt` نهایی با External services |
 | P1-T10 | انتشار `v1.0.0` | ⚪ todo | SVN وردپرس + GitHub Release |
@@ -98,6 +98,15 @@
 - بازنویسی استایل‌های پیشخوان ادمین در `admin.css` با ویژگی‌های منطقی (`margin-inline-start`, `text-align: start`, `direction: ltr` برای لاگ‌ها).
 - تست‌ها: اضافه شدن `StrTest` و `I18nTest` (همه پاس).
 
+### P1-T07 — بستهبندی انتشار ✅
+
+- اسکریپت `bin/build-release.php` و کلاس `Backupino\Build\ReleaseBuilder`:
+  - ایجاد بسته `releases/backupino-{version}.zip` با ساختار ریشه منحصراً `backupino/`.
+  - اعتبارسنجی نحوی همه‌ی فایل‌های PHP قبل از فشرده‌سازی.
+  - حذف خودکار همه‌ی پوشه‌ها و فایل‌های نامربوط (`pro/`, `tests/`, `docs/`, `tools/`, `roadmaps/`, `bin/`, `.github/`, `.gitkeep`, `.DS_Store`, و فایل‌های موقت).
+  - محاسبه و نمایش ابعاد، تعداد فایل‌ها و چک‌سام SHA-256 بسته.
+- تست‌ها: `BuildReleaseTest` با بررسی کامل محتوا، ساختار، حضور فایل‌های کلیدی و عدم وجود فایل‌های زائد.
+
 ### P1-T11 — تقویم شمسی/میلادی ✅
 
 - کلاس `Support\Dates`: تبدیل timestamp به تاریخ جلالی (پیادهسازی خالص PHP، بدون نیاز به افزونهی `intl`).
@@ -105,16 +114,6 @@
 - ذخیره در دیتابیس **همیشه میلادی/UTC**؛ جلالی فقط نمایش.
 - زمانبندی «اول ماه» (P1-T04) از همین کلاس استفاده میکند — به همین دلیل بعد از آن آمده است.
 - تست: ۱۲ ماه + لبهی اسفند/سال کبیسه + تبدیل رفتوبرگشت.
-
-### P1-T07 — بستهبندی
-
-```
-releases/backupino-1.0.0.zip
-└── backupino/
-    ├── backupino.php, uninstall.php, readme.txt
-    ├── src/, templates/, assets/, languages/
-```
-حذف: `pro/`, `tests/`, `docs/`, `tools/`, `roadmaps/`, `bin/`, `.github/`, فایلهای dev.
 
 ---
 
