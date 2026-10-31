@@ -148,11 +148,15 @@ final class ZipArchiveWriter implements ArchiveWriter {
 			return true;
 		}
 
-		$closed    = $this->zip->close();
+		$status = '';
+		$closed = $this->zip->close();
+		if ( ! $closed && method_exists( $this->zip, 'getStatusString' ) ) {
+			$status = (string) $this->zip->getStatusString();
+		}
 		$this->zip = null;
 
 		if ( ! $closed ) {
-			$this->error = __( 'The archive could not be finalized.', 'backupino' );
+			$this->error = ( '' !== $status && 'No error' !== $status ) ? sprintf( __( 'The archive could not be finalized (%s).', 'backupino' ), $status ) : __( 'The archive could not be finalized.', 'backupino' );
 		}
 
 		return (bool) $closed;
