@@ -24,6 +24,8 @@ use Backupino\Core\WpDbAdapter;
 use Backupino\Cron\Scheduler;
 use Backupino\Download\DownloadLink;
 use Backupino\Download\PublicDownload;
+use Backupino\Jobs\Job;
+use Backupino\Notify\Notifier;
 use Backupino\Jobs\JobRepository;
 use Backupino\Jobs\JobRunner;
 use Backupino\Jobs\Pipeline;
@@ -113,6 +115,13 @@ final class Plugin {
 	private $download_link = null;
 
 	/**
+	 * Notification sender.
+	 *
+	 * @var Notifier|null
+	 */
+	private $notifier = null;
+
+	/**
 	 * Storage manager.
 	 *
 	 * @var StorageManager|null
@@ -149,6 +158,7 @@ final class Plugin {
 			( new Admin() )->register();
 			( new Scheduler( $this ) )->register();
 			PublicDownload::register();
+			add_action( 'backupino_job_completed', array( $this, 'notify_completed_job' ) );
 		} else {
 			add_action( 'admin_notices', array( $this, 'render_compatibility_notice' ) );
 		}
@@ -245,6 +255,48 @@ final class Plugin {
 		}
 
 		return $this->download_link;
+	}
+
+	/**
+	 * Notification sender.
+	 *
+	 * @return Notifier
+	 */
+	public function notifier(): Notifier {
+		if ( null === $this->notifier ) {
+			$this->notifier = new Notifier( $this->settings(), new WpOptions(), $this->download_link() );
+		}
+
+		return $this->notifier;
+	}
+
+	/**
+	 * Human readable site name for messages.
+	 *
+	 * @return string
+	 */
+	public function site_name(): string {
+		$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+
+		if ( '' !== $host ) {
+			return $host;
+		}
+
+		return (string) home_url();
+	}
+
+	/**
+	 * Announce a finished backup.
+	 *
+	 * @param mixed $job Finished job.
+	 * @return void
+	 */
+	public function notify_completed_job( $job ): void {
+		if ( ! $job instanceof Job ) {
+			return;
+		}
+
+		$this->notifier()->announce( $job, $this->site_name() );
 	}
 
 	/**

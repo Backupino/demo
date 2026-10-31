@@ -7,7 +7,9 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
-- Notification channels: Telegram and Bale (personal bot) with a permanent download link.
+- Notification channels: Telegram and Bale (personal bot) with the permanent download link,
+  a "send test message" button in Settings, and a retry queue (5 messages, 3 attempts)
+  flushed on the next cron run.
 - Permanent "latest backup" download link (`?backupino_download=latest`), login-gated
   and never expiring, with a copy-to-clipboard field on the dashboard.
 - Monthly automatic backup (first day of the month; Jalali for `fa_IR`).

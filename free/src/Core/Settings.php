@@ -84,6 +84,11 @@ final class Settings {
 				'interval' => 'daily',
 				'keep'     => 5,
 			),
+			'notify'    => array(
+				'service' => 'none',
+				'token'   => '',
+				'chat_id' => '',
+			),
 			'installer' => array(
 				'password' => '',
 				'new_url'  => '',
@@ -223,6 +228,13 @@ final class Settings {
 		if ( ! in_array( $clean['schedule']['interval'], array( 'hourly', 'twicedaily', 'daily', 'weekly' ), true ) ) {
 			$clean['schedule']['interval'] = 'daily';
 		}
+
+		if ( ! in_array( $clean['notify']['service'], array( 'none', 'telegram', 'bale' ), true ) ) {
+			$clean['notify']['service'] = 'none';
+		}
+
+		$clean['notify']['token']   = trim( sanitize_text_field( $clean['notify']['token'] ) );
+		$clean['notify']['chat_id'] = trim( sanitize_text_field( $clean['notify']['chat_id'] ) );
 
 		$clean['archive']['exclude_rules'] = array_values(
 			array_filter(

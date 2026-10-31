@@ -146,12 +146,10 @@
 			return;
 		}
 
-		form.addEventListener( 'submit', function ( event ) {
-			event.preventDefault();
+		function collect( formElement ) {
+			var payload = { archive: {}, runtime: {}, storage: {}, schedule: {}, installer: {}, notify: {} };
 
-			var payload = { archive: {}, runtime: {}, storage: {}, schedule: {}, installer: {} };
-
-			Array.prototype.forEach.call( form.querySelectorAll( 'input, select, textarea' ), function ( field ) {
+			Array.prototype.forEach.call( formElement.querySelectorAll( 'input, select, textarea' ), function ( field ) {
 				var path = field.name.split( '.' );
 				var value;
 
@@ -187,6 +185,13 @@
 				payload[ path[0] ][ path[1] ] = value;
 			} );
 
+			return payload;
+		}
+
+		form.addEventListener( 'submit', function ( event ) {
+			event.preventDefault();
+
+			var payload = collect( form );
 			var target = document.getElementById( 'backupino-settings-result' );
 			setResult( target, data.strings.running );
 
@@ -198,6 +203,26 @@
 					setResult( target, error.message, true );
 				} );
 		} );
+
+		var notifyButton = document.getElementById( 'backupino-notify-test' );
+
+		if ( notifyButton ) {
+			notifyButton.addEventListener( 'click', function () {
+				var target = document.getElementById( 'backupino-notify-result' );
+				setResult( target, data.strings.running );
+
+				request( 'settings', { method: 'POST', body: JSON.stringify( collect( form ) ) } )
+					.then( function () {
+						return request( 'notify/test', { method: 'POST' } );
+					} )
+					.then( function () {
+						setResult( target, data.strings.notified, false );
+					} )
+					.catch( function ( error ) {
+						setResult( target, error.message, true );
+					} );
+			} );
+		}
 
 		var system = document.getElementById( 'backupino-system' );
 

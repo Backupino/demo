@@ -154,6 +154,7 @@ final class JobRunner {
 				if ( '' === $next ) {
 					$job->status   = JobStatus::COMPLETED;
 					$job->progress = 100;
+					do_action( 'backupino_job_completed', $job );
 					$this->logger->info(
 						'Job finished.',
 						array(

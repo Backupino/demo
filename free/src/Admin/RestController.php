@@ -130,6 +130,16 @@ final class RestController {
 
 		register_rest_route(
 			self::NAMESPACE_V1,
+			'/notify/test',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'test_notification' ),
+				'permission_callback' => array( $this, 'can_manage' ),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE_V1,
 			'/system/storage-test',
 			array(
 				'methods'             => 'POST',
@@ -334,6 +344,25 @@ final class RestController {
 		$units['driver']   = $plugin->storages()->driver()->id();
 
 		return new \WP_REST_Response( $units );
+	}
+
+	/**
+	 * Send the test message to the configured messenger.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function test_notification(): \WP_REST_Response {
+		$plugin   = Plugin::instance();
+		$notifier = $plugin->notifier();
+		$sent     = $notifier->send_test( $plugin->site_name() );
+
+		return new \WP_REST_Response(
+			array(
+				'sent'  => $sent,
+				'error' => $sent ? '' : $notifier->error(),
+			),
+			$sent ? 200 : 500
+		);
 	}
 
 	/**

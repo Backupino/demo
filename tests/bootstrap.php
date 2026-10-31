@@ -105,6 +105,66 @@ if ( ! function_exists( 'wp_json_encode' ) ) {
 	}
 }
 
+if ( ! function_exists( 'sanitize_text_field' ) ) {
+	/**
+	 * Text sanitising shim.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	function sanitize_text_field( $text ) {
+		return trim( preg_replace( '/[\r\n\t ]+/', ' ', strip_tags( (string) $text ) ) );
+	}
+}
+
+if ( ! function_exists( 'do_action' ) ) {
+	/**
+	 * Action shim that records what fired.
+	 *
+	 * @param string $hook Hook name.
+	 * @param mixed  ...$args Arguments.
+	 * @return void
+	 */
+	function do_action( $hook, ...$args ) {
+		$GLOBALS['backupino_actions'][] = array( $hook, $args );
+	}
+}
+
+if ( ! function_exists( 'did_action' ) ) {
+	/**
+	 * Whether a hook fired.
+	 *
+	 * @param string $hook Hook name.
+	 * @return int
+	 */
+	function did_action( $hook ) {
+		$count = 0;
+
+		foreach ( (array) ( $GLOBALS['backupino_actions'] ?? array() ) as $fired ) {
+			if ( $hook === $fired[0] ) {
+				++$count;
+			}
+		}
+
+		return $count;
+	}
+}
+
+if ( ! function_exists( 'add_action' ) ) {
+	/**
+	 * Listener shim; the tested code paths fire hooks, they do not register them.
+	 *
+	 * @param string   $hook     Hook name.
+	 * @param callable $callback Callback.
+	 * @param int      $priority Priority.
+	 * @param int      $args     Accepted args.
+	 * @return bool
+	 */
+	function add_action( $hook, $callback, $priority = 10, $args = 1 ) {
+		return true;
+	}
+}
+
 if ( ! function_exists( 'number_format_i18n' ) ) {
 	/**
 	 * Number formatting shim.

@@ -126,6 +126,8 @@ final class Scheduler {
 	 * @return void
 	 */
 	public function run_jobs(): void {
+		$this->plugin->notifier()->flush();
+
 		$deadline = time() + 25;
 
 		foreach ( $this->plugin->jobs()->pending() as $job ) {

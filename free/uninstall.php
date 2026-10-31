@@ -26,6 +26,7 @@ function backupino_uninstall_site(): void {
 	delete_option( 'backupino_schedule_state' );
 	delete_option( 'backupino_installed_at' );
 	delete_option( 'backupino_download_key' );
+	delete_option( 'backupino_notify_queue' );
 
 	$uploads = wp_upload_dir( null, false );
 

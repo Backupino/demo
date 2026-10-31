@@ -62,6 +62,55 @@ $backupino_values = $settings->all();
 		</label>
 
 
+		<h2><?php esc_html_e( 'Notifications', 'backupino' ); ?></h2>
+		<p class="description">
+			<?php esc_html_e( 'Backupino can announce every finished backup, with the permanent download link, in Telegram or Bale. The bot belongs to you: create one with @BotFather, then paste its token and your chat id here.', 'backupino' ); ?>
+		</p>
+		<div class="backupino-grid">
+			<label>
+				<?php esc_html_e( 'Messenger', 'backupino' ); ?>
+				<select name="notify.service" id="backupino-notify-service">
+					<option value="none" <?php selected( 'none', $backupino_values['notify']['service'] ); ?>>
+						<?php esc_html_e( 'Disabled', 'backupino' ); ?>
+					</option>
+					<?php foreach ( \Backupino\Notify\ChannelFactory::services() as $backupino_service => $backupino_service_label ) : ?>
+						<option value="<?php echo esc_attr( (string) $backupino_service ); ?>"
+							<?php selected( (string) $backupino_service, (string) $backupino_values['notify']['service'] ); ?>>
+							<?php echo esc_html( (string) $backupino_service_label ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+			</label>
+			<label>
+				<?php esc_html_e( 'Bot token', 'backupino' ); ?>
+				<input type="password" name="notify.token" autocomplete="off"
+					value="<?php echo esc_attr( (string) $backupino_values['notify']['token'] ); ?>">
+			</label>
+			<label>
+				<?php esc_html_e( 'Chat id', 'backupino' ); ?>
+				<input type="text" name="notify.chat_id"
+					value="<?php echo esc_attr( (string) $backupino_values['notify']['chat_id'] ); ?>">
+			</label>
+		</div>
+		<button type="button" class="button" id="backupino-notify-test">
+			<?php esc_html_e( 'Send test message', 'backupino' ); ?>
+		</button>
+		<p class="backupino-result" id="backupino-notify-result"></p>
+		<?php $backupino_queued = $plugin->notifier()->pending(); ?>
+		<?php if ( $backupino_queued > 0 ) : ?>
+			<p class="description">
+				<?php
+				echo esc_html(
+					sprintf(
+						/* translators: %d: number of queued messages. */
+						_n( '%d message is waiting to be resent on the next scheduled run.', '%d messages are waiting to be resent on the next scheduled run.', $backupino_queued, 'backupino' ),
+						$backupino_queued
+					)
+				);
+				?>
+			</p>
+		<?php endif; ?>
+
 		<h2><?php esc_html_e( 'Schedule', 'backupino' ); ?></h2>
 		<label class="backupino-check">
 			<input type="checkbox" name="schedule.enabled" <?php checked( (bool) $backupino_values['schedule']['enabled'] ); ?>>

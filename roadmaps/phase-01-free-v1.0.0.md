@@ -1,6 +1,6 @@
 # فاز ۱ — نسخهی رایگان `v1.0.0`
 
-> **Status:** 🔵 in-progress · **Progress:** ۲ از ۱۱ تسک (۱۸٪) · **Last updated:** 2026-10-31
+> **Status:** 🔵 in-progress · **Progress:** ۳ از ۱۱ تسک (۲۷٪) · **Last updated:** 2026-10-31
 > **هدف:** نسخهی رایگانِ کامل، سالم و قابل انتشار در WordPress.org — بدون هیچ کد تجاری.
 
 ---
@@ -19,7 +19,7 @@
 |---|---|---|---|
 | P1-T01 | جداسازی کد ابر از نسخهی رایگان | ✅ done | `pro/src/Storage/*`، `StorageManager` فیلترمحور، حذف فیلدهای S3 از تنظیمات |
 | P1-T02 | لینک دائمی دانلود «آخرین بکاپ» | ✅ done | `?backupino_download=latest&backupino_key=…` → ورود → دانلود، بدون انقضا |
-| P1-T03 | کانال اعلان تلگرام + بله (ربات شخصی) | ⚪ todo | توکن + chat_id در تنظیمات، دکمهی «ارسال آزمایشی»، صف تلاش مجدد |
+| P1-T03 | کانال اعلان تلگرام + بله (ربات شخصی) | ✅ done | `Notify\Notifier` + `BotApi`، گروه تنظیمات `notify`، دکمه‌ی «ارسال آزمایشی»، صف تلاش مجدد |
 | P1-T04 | بکاپ خودکار ماهانه (اول ماه) | ⚪ todo | شمسی برای `fa_IR`، میلادی برای بقیه؛ قابل خاموش کردن |
 | P1-T05 | بازنگری تنظیمات و UX | ⚪ todo | retention پیشفرض ۳، چکباکس opt-in خبر، حذف بقایای ابر از UI |
 | P1-T06 | i18n، RTL و اعداد لاتین | ⚪ todo | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس زبان سایت، نرمالسازی ارقام به لاتین |
@@ -64,12 +64,17 @@
 
 **تست‌ها:** `DownloadLinkTest` (۴) · `LatestPackageTest` (۳) · `AccessPolicyTest` (۵) — همه‌ی شاخه‌های تصمیم پوشش داده شده‌اند.
 
-### P1-T03 — اعلان تلگرام/بله
+### P1-T03 — اعلان تلگرام/بله ✅
 
-- `Notify\Channel` (اینترفیس)، `TelegramChannel` (base `https://api.telegram.org`)، `BaleChannel` (base `https://tapi.bale.ai`) — هر دو Bot API سازگار.
-- پیام: دامنه، نوع بکاپ، حجم، زمان، و **لینک دائمی**.
-- صف: در صورت خطای شبکه، در Job/آپشن ذخیره و در اجرای بعدی تلاش مجدد.
-- تست: ساخت payload، پارس پاسخ، صف تلاش مجدد (بدون شبکهی واقعی).
+- `Notify\ChannelFactory` سرویس را به یک ترنسپورت `Notify\BotApi` نگاشت می‌کند: تلگرام روی `https://api.telegram.org`، بله روی `https://tapi.bale.ai` — هر دو Bot API سازگار، پس یک کلاس کافی است.
+- گروه تنظیمات `notify` (`service`، `token`، `chat_id`) با مقدار پیش‌فرض `none`؛ سرویس نامعتبر در sanitize به `none` برمی‌گردد و توکن هرگز در خروجی REST/لاگ چاپ نمی‌شود.
+- پیام (`Notify\Message`): نام دامنه، محتوای بکاپ، حجم (`Bytes::format`)، زمان، و **لینک دائمی**؛ ارقام همیشه لاتین.
+- انتشار رویداد: `JobRunner` در آخرین مرحله `do_action( 'backupino_job_completed', $job )` را صدا می‌زند؛ `Plugin::notify_completed_job()` آن را به `Notifier::announce()` می‌دهد. شکست اعلان هرگز بکاپ را خراب نمی‌کند.
+- صف تلاش مجدد: آپشن `backupino_notify_queue` (حداکثر ۵ پیام، حداکثر ۳ تلاش)، در ابتدای هر `Cron\Scheduler::run_jobs()` فلاش می‌شود.
+- تست دستی: `POST /backupino/v1/notify/test` + دکمه‌ی «ارسال پیام آزمایشی» در تنظیمات (اول تنظیمات ذخیره، بعد ارسال) → `{sent, error}`.
+- راهنمای کاربر: `docs/Public/BOT-SETUP.md`.
+
+**تست‌ها:** `MessageTest` (۴) · `BotApiTest` (۶) · `QueueTest` (۴) · `NotifierTest` (۵) — همه با ترنسپورت جعلی، بدون شبکه.
 
 ### P1-T04 — بکاپ خودکار ماهانه
 

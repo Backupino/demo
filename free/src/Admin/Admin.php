@@ -109,6 +109,7 @@ final class Admin {
 					'confirm'  => __( 'Delete this package permanently?', 'backupino' ),
 					'saved'    => __( 'Settings saved.', 'backupino' ),
 					'copied'   => __( 'Link copied to the clipboard.', 'backupino' ),
+					'notified' => __( 'Test message sent.', 'backupino' ),
 				),
 			)
 		);

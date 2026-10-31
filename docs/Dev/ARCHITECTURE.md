@@ -24,6 +24,7 @@ Plugin (container)
  │    └── Jobs\Pipeline → Stages: Scan → Files → Database → Finalize
  ├── Storage\StorageManager → LocalStorage | S3Storage (S3\S3Client + S3\S3Signer)
  ├── Download\PublicDownload  (permanent link: key + login + latest package)
+ ├── Notify\Notifier → ChannelFactory → BotApi (telegram | bale) + Queue (retry)
  ├── Admin\Admin         (menu, assets, REST, admin download handler)
  ├── Cli\Commands        (wp backupino …)
  └── Cron\Scheduler + Retention
@@ -37,6 +38,8 @@ POST /jobs ─► Job(queued) ─► step() ─► ScanStage   → manifest.ndjs
                               step() ─► DatabaseStage → database.sql (append per tick)
                               step() ─► FinalizeStage → seal, hash, installer.php, upload
                                         └─► Job(completed) + payload.package
+                                        └─► do_action( 'backupino_job_completed' )
+                                              └─► Notify\Notifier → Telegram/Bale (+ retry queue)
 ```
 
 The browser (or cron, or CLI) simply keeps calling `step()` until the job reaches a terminal status.
