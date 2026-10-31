@@ -29,6 +29,39 @@ final class Str {
 	}
 
 	/**
+	 * Convert Persian and Arabic digits to Latin digits (0-9).
+	 *
+	 * @param mixed $value Input string or number.
+	 * @return string
+	 */
+	public static function latin_digits( $value ): string {
+		$value = (string) $value;
+
+		$persian = array( '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' );
+		$arabic  = array( '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩' );
+		$latin   = array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' );
+
+		return str_replace( $arabic, $latin, str_replace( $persian, $latin, $value ) );
+	}
+
+	/**
+	 * Format a number with Latin digits and optional decimal places.
+	 *
+	 * @param int|float|string $number   Number to format.
+	 * @param int              $decimals Decimals (default 0).
+	 * @return string
+	 */
+	public static function number( $number, int $decimals = 0 ): string {
+		if ( ! is_numeric( $number ) ) {
+			return self::latin_digits( (string) $number );
+		}
+
+		$formatted = number_format( (float) $number, $decimals, '.', ',' );
+
+		return self::latin_digits( $formatted );
+	}
+
+	/**
 	 * Ensure a trailing slash.
 	 *
 	 * @param string $path Path.

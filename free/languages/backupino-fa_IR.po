@@ -1,0 +1,656 @@
+# Persian translation for Backupino
+# Copyright (C) 2026 Backupino
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Backupino 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/backupino\n"
+"Last-Translator: Backupino Team <support@backupino.com>\n"
+"Language-Team: Persian <support@backupino.com>\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2026-10-31 23:59+0330\n"
+"X-Generator: Backupino i18n build tool\n"
+"X-Domain: backupino\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: free/src/Backup/Stages/ScanStage.php:80
+msgid "%1$s files found (%2$s)."
+msgstr "%1$s files found (%2$s)."
+
+#: free/src/Backup/Stages/DatabaseStage.php:91
+msgid "%1$s rows from %2$s tables (%3$s)."
+msgstr "%1$s rows from %2$s tables (%3$s)."
+
+#: free/backupino.php:1
+msgid "%d message is waiting to be resent on the next scheduled run."
+msgstr "%d پیام در صف انتظار برای ارسال مجدد در اجرای زمان‌بندی بعدی قرار دارد."
+
+#: free/templates/dashboard.php:121
+msgid "Actions"
+msgstr "عملیات"
+
+#: free/templates/settings.php:25
+msgid "Archive"
+msgstr "آرشیو"
+
+#: free/src/Installer/Env.php:73
+msgid "Archive checksum"
+msgstr "چک‌سام آرشیو"
+
+#: free/src/Installer/Env.php:66
+msgid "Archive file"
+msgstr "فایل آرشیو"
+
+#: free/src/Installer/Env.php:46
+msgid "Archive support"
+msgstr "پشتیبانی از آرشیو"
+
+#: free/src/Backup/Stages/FilesStage.php:36
+msgid "Archiving files"
+msgstr "Archiving files"
+
+#: free/templates/settings.php:118
+msgid "Automatic recurring backups trigger via WordPress cron. In Persian locale, monthly schedules automatically align with the start of the Jalali month."
+msgstr "پشتیبان‌گیری خودکار دوره‌ای از طریق کرون وردپرس انجام می‌شود. در زبان فارسی، زمان‌بندی‌های ماهانه به‌طور خودکار با ابتدای ماه شمسی همگام می‌گردند."
+
+#: free/templates/settings.php:20
+msgid "Back to backups"
+msgstr "بازگشت به پشتیبان‌ها"
+
+#: free/templates/settings.php:53
+msgid "Backup archives and standalone installers are stored locally in a secure, protected directory on your server."
+msgstr "آرشیوهای پشتیبان و اینستالرهای مستقل در یک دایرکتوری امن و محافظت‌شده روی سرور شما نگهداری می‌شوند."
+
+#: free/src/Admin/Admin.php:44
+#: free/src/Admin/Admin.php:45
+msgid "Backupino"
+msgstr "بک‌آپینو"
+
+#: free/templates/settings.php:69
+msgid "Backupino can announce every finished backup, with the permanent download link, in Telegram or Bale. The bot belongs to you: create one with @BotFather, then paste its token and your chat id here."
+msgstr "بک‌آپینو می‌تواند اتمام هر نسخه پشتیبان را به همراه لینک دائمی دانلود در تلگرام یا بله اطلاع‌رسانی کند. ربات متعلق به خودتان است: یکی در BotFather بسازید، سپس توکن و شناسه چت خود را اینجا قرار دهید."
+
+#: free/src/Plugin.php:200
+msgid "Backupino cannot run on this server:"
+msgstr "بک‌آپینو امکان اجرا روی این سرور را ندارد:"
+
+#: free/src/Core/Compatibility.php:47
+msgid "Backupino requires PHP %1$s or newer. This server runs PHP %2$s."
+msgstr "بک‌آپینو به PHP %1$s یا جدیدتر نیاز دارد. نسخه فعلی این سرور %2$s است."
+
+#: free/templates/settings.php:18
+msgid "Backupino settings"
+msgstr "تنظیمات بک‌آپینو"
+
+#: free/src/Notify/Message.php:66
+msgid "Backupino — backup finished: %s"
+msgstr "بک‌آپینو — پشتیبان‌گیری تکمیل شد: %s"
+
+#: free/src/Notify/Message.php:91
+msgid "Backupino — test message from %s"
+msgstr "بک‌آپینو — پیام آزمایشی از %s"
+
+#: free/src/Core/Activator.php:43
+#: free/src/Cron/Scheduler.php:60
+msgid "Backupino: every minute"
+msgstr "بک‌آپینو: هر دقیقه"
+
+#: free/src/Admin/Admin.php:55
+#: free/src/Admin/Admin.php:56
+#: free/templates/dashboard.php:19
+msgid "Backups"
+msgstr "پشتیبان‌ها"
+
+#: free/src/Notify/ChannelFactory.php:35
+msgid "Bale"
+msgstr "بله"
+
+#: free/templates/dashboard.php:57
+msgid "Before updating plugins"
+msgstr "قبل از به‌روزرسانی افزونه‌ها"
+
+#: free/templates/settings.php:87
+msgid "Bot token"
+msgstr "توکن ربات"
+
+#: free/src/Jobs/JobStatus.php:60
+msgid "Cancelled"
+msgstr "لغو شده"
+
+#: free/src/Jobs/JobRunner.php:231
+msgid "Cancelled by the user."
+msgstr "توسط کاربر لغو شد."
+
+#: free/templates/settings.php:92
+msgid "Chat id"
+msgstr "شناسه چت (Chat ID)"
+
+#: free/src/Jobs/JobStatus.php:56
+msgid "Completed"
+msgstr "تکمیل شده"
+
+#: free/templates/settings.php:143
+msgid "Configure preset credentials for the standalone migration installer generated with each backup."
+msgstr "تنظیم اطلاعات پیش‌فرض ورود برای اینستالر مهاجرت مستقل که همراه با هر پشتیبان تولید می‌شود."
+
+#: free/src/Notify/Message.php:68
+msgid "Contents: %s"
+msgstr "محتوا: %s"
+
+#: free/templates/dashboard.php:106
+msgid "Copy link"
+msgstr "کپی لینک"
+
+#: free/src/Backup/Stages/DatabaseStage.php:36
+msgid "Copying the database"
+msgstr "Copying the database"
+
+#: free/src/Backup/ZipArchiveWriter.php:103
+msgid "Could not add file to archive: %s"
+msgstr "افزودن فایل به آرشیو ممکن نبود: %s"
+
+#: free/src/Backup/ZipArchiveWriter.php:67
+msgid "Could not open the archive (error %d)."
+msgstr "امکان باز کردن آرشیو وجود نداشت (خطای %d)."
+
+#: free/src/Storage/LocalStorage.php:90
+msgid "Could not read the package file."
+msgstr "خواندن فایل بسته ممکن نبود."
+
+#: free/src/Storage/LocalStorage.php:97
+msgid "Could not write the package file."
+msgstr "نوشتن فایل بسته ممکن نبود."
+
+#: free/templates/dashboard.php:37
+msgid "Create a backup"
+msgstr "ایجاد پشتیبان"
+
+#: free/templates/dashboard.php:60
+msgid "Create backup"
+msgstr "ایجاد پشتیبان"
+
+#: free/templates/dashboard.php:117
+msgid "Created"
+msgstr "تاریخ ایجاد"
+
+#: free/src/Backup/Stages/DatabaseStage.php:53
+msgid "Database dump disabled."
+msgstr "Database dump disabled."
+
+#: free/src/Notify/Message.php:72
+msgid "Date: %s"
+msgstr "تاریخ: %s"
+
+#: free/templates/settings.php:151
+msgid "Default new URL (optional)"
+msgstr "آدرس اینترنتی جدید پیش‌فرض (اختیاری)"
+
+#: free/templates/dashboard.php:146
+msgid "Delete"
+msgstr "حذف"
+
+#: free/src/Admin/Admin.php:109
+msgid "Delete this package permanently?"
+msgstr "آیا این بسته برای همیشه حذف شود؟"
+
+#: free/templates/dashboard.php:71
+#: free/templates/settings.php:56
+msgid "Destination"
+msgstr "مقصد ذخیره‌سازی"
+
+#: free/templates/settings.php:76
+msgid "Disabled"
+msgstr "غیرفعال"
+
+#: free/src/Notify/Message.php:74
+msgid "Download (sign in as an administrator):"
+msgstr "دانلود (ورود به عنوان مدیر):"
+
+#: free/templates/dashboard.php:39
+msgid "Everything is packed into one archive plus a standalone installer that rebuilds the site on any empty server."
+msgstr "همه‌چیز در یک آرشیو به همراه اینستالر مستقل بسته‌بندی می‌شود که سایت را روی هر سرور خالی بازسازی می‌کند."
+
+#: free/templates/settings.php:35
+msgid "Examples: wp-content/uploads/2022/, *.mp4, node_modules/. Cache and backup folders are always skipped."
+msgstr "نمونه‌ها: wp-content/uploads/2022/، *.mp4، node_modules/. پوشه‌های کش و پشتیبان همواره مستثنی هستند."
+
+#: free/templates/settings.php:27
+msgid "Excluded paths and patterns (one per line)"
+msgstr "مسیرها و الگوهای مستثنی (هر خط یک مورد)"
+
+#: free/src/Jobs/JobStatus.php:58
+msgid "Failed"
+msgstr "ناموفق"
+
+#: free/src/Backup/Stages/FilesStage.php:69
+msgid "File archiving disabled."
+msgstr "File archiving disabled."
+
+#: free/src/Backup/ZipArchiveWriter.php:93
+msgid "File is not readable: %s"
+msgstr "فایل قابل خواندن نیست: %s"
+
+#: free/templates/settings.php:45
+msgid "Files packed per request"
+msgstr "تعداد فایل‌های بسته‌بندی در هر درخواست"
+
+#: free/src/Backup/Stages/FinalizeStage.php:39
+msgid "Finalizing the package"
+msgstr "Finalizing the package"
+
+#: free/src/Installer/Env.php:85
+msgid "Free disk space"
+msgstr "فضای خالی دیسک"
+
+#: free/templates/settings.php:126
+msgid "Frequency"
+msgstr "دوره تکرار"
+
+#: free/templates/dashboard.php:53
+msgid "Include database"
+msgstr "شامل پایگاه داده"
+
+#: free/templates/dashboard.php:49
+msgid "Include files"
+msgstr "شامل فایل‌ها"
+
+#: free/templates/settings.php:141
+msgid "Installer"
+msgstr "اینستالر"
+
+#: free/templates/settings.php:147
+msgid "Installer password (optional)"
+msgstr "رمز عبور اینستالر (اختیاری)"
+
+#: free/src/Admin/DownloadHandler.php:53
+msgid "Invalid file name."
+msgstr "نام فایل نامعتبر است."
+
+#: free/templates/dashboard.php:43
+msgid "JavaScript is required to build backups."
+msgstr "برای ایجاد پشتیبان، فعال بودن جاوااسکریپت الزامی است."
+
+#: free/templates/settings.php:136
+msgid "Keep at most (backups)"
+msgstr "حداکثر تعداد نگهداری (نسخه‌ها)"
+
+#: free/templates/dashboard.php:56
+msgid "Label (optional)"
+msgstr "برچسب (اختیاری)"
+
+#: free/src/Admin/Admin.php:111
+msgid "Link copied to the clipboard."
+msgstr "لینک در کلیپ‌بورد کپی شد."
+
+#: free/templates/settings.php:173
+msgid "Loading…"
+msgstr "در حال بارگذاری…"
+
+#: free/templates/dashboard.php:85
+msgid "Local folder: %s"
+msgstr "پوشه محلی: %s"
+
+#: free/templates/settings.php:73
+msgid "Messenger"
+msgstr "پیام‌رسان"
+
+#: free/templates/settings.php:128
+msgid "Monthly (first day of the month)"
+msgstr "ماهانه (روز اول هر ماه)"
+
+#: free/src/Installer/Env.php:52
+msgid "MySQL driver"
+msgstr "درایور MySQL"
+
+#: free/src/Core/Compatibility.php:64
+msgid "Neither the Zip extension nor PclZip is available, so archives cannot be created."
+msgstr "نه اکستنشن Zip و نه PclZip در دسترس نیستند؛ بنابراین امکان ایجاد آرشیو وجود ندارد."
+
+#: free/templates/dashboard.php:126
+msgid "No backups yet."
+msgstr "هنوز پشتیبانی وجود ندارد."
+
+#: free/src/Notify/Notifier.php:169
+msgid "No messenger is configured."
+msgstr "هیچ پیام‌رسانی تنظیم نشده است."
+
+#: free/templates/settings.php:67
+msgid "Notifications"
+msgstr "اعلان‌ها"
+
+#: free/src/Notify/Message.php:92
+msgid "Notifications are working. Backups will be announced here."
+msgstr "اعلان‌ها فعال هستند. گزارش پشتیبان‌گیری‌ها در اینجا اعلام خواهد شد."
+
+#: free/src/Cron/Scheduler.php:74
+msgid "Once monthly (first day of the month)"
+msgstr "ماهانه (روز اول هر ماه)"
+
+#: free/src/Cron/Scheduler.php:67
+msgid "Once weekly"
+msgstr "هفته‌ای یک‌بار"
+
+#: free/src/Core/Compatibility.php:98
+msgid "OpenSSL is missing: S3 uploads that require HTTPS signatures and encrypted packages will be unavailable."
+msgstr "اکستنشن OpenSSL وجود ندارد: بارگذاری‌های S3 که نیاز به امضای HTTPS و بسته‌های رمزگذاری‌شده دارند غیرفعال خواهند بود."
+
+#: free/src/Installer/Env.php:36
+msgid "PHP extension: %s"
+msgstr "اکستنشن PHP: %s"
+
+#: free/src/Core/Compatibility.php:82
+msgid "PHP memory limit is %s. Backups will run in small chunks, but 128M or more is recommended."
+msgstr "محدودیت حافظه PHP برابر با %s است. پشتیبان‌گیری در تکه‌های کوچک اجرا می‌شود، اما حداقل ۱۲۸ مگابایت توصیه می‌گردد."
+
+#: free/src/Installer/Env.php:29
+msgid "PHP version"
+msgstr "نسخه PHP"
+
+#: free/templates/dashboard.php:120
+msgid "Package"
+msgstr "بسته"
+
+#: free/src/Backup/Stages/FinalizeStage.php:125
+msgid "Package %1$s is ready (%2$s)."
+msgstr "Package %1$s is ready (%2$s)."
+
+#: free/src/Storage/LocalStorage.php:112
+msgid "Package not found."
+msgstr "بسته یافت نشد."
+
+#: free/templates/dashboard.php:76
+msgid "Packages are stored on: %s"
+msgstr "بسته‌ها ذخیره می‌شوند در: %s"
+
+#: free/src/Backup/Stages/FilesStage.php:122
+msgid "Packed %1$s of %2$s files (%3$s skipped, %4$s)."
+msgstr "Packed %1$s of %2$s files (%3$s skipped, %4$s)."
+
+#: free/templates/dashboard.php:98
+msgid "Permanent download link"
+msgstr "لینک دائمی دانلود"
+
+#: free/templates/dashboard.php:119
+msgid "Progress"
+msgstr "پیشرفت"
+
+#: free/src/Jobs/JobStatus.php:52
+msgid "Queued"
+msgstr "در صف"
+
+#: free/templates/settings.php:159
+msgid "Receive critical security notices, product updates, and roadmap announcements (opt-in)."
+msgstr "دریافت اطلاعیه‌های مهم امنیتی، به‌روزرسانی‌های محصول و اخبار نقشه راه (اختیاری)."
+
+#: free/templates/dashboard.php:113
+msgid "Recent backups"
+msgstr "پشتیبان‌های اخیر"
+
+#: free/templates/settings.php:122
+msgid "Run automatic backups"
+msgstr "اجرای خودکار پشتیبان‌گیری"
+
+#: free/src/Jobs/JobStatus.php:54
+msgid "Running"
+msgstr "در حال اجرا"
+
+#: free/templates/settings.php:166
+msgid "Save settings"
+msgstr "ذخیره تنظیمات"
+
+#: free/src/Backup/Stages/ScanStage.php:37
+msgid "Scanning files"
+msgstr "Scanning files"
+
+#: free/templates/settings.php:116
+msgid "Schedule"
+msgstr "زمان‌بندی"
+
+#: free/src/Cron/Scheduler.php:132
+msgid "Scheduled backup"
+msgstr "پشتیبان زمان‌بندی‌شده"
+
+#: free/src/Backup/Stages/FinalizeStage.php:74
+msgid "Sealing the archive…"
+msgstr "Sealing the archive…"
+
+#: free/templates/settings.php:98
+msgid "Send test message"
+msgstr "ارسال پیام آزمایشی"
+
+#: free/src/Admin/Admin.php:64
+#: free/src/Admin/Admin.php:65
+#: free/src/Admin/Admin.php:155
+#: free/templates/dashboard.php:21
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: free/src/Admin/Admin.php:110
+msgid "Settings saved."
+msgstr "تنظیمات ذخیره شد."
+
+#: free/src/Notify/Message.php:70
+msgid "Size: %s"
+msgstr "حجم: %s"
+
+#: free/templates/settings.php:40
+msgid "Skip files larger than (MB, 0 = no limit)"
+msgstr "صرف‌نظر از فایل‌های بزرگ‌تر از (مگابایت، 0 = بدون محدودیت)"
+
+#: free/src/Installer/Extractor.php:132
+msgid "Skipped unsafe entry: %s"
+msgstr "از ورودی ناامن صرف‌نظر شد: %s"
+
+#: free/src/Admin/Admin.php:106
+msgid "Starting…"
+msgstr "در حال شروع…"
+
+#: free/templates/dashboard.php:118
+msgid "Status"
+msgstr "وضعیت"
+
+#: free/templates/settings.php:51
+msgid "Storage"
+msgstr "فضای ذخیره‌سازی"
+
+#: free/src/Admin/RestController.php:403
+msgid "Storage is writable."
+msgstr "فضای ذخیره‌سازی قابل نوشتن است."
+
+#: free/templates/settings.php:172
+msgid "System status"
+msgstr "وضعیت سیستم"
+
+#: free/src/Notify/ChannelFactory.php:34
+msgid "Telegram"
+msgstr "تلگرام"
+
+#: free/src/Admin/Admin.php:112
+msgid "Test message sent."
+msgstr "پیام آزمایشی ارسال شد."
+
+#: free/templates/dashboard.php:91
+msgid "Test storage"
+msgstr "آزمایش ذخیره‌سازی"
+
+#: free/src/Core/Compatibility.php:57
+msgid "The PHP extension \"%s\" is required but not loaded."
+msgstr "اکستنشن PHP به نام \"%s\" الزامی است اما بارگذاری نشده است."
+
+#: free/src/Backup/Stages/DatabaseStage.php:69
+msgid "The SQL dump file could not be opened."
+msgstr "The SQL dump file could not be opened."
+
+#: free/src/Installer/Extractor.php:70
+msgid "The Zip extension is not available on this server."
+msgstr "اکستنشن Zip روی این سرور در دسترس نیست."
+
+#: free/src/Backup/ZipArchiveWriter.php:55
+msgid "The Zip extension is not available."
+msgstr "اکستنشن Zip در دسترس نیست."
+
+#: free/src/Installer/Extractor.php:84
+msgid "The archive cannot be opened. Is it complete?"
+msgstr "امکان باز کردن آرشیو وجود ندارد. آیا فایل کامل است؟"
+
+#: free/src/Backup/ZipArchiveWriter.php:155
+msgid "The archive could not be finalized."
+msgstr "آرشیو نهایی‌سازی نشد."
+
+#: free/src/Backup/Stages/FinalizeStage.php:81
+msgid "The archive could not be hashed."
+msgstr "The archive could not be hashed."
+
+#: free/src/Installer/Extractor.php:76
+msgid "The archive file is missing."
+msgstr "فایل آرشیو یافت نشد."
+
+#: free/src/Backup/ZipArchiveWriter.php:83
+#: free/src/Backup/ZipArchiveWriter.php:126
+msgid "The archive is not open."
+msgstr "آرشیو باز نیست."
+
+#: free/src/Notify/BotApi.php:129
+msgid "The bot token or chat id is missing."
+msgstr "توکن ربات یا شناسه چت تنظیم نشده است."
+
+#: free/src/Installer/ConnectionManager.php:78
+msgid "The database could not be created: %s"
+msgstr "امکان ایجاد دیتابیس وجود نداشت: %s"
+
+#: free/src/Backup/Stages/FinalizeStage.php:95
+msgid "The installer file could not be generated."
+msgstr "The installer file could not be generated."
+
+#: free/src/Admin/Admin.php:108
+msgid "The job failed."
+msgstr "عملیات با شکست مواجه شد."
+
+#: free/src/Notify/BotApi.php:163
+msgid "The messenger answered with HTTP %d."
+msgstr "پیام‌رسان با کد وضعیت HTTP %d پاسخ داد."
+
+#: free/src/Notify/BotApi.php:171
+msgid "The messenger rejected the message."
+msgstr "پیام‌رسان پیام را رد کرد."
+
+#: free/src/Support/Fs.php:214
+msgid "The requested file does not exist."
+msgstr "فایل درخواستی وجود ندارد."
+
+#: free/src/Download/PublicDownload.php:69
+msgid "There is no backup ready to download yet."
+msgstr "هنوز نسخه پشتیبانی آماده دانلود نیست."
+
+#: free/src/Notify/BotApi.php:135
+msgid "There is nothing to send."
+msgstr "پیامی برای ارسال وجود ندارد."
+
+#: free/src/Download/PublicDownload.php:61
+msgid "This download link is not valid."
+msgstr "این لینک دانلود معتبر نیست."
+
+#: free/templates/dashboard.php:100
+msgid "This link always points at the newest backup. It never expires, but the visitor must be signed in as an administrator before the download starts."
+msgstr "این لینک همیشه به جدیدترین نسخه پشتیبان اشاره دارد. تاریخ انقضا ندارد، اما پیش از آغاز دانلود باید به عنوان مدیر وارد شده باشید."
+
+#: free/src/Admin/DownloadHandler.php:59
+msgid "This package no longer exists on the server."
+msgstr "این بسته دیگر روی سرور موجود نیست."
+
+#: free/src/Storage/LocalStorage.php:53
+msgid "This server"
+msgstr "همین سرور"
+
+#: free/src/Jobs/JobRunner.php:137
+msgid "Unknown pipeline stage."
+msgstr "مرحله پایپ‌لاین نامشخص است."
+
+#: free/templates/settings.php:156
+msgid "Updates & Community"
+msgstr "به‌روزرسانی‌ها و جامعه کاربری"
+
+#: free/src/Backup/Stages/FinalizeStage.php:248
+msgid "Upload failed: %s"
+msgstr "Upload failed: %s"
+
+#: free/templates/settings.php:162
+msgid "We respect your privacy. No telemetry or personal data is collected or sent without your explicit consent."
+msgstr "ما به حریم خصوصی شما احترام می‌گذاریم. هیچ داده آماری یا شخصی بدون رضایت صریح شما جمع‌آوری یا ارسال نمی‌شود."
+
+#: free/src/Admin/Admin.php:107
+msgid "Working…"
+msgstr "در حال پردازش…"
+
+#: free/src/Installer/Env.php:58
+msgid "Writable directory"
+msgstr "دایرکتوری با دسترسی نوشتن"
+
+#: free/src/Admin/DownloadHandler.php:47
+msgid "You are not allowed to download backups."
+msgstr "شما دسترسی لازم برای دانلود پشتیبان‌ها را ندارید."
+
+#: free/src/Admin/Admin.php:125
+#: free/src/Admin/Admin.php:138
+msgid "You are not allowed to manage backups."
+msgstr "شما دسترسی لازم برای مدیریت پشتیبان‌ها را ندارید."
+
+#: free/src/Installer/Env.php:48
+msgid "ZipArchive available"
+msgstr "ZipArchive در دسترس است"
+
+#: free/src/Installer/Env.php:48
+msgid "ZipArchive missing"
+msgstr "ZipArchive یافت نشد"
+
+#: free/src/Notify/Notifier.php:131
+msgid "database only"
+msgstr "فقط پایگاه داده"
+
+#: free/src/Notify/Notifier.php:129
+msgid "files and database"
+msgstr "فایل‌ها و پایگاه داده"
+
+#: free/src/Notify/Notifier.php:133
+msgid "files only"
+msgstr "فقط فایل‌ها"
+
+#: free/src/Installer/Env.php:38
+msgid "loaded"
+msgstr "فعال"
+
+#: free/src/Core/Compatibility.php:92
+msgid "max_execution_time is %d seconds. Long steps will be split automatically."
+msgstr "مقدار max_execution_time برابر با %d ثانیه است. مراحل طولانی به‌طور خودکار خرد می‌شوند."
+
+#: free/src/Core/Compatibility.php:102
+msgid "mbstring is missing: multibyte site titles may be truncated on URL replacement."
+msgstr "اکستنشن mbstring وجود ندارد: عناوین چندبایتی سایت ممکن است هنگام بازنویسی آدرس‌ها ناقص شوند."
+
+#: free/src/Installer/Env.php:38
+msgid "missing"
+msgstr "یافت نشد"
+
+#: free/src/Installer/Env.php:87
+msgid "needed"
+msgstr "مورد نیاز"
+
+#: free/src/Installer/Env.php:54
+msgid "none"
+msgstr "هیچ"
+
+#: free/src/Installer/Env.php:68
+msgid "not found: %s"
+msgstr "یافت نشد: %s"
+
+#: free/src/Installer/Env.php:87
+msgid "unknown"
+msgstr "نامشخص"
+
+#: free/src/Installer/Env.php:75
+msgid "verified against the package manifest"
+msgstr "تایید شده بر اساس مانیفست بسته"
+

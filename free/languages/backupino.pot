@@ -1,0 +1,654 @@
+# Copyright (C) 2026 Backupino
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Backupino 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/backupino\n"
+"Last-Translator: Backupino Team <support@backupino.com>\n"
+"Language-Team: English <support@backupino.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-31T23:59:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: Backupino i18n build tool\n"
+"X-Domain: backupino\n"
+
+#: free/src/Backup/Stages/ScanStage.php:80
+msgid "%1$s files found (%2$s)."
+msgstr ""
+
+#: free/src/Backup/Stages/DatabaseStage.php:91
+msgid "%1$s rows from %2$s tables (%3$s)."
+msgstr ""
+
+#: free/backupino.php:1
+msgid "%d message is waiting to be resent on the next scheduled run."
+msgstr ""
+
+#: free/templates/dashboard.php:121
+msgid "Actions"
+msgstr ""
+
+#: free/templates/settings.php:25
+msgid "Archive"
+msgstr ""
+
+#: free/src/Installer/Env.php:73
+msgid "Archive checksum"
+msgstr ""
+
+#: free/src/Installer/Env.php:66
+msgid "Archive file"
+msgstr ""
+
+#: free/src/Installer/Env.php:46
+msgid "Archive support"
+msgstr ""
+
+#: free/src/Backup/Stages/FilesStage.php:36
+msgid "Archiving files"
+msgstr ""
+
+#: free/templates/settings.php:118
+msgid "Automatic recurring backups trigger via WordPress cron. In Persian locale, monthly schedules automatically align with the start of the Jalali month."
+msgstr ""
+
+#: free/templates/settings.php:20
+msgid "Back to backups"
+msgstr ""
+
+#: free/templates/settings.php:53
+msgid "Backup archives and standalone installers are stored locally in a secure, protected directory on your server."
+msgstr ""
+
+#: free/src/Admin/Admin.php:44
+#: free/src/Admin/Admin.php:45
+msgid "Backupino"
+msgstr ""
+
+#: free/templates/settings.php:69
+msgid "Backupino can announce every finished backup, with the permanent download link, in Telegram or Bale. The bot belongs to you: create one with @BotFather, then paste its token and your chat id here."
+msgstr ""
+
+#: free/src/Plugin.php:200
+msgid "Backupino cannot run on this server:"
+msgstr ""
+
+#: free/src/Core/Compatibility.php:47
+msgid "Backupino requires PHP %1$s or newer. This server runs PHP %2$s."
+msgstr ""
+
+#: free/templates/settings.php:18
+msgid "Backupino settings"
+msgstr ""
+
+#: free/src/Notify/Message.php:66
+msgid "Backupino — backup finished: %s"
+msgstr ""
+
+#: free/src/Notify/Message.php:91
+msgid "Backupino — test message from %s"
+msgstr ""
+
+#: free/src/Core/Activator.php:43
+#: free/src/Cron/Scheduler.php:60
+msgid "Backupino: every minute"
+msgstr ""
+
+#: free/src/Admin/Admin.php:55
+#: free/src/Admin/Admin.php:56
+#: free/templates/dashboard.php:19
+msgid "Backups"
+msgstr ""
+
+#: free/src/Notify/ChannelFactory.php:35
+msgid "Bale"
+msgstr ""
+
+#: free/templates/dashboard.php:57
+msgid "Before updating plugins"
+msgstr ""
+
+#: free/templates/settings.php:87
+msgid "Bot token"
+msgstr ""
+
+#: free/src/Jobs/JobStatus.php:60
+msgid "Cancelled"
+msgstr ""
+
+#: free/src/Jobs/JobRunner.php:231
+msgid "Cancelled by the user."
+msgstr ""
+
+#: free/templates/settings.php:92
+msgid "Chat id"
+msgstr ""
+
+#: free/src/Jobs/JobStatus.php:56
+msgid "Completed"
+msgstr ""
+
+#: free/templates/settings.php:143
+msgid "Configure preset credentials for the standalone migration installer generated with each backup."
+msgstr ""
+
+#: free/src/Notify/Message.php:68
+msgid "Contents: %s"
+msgstr ""
+
+#: free/templates/dashboard.php:106
+msgid "Copy link"
+msgstr ""
+
+#: free/src/Backup/Stages/DatabaseStage.php:36
+msgid "Copying the database"
+msgstr ""
+
+#: free/src/Backup/ZipArchiveWriter.php:103
+msgid "Could not add file to archive: %s"
+msgstr ""
+
+#: free/src/Backup/ZipArchiveWriter.php:67
+msgid "Could not open the archive (error %d)."
+msgstr ""
+
+#: free/src/Storage/LocalStorage.php:90
+msgid "Could not read the package file."
+msgstr ""
+
+#: free/src/Storage/LocalStorage.php:97
+msgid "Could not write the package file."
+msgstr ""
+
+#: free/templates/dashboard.php:37
+msgid "Create a backup"
+msgstr ""
+
+#: free/templates/dashboard.php:60
+msgid "Create backup"
+msgstr ""
+
+#: free/templates/dashboard.php:117
+msgid "Created"
+msgstr ""
+
+#: free/src/Backup/Stages/DatabaseStage.php:53
+msgid "Database dump disabled."
+msgstr ""
+
+#: free/src/Notify/Message.php:72
+msgid "Date: %s"
+msgstr ""
+
+#: free/templates/settings.php:151
+msgid "Default new URL (optional)"
+msgstr ""
+
+#: free/templates/dashboard.php:146
+msgid "Delete"
+msgstr ""
+
+#: free/src/Admin/Admin.php:109
+msgid "Delete this package permanently?"
+msgstr ""
+
+#: free/templates/dashboard.php:71
+#: free/templates/settings.php:56
+msgid "Destination"
+msgstr ""
+
+#: free/templates/settings.php:76
+msgid "Disabled"
+msgstr ""
+
+#: free/src/Notify/Message.php:74
+msgid "Download (sign in as an administrator):"
+msgstr ""
+
+#: free/templates/dashboard.php:39
+msgid "Everything is packed into one archive plus a standalone installer that rebuilds the site on any empty server."
+msgstr ""
+
+#: free/templates/settings.php:35
+msgid "Examples: wp-content/uploads/2022/, *.mp4, node_modules/. Cache and backup folders are always skipped."
+msgstr ""
+
+#: free/templates/settings.php:27
+msgid "Excluded paths and patterns (one per line)"
+msgstr ""
+
+#: free/src/Jobs/JobStatus.php:58
+msgid "Failed"
+msgstr ""
+
+#: free/src/Backup/Stages/FilesStage.php:69
+msgid "File archiving disabled."
+msgstr ""
+
+#: free/src/Backup/ZipArchiveWriter.php:93
+msgid "File is not readable: %s"
+msgstr ""
+
+#: free/templates/settings.php:45
+msgid "Files packed per request"
+msgstr ""
+
+#: free/src/Backup/Stages/FinalizeStage.php:39
+msgid "Finalizing the package"
+msgstr ""
+
+#: free/src/Installer/Env.php:85
+msgid "Free disk space"
+msgstr ""
+
+#: free/templates/settings.php:126
+msgid "Frequency"
+msgstr ""
+
+#: free/templates/dashboard.php:53
+msgid "Include database"
+msgstr ""
+
+#: free/templates/dashboard.php:49
+msgid "Include files"
+msgstr ""
+
+#: free/templates/settings.php:141
+msgid "Installer"
+msgstr ""
+
+#: free/templates/settings.php:147
+msgid "Installer password (optional)"
+msgstr ""
+
+#: free/src/Admin/DownloadHandler.php:53
+msgid "Invalid file name."
+msgstr ""
+
+#: free/templates/dashboard.php:43
+msgid "JavaScript is required to build backups."
+msgstr ""
+
+#: free/templates/settings.php:136
+msgid "Keep at most (backups)"
+msgstr ""
+
+#: free/templates/dashboard.php:56
+msgid "Label (optional)"
+msgstr ""
+
+#: free/src/Admin/Admin.php:111
+msgid "Link copied to the clipboard."
+msgstr ""
+
+#: free/templates/settings.php:173
+msgid "Loading…"
+msgstr ""
+
+#: free/templates/dashboard.php:85
+msgid "Local folder: %s"
+msgstr ""
+
+#: free/templates/settings.php:73
+msgid "Messenger"
+msgstr ""
+
+#: free/templates/settings.php:128
+msgid "Monthly (first day of the month)"
+msgstr ""
+
+#: free/src/Installer/Env.php:52
+msgid "MySQL driver"
+msgstr ""
+
+#: free/src/Core/Compatibility.php:64
+msgid "Neither the Zip extension nor PclZip is available, so archives cannot be created."
+msgstr ""
+
+#: free/templates/dashboard.php:126
+msgid "No backups yet."
+msgstr ""
+
+#: free/src/Notify/Notifier.php:169
+msgid "No messenger is configured."
+msgstr ""
+
+#: free/templates/settings.php:67
+msgid "Notifications"
+msgstr ""
+
+#: free/src/Notify/Message.php:92
+msgid "Notifications are working. Backups will be announced here."
+msgstr ""
+
+#: free/src/Cron/Scheduler.php:74
+msgid "Once monthly (first day of the month)"
+msgstr ""
+
+#: free/src/Cron/Scheduler.php:67
+msgid "Once weekly"
+msgstr ""
+
+#: free/src/Core/Compatibility.php:98
+msgid "OpenSSL is missing: S3 uploads that require HTTPS signatures and encrypted packages will be unavailable."
+msgstr ""
+
+#: free/src/Installer/Env.php:36
+msgid "PHP extension: %s"
+msgstr ""
+
+#: free/src/Core/Compatibility.php:82
+msgid "PHP memory limit is %s. Backups will run in small chunks, but 128M or more is recommended."
+msgstr ""
+
+#: free/src/Installer/Env.php:29
+msgid "PHP version"
+msgstr ""
+
+#: free/templates/dashboard.php:120
+msgid "Package"
+msgstr ""
+
+#: free/src/Backup/Stages/FinalizeStage.php:125
+msgid "Package %1$s is ready (%2$s)."
+msgstr ""
+
+#: free/src/Storage/LocalStorage.php:112
+msgid "Package not found."
+msgstr ""
+
+#: free/templates/dashboard.php:76
+msgid "Packages are stored on: %s"
+msgstr ""
+
+#: free/src/Backup/Stages/FilesStage.php:122
+msgid "Packed %1$s of %2$s files (%3$s skipped, %4$s)."
+msgstr ""
+
+#: free/templates/dashboard.php:98
+msgid "Permanent download link"
+msgstr ""
+
+#: free/templates/dashboard.php:119
+msgid "Progress"
+msgstr ""
+
+#: free/src/Jobs/JobStatus.php:52
+msgid "Queued"
+msgstr ""
+
+#: free/templates/settings.php:159
+msgid "Receive critical security notices, product updates, and roadmap announcements (opt-in)."
+msgstr ""
+
+#: free/templates/dashboard.php:113
+msgid "Recent backups"
+msgstr ""
+
+#: free/templates/settings.php:122
+msgid "Run automatic backups"
+msgstr ""
+
+#: free/src/Jobs/JobStatus.php:54
+msgid "Running"
+msgstr ""
+
+#: free/templates/settings.php:166
+msgid "Save settings"
+msgstr ""
+
+#: free/src/Backup/Stages/ScanStage.php:37
+msgid "Scanning files"
+msgstr ""
+
+#: free/templates/settings.php:116
+msgid "Schedule"
+msgstr ""
+
+#: free/src/Cron/Scheduler.php:132
+msgid "Scheduled backup"
+msgstr ""
+
+#: free/src/Backup/Stages/FinalizeStage.php:74
+msgid "Sealing the archive…"
+msgstr ""
+
+#: free/templates/settings.php:98
+msgid "Send test message"
+msgstr ""
+
+#: free/src/Admin/Admin.php:64
+#: free/src/Admin/Admin.php:65
+#: free/src/Admin/Admin.php:155
+#: free/templates/dashboard.php:21
+msgid "Settings"
+msgstr ""
+
+#: free/src/Admin/Admin.php:110
+msgid "Settings saved."
+msgstr ""
+
+#: free/src/Notify/Message.php:70
+msgid "Size: %s"
+msgstr ""
+
+#: free/templates/settings.php:40
+msgid "Skip files larger than (MB, 0 = no limit)"
+msgstr ""
+
+#: free/src/Installer/Extractor.php:132
+msgid "Skipped unsafe entry: %s"
+msgstr ""
+
+#: free/src/Admin/Admin.php:106
+msgid "Starting…"
+msgstr ""
+
+#: free/templates/dashboard.php:118
+msgid "Status"
+msgstr ""
+
+#: free/templates/settings.php:51
+msgid "Storage"
+msgstr ""
+
+#: free/src/Admin/RestController.php:403
+msgid "Storage is writable."
+msgstr ""
+
+#: free/templates/settings.php:172
+msgid "System status"
+msgstr ""
+
+#: free/src/Notify/ChannelFactory.php:34
+msgid "Telegram"
+msgstr ""
+
+#: free/src/Admin/Admin.php:112
+msgid "Test message sent."
+msgstr ""
+
+#: free/templates/dashboard.php:91
+msgid "Test storage"
+msgstr ""
+
+#: free/src/Core/Compatibility.php:57
+msgid "The PHP extension \"%s\" is required but not loaded."
+msgstr ""
+
+#: free/src/Backup/Stages/DatabaseStage.php:69
+msgid "The SQL dump file could not be opened."
+msgstr ""
+
+#: free/src/Installer/Extractor.php:70
+msgid "The Zip extension is not available on this server."
+msgstr ""
+
+#: free/src/Backup/ZipArchiveWriter.php:55
+msgid "The Zip extension is not available."
+msgstr ""
+
+#: free/src/Installer/Extractor.php:84
+msgid "The archive cannot be opened. Is it complete?"
+msgstr ""
+
+#: free/src/Backup/ZipArchiveWriter.php:155
+msgid "The archive could not be finalized."
+msgstr ""
+
+#: free/src/Backup/Stages/FinalizeStage.php:81
+msgid "The archive could not be hashed."
+msgstr ""
+
+#: free/src/Installer/Extractor.php:76
+msgid "The archive file is missing."
+msgstr ""
+
+#: free/src/Backup/ZipArchiveWriter.php:83
+#: free/src/Backup/ZipArchiveWriter.php:126
+msgid "The archive is not open."
+msgstr ""
+
+#: free/src/Notify/BotApi.php:129
+msgid "The bot token or chat id is missing."
+msgstr ""
+
+#: free/src/Installer/ConnectionManager.php:78
+msgid "The database could not be created: %s"
+msgstr ""
+
+#: free/src/Backup/Stages/FinalizeStage.php:95
+msgid "The installer file could not be generated."
+msgstr ""
+
+#: free/src/Admin/Admin.php:108
+msgid "The job failed."
+msgstr ""
+
+#: free/src/Notify/BotApi.php:163
+msgid "The messenger answered with HTTP %d."
+msgstr ""
+
+#: free/src/Notify/BotApi.php:171
+msgid "The messenger rejected the message."
+msgstr ""
+
+#: free/src/Support/Fs.php:214
+msgid "The requested file does not exist."
+msgstr ""
+
+#: free/src/Download/PublicDownload.php:69
+msgid "There is no backup ready to download yet."
+msgstr ""
+
+#: free/src/Notify/BotApi.php:135
+msgid "There is nothing to send."
+msgstr ""
+
+#: free/src/Download/PublicDownload.php:61
+msgid "This download link is not valid."
+msgstr ""
+
+#: free/templates/dashboard.php:100
+msgid "This link always points at the newest backup. It never expires, but the visitor must be signed in as an administrator before the download starts."
+msgstr ""
+
+#: free/src/Admin/DownloadHandler.php:59
+msgid "This package no longer exists on the server."
+msgstr ""
+
+#: free/src/Storage/LocalStorage.php:53
+msgid "This server"
+msgstr ""
+
+#: free/src/Jobs/JobRunner.php:137
+msgid "Unknown pipeline stage."
+msgstr ""
+
+#: free/templates/settings.php:156
+msgid "Updates & Community"
+msgstr ""
+
+#: free/src/Backup/Stages/FinalizeStage.php:248
+msgid "Upload failed: %s"
+msgstr ""
+
+#: free/templates/settings.php:162
+msgid "We respect your privacy. No telemetry or personal data is collected or sent without your explicit consent."
+msgstr ""
+
+#: free/src/Admin/Admin.php:107
+msgid "Working…"
+msgstr ""
+
+#: free/src/Installer/Env.php:58
+msgid "Writable directory"
+msgstr ""
+
+#: free/src/Admin/DownloadHandler.php:47
+msgid "You are not allowed to download backups."
+msgstr ""
+
+#: free/src/Admin/Admin.php:125
+#: free/src/Admin/Admin.php:138
+msgid "You are not allowed to manage backups."
+msgstr ""
+
+#: free/src/Installer/Env.php:48
+msgid "ZipArchive available"
+msgstr ""
+
+#: free/src/Installer/Env.php:48
+msgid "ZipArchive missing"
+msgstr ""
+
+#: free/src/Notify/Notifier.php:131
+msgid "database only"
+msgstr ""
+
+#: free/src/Notify/Notifier.php:129
+msgid "files and database"
+msgstr ""
+
+#: free/src/Notify/Notifier.php:133
+msgid "files only"
+msgstr ""
+
+#: free/src/Installer/Env.php:38
+msgid "loaded"
+msgstr ""
+
+#: free/src/Core/Compatibility.php:92
+msgid "max_execution_time is %d seconds. Long steps will be split automatically."
+msgstr ""
+
+#: free/src/Core/Compatibility.php:102
+msgid "mbstring is missing: multibyte site titles may be truncated on URL replacement."
+msgstr ""
+
+#: free/src/Installer/Env.php:38
+msgid "missing"
+msgstr ""
+
+#: free/src/Installer/Env.php:87
+msgid "needed"
+msgstr ""
+
+#: free/src/Installer/Env.php:54
+msgid "none"
+msgstr ""
+
+#: free/src/Installer/Env.php:68
+msgid "not found: %s"
+msgstr ""
+
+#: free/src/Installer/Env.php:87
+msgid "unknown"
+msgstr ""
+
+#: free/src/Installer/Env.php:75
+msgid "verified against the package manifest"
+msgstr ""
+

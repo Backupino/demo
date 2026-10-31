@@ -87,6 +87,7 @@
 .backupino-table td,
 .backupino-table th {
 	vertical-align: middle;
+	text-align: start;
 }
 
 .backupino-status {
@@ -114,7 +115,7 @@
 }
 
 .backupino-result {
-	margin-left: 8px;
+	margin-inline-start: 8px;
 	font-size: 12px;
 }
 
@@ -135,11 +136,8 @@
 	max-height: 260px;
 	overflow: auto;
 	white-space: pre-wrap;
-}
-
-body.rtl .backupino-result {
-	margin-left: 0;
-	margin-right: 8px;
+	direction: ltr;
+	text-align: left;
 }
 
 .hidden {

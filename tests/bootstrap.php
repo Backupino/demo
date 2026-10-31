@@ -337,3 +337,41 @@ if ( ! function_exists( 'wp_upload_dir' ) ) {
 		);
 	}
 }
+
+
+if ( ! function_exists( 'load_plugin_textdomain' ) ) {
+	/**
+	 * Textdomain loader shim.
+	 *
+	 * @param string      $domain          Domain.
+	 * @param string|bool $deprecated      Deprecated.
+	 * @param string|bool $plugin_rel_path Relative path.
+	 * @return bool
+	 */
+	function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path = false ) {
+		$GLOBALS['backupino_textdomains'][ $domain ] = $plugin_rel_path;
+		return true;
+	}
+}
+
+if ( ! function_exists( 'is_rtl' ) ) {
+	/**
+	 * RTL check shim.
+	 *
+	 * @return bool
+	 */
+	function is_rtl() {
+		return ! empty( $GLOBALS['backupino_is_rtl'] );
+	}
+}
+
+if ( ! function_exists( 'get_locale' ) ) {
+	/**
+	 * Locale getter shim.
+	 *
+	 * @return string
+	 */
+	function get_locale() {
+		return $GLOBALS['backupino_locale'] ?? 'en_US';
+	}
+}

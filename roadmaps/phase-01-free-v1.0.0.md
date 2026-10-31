@@ -1,6 +1,6 @@
 # فاز ۱ — نسخهی رایگان `v1.0.0`
 
-> **Status:** 🔵 in-progress · **Progress:** ۶ از ۱۱ تسک (۵۵٪) · **Last updated:** 2026-10-31
+> **Status:** 🔵 in-progress · **Progress:** ۷ از ۱۱ تسک (۶۴٪) · **Last updated:** 2026-11-01
 > **هدف:** نسخهی رایگانِ کامل، سالم و قابل انتشار در WordPress.org — بدون هیچ کد تجاری.
 
 ---
@@ -22,7 +22,7 @@
 | P1-T03 | کانال اعلان تلگرام + بله (ربات شخصی) | ✅ done | `Notify\Notifier` + `BotApi`، گروه تنظیمات `notify`، دکمه‌ی «ارسال آزمایشی»، صف تلاش مجدد |
 | P1-T04 | بکاپ خودکار ماهانه (اول ماه) | ✅ done | شمسی برای `fa_IR`، میلادی برای بقیه؛ زمانبندی اول ماه با `Dates`؛ `SchedulerTest` (۴ سبز) |
 | P1-T05 | بازنگری تنظیمات و UX | ✅ done | retention پیشفرض ۳، چکباکس opt-in اخبار، حذف بقایای ابر از UI |
-| P1-T06 | i18n، RTL و اعداد لاتین | ⚪ todo | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس زبان سایت، نرمالسازی ارقام به لاتین |
+| P1-T06 | i18n، RTL و اعداد لاتین | ✅ done | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس ویژگی‌های منطقی، نرمالسازی ارقام به لاتین با `Str` |
 | P1-T07 | بستهبندی انتشار | ⚪ todo | `bin/build-release.php` → `releases/backupino-x.y.z.zip` بدون `pro/tests/docs/tools` |
 | P1-T08 | بازبینی امنیتی و QA | ⚪ todo | ماتریس PHP 7.4–8.4، WP 6.0/6.8، تست روی نصب واقعی، چکلیست امنیتی |
 | P1-T09 | مستندات عمومی + CHANGELOG | ⚪ todo | `docs/Public/*`، `CHANGELOG.md`، `readme.txt` نهایی با External services |
@@ -89,13 +89,14 @@
 - تمیزکاری رابط کاربری تنظیمات: حذف استایل‌های جا مانده S3 از `admin.css` و شفاف‌سازی توضیحات مقصد ذخیره‌سازی محلی در برابر کلود.
 - تست‌ها: اضافه شدن تست‌های واحد به `SettingsTest`.
 
-### P1-T06 — i18n، RTL و اعداد لاتین
+### P1-T06 — i18n، RTL و اعداد لاتین ✅
 
-- همهی رشتهها با text domain `backupino`؛ هیچ متن هاردکد فارسی/انگلیسی در منطق.
-- `.pot` در `free/languages/` و ترجمهی کامل `fa_IR` با `dir="rtl"`.
-- `Support\Str::number()` و `Str::latin_digits()`: تبدیل ارقام فارسی/عربی به لاتین در نمایش **و** در ورودی فرم.
-- CSS منطقی (`margin-inline-*`, `text-align: start`) تا RTL/LTR هر دو درست بمانند.
-- تست: هر خروجی عددی فقط `0-9` داشته باشد؛ `is_rtl()` در `fa_IR` صادق باشد.
+- ثبت و فراخوانی خودکار `load_plugin_textdomain` در متد `Plugin::boot()`.
+- پیاده‌سازی متدهای `Str::latin_digits()` و `Str::number()` جهت تضمین ارقام انگلیسی در همه‌ی فرمت‌ها.
+- تولید خودکار کاتالوگ پوسته `backupino.pot` با ۱۵۷ رشته استخراج‌شده از کد.
+- ایجاد فایل ترجمه کامل فارسی `backupino-fa_IR.po` و کامپایل نسخه باینری `backupino-fa_IR.mo` با اسکریپت داخلی `bin/build-i18n.php`.
+- بازنویسی استایل‌های پیشخوان ادمین در `admin.css` با ویژگی‌های منطقی (`margin-inline-start`, `text-align: start`, `direction: ltr` برای لاگ‌ها).
+- تست‌ها: اضافه شدن `StrTest` و `I18nTest` (همه پاس).
 
 ### P1-T11 — تقویم شمسی/میلادی ✅
 

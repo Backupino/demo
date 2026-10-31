@@ -154,6 +154,8 @@ final class Plugin {
 	 * @return void
 	 */
 	public function boot(): void {
+		$this->load_textdomain();
+
 		if ( Compatibility::is_supported() ) {
 			( new Admin() )->register();
 			( new Scheduler( $this ) )->register();
@@ -166,6 +168,19 @@ final class Plugin {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			Commands::register( $this );
 		}
+	}
+
+	/**
+	 * Load plugin textdomain for translations.
+	 *
+	 * @return void
+	 */
+	public function load_textdomain(): void {
+		load_plugin_textdomain(
+			'backupino',
+			false,
+			dirname( plugin_basename( BACKUPINO_FILE ) ) . '/languages'
+		);
 	}
 
 	/**
