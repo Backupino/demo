@@ -189,6 +189,18 @@ final class ReplacerTest extends TestCase {
 			'https://new.test/a && http://new.test/a && https://new.test/a',
 			$replacer->text( 'https://www.old.test/a && http://www.old.test/a && https://old.test/a' )
 		);
+
+		// JSON-escaped slashes
+		$this->assertSame(
+			'https:\/\/new.test\/path',
+			$replacer->text( 'https:\/\/www.old.test\/path' )
+		);
+
+		// URL-encoded in query/attribute
+		$this->assertSame(
+			rawurlencode( 'https://new.test' ) . '%2F%D8%AA%D9%85%D8%A7%D8%B3',
+			$replacer->text( rawurlencode( 'https://www.old.test' ) . '%2F%D8%AA%D9%85%D8%A7%D8%B3' )
+		);
 	}
 
 	/**
