@@ -160,6 +160,7 @@ final class Plugin {
 		if ( Compatibility::is_supported() ) {
 			( new Admin() )->register();
 			( new Scheduler( $this ) )->register();
+			( new \Backupino\Core\Updater() )->register();
 			PublicDownload::register();
 			add_action( 'backupino_job_completed', array( $this, 'notify_completed_job' ) );
 		} else {

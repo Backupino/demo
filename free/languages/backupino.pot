@@ -128,11 +128,14 @@ msgstr ""
 msgid "Backup in Progress"
 msgstr ""
 
-#: free/src/Admin/Admin.php:45
 #: free/src/Admin/Admin.php:46
 #: free/templates/dashboard.php:34
 #: free/templates/settings.php:63
 msgid "Backupino"
+msgstr ""
+
+#: free/src/Admin/Admin.php:45
+msgid "Backupino - Free WordPress Backup & Migration"
 msgstr ""
 
 #: free/templates/dashboard.php:40
@@ -152,7 +155,7 @@ msgstr ""
 msgid "Backupino can announce every finished backup, with the permanent download link, in Telegram or Bale. You can enable either or both messengers simultaneously."
 msgstr ""
 
-#: free/src/Plugin.php:201
+#: free/src/Plugin.php:202
 msgid "Backupino cannot run on this server:"
 msgstr ""
 
@@ -164,7 +167,7 @@ msgstr ""
 msgid "Backupino settings"
 msgstr ""
 
-#: free/src/Admin/Admin.php:180
+#: free/src/Admin/Admin.php:181
 msgid "Backupino — Site Migration Completed!"
 msgstr ""
 
@@ -263,6 +266,10 @@ msgstr ""
 
 #: free/backupino.php:1
 msgid "Chat id"
+msgstr ""
+
+#: free/src/Admin/Admin.php:160
+msgid "Check for updates"
 msgstr ""
 
 #: free/templates/dashboard.php:318
@@ -505,6 +512,10 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
+#: free/src/Core/Updater.php:134
+msgid "Fast, resumable WordPress backups, cloning and migration with a self-contained installer."
+msgstr ""
+
 #: free/src/Download/PublicDownload.php:265
 msgid "File Size"
 msgstr ""
@@ -542,7 +553,7 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: free/src/Installer/Env.php:85
+#: free/src/Installer/Env.php:86
 msgid "Free disk space"
 msgstr ""
 
@@ -695,6 +706,10 @@ msgstr ""
 
 #: free/templates/settings.php:250
 msgid "No recent log entries found."
+msgstr ""
+
+#: free/src/Installer/Env.php:88
+msgid "Not restricted / host managed"
 msgstr ""
 
 #: free/backupino.php:1
@@ -1202,7 +1217,7 @@ msgstr ""
 msgid "You are not allowed to manage backups."
 msgstr ""
 
-#: free/src/Admin/Admin.php:182
+#: free/src/Admin/Admin.php:183
 msgid "Your website has been successfully restored and migrated to this location. Installer files and temporary data have been cleaned up."
 msgstr ""
 
@@ -1246,7 +1261,7 @@ msgstr ""
 msgid "missing"
 msgstr ""
 
-#: free/src/Installer/Env.php:87
+#: free/src/Installer/Env.php:88
 msgid "needed"
 msgstr ""
 
@@ -1258,7 +1273,7 @@ msgstr ""
 msgid "not found: %s"
 msgstr ""
 
-#: free/src/Installer/Env.php:87
+#: free/backupino.php:1
 msgid "unknown"
 msgstr ""
 

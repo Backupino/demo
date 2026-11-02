@@ -42,7 +42,7 @@ final class Admin {
 	 */
 	public function menu(): void {
 		add_menu_page(
-			__( 'Backupino', 'backupino' ),
+			__( 'Backupino - Free WordPress Backup & Migration', 'backupino' ),
 			__( 'Backupino', 'backupino' ),
 			Capabilities::manage(),
 			self::SLUG,
@@ -152,14 +152,15 @@ final class Admin {
 	 * @return string[]
 	 */
 	public function action_links( array $links ): array {
-		$url = admin_url( 'admin.php?page=' . self::SLUG . '-settings' );
+		$settings_url = admin_url( 'admin.php?page=' . self::SLUG . '-settings' );
+		$update_url   = 'https://github.com/Backupino/plugin/releases';
 
-		array_unshift(
-			$links,
-			sprintf( '<a href="%s">%s</a>', esc_url( $url ), esc_html__( 'Settings', 'backupino' ) )
+		$new_links = array(
+			sprintf( '<a href="%s">%s</a>', esc_url( $settings_url ), esc_html__( 'Settings', 'backupino' ) ),
+			sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url( $update_url ), esc_html__( 'Check for updates', 'backupino' ) ),
 		);
 
-		return $links;
+		return array_merge( $new_links, $links );
 	}
 
 	/**
