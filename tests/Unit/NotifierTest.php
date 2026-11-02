@@ -213,4 +213,37 @@ final class NotifierTest extends TestCase {
 		$this->assertStringContains( 'api.telegram.org', $dispatched_urls[0] );
 		$this->assertStringContains( 'tapi.bale.ai', $dispatched_urls[1] );
 	}
+
+	/**
+	 * Turning off Bale and Telegram in settings ensures no notifications are sent even if tokens exist.
+	 *
+	 * @return void
+	 */
+	public function test_explicitly_disabled_messengers_send_nothing_even_with_credentials(): void {
+		$called = false;
+
+		$notifier = $this->notifier(
+			array(
+				'service'          => 'none',
+				'telegram_enabled' => false,
+				'telegram_token'   => 'SECRET_TG',
+				'telegram_chat_id' => '12345',
+				'bale_enabled'     => false,
+				'bale_token'       => 'SECRET_BALE',
+				'bale_chat_id'     => '67890',
+			),
+			static function () use ( &$called ) {
+				$called = true;
+				return array( 'code' => 200, 'body' => '{"ok":true}', 'error' => '' );
+			}
+		);
+
+		$this->assertFalse( $notifier->is_enabled() );
+		$this->assertCount( 0, $notifier->channels() );
+
+		$job = Job::create( array( 'files' => true ), new SystemClock() );
+		$this->assertFalse( $notifier->announce( $job, 'example.com' ) );
+		$this->assertFalse( $called );
+		$this->assertSame( 0, $notifier->pending() );
+	}
 }
