@@ -76,7 +76,7 @@ final class Manifest {
 		}
 
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
-		return false !== @file_put_contents( $this->file, $line . "\n", FILE_APPEND | LOCK_EX );
+		return false !== @file_put_contents( $this->file, $line . "\n", FILE_APPEND );
 	}
 
 	/**
@@ -97,6 +97,7 @@ final class Manifest {
 		}
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		clearstatcache( true, $this->file );
 		$handle = @fopen( $this->file, 'rb' );
 
 		if ( false === $handle ) {
@@ -133,6 +134,11 @@ final class Manifest {
 			);
 		}
 
+		$final_offset = ftell( $handle );
+		if ( false !== $final_offset && $final_offset > 0 ) {
+			$offset = (int) $final_offset;
+		}
+
 		fclose( $handle );
 
 		return array(
@@ -152,6 +158,7 @@ final class Manifest {
 		}
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		clearstatcache( true, $this->file );
 		$handle = @fopen( $this->file, 'rb' );
 
 		if ( false === $handle ) {

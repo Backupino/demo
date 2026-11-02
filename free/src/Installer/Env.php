@@ -77,14 +77,15 @@ final class Env {
 		}
 
 		if ( $exists ) {
-			$free = @disk_free_space( $directory );
-			$need = (int) filesize( $archive ) * 2;
-			$ok   = false !== $free && (int) $free > $need;
+			$has_disk_fn = function_exists( 'disk_free_space' );
+			$free        = $has_disk_fn ? @\disk_free_space( $directory ) : false;
+			$need        = (int) filesize( $archive ) * 2;
+			$ok          = ( false === $free ) ? true : ( (int) $free > $need );
 
 			$checks[] = self::result(
 				__( 'Free disk space', 'backupino' ),
 				$ok,
-				false === $free ? __( 'unknown', 'backupino' ) : self::human_size( (int) $free ) . ' / ' . self::human_size( $need ) . ' ' . __( 'needed', 'backupino' )
+				false === $free ? __( 'Not restricted / host managed', 'backupino' ) : self::human_size( (int) $free ) . ' / ' . self::human_size( $need ) . ' ' . __( 'needed', 'backupino' )
 			);
 		}
 

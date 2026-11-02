@@ -115,6 +115,19 @@ final class Replacer {
 			return $this->plain( $subject );
 		}
 
+		// Fast pre-filter: if none of the search terms are present, return unchanged immediately.
+		$has_needle = false;
+		foreach ( $this->search as $needle ) {
+			if ( '' !== $needle && false !== strpos( $subject, $needle ) ) {
+				$has_needle = true;
+				break;
+			}
+		}
+
+		if ( ! $has_needle ) {
+			return $subject;
+		}
+
 		if ( SerializedParser::looks_serialized( $subject ) ) {
 			$tree = SerializedParser::parse( $subject );
 

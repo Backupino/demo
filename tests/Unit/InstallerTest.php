@@ -114,6 +114,45 @@ final class InstallerTest extends TestCase {
 	}
 
 	/**
+	 * Original wp-config.php settings and custom constants are preserved during transformation.
+	 *
+	 * @return void
+	 */
+	public function test_config_writer_preserves_custom_settings(): void {
+		$original = "<?php\n"
+			. "define( 'DB_NAME', 'old_db' );\n"
+			. "define( 'DB_USER', 'old_user' );\n"
+			. "define( 'DB_PASSWORD', 'old_pass' );\n"
+			. "define( 'DB_HOST', '127.0.0.1' );\n"
+			. "\$table_prefix = 'wp_';\n"
+			. "// Custom configuration for Redis\n"
+			. "define( 'WP_REDIS_HOST', '127.0.0.1' );\n"
+			. "define( 'WP_REDIS_PORT', 6379 );\n"
+			. "define( 'WP_MEMORY_LIMIT', '512M' );\n"
+			. "require_once ABSPATH . 'wp-settings.php';\n";
+
+		$config = array(
+			'name'     => 'new_database',
+			'user'     => 'new_user',
+			'password' => 'new_pass',
+			'host'     => 'localhost',
+			'prefix'   => 'custom_',
+		);
+
+		$updated = ConfigWriter::update_wp_config( $original, $config );
+
+		$this->assertStringContains( "define( 'DB_NAME', 'new_database' );", $updated );
+		$this->assertStringContains( "define( 'DB_USER', 'new_user' );", $updated );
+		$this->assertStringContains( "define( 'DB_PASSWORD', 'new_pass' );", $updated );
+		$this->assertStringContains( "define( 'DB_HOST', 'localhost' );", $updated );
+		$this->assertStringContains( "\$table_prefix = 'custom_';", $updated );
+		$this->assertStringContains( "// Custom configuration for Redis", $updated );
+		$this->assertStringContains( "define( 'WP_REDIS_HOST', '127.0.0.1' );", $updated );
+		$this->assertStringContains( "define( 'WP_REDIS_PORT', 6379 );", $updated );
+		$this->assertStringContains( "define( 'WP_MEMORY_LIMIT', '512M' );", $updated );
+	}
+
+	/**
 	 * Secret keys are long and unique.
 	 *
 	 * @return void

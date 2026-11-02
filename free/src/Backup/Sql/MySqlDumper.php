@@ -62,8 +62,8 @@ final class MySqlDumper {
 				'views'           => true,
 				'triggers'        => true,
 				'routines'        => true,
-				'max_statement'   => 524288,
-				'max_rows_insert' => 200,
+				'max_statement'   => 131072,
+				'max_rows_insert' => 100,
 			),
 			$options
 		);
@@ -362,18 +362,33 @@ final class MySqlDumper {
 		$written = 0;
 		$buffer  = array();
 		$size    = 0;
+		$is_jobs_table = false !== strpos( $table, 'backupino_jobs' );
 
 		foreach ( $rows as $row ) {
 			$values = array();
 
 			foreach ( $fields as $field ) {
-				$value    = array_key_exists( $field, $row ) ? $row[ $field ] : null;
+				$value = array_key_exists( $field, $row ) ? $row[ $field ] : null;
+				if ( $is_jobs_table && 'status' === $field && in_array( $value, array( 'running', 'queued' ), true ) ) {
+					$value = 'completed';
+				}
 				$values[] = $this->format_value( $value, $binary[ $field ], $is_numeric[ $field ] );
 			}
 
-			$tuple    = '(' . implode( ',', $values ) . ')';
+			$tuple     = '(' . implode( ',', $values ) . ')';
+			$tuple_len = strlen( $tuple );
+
+			// If buffer is non-empty and adding this tuple would exceed max_statement,
+			// flush the buffer first to keep every statement strictly below packet limits.
+			if ( array() !== $buffer && ( $size + $tuple_len ) >= (int) $this->options['max_statement'] ) {
+				$this->flush_insert( $table, $fields, $buffer );
+				$written += count( $buffer );
+				$buffer   = array();
+				$size     = 0;
+			}
+
 			$buffer[] = $tuple;
-			$size    += strlen( $tuple );
+			$size    += $tuple_len;
 
 			if ( count( $buffer ) >= (int) $this->options['max_rows_insert'] || $size >= (int) $this->options['max_statement'] ) {
 				$this->flush_insert( $table, $fields, $buffer );

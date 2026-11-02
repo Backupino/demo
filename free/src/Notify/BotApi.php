@@ -108,10 +108,70 @@ final class BotApi {
 	 * @param Message $message Message.
 	 * @return array<string, mixed>
 	 */
+	/**
+	 * Whether the current channel connects to Bale.
+	 *
+	 * @return bool
+	 */
+	public function is_bale(): bool {
+		return false !== strpos( $this->base, 'bale.ai' );
+	}
+
+	/**
+	 * Format message text appropriately for Bale (Markdown with [text](url)).
+	 *
+	 * @param string $text Raw text.
+	 * @return string
+	 */
+	public static function format_for_bale( string $text ): string {
+		// Convert HTML links to Markdown links for Bale: <a href="URL">TEXT</a> -> [TEXT](URL)
+		$formatted = preg_replace( '/<a(?:\s+[^>]*)?\bhref=[\'"]([^\'"]+)[\'"][^>]*>(.*?)<\/a>/is', '[$2]($1)', $text );
+		// Convert <b> and <strong> to *bold*
+		$formatted = preg_replace( '/<(?:b|strong)>(.*?)<\/(?:b|strong)>/is', '*$1*', (string) $formatted );
+		// Strip any remaining HTML tags
+		return strip_tags( (string) $formatted );
+	}
+
+	/**
+	 * Format message text appropriately for Telegram (HTML with escaped attribute entities).
+	 *
+	 * @param string $text Raw text.
+	 * @return string
+	 */
+	public static function format_for_telegram( string $text ): string {
+		// Convert Markdown [TEXT](URL) to HTML <a href="URL">TEXT</a>
+		$formatted = preg_replace( '/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/i', '<a href="$2">$1</a>', $text );
+		// Ensure any raw & inside <a href="..."> is escaped as &amp;
+		return (string) preg_replace_callback(
+			'/(<a\s+href=[\'"])([^\'"]+)([\'"])/i',
+			static function( array $m ): string {
+				$url = htmlspecialchars( htmlspecialchars_decode( $m[2] ), ENT_COMPAT, 'UTF-8' );
+				return $m[1] . $url . $m[3];
+			},
+			(string) $formatted
+		);
+	}
+
+	/**
+	 * Payload for a message.
+	 *
+	 * @param Message $message Message.
+	 * @return array<string, mixed>
+	 */
 	public function payload( Message $message ): array {
+		if ( $this->is_bale() ) {
+			return array(
+				'chat_id'                  => $this->chat_id,
+				'text'                     => self::format_for_bale( $message->text() ),
+				'parse_mode'               => 'Markdown',
+				'disable_web_page_preview' => true,
+			);
+		}
+
 		return array(
 			'chat_id'                  => $this->chat_id,
-			'text'                     => $message->text(),
+			'text'                     => self::format_for_telegram( $message->text() ),
+			'parse_mode'               => 'HTML',
 			'disable_web_page_preview' => true,
 		);
 	}
@@ -137,12 +197,14 @@ final class BotApi {
 			return false;
 		}
 
+		$payload = $this->payload( $message );
+
 		$result = ( $this->http )(
 			$this->endpoint(),
 			array(
 				'timeout' => 15,
 				'headers' => array( 'Content-Type' => 'application/json' ),
-				'body'    => (string) wp_json_encode( $this->payload( $message ) ),
+				'body'    => (string) wp_json_encode( $payload ),
 			)
 		);
 
@@ -157,6 +219,30 @@ final class BotApi {
 		$code = isset( $result['code'] ) ? (int) $result['code'] : 0;
 		$body = isset( $result['body'] ) ? (string) $result['body'] : '';
 		$json = json_decode( $body, true );
+
+		// Fallback retry with stripped plain text and without parse_mode if entity parsing failed
+		if ( 200 !== $code && isset( $payload['parse_mode'] ) ) {
+			$fallback_payload = array(
+				'chat_id'                  => $this->chat_id,
+				'text'                     => strip_tags( $message->text() ),
+				'disable_web_page_preview' => true,
+			);
+			$retry_result = ( $this->http )(
+				$this->endpoint(),
+				array(
+					'timeout' => 15,
+					'headers' => array( 'Content-Type' => 'application/json' ),
+					'body'    => (string) wp_json_encode( $fallback_payload ),
+				)
+			);
+
+			if ( is_array( $retry_result ) && 200 === (int) ( $retry_result['code'] ?? 0 ) ) {
+				$result = $retry_result;
+				$code   = 200;
+				$body   = (string) ( $retry_result['body'] ?? '' );
+				$json   = json_decode( $body, true );
+			}
+		}
 
 		if ( 200 !== $code || ! is_array( $json ) ) {
 			/* translators: %d: HTTP status code. */

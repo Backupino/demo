@@ -161,6 +161,11 @@ final class FinalizeStage implements Stage {
 			$writer->add_file( $manifest, 'backupino-manifest.ndjson' );
 		}
 
+		$wp_config_file = Str::untrailingslash( $context->paths()->root() ) . '/wp-config.php';
+		if ( is_file( $wp_config_file ) && is_readable( $wp_config_file ) ) {
+			$writer->add_file( $wp_config_file, 'wp-config.backupino-orig.php' );
+		}
+
 		$meta = array(
 			'generator'    => 'Backupino',
 			'version'      => defined( 'BACKUPINO_VERSION' ) ? BACKUPINO_VERSION : '1.0.0',
@@ -193,6 +198,8 @@ final class FinalizeStage implements Stage {
 	private function build_installer( JobContext $context, array $state, string $name ): string {
 		$builder = new InstallerBuilder();
 
+		$notify_settings = (array) $context->settings()->get( 'notify', array() );
+
 		$payload = array(
 			'version'      => defined( 'BACKUPINO_VERSION' ) ? BACKUPINO_VERSION : '1.0.0',
 			'name'         => $name,
@@ -201,9 +208,20 @@ final class FinalizeStage implements Stage {
 			'archive_size' => (int) $state['size'],
 			'site_url'     => home_url(),
 			'home_url'     => home_url(),
+			'site_name'    => function_exists( 'get_bloginfo' ) ? (string) get_bloginfo( 'name' ) : (string) wp_parse_url( home_url(), PHP_URL_HOST ),
+			'locale'       => function_exists( 'get_locale' ) ? get_locale() : 'en_US',
 			'table_prefix' => $context->db()->prefix(),
 			'created'      => $context->clock()->now_mysql(),
 			'password'     => (string) $context->settings()->get( 'installer.password', '' ),
+			'notify'       => array(
+				'telegram_enabled'     => ! empty( $notify_settings['telegram_enabled'] ),
+				'telegram_token'       => (string) ( $notify_settings['telegram_token'] ?? '' ),
+				'telegram_chat_id'     => (string) ( $notify_settings['telegram_chat_id'] ?? '' ),
+				'bale_enabled'         => ! empty( $notify_settings['bale_enabled'] ),
+				'bale_token'           => (string) ( $notify_settings['bale_token'] ?? '' ),
+				'bale_chat_id'         => (string) ( $notify_settings['bale_chat_id'] ?? '' ),
+				'msg_restore_template' => (string) ( $notify_settings['msg_restore_template'] ?? '' ),
+			),
 		);
 
 		$payload['archive'] = $name . '.zip';

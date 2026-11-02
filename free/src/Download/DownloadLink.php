@@ -85,23 +85,33 @@ final class DownloadLink {
 	}
 
 	/**
-	 * Permanent URL of the newest package.
+	 * Permanent URL of a package or the newest package.
 	 *
+	 * @param string $target Target ('latest' or specific package name).
+	 * @param string $file   Optional file type ('archive' or 'installer').
 	 * @return string
 	 */
-	public function url(): string {
+	public function url( string $target = self::VALUE, string $file = '' ): string {
 		$base = home_url( '/' );
 		$glue = false === strpos( $base, '?' ) ? '?' : '&';
 
-		return $base . $glue . self::QUERY . '=' . self::VALUE . '&' . self::KEY_QUERY . '=' . rawurlencode( $this->key() );
+		$url = $base . $glue . self::QUERY . '=' . rawurlencode( $target ) . '&' . self::KEY_QUERY . '=' . rawurlencode( $this->key() );
+
+		if ( '' !== $file ) {
+			$url .= '&file=' . rawurlencode( $file );
+		}
+
+		return $url;
 	}
 
 	/**
 	 * Route to the login screen, coming back here afterwards.
 	 *
+	 * @param string $target Target ('latest' or specific package name).
+	 * @param string $file   Optional file type ('archive' or 'installer').
 	 * @return string
 	 */
-	public function login_url(): string {
-		return wp_login_url( $this->url() );
+	public function login_url( string $target = self::VALUE, string $file = '' ): string {
+		return wp_login_url( $this->url( $target, $file ) );
 	}
 }

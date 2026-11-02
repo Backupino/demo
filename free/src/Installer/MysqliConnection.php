@@ -62,6 +62,27 @@ final class MysqliConnection implements Connection {
 		$this->link = $link;
 
 		@mysqli_set_charset( $this->link, 'utf8mb4' );
+		@mysqli_query( $this->link, "SET sql_mode = ''" );
+		@mysqli_query( $this->link, 'SET foreign_key_checks = 0' );
+		@mysqli_query( $this->link, 'SET unique_checks = 0' );
+		@mysqli_query( $this->link, 'SET net_buffer_length = 1048576' );
+
+		// Elevate global packet limit if possible (e.g. localhost/XAMPP) and reconnect to inherit it.
+		$packet_res = @mysqli_query( $this->link, 'SELECT @@session.max_allowed_packet' );
+		$cur_packet = ( $packet_res instanceof \mysqli_result ) ? (int) ( ( mysqli_fetch_row( $packet_res )[0] ?? 0 ) ) : 0;
+		if ( $cur_packet > 0 && $cur_packet < 16777216 ) {
+			if ( @mysqli_query( $this->link, 'SET GLOBAL max_allowed_packet = 1073741824' ) ) {
+				@mysqli_close( $this->link );
+				$reconnected = @mysqli_connect( $host, $user, $pass, '' === $db ? null : $db, $port, '' === $socket ? null : $socket );
+				if ( $reconnected ) {
+					$this->link = $reconnected;
+					@mysqli_set_charset( $this->link, 'utf8mb4' );
+					@mysqli_query( $this->link, "SET sql_mode = ''" );
+					@mysqli_query( $this->link, 'SET foreign_key_checks = 0' );
+					@mysqli_query( $this->link, 'SET unique_checks = 0' );
+				}
+			}
+		}
 	}
 
 	/**

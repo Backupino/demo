@@ -37,6 +37,7 @@ final class ZipArchiveWriter implements ArchiveWriter {
 	 * @var string
 	 */
 	private $error = '';
+	private $path = '';
 
 	/**
 	 * Constructor.
@@ -57,7 +58,8 @@ final class ZipArchiveWriter implements ArchiveWriter {
 			return false;
 		}
 
-		$this->zip = new \ZipArchive();
+		$this->path = $path;
+		$this->zip  = new \ZipArchive();
 
 		$result = $this->zip->open( $path, \ZipArchive::CREATE );
 
@@ -149,9 +151,25 @@ final class ZipArchiveWriter implements ArchiveWriter {
 		}
 
 		$status = '';
-		$closed = $this->zip->close();
-		if ( ! $closed && method_exists( $this->zip, 'getStatusString' ) ) {
-			$status = (string) $this->zip->getStatusString();
+		$closed = false;
+
+		try {
+			if ( '' !== $this->path ) {
+				clearstatcache( true, $this->path );
+				@chmod( $this->path, 0666 );
+			}
+			$closed = (bool) @$this->zip->close();
+		} catch ( \Throwable $t ) {
+			$closed = false;
+			$status = $t->getMessage();
+		}
+
+		if ( ! $closed && '' === $status && null !== $this->zip && method_exists( $this->zip, 'getStatusString' ) ) {
+			try {
+				$status = (string) $this->zip->getStatusString();
+			} catch ( \Throwable $t ) {
+				// Ignored.
+			}
 		}
 		$this->zip = null;
 

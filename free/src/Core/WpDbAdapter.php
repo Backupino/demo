@@ -86,7 +86,11 @@ final class WpDbAdapter implements Db {
 	 * {@inheritDoc}
 	 */
 	public function escape( string $value ): string {
-		return esc_sql( $value );
+		if ( null !== $this->wpdb && isset( $this->wpdb->dbh ) && $this->wpdb->dbh instanceof \mysqli ) {
+			return mysqli_real_escape_string( $this->wpdb->dbh, $value );
+		}
+
+		return addcslashes( $value, "\0\n\r\\'\"\x1a" );
 	}
 
 	/**

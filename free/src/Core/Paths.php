@@ -18,7 +18,7 @@ use Backupino\Support\Str;
 final class Paths {
 
 	/**
-	 * Storage root (`wp-content/uploads/backupino` by default).
+	 * Storage root (`wp-content/backupino` by default).
 	 *
 	 * @var string
 	 */
@@ -45,13 +45,15 @@ final class Paths {
 	/**
 	 * Build from the current WordPress environment.
 	 *
+	 * Uses wp-content/backupino outside of public uploads for enhanced security and isolation.
+	 *
 	 * @return self
 	 */
 	public static function from_wordpress(): self {
-		$uploads = wp_upload_dir( null, false );
-		$base    = isset( $uploads['basedir'] ) ? (string) $uploads['basedir'] : WP_CONTENT_DIR . '/uploads';
+		$content_dir = defined( 'WP_CONTENT_DIR' ) ? (string) WP_CONTENT_DIR : ( (string) ABSPATH . 'wp-content' );
+		$base        = $content_dir . '/backupino';
 
-		return new self( $base . '/backupino', (string) ABSPATH );
+		return new self( $base, (string) ABSPATH );
 	}
 
 	/**
@@ -117,6 +119,7 @@ final class Paths {
 	public function ensure(): void {
 		foreach ( array( $this->base, $this->logs(), $this->jobs(), $this->packages() ) as $dir ) {
 			Fs::ensure_dir( $dir );
+			Fs::protect( $dir );
 		}
 	}
 

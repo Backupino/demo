@@ -10,9 +10,66 @@ declare( strict_types = 1 );
 namespace Backupino\Installer;
 
 /**
- * Renders a clean `wp-config.php` for the restored site.
+ * Renders or updates `wp-config.php` for the restored site.
  */
 final class ConfigWriter {
+
+	/**
+	 * Preserves all original custom settings, comments, constants, and structure,
+	 * modifying ONLY the database credentials and table prefix.
+	 *
+	 * @param string               $content Original wp-config.php content.
+	 * @param array<string, mixed> $config  New database configuration.
+	 * @return string
+	 */
+	public static function update_wp_config( string $content, array $config ): string {
+		$name     = (string) ( $config['name'] ?? '' );
+		$user     = (string) ( $config['user'] ?? '' );
+		$password = (string) ( $config['password'] ?? '' );
+		$host     = (string) ( $config['host'] ?? 'localhost' );
+		$port     = isset( $config['port'] ) ? (int) $config['port'] : 0;
+		$prefix   = (string) ( $config['prefix'] ?? 'wp_' );
+
+		if ( $port > 0 && false === strpos( $host, ':' ) ) {
+			$host .= ':' . $port;
+		}
+
+		$constants = array(
+			'DB_NAME'     => $name,
+			'DB_USER'     => $user,
+			'DB_PASSWORD' => $password,
+			'DB_HOST'     => $host,
+		);
+
+		foreach ( $constants as $key => $val ) {
+			$pattern = '/(define\s*\(\s*[\'"]' . preg_quote( $key, '/' ) . '[\'"]\s*,\s*)[\'"].*?[\'"](\s*\)\s*;)/i';
+			if ( preg_match( $pattern, $content ) ) {
+				$content = (string) preg_replace( $pattern, '${1}\'' . addcslashes( $val, "'\\" ) . '\'${2}', $content );
+			} else {
+				$insert       = "\ndefine( '" . $key . "', '" . addcslashes( $val, "'\\" ) . "' );\n";
+				$settings_pos = strpos( $content, 'wp-settings.php' );
+				if ( false !== $settings_pos ) {
+					$line_start = strrpos( substr( $content, 0, $settings_pos ), "\n" );
+					if ( false !== $line_start ) {
+						$content = substr_replace( $content, $insert, $line_start, 0 );
+					} else {
+						$content .= $insert;
+					}
+				} else {
+					$content .= $insert;
+				}
+			}
+		}
+
+		if ( '' !== $prefix ) {
+			$pattern = '/(\$table_prefix\s*=\s*)[\'"].*?[\'"](\s*;)/i';
+			if ( preg_match( $pattern, $content ) ) {
+				$content = (string) preg_replace( $pattern, '${1}\'' . addcslashes( $prefix, "'\\" ) . '\'${2}', $content );
+			}
+		}
+
+		return $content;
+	}
 
 	/**
 	 * Render the file contents.
@@ -74,12 +131,17 @@ final class ConfigWriter {
 	/**
 	 * Write the file.
 	 *
-	 * @param string               $path   Destination.
-	 * @param array<string, mixed> $config Configuration.
+	 * @param string               $path             Destination.
+	 * @param array<string, mixed> $config           Configuration.
+	 * @param string|null          $original_content Original content to update if available.
 	 * @return bool
 	 */
-	public static function write( string $path, array $config ): bool {
-		$contents = self::render( $config );
+	public static function write( string $path, array $config, ?string $original_content = null ): bool {
+		if ( null !== $original_content && '' !== trim( $original_content ) ) {
+			$contents = self::update_wp_config( $original_content, $config );
+		} else {
+			$contents = self::render( $config );
+		}
 
 		if ( is_file( $path ) && is_readable( $path ) ) {
 			$backup = $path . '.backupino-' . gmdate( 'YmdHis' );

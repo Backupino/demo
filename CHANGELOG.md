@@ -11,10 +11,13 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 - **Storage Partitioning**: Partitioned architecture separating core backup engine from cloud providers; `StorageManager` is filter-driven (`backupino_storage_drivers`) with local-only storage in the free core.
 - **Permanent Download Link**: Admin login-gated, non-expiring `?backupino_download=latest` URL with secure 32-byte secret token and one-click copyable UI in the admin dashboard.
-- **Bot Notifications**: Telegram Bot API and Bale Bot API support for instant backup completion alerts, containing domain, size, timestamp, and download link. Includes "Send test message" action in Settings and automated retry queue.
+- **Bot Notifications**: Telegram Bot API and Bale Bot API support for instant backup completion alerts, containing domain, size, timestamp, and download link. Includes "Send test message" action in Settings, automated retry queue, messenger-specific formatting (Markdown links for Bale and entity-safe HTML for Telegram), and post-restore notification dispatch.
+- **Live Activity Log & Cancel**: Real-time modal activity log viewer for backup processes and immediate backup job cancellation support.
+- **Automatic Storage Housekeeping**: Automatic cleanup of temporary jobs slices and files upon process completion or cancellation to prevent disk waste.
 - **Monthly Automated Backup**: Cron-scheduled backup running on the 1st of every month, with native Jalali solar calendar for Persian locale (`fa_IR`) and Gregorian calendar for other locales (`Support\Dates`).
 - **Internationalization (i18n) & RTL**: Complete gettext catalog (`backupino.pot`), full Persian translation (`backupino-fa_IR.po` & `backupino-fa_IR.mo`), native RTL styling via CSS logical properties, and strict Latin digit normalization (`Str::latin_digits`).
-- **Standalone Installer Builder**: Dynamically builds `installer.php` (~72 KB) with chunked file extraction, streaming SQL dump importer, deep JSON/nested serialization search-and-replace, and fresh `wp-config.php` generation with unique salts.
+- **Standalone Installer Builder**: Dynamically builds `installer.php` (~72 KB) with chunked file extraction, streaming SQL dump importer, deep JSON/nested serialization search-and-replace, multi-step navigation (Back/Next), preserved source language and custom constants, robust prefix mapping preserving administrator roles, and fresh `wp-config.php` generation with unique salts.
+- **Pure SQL Dumper**: Native MySQL string escaping preserving Persian slugs and UTF-8 characters without `%` placeholder corruption.
 - **Release Packaging Pipeline**: `bin/build-release.php` and `ReleaseBuilder` creating clean distribution packages (`releases/backupino-{version}.zip`) stripped of dev tools, tests, and non-free code with SHA-256 verification.
 - **Security QA & Audit**: Comprehensive test suite (`SecurityQATest`) verifying REST capability checks, safe output escaping, removal of `extract()`, and Zip-Slip traversal defenses.
 - **Offline-First Architecture**: 100% offline-first operation with zero external CDN dependencies, remote fonts, or third-party telemetry.

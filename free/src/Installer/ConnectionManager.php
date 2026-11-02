@@ -28,10 +28,15 @@ final class ConnectionManager {
 
 		foreach ( array( 'mysqli', 'pdo' ) as $driver ) {
 			try {
+				$conn_config = $config;
+				if ( ! $select ) {
+					unset( $conn_config['name'] );
+				}
+
 				/** @var Connection $connection */
 				$connection = 'mysqli' === $driver
-					? new MysqliConnection( $config )
-					: new PdoConnection( $config );
+					? new MysqliConnection( $conn_config )
+					: new PdoConnection( $conn_config );
 
 				if ( ! $select ) {
 					return $connection;

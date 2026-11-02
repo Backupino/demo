@@ -67,6 +67,29 @@ final class PdoConnection implements Connection {
 					\PDO::ATTR_ERRMODE => \PDO::ERRMODE_SILENT,
 				)
 			);
+
+			@$this->pdo->exec( "SET sql_mode = ''" );
+			@$this->pdo->exec( 'SET foreign_key_checks = 0' );
+			@$this->pdo->exec( 'SET unique_checks = 0' );
+			@$this->pdo->exec( 'SET net_buffer_length = 1048576' );
+
+			$stmt = @$this->pdo->query( 'SELECT @@session.max_allowed_packet' );
+			$cur  = $stmt ? (int) $stmt->fetchColumn() : 0;
+			if ( $cur > 0 && $cur < 16777216 ) {
+				if ( false !== @$this->pdo->exec( 'SET GLOBAL max_allowed_packet = 1073741824' ) ) {
+					$this->pdo = new \PDO(
+						$dsn,
+						(string) ( $config['user'] ?? '' ),
+						(string) ( $config['password'] ?? '' ),
+						array(
+							\PDO::ATTR_ERRMODE => \PDO::ERRMODE_SILENT,
+						)
+					);
+					@$this->pdo->exec( "SET sql_mode = ''" );
+					@$this->pdo->exec( 'SET foreign_key_checks = 0' );
+					@$this->pdo->exec( 'SET unique_checks = 0' );
+				}
+			}
 		} catch ( \PDOException $e ) {
 			$this->error = $e->getMessage();
 

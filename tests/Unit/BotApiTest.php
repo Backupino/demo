@@ -51,10 +51,28 @@ final class BotApiTest extends TestCase {
 	 */
 	public function test_payload_shape(): void {
 		$api     = new BotApi( 'https://api.telegram.org', 'T', '99' );
-		$payload = $api->payload( new Message( 'hello' ) );
+		$msg     = new Message( '<a href="http://example.com/?a=1&b=2">Link</a>' );
+		$payload = $api->payload( $msg );
 
 		$this->assertSame( '99', $payload['chat_id'] );
-		$this->assertSame( 'hello', $payload['text'] );
+		$this->assertSame( '<a href="http://example.com/?a=1&amp;b=2">Link</a>', $payload['text'] );
+		$this->assertSame( 'HTML', $payload['parse_mode'] );
+		$this->assertTrue( $payload['disable_web_page_preview'] );
+	}
+
+	/**
+	 * Bale receives Markdown links with [text](url) and parse_mode Markdown.
+	 *
+	 * @return void
+	 */
+	public function test_bale_payload_shape(): void {
+		$api     = new BotApi( 'https://tapi.bale.ai', 'T', '99' );
+		$msg     = new Message( 'link: <a href="http://example.com/?a=1&b=2">download</a>' );
+		$payload = $api->payload( $msg );
+
+		$this->assertSame( '99', $payload['chat_id'] );
+		$this->assertSame( 'link: [download](http://example.com/?a=1&b=2)', $payload['text'] );
+		$this->assertSame( 'Markdown', $payload['parse_mode'] );
 		$this->assertTrue( $payload['disable_web_page_preview'] );
 	}
 

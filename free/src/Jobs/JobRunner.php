@@ -13,6 +13,7 @@ use Backupino\Core\Db;
 use Backupino\Core\Paths;
 use Backupino\Core\Settings;
 use Backupino\Support\Clock;
+use Backupino\Support\Fs;
 use Backupino\Support\Logger;
 
 /**
@@ -110,6 +111,15 @@ final class JobRunner {
 			return $job;
 		}
 
+		$lock_file = $this->paths->job_dir( $job->token ) . '/.step.lock';
+		$lock_fp   = @fopen( $lock_file, 'c+' );
+		if ( false !== $lock_fp ) {
+			if ( ! @flock( $lock_fp, LOCK_EX | LOCK_NB ) ) {
+				@fclose( $lock_fp );
+				return $job;
+			}
+		}
+
 		if ( $budget <= 0 ) {
 			$budget = (int) $this->settings->get( 'runtime.time_budget', 20 );
 		}
@@ -154,7 +164,22 @@ final class JobRunner {
 				if ( '' === $next ) {
 					$job->status   = JobStatus::COMPLETED;
 					$job->progress = 100;
-					do_action( 'backupino_job_completed', $job );
+					if ( false !== $lock_fp ) {
+						@flock( $lock_fp, LOCK_UN );
+						@fclose( $lock_fp );
+						$lock_fp = false;
+					}
+					$this->jobs->save( $job );
+					try {
+						Fs::delete_dir( $this->paths->job_dir( $job->token ) );
+					} catch ( \Throwable $t ) {
+						$this->logger->warning( 'Cleanup failed: ' . $t->getMessage() );
+					}
+					try {
+						do_action( 'backupino_job_completed', $job );
+					} catch ( \Throwable $t ) {
+						$this->logger->warning( 'Notification hook failed: ' . $t->getMessage() );
+					}
 					$this->logger->info(
 						'Job finished.',
 						array(
@@ -162,6 +187,7 @@ final class JobRunner {
 							'token' => $job->token,
 						)
 					);
+					return $job;
 				} else {
 					$job->stage = $next;
 					$this->logger->debug(
@@ -174,8 +200,18 @@ final class JobRunner {
 				}
 			}
 		} catch ( JobException $e ) {
+			if ( false !== $lock_fp ) {
+				@flock( $lock_fp, LOCK_UN );
+				@fclose( $lock_fp );
+				$lock_fp = false;
+			}
 			$this->fail( $job, $e->getMessage() );
 		} catch ( \Throwable $e ) {
+			if ( false !== $lock_fp ) {
+				@flock( $lock_fp, LOCK_UN );
+				@fclose( $lock_fp );
+				$lock_fp = false;
+			}
 			$this->logger->error(
 				'Unexpected failure.',
 				array(
@@ -191,6 +227,11 @@ final class JobRunner {
 		}
 
 		$this->jobs->save( $job );
+
+		if ( false !== $lock_fp ) {
+			@flock( $lock_fp, LOCK_UN );
+			@fclose( $lock_fp );
+		}
 
 		return $job;
 	}
@@ -230,6 +271,7 @@ final class JobRunner {
 		$job->status  = JobStatus::CANCELLED;
 		$job->message = __( 'Cancelled by the user.', 'backupino' );
 
+		Fs::delete_dir( $this->paths->job_dir( $job->token ) );
 		$this->jobs->save( $job );
 
 		return $job;
@@ -245,6 +287,8 @@ final class JobRunner {
 	private function fail( Job $job, string $message ): void {
 		$job->status  = JobStatus::FAILED;
 		$job->message = $message;
+
+		Fs::delete_dir( $this->paths->job_dir( $job->token ) );
 
 		$this->logger->error(
 			'Job failed.',

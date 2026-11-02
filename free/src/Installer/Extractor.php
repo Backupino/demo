@@ -184,6 +184,19 @@ final class Extractor {
 	 * @param string $name Entry name.
 	 * @return bool
 	 */
+	/**
+	 * Initial state.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public static function initial_state(): array {
+		return array(
+			'offset' => 0,
+			'total'  => 0,
+			'done'   => false,
+		);
+	}
+
 	public static function is_safe( string $name ): bool {
 		$name = str_replace( '\\', '/', $name );
 

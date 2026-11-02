@@ -12,6 +12,26 @@ declare( strict_types = 1 );
 
 namespace Backupino\Installer;
 
+@ini_set( 'display_errors', '0' );
+@ini_set( 'max_execution_time', '180' );
+@set_time_limit( 180 );
+error_reporting( 0 );
+
+register_shutdown_function( static function () {
+	$error = error_get_last();
+	if ( $error && in_array( $error['type'], array( E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR ), true ) ) {
+		if ( ! headers_sent() ) {
+			http_response_code( 200 );
+			header( 'Content-Type: application/json; charset=UTF-8' );
+		}
+		echo json_encode( array(
+			'ok'    => false,
+			'error' => 'Fatal Error: ' . $error['message'] . ' in ' . basename( $error['file'] ) . ':' . $error['line'],
+		), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+		exit;
+	}
+} );
+
 $backupino_payload = json_decode( (string) base64_decode( '__BACKUPINO_PAYLOAD__' ), true );
 $backupino_payload = is_array( $backupino_payload ) ? $backupino_payload : array();
 
@@ -26,10 +46,12 @@ __BACKUPINO_BODY__
  */
 function respond( array $data, int $status = 200 ): void {
 	if ( ! headers_sent() ) {
-		http_response_code( $status );
+		// Use HTTP 200 so web servers (cPanel, LiteSpeed, Nginx) do not intercept or suppress the JSON error body
+		http_response_code( 200 );
+		header( 'Content-Type: application/json; charset=UTF-8' );
 	}
 
-	echo json_encode( $data );
+	echo json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 	exit;
 }
 
@@ -40,68 +62,234 @@ $backupino_archive      = $backupino_dir . '/' . $backupino_archive_name;
 $backupino_token        = isset( $backupino_payload['token'] ) ? (string) $backupino_payload['token'] : '';
 $backupino_action       = isset( $_REQUEST['action'] ) ? (string) preg_replace( '/[^a-z_]/', '', (string) $_REQUEST['action'] ) : 'index';
 
+// Auto-detect current host and base URL
+$backupino_scheme   = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) ? 'https' : 'http';
+$backupino_host     = isset( $_SERVER['HTTP_HOST'] ) ? (string) $_SERVER['HTTP_HOST'] : 'localhost';
+$backupino_script   = isset( $_SERVER['SCRIPT_NAME'] ) ? (string) $_SERVER['SCRIPT_NAME'] : '';
+$backupino_subpath  = rtrim( str_replace( '\\', '/', dirname( $backupino_script ) ), '/' );
+$backupino_auto_url = $backupino_scheme . '://' . $backupino_host . ( '/' === $backupino_subpath ? '' : $backupino_subpath );
+
 if ( 'index' === $backupino_action ) {
 	$backupino_checks = Env::check( $backupino_payload, __DIR__, $backupino_archive );
 	$backupino_body   = '<div id="app">
 	<section id="step1">
-		<h2 style="font-size:16px;margin:0 0 10px">Environment check</h2>'
+		<h2 style="font-size:16px;margin:0 0 10px" data-i18n="env_check">Environment check</h2>'
 		. View::checks( $backupino_checks ) . '
 		<p class="err" id="error1"></p>
-		<button type="button" id="start" ' . ( Env::passes( $backupino_checks ) ? '' : 'disabled' ) . '>Continue</button>
-		<small class="hint">Package: ' . View::e( (string) ( $backupino_payload['name'] ?? '' ) ) . ' &middot; built ' . View::e( (string) ( $backupino_payload['created'] ?? '' ) ) . '</small>
+		<button type="button" id="start" data-i18n="continue" ' . ( Env::passes( $backupino_checks ) ? '' : 'disabled' ) . '>Continue</button>
+		<small class="hint"><span data-i18n="package_lbl">Package</span>: ' . View::e( (string) ( $backupino_payload['name'] ?? '' ) ) . ' &middot; <span data-i18n="built_lbl">built</span> ' . View::e( (string) ( $backupino_payload['created'] ?? '' ) ) . '</small>
 	</section>
 
 	<section id="step2" class="hidden">
-		<h2 style="font-size:16px;margin:0 0 10px">Database</h2>
+		<h2 style="font-size:16px;margin:0 0 10px" data-i18n="database">Database</h2>
 		<form id="dbform" autocomplete="off">
 			<div class="grid">
-				<div><label for="db_host">Host</label><input id="db_host" name="db_host" value="localhost" required></div>
-				<div><label for="db_port">Port</label><input id="db_port" name="db_port" value="" placeholder="3306"></div>
+				<div><label for="db_host" data-i18n="db_host">Host</label><input id="db_host" name="db_host" value="localhost" required></div>
+				<div><label for="db_port" data-i18n="db_port">Port</label><input id="db_port" name="db_port" value="" placeholder="3306"></div>
 			</div>
-			<label for="db_name">Database name</label><input id="db_name" name="db_name" required>
+			<label for="db_name" data-i18n="db_name">Database name</label><input id="db_name" name="db_name" required>
 			<div class="grid">
-				<div><label for="db_user">Username</label><input id="db_user" name="db_user" required></div>
-				<div><label for="db_pass">Password</label><input id="db_pass" name="db_pass" type="password"></div>
+				<div><label for="db_user" data-i18n="db_user">Username</label><input id="db_user" name="db_user" required></div>
+				<div><label for="db_pass" data-i18n="db_pass">Password</label><input id="db_pass" name="db_pass" type="password"></div>
 			</div>
-			<label for="prefix">Table prefix</label><input id="prefix" name="prefix" value="' . View::e( (string) ( $backupino_payload['table_prefix'] ?? 'wp_' ) ) . '">
-			<label for="new_url">New site URL (optional)</label><input id="new_url" name="new_url" placeholder="https://example.com">
-			<small class="hint">Leave the URL empty to reuse the URL this installer was opened with.</small>
+			<label for="prefix" data-i18n="prefix">Table prefix</label><input id="prefix" name="prefix" value="' . View::e( (string) ( $backupino_payload['table_prefix'] ?? 'wp_' ) ) . '">
+			<label data-i18n="target_path">Target Path</label><input readonly value="' . View::e( $backupino_dir ) . '" style="background:#f1f5f9;color:#64748b;cursor:default;">
+			<label for="new_url" data-i18n="new_url">New site URL</label><input id="new_url" name="new_url" value="' . View::e( $backupino_auto_url ) . '" placeholder="https://example.com">
+			<small class="hint" data-i18n="new_url_hint">Auto-detected from current domain and path.</small>
+			<label style="display:flex;align-items:center;gap:8px;margin-top:12px;font-weight:normal;cursor:pointer;">
+				<input type="checkbox" id="empty_db" name="empty_db" value="1" checked style="width:auto;margin:0;">
+				<span data-i18n="empty_db_lbl">Empty existing database tables before import (Recommended)</span>
+			</label>
 			<p class="err" id="error2"></p>
-			<button type="submit" id="connect">Connect &amp; continue</button>
+			<div style="display:flex;gap:10px;align-items:center;margin-top:16px;">
+				<button type="button" class="ghost" id="back-to-step1" data-i18n="back_btn" style="margin-top:0;">&larr; Back</button>
+				<button type="submit" id="connect" data-i18n="connect_btn" style="margin-top:0;">Connect &amp; continue</button>
+			</div>
 		</form>
 	</section>
 
 	<section id="step3" class="hidden">
-		<h2 style="font-size:16px;margin:0 0 10px" id="progress-title">Working…</h2>
+		<h2 style="font-size:16px;margin:0 0 10px" id="progress-title" data-i18n="working">Working…</h2>
 		<div class="bar"><i id="bar"></i></div>
 		<pre id="log"></pre>
-		<p class="err" id="error3"></p>
+		<div class="backupino-warning-box" style="margin-top:12px;padding:10px 14px;background:#fefce8;border:1px solid #fef08a;border-radius:8px;font-size:12.5px;color:#854d0e;display:flex;align-items:center;gap:8px;">
+			<span style="font-size:16px;line-height:1;">⚠️</span>
+			<span data-i18n="do_not_close_hint">Please keep this browser window open and do not refresh or navigate away until the restoration is completely finished.</span>
+		</div>
+		<p class="err" id="error3" style="display:none;margin-top:12px;padding:12px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;color:#b91c1c;font-size:13px;word-break:break-all;"></p>
 	</section>
 
 	<section id="step4" class="hidden">
-		<h2 style="font-size:16px;margin:0 0 10px">&#10003; Your site is ready</h2>
-		<p class="lead" id="done-url"></p>
-		<button type="button" id="cleanup">Delete installer files</button>
-		<a href="#" id="gotoadmin" style="display:inline-block;margin-left:12px;font-size:14px;color:#2563eb">Open wp-admin &rarr;</a>
+		<h2 style="font-size:16px;margin:0 0 10px;color:#16a34a;" id="done-title" data-i18n="ready_title">&#10003; Your site is ready</h2>
+		<p class="lead" id="done-url" style="font-weight:600;word-break:break-all;"></p>
+		<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px;">
+			<button type="button" id="cleanup" data-i18n="cleanup_btn" style="background:#16a34a;margin-top:0;">Delete installer files &amp; Login</button>
+		</div>
 		<p class="err" id="error4"></p>
 	</section>
 </div>
 <script>
 (function () {
-	var T = window.BACKUPINO_INSTALLER ? window.BACKUPINO_INSTALLER.token : "";
+	var currentLang = ' . ( ( isset( $backupino_payload['locale'] ) && 0 === strpos( (string) $backupino_payload['locale'], 'fa' ) ) ? '"fa"' : '"en"' ) . ';
+	var currentStep = 1;
+	var envPasses = ' . ( Env::passes( $backupino_checks ) ? 'true' : 'false' ) . ';
+	var I18N = {
+		en: {
+			lead: "Restoring your site — step by step.",
+			env_check: "Environment check",
+			continue: "Continue",
+			back_btn: "← Back",
+			package_lbl: "Package",
+			built_lbl: "built",
+			database: "Database",
+			db_host: "Host",
+			db_port: "Port",
+			db_name: "Database name",
+			db_user: "Username",
+			db_pass: "Password",
+			prefix: "Table prefix",
+			target_path: "Target Path",
+			new_url: "New site URL",
+			new_url_hint: "Auto-detected from current domain and path.",
+			connect_btn: "Connect & continue",
+			working: "Working…",
+			ready_title: "✓ Your site is ready",
+			cleanup_btn: "Delete installer files & Login",
+			open_admin: "Open wp-login.php →",
+			empty_db_lbl: "Empty existing database tables before import (Recommended)",
+			ext_files: "Extracting files",
+			imp_db: "Importing database",
+			rew_urls: "Rewriting URLs",
+			cfg_wp: "Configuring WordPress",
+			do_not_close_hint: "Please keep this browser window open and do not refresh or navigate away until the restoration is completely finished.",
+			cleaned: "Installer files deleted. Redirecting to login…",
+			s1: "1. Environment",
+			s2: "2. Database",
+			s3: "3. Files",
+			s4: "4. Database import",
+			s5: "5. URLs",
+			s6: "6. Done"
+		},
+		fa: {
+			lead: "بازیابی وب‌سایت شما — گام‌به‌گام و آسان.",
+			env_check: "بررسی نیازمندی‌های محیط سرور",
+			continue: "ادامه و مرحله بعد",
+			back_btn: "← مرحله قبل",
+			package_lbl: "بسته پشتیبان",
+			built_lbl: "ساخته شده در",
+			database: "پایگاه داده (دیتابیس)",
+			db_host: "میزبان دیتابیس (Host)",
+			db_port: "پورت (اختیاری)",
+			db_name: "نام دیتابیس",
+			db_user: "نام کاربری دیتابیس",
+			db_pass: "رمز عبور دیتابیس",
+			prefix: "پیشوند جداول",
+			target_path: "مسیر استخراج در سرور",
+			new_url: "آدرس جدید سایت (URL)",
+			new_url_hint: "به صورت خودکار بر اساس دامنه و پوشه فعلی شناسایی شد.",
+			connect_btn: "اتصال به دیتابیس و شروع بازیابی",
+			working: "در حال پردازش…",
+			ready_title: "✓ وبسایت شما با موفقیت بازیابی شد",
+			cleanup_btn: "حذف فایل‌های نصبی و ورود به مدیریت",
+			open_admin: "ورود مستقیم به wp-login.php ←",
+			empty_db_lbl: "پاک‌سازی و حذف جداول موجود در دیتابیس قبل از درون‌ریزی (پیشنهادی)",
+			ext_files: "در حال استخراج فایل‌ها",
+			imp_db: "در حال درون‌ریزی دیتابیس",
+			rew_urls: "در حال به‌روزرسانی آدرس‌ها و جداول",
+			cfg_wp: "پیکربندی وردپرس",
+			do_not_close_hint: "لطفاً این پنجره مرورگر را تا تکمیل کامل بازگردانی نبندید و از بازآوری (رفرش) صفحه خودداری فرمایید.",
+			cleaned: "فایل‌های نصبی با موفقیت حذف شدند. در حال هدایت به صفحه ورود…",
+			s1: "۱. نیازمندی‌ها",
+			s2: "۲. دیتابیس",
+			s3: "۳. استخراج فایل‌ها",
+			s4: "۴. درون‌ریزی داده",
+			s5: "۵. بازنویسی لینک‌ها",
+			s6: "۶. پایان"
+		}
+	};
+
+	function setLanguage(lang) {
+		currentLang = lang;
+		document.documentElement.setAttribute("lang", lang);
+		document.documentElement.setAttribute("dir", lang === "fa" ? "rtl" : "ltr");
+
+		var btns = document.querySelectorAll(".lang-btn");
+		for (var i = 0; i < btns.length; i++) {
+			btns[i].classList.toggle("active", btns[i].getAttribute("data-lang") === lang);
+		}
+
+		var elements = document.querySelectorAll("[data-i18n]");
+		for (var j = 0; j < elements.length; j++) {
+			var key = elements[j].getAttribute("data-i18n");
+			if (I18N[lang] && I18N[lang][key]) {
+				elements[j].textContent = I18N[lang][key];
+			}
+		}
+
+		var lead = document.getElementById("txt-lead");
+		if (lead && I18N[lang].lead) {
+			lead.textContent = I18N[lang].lead;
+		}
+
+		var stepKeys = ["s1", "s2", "s3", "s4", "s5", "s6"];
+		for (var k = 0; k < stepKeys.length; k++) {
+			var stepEl = document.getElementById("step-nav-" + (k + 1));
+			if (stepEl && I18N[lang][stepKeys[k]]) {
+				stepEl.textContent = I18N[lang][stepKeys[k]];
+			}
+		}
+	}
+
+	var langSwitcher = document.getElementById("lang-switch");
+	if (langSwitcher) {
+		langSwitcher.addEventListener("click", function (e) {
+			var target = e.target;
+			if (target && target.hasAttribute("data-lang")) {
+				setLanguage(target.getAttribute("data-lang"));
+			}
+		});
+	}
+
+	if (currentLang === "fa") {
+		setLanguage("fa");
+	}
+
+	function updateStepNav(activeStepIndex) {
+		currentStep = activeStepIndex;
+		for (var i = 1; i <= 6; i++) {
+			var sEl = document.getElementById("step-nav-" + i);
+			if (sEl) {
+				sEl.classList.toggle("active", i === activeStepIndex);
+			}
+		}
+	}
+
+	function getToken() {
+		return (window.BACKUPINO_INSTALLER && window.BACKUPINO_INSTALLER.token) ? window.BACKUPINO_INSTALLER.token : "";
+	}
+
 	var log = document.getElementById("log");
 	var bar = document.getElementById("bar");
 	var title = document.getElementById("progress-title");
 	var busy = false;
 
 	function api(action, data) {
-		var body = new URLSearchParams(Object.assign({ action: action, token: T }, data || {}));
+		var params = Object.assign({ action: action, token: getToken() }, data || {});
+		var body = new URLSearchParams(params);
 		return fetch(window.location.pathname, {
 			method: "POST",
 			body: body,
 			credentials: "same-origin",
 			headers: { "Content-Type": "application/x-www-form-urlencoded" }
-		}).then(function (r) { return r.json(); });
+		}).then(function (r) {
+			return r.text().then(function (raw) {
+				try {
+					return JSON.parse(raw);
+				} catch (e) {
+					return { ok: false, error: raw.trim() ? raw.substring(0, 300) : ("Empty response from server (HTTP " + r.status + ")") };
+				}
+			});
+		});
 	}
 
 	function note(text) {
@@ -119,7 +307,18 @@ if ( 'index' === $backupino_action ) {
 
 	function fail(message, field) {
 		var el = document.getElementById(field || "error3");
-		if (el) { el.textContent = message; }
+		if (el) {
+			el.textContent = message;
+			el.style.display = "block";
+		}
+		note("\n❌ [ERROR]: " + message);
+		if (title) {
+			title.textContent = "❌ " + ((currentLang === "fa") ? "خطا در عملیات" : "Operation failed");
+			title.style.color = "#dc2626";
+		}
+		if (bar) {
+			bar.style.background = "#dc2626";
+		}
 		busy = false;
 	}
 
@@ -136,7 +335,38 @@ if ( 'index' === $backupino_action ) {
 
 	document.getElementById("start").addEventListener("click", function () {
 		show("step2");
+		updateStepNav(2);
 	});
+
+	var backBtn = document.getElementById("back-to-step1");
+	if (backBtn) {
+		backBtn.addEventListener("click", function () {
+			show("step1");
+			updateStepNav(1);
+		});
+	}
+
+	var stepNav1 = document.getElementById("step-nav-1");
+	if (stepNav1) {
+		stepNav1.style.cursor = "pointer";
+		stepNav1.addEventListener("click", function () {
+			if (currentStep <= 2) {
+				show("step1");
+				updateStepNav(1);
+			}
+		});
+	}
+
+	var stepNav2 = document.getElementById("step-nav-2");
+	if (stepNav2) {
+		stepNav2.style.cursor = "pointer";
+		stepNav2.addEventListener("click", function () {
+			if (currentStep <= 2 && envPasses) {
+				show("step2");
+				updateStepNav(2);
+			}
+		});
+	}
 
 	document.getElementById("dbform").addEventListener("submit", function (e) {
 		e.preventDefault();
@@ -150,18 +380,27 @@ if ( 'index' === $backupino_action ) {
 			if (!res.ok) { fail(res.error || "Connection failed.", "error2"); return; }
 			note(res.message || "Database connected.");
 			show("step3");
-			loop("extract", "Extracting files", function () {
+			updateStepNav(3);
+			var extLabel = (I18N[currentLang] && I18N[currentLang].ext_files) ? I18N[currentLang].ext_files : "Extracting files";
+			loop("extract", extLabel, function () {
 				note("Files extracted.");
-				loop("import", "Importing database", function () {
+				updateStepNav(4);
+				var impLabel = (I18N[currentLang] && I18N[currentLang].imp_db) ? I18N[currentLang].imp_db : "Importing database";
+				loop("import", impLabel, function () {
 					note("Database imported.");
-					loop("rewrite", "Rewriting URLs", function () {
+					updateStepNav(5);
+					var rewLabel = (I18N[currentLang] && I18N[currentLang].rew_urls) ? I18N[currentLang].rew_urls : "Rewriting URLs";
+					loop("rewrite", rewLabel, function () {
 						note("URLs rewritten.");
+						updateStepNav(6);
 						api("config").then(function (final) {
 							if (!final.ok) { fail(final.error || "Configuration failed."); return; }
 							show("step4");
-							document.getElementById("done-url").textContent = final.url || "";
-							document.getElementById("gotoadmin").href = (final.admin || "/wp-admin/");
-							window.__adminUrl = final.admin || "/wp-admin/";
+							var siteUrl = final.url || "";
+							var adminUrl = final.admin || (siteUrl ? siteUrl.replace(/\/+$/, "") + "/wp-login.php" : "/wp-login.php");
+							window.__adminUrl = adminUrl;
+							window.__siteUrl = siteUrl;
+							document.getElementById("done-url").textContent = siteUrl;
 						});
 					});
 				});
@@ -170,11 +409,18 @@ if ( 'index' === $backupino_action ) {
 	});
 
 	document.getElementById("cleanup").addEventListener("click", function () {
+		var btn = document.getElementById("cleanup");
+		btn.disabled = true;
+		btn.textContent = (currentLang === "fa") ? "در حال حذف فایل‌ها…" : "Deleting files…";
 		api("cleanup").then(function (res) {
-			if (!res.ok) { fail(res.error || "Cleanup failed.", "error4"); return; }
-			document.getElementById("cleanup").disabled = true;
-			document.getElementById("cleanup").textContent = "Installer files deleted";
-			window.location.href = window.__adminUrl || "/wp-admin/";
+			if (!res.ok) { fail(res.error || "Cleanup failed.", "error4"); btn.disabled = false; return; }
+			btn.textContent = (I18N[currentLang] && I18N[currentLang].cleaned) ? I18N[currentLang].cleaned : "Installer files deleted.";
+			window.setTimeout(function () {
+				window.location.href = window.__adminUrl || "/wp-login.php";
+			}, 1000);
+		}).catch(function (err) {
+			fail(String(err), "error4");
+			btn.disabled = false;
 		});
 	});
 })();
@@ -194,7 +440,8 @@ if ( '' === $backupino_token || ! hash_equals( $backupino_token, $backupino_sent
 	respond( array( 'ok' => false, 'error' => 'Invalid installer token.' ), 403 );
 }
 
-@set_time_limit( 60 );
+@ini_set( 'max_execution_time', '180' );
+@set_time_limit( 180 );
 
 $backupino_state = new State( $backupino_state_file );
 
@@ -212,6 +459,7 @@ if ( '' !== $backupino_password && ! $backupino_state->get( 'authenticated' ) ) 
 	$backupino_state->save();
 }
 
+try {
 switch ( $backupino_action ) {
 	case 'check':
 		$checks = Env::check( $backupino_payload, $backupino_dir, $backupino_archive );
@@ -258,83 +506,112 @@ switch ( $backupino_action ) {
 		}
 
 		$backupino_state->set( 'db', $config );
+		$backupino_state->set( 'tables_found', count( $tables ) );
 		$backupino_state->set( 'new_url', $new_url );
+		$backupino_state->set( 'empty_db', ! empty( $_POST['empty_db'] ) );
 		$backupino_state->save();
 
 		respond(
 			array(
-				'ok'      => true,
-				'message' => sprintf( 'Connected to MySQL %s (%d existing tables).', $connection->version(), count( $tables ) ),
-				'tables'  => count( $tables ),
+				'ok'           => true,
+				'message'      => sprintf( 'Database connected (%d tables existing).', count( $tables ) ),
+				'tables_found' => count( $tables ),
 			)
 		);
 		break;
 
 	case 'extract':
-		$extractor = new Extractor( $backupino_archive, $backupino_dir );
+		if ( ! is_readable( $backupino_archive ) ) {
+			respond( array( 'ok' => false, 'error' => 'Archive file not found: ' . basename( $backupino_archive ) ), 400 );
+		}
 
+		$extractor = new Extractor( $backupino_archive, $backupino_dir );
 		if ( ! $extractor->open() ) {
-			respond( array( 'ok' => false, 'error' => $extractor->error() ), 500 );
+			respond( array( 'ok' => false, 'error' => $extractor->error() ), 400 );
 		}
 
 		$offset = (int) $backupino_state->get( 'extract_offset', 0 );
-		$total  = max( 1, $extractor->total() );
-		$start  = microtime( true );
-
-		while ( ( microtime( true ) - $start ) < 8.0 && $offset < $total ) {
-			$extractor->step( $offset, 200 );
-		}
-
-		$extractor->close();
+		$total  = $extractor->total();
+		$done   = $extractor->step( $offset, 300 );
 
 		$backupino_state->set( 'extract_offset', $offset );
 		$backupino_state->save();
 
+		$extractor->close();
+
+		$is_done = ( $offset >= $total );
+
 		respond(
 			array(
 				'ok'      => true,
-				'done'    => $offset >= $total,
-				'percent' => (int) floor( ( $offset / $total ) * 100 ),
-				'message' => sprintf( '%d / %d entries', $offset, $total ),
+				'done'    => $is_done,
+				'percent' => $total > 0 ? min( 100, (int) floor( ( $offset / $total ) * 100 ) ) : 100,
+				'message' => sprintf( '%d of %d files extracted', min( $offset, $total ), $total ),
 			)
 		);
 		break;
 
 	case 'import':
+		$sql_file = $backupino_dir . '/database.sql';
+
+		if ( ! is_readable( $sql_file ) ) {
+			respond(
+				array(
+					'ok'      => true,
+					'done'    => true,
+					'percent' => 100,
+					'message' => 'No database dump found in the archive.',
+				)
+			);
+		}
+
 		$db = $backupino_state->get( 'db' );
 
 		if ( ! is_array( $db ) ) {
 			respond( array( 'ok' => false, 'error' => 'Connect to the database first.' ), 400 );
 		}
 
-		$sql_file = $backupino_dir . '/database.sql';
-
-		if ( ! is_file( $sql_file ) ) {
-			respond(
-				array(
-					'ok'      => true,
-					'done'    => true,
-					'percent' => 100,
-					'message' => 'No database dump in this package.',
-				)
-			);
-		}
-
 		try {
 			$connection = ConnectionManager::connect( $db );
+			$connection->query( 'SET FOREIGN_KEY_CHECKS = 0' );
+			$connection->query( 'SET UNIQUE_CHECKS = 0' );
 		} catch ( \RuntimeException $e ) {
 			respond( array( 'ok' => false, 'error' => $e->getMessage() ), 400 );
 		}
 
+		$offset   = (int) $backupino_state->get( 'sql_offset', 0 );
+
+		if ( 0 === $offset && ! empty( $backupino_state->get( 'empty_db' ) ) ) {
+			try {
+				$connection->query( 'SET FOREIGN_KEY_CHECKS = 0' );
+				$connection->query( 'SET UNIQUE_CHECKS = 0' );
+				foreach ( $connection->rows( 'SHOW FULL TABLES' ) as $row ) {
+					$vals     = array_values( $row );
+					$tbl_name = (string) ( $vals[0] ?? '' );
+					$tbl_type = strtoupper( (string) ( $vals[1] ?? 'BASE TABLE' ) );
+					if ( '' !== $tbl_name ) {
+						$escaped_tbl = '`' . str_replace( '`', '``', $tbl_name ) . '`';
+						$drop_sql    = 'VIEW' === $tbl_type
+							? "DROP VIEW IF EXISTS {$escaped_tbl}"
+							: "DROP TABLE IF EXISTS {$escaped_tbl}";
+						$connection->query( $drop_sql );
+					}
+				}
+				$connection->query( 'SET FOREIGN_KEY_CHECKS = 1' );
+				$connection->query( 'SET UNIQUE_CHECKS = 1' );
+			} catch ( \Throwable $e ) {
+				// Non-fatal, continue with dump execution.
+			}
+		}
+
 		$importer = new Importer( $connection, new SqlSplitter( $sql_file ) );
-		$offset   = (int) $backupino_state->get( 'import_offset', 0 );
 		$result   = $importer->step( $offset, 262144, 8.0 );
 
-		if ( '' !== $result['error'] ) {
+		if ( ! empty( $result['error'] ) ) {
 			respond( array( 'ok' => false, 'error' => $result['error'] ), 500 );
 		}
 
-		$backupino_state->set( 'import_offset', $offset );
+		$backupino_state->set( 'sql_offset', $offset );
 		$backupino_state->save();
 
 		$size = max( 1, $importer->size() );
@@ -342,14 +619,15 @@ switch ( $backupino_action ) {
 		respond(
 			array(
 				'ok'      => true,
-				'done'    => $result['done'],
-				'percent' => min( 100, (int) floor( ( $offset / $size ) * 100 ) ),
+				'done'    => (bool) $result['done'],
+				'percent' => ! empty( $result['done'] ) ? 100 : min( 99, (int) floor( ( $offset / $size ) * 100 ) ),
 				'message' => sprintf( '%d statements executed', $result['executed'] ),
 			)
 		);
 		break;
 
 	case 'rewrite':
+		@set_time_limit( 180 );
 		$db = $backupino_state->get( 'db' );
 
 		if ( ! is_array( $db ) ) {
@@ -360,9 +638,8 @@ switch ( $backupino_action ) {
 		$new_url = (string) $backupino_state->get( 'new_url', '' );
 
 		if ( '' === $new_url ) {
-			$scheme  = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) ? 'https' : 'http';
-			$host    = isset( $_SERVER['HTTP_HOST'] ) ? (string) $_SERVER['HTTP_HOST'] : '';
-			$new_url = $scheme . '://' . $host;
+			$new_url = $backupino_auto_url;
+			$backupino_state->set( 'new_url', $new_url );
 		}
 
 		if ( '' === $old_url || $old_url === $new_url ) {
@@ -378,13 +655,15 @@ switch ( $backupino_action ) {
 
 		try {
 			$connection = ConnectionManager::connect( $db );
+			$connection->query( 'SET FOREIGN_KEY_CHECKS = 0' );
+			$connection->query( 'SET UNIQUE_CHECKS = 0' );
 		} catch ( \RuntimeException $e ) {
 			respond( array( 'ok' => false, 'error' => $e->getMessage() ), 400 );
 		}
 
 		$rewriter = new UrlRewrite( $connection, Replacer::from_urls( $old_url, $new_url ) );
 		$state    = $backupino_state->get( 'rewrite', UrlRewrite::initial_state() );
-		$state    = $rewriter->step( is_array( $state ) ? $state : UrlRewrite::initial_state(), 500, 8.0 );
+		$state    = $rewriter->step( is_array( $state ) ? $state : UrlRewrite::initial_state(), 200, 6.0 );
 
 		$backupino_state->set( 'rewrite', $state );
 		$backupino_state->save();
@@ -411,30 +690,240 @@ switch ( $backupino_action ) {
 		$new_url = (string) $backupino_state->get( 'new_url', '' );
 
 		if ( '' === $new_url ) {
-			$scheme  = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) ? 'https' : 'http';
-			$host    = isset( $_SERVER['HTTP_HOST'] ) ? (string) $_SERVER['HTTP_HOST'] : '';
-			$new_url = $scheme . '://' . $host;
+			$new_url = $backupino_auto_url;
 			$backupino_state->set( 'new_url', $new_url );
 		}
 
-		$prefix = (string) ( $db['prefix'] ?? 'wp_' );
+		$source_prefix = (string) ( $backupino_payload['table_prefix'] ?? 'wp_' );
+		$target_prefix = (string) ( $db['prefix'] ?? 'wp_' );
 
 		try {
 			$connection = ConnectionManager::connect( $db );
+
+			if ( $source_prefix !== $target_prefix && '' !== $source_prefix && '' !== $target_prefix ) {
+				// Rename all tables with source_prefix to target_prefix safely
+				$esc_source = str_replace( array( '\\', '_', '%' ), array( '\\\\', '\\_', '\\%' ), $source_prefix );
+				$rows = $connection->rows( "SHOW TABLES LIKE '{$esc_source}%'" );
+				$tables_to_rename = array();
+				foreach ( $rows as $row ) {
+					$vals = array_values( $row );
+					if ( isset( $vals[0] ) ) {
+						$old_name = (string) $vals[0];
+						if ( 0 === strpos( $old_name, $source_prefix ) ) {
+							$new_name = $target_prefix . substr( $old_name, strlen( $source_prefix ) );
+							$tables_to_rename[] = array( 'old' => $old_name, 'new' => $new_name );
+						}
+					}
+				}
+				if ( array() !== $tables_to_rename ) {
+					foreach ( $tables_to_rename as $pair ) {
+						$connection->query( 'DROP TABLE IF EXISTS `' . str_replace( '`', '``', $pair['new'] ) . '`' );
+						$connection->query( 'RENAME TABLE `' . str_replace( '`', '``', $pair['old'] ) . '` TO `' . str_replace( '`', '``', $pair['new'] ) . '`' );
+					}
+				}
+
+				// Update user roles option name in options table
+				$new_opt_table = str_replace( '`', '``', $target_prefix ) . 'options';
+				$esc_old_roles = $connection->escape( $source_prefix . 'user_roles' );
+				$esc_new_roles = $connection->escape( $target_prefix . 'user_roles' );
+				$connection->query(
+					"UPDATE `{$new_opt_table}` SET option_name = '{$esc_new_roles}' WHERE option_name = '{$esc_old_roles}'"
+				);
+
+				// Update prefixed meta keys in usermeta table for users
+				$new_meta_table = str_replace( '`', '``', $target_prefix ) . 'usermeta';
+				$source_len     = strlen( $source_prefix );
+				$esc_new        = $connection->escape( $target_prefix );
+				$esc_like       = $connection->escape( str_replace( array( '\\', '_', '%' ), array( '\\\\', '\\_', '\\%' ), $source_prefix ) );
+				$connection->query(
+					"UPDATE `{$new_meta_table}` SET meta_key = CONCAT('{$esc_new}', SUBSTRING(meta_key, " . ( $source_len + 1 ) . ")) WHERE meta_key LIKE '{$esc_like}%' AND (meta_key LIKE '{$esc_like}capabilities' OR meta_key LIKE '{$esc_like}user_level' OR meta_key LIKE '{$esc_like}user-settings%' OR meta_key LIKE '{$esc_like}dashboard_%' OR meta_key LIKE '{$esc_like}autosave_%')"
+				);
+			}
+
+			$target_opt_table = str_replace( '`', '``', $target_prefix ) . 'options';
 			$connection->query(
-				'UPDATE `' . str_replace( '`', '``', $prefix ) . "options` SET option_value = '"
+				'UPDATE `' . $target_opt_table . "` SET option_value = '"
 				. $connection->escape( $new_url ) . "' WHERE option_name IN ('siteurl','home')"
 			);
+
+			// Enforce site language based on the backup source locale
+			$target_locale = ! empty( $backupino_payload['locale'] ) ? (string) $backupino_payload['locale'] : 'fa_IR';
+			$esc_locale    = $connection->escape( $target_locale );
+			$connection->query(
+				"REPLACE INTO `{$target_opt_table}` (`option_name`, `option_value`, `autoload`) VALUES ('WPLANG', '{$esc_locale}', 'yes')"
+			);
+
+			// Update user locale in usermeta for all users
+			$new_meta_table = str_replace( '`', '``', $target_prefix ) . 'usermeta';
+			$connection->query(
+				"UPDATE `{$new_meta_table}` SET meta_value = '{$esc_locale}' WHERE meta_key = 'locale'"
+			);
+
+			// Save post-migration admin notice flag in WordPress options
+			$esc_notice_key = $connection->escape( 'backupino_migration_notice' );
+			$esc_notice_val = $connection->escape( '1' );
+			$connection->query(
+				"REPLACE INTO `{$target_opt_table}` (`option_name`, `option_value`, `autoload`) VALUES ('{$esc_notice_key}', '{$esc_notice_val}', 'yes')"
+			);
+
+			// Clean up backupino_jobs on the restored site so no ghost or in-progress job from source site exists
+			$target_jobs_table = str_replace( '`', '``', $target_prefix ) . 'backupino_jobs';
+			try {
+				$connection->query( "TRUNCATE TABLE `{$target_jobs_table}`" );
+			} catch ( \Throwable $e ) {
+				// Table might not exist yet, ignore.
+			}
 		} catch ( \RuntimeException $e ) {
 			respond( array( 'ok' => false, 'error' => $e->getMessage() ), 400 );
 		}
 
-		if ( ! ConfigWriter::write( $backupino_dir . '/wp-config.php', $db ) ) {
+		// Clear Elementor CSS cache directory if present
+		$elementor_css_dir = $backupino_dir . '/wp-content/uploads/elementor/css';
+		if ( is_dir( $elementor_css_dir ) ) {
+			$css_files = glob( $elementor_css_dir . '/*' );
+			if ( is_array( $css_files ) ) {
+				foreach ( $css_files as $f ) {
+					if ( is_file( $f ) ) {
+						@unlink( $f );
+					}
+				}
+			}
+		}
+
+		$orig_config = $backupino_dir . '/wp-config.backupino-orig.php';
+		$orig_content = is_file( $orig_config ) && is_readable( $orig_config ) ? (string) file_get_contents( $orig_config ) : null;
+		if ( ! ConfigWriter::write( $backupino_dir . '/wp-config.php', $db, $orig_content ) ) {
 			respond( array( 'ok' => false, 'error' => 'wp-config.php could not be written.' ), 500 );
 		}
+		if ( is_file( $orig_config ) ) {
+			@unlink( $orig_config );
+		}
+
+		// Reconfigure .htaccess rewrite base and rules for target environment
+		$url_path  = (string) parse_url( $new_url, PHP_URL_PATH );
+		$base_path = ( '' === $url_path || '/' === $url_path ) ? '/' : ( '/' . trim( $url_path, '/' ) . '/' );
+		$htaccess  = $backupino_dir . '/.htaccess';
+
+		if ( is_file( $htaccess ) && is_writable( $htaccess ) ) {
+			$htaccess_content = (string) file_get_contents( $htaccess );
+			if ( preg_match( '/RewriteBase\s+[^\r\n]+/i', $htaccess_content ) ) {
+				$htaccess_content = (string) preg_replace(
+					'/RewriteBase\s+[^\r\n]+/i',
+					'RewriteBase ' . $base_path,
+					$htaccess_content
+				);
+			}
+			if ( preg_match( '/RewriteRule\s+\.\s+[^\r\n]*index\.php\s+\[L\]/i', $htaccess_content ) ) {
+				$htaccess_content = (string) preg_replace(
+					'/RewriteRule\s+\.\s+[^\r\n]*index\.php\s+\[L\]/i',
+					'RewriteRule . ' . $base_path . 'index.php [L]',
+					$htaccess_content
+				);
+			}
+			file_put_contents( $htaccess, $htaccess_content );
+		} elseif ( ! file_exists( $htaccess ) && is_writable( $backupino_dir ) ) {
+			$default_htaccess = "# BEGIN WordPress\n<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\nRewriteBase {$base_path}\nRewriteRule ^index\\.php$ - [L]\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteCond %{REQUEST_FILENAME} !-d\nRewriteRule . {$base_path}index.php [L]\n</IfModule>\n# END WordPress\n";
+			@file_put_contents( $htaccess, $default_htaccess );
+		}
+
+		// Detect custom login URL configured by security plugins (WPS Hide Login, AIOWPS, iThemes, Perfmatters, Cerber)
+		$detected_login_slug = '';
+		if ( isset( $connection ) && isset( $target_opt_table ) ) {
+			try {
+				// 1. WPS Hide Login
+				$whl_row = $connection->rows( "SELECT option_value FROM `{$target_opt_table}` WHERE option_name = 'whl_page' LIMIT 1" );
+				if ( ! empty( $whl_row[0]['option_value'] ) ) {
+					$val = trim( (string) $whl_row[0]['option_value'] );
+					if ( '' !== $val ) {
+						$detected_login_slug = $val;
+					}
+				}
+
+				// 2. All In One Security (AIOWPS)
+				if ( '' === $detected_login_slug ) {
+					$aiowps_row = $connection->rows( "SELECT option_value FROM `{$target_opt_table}` WHERE option_name = 'aio_wp_security_configs' LIMIT 1" );
+					if ( ! empty( $aiowps_row[0]['option_value'] ) ) {
+						$aiowps_data = @unserialize( (string) $aiowps_row[0]['option_value'] );
+						if ( is_array( $aiowps_data ) && ! empty( $aiowps_data['aiowps_enable_rename_login_page'] ) && ! empty( $aiowps_data['aiowps_login_page_slug'] ) ) {
+							$detected_login_slug = trim( (string) $aiowps_data['aiowps_login_page_slug'] );
+						}
+					}
+				}
+
+				// 3. iThemes / Solid Security
+				if ( '' === $detected_login_slug ) {
+					$itsec_row = $connection->rows( "SELECT option_value FROM `{$target_opt_table}` WHERE option_name = 'itsec-storage' LIMIT 1" );
+					if ( ! empty( $itsec_row[0]['option_value'] ) ) {
+						$itsec_data = @unserialize( (string) $itsec_row[0]['option_value'] );
+						if ( is_array( $itsec_data ) && isset( $itsec_data['hide-backend'] ) && is_array( $itsec_data['hide-backend'] ) ) {
+							if ( ! empty( $itsec_data['hide-backend']['enabled'] ) && ! empty( $itsec_data['hide-backend']['slug'] ) ) {
+								$detected_login_slug = trim( (string) $itsec_data['hide-backend']['slug'] );
+							}
+						}
+					}
+				}
+
+				// 4. Perfmatters
+				if ( '' === $detected_login_slug ) {
+					$perf_row = $connection->rows( "SELECT option_value FROM `{$target_opt_table}` WHERE option_name = 'perfmatters_options' LIMIT 1" );
+					if ( ! empty( $perf_row[0]['option_value'] ) ) {
+						$perf_data = @unserialize( (string) $perf_row[0]['option_value'] );
+						if ( is_array( $perf_data ) && ! empty( $perf_data['login_url'] ) ) {
+							$detected_login_slug = trim( (string) $perf_data['login_url'] );
+						}
+					}
+				}
+
+				// 5. WP Cerber
+				if ( '' === $detected_login_slug ) {
+					$cerber_row = $connection->rows( "SELECT option_value FROM `{$target_opt_table}` WHERE option_name = 'cerber_login_path' LIMIT 1" );
+					if ( ! empty( $cerber_row[0]['option_value'] ) ) {
+						$val = trim( (string) $cerber_row[0]['option_value'] );
+						if ( '' !== $val ) {
+							$detected_login_slug = $val;
+						}
+					}
+				}
+			} catch ( \Throwable $e ) {
+				// Non-fatal, fallback to standard wp-login.php
+			}
+		}
+
+		$admin_login_url = ( '' !== $detected_login_slug )
+			? rtrim( $new_url, '/' ) . '/' . trim( $detected_login_slug, '/' ) . '/'
+			: rtrim( $new_url, '/' ) . '/wp-login.php';
 
 		$backupino_state->set( 'finished', true );
 		$backupino_state->save();
+
+		// Dispatch restore notification to Telegram or Bale if configured
+		if ( isset( $backupino_payload['notify'] ) && is_array( $backupino_payload['notify'] ) ) {
+			$notif        = $backupino_payload['notify'];
+			$site_name    = ! empty( $backupino_payload['site_name'] ) ? (string) $backupino_payload['site_name'] : $new_url;
+			$admin_url    = $admin_login_url;
+			$restore_date = gmdate( 'Y-m-d H:i' );
+			$tpl          = ! empty( $notif['msg_restore_template'] ) ? (string) $notif['msg_restore_template'] : '';
+			if ( '' === trim( $tpl ) ) {
+				$site_locale = ! empty( $backupino_payload['locale'] ) ? (string) $backupino_payload['locale'] : 'en';
+				if ( 0 === strpos( $site_locale, 'fa' ) ) {
+					$tpl = "🎉 بازگردانی وب‌سایت با موفقیت انجام شد:\n🔹 {site}\n\n   🌐 آدرس جدید سایت: {url}\n   📅 تاریخ بازگردانی: {date}\n\n🔑 ورود به مدیریت وردپرس:\n<a href=\"{admin_url}\">ورود به پیشخوان وردپرس</a>";
+				} else {
+					$tpl = "🎉 Site restored successfully:\n🔹 {site}\n\n   🌐 New site URL: {url}\n   📅 Restoration date: {date}\n\n🔑 WordPress Admin login:\n<a href=\"{admin_url}\">Log in to WordPress Admin</a>";
+				}
+			}
+			$restore_msg = str_replace(
+				array( '{site}', '{url}', '{admin_url}', '{date}' ),
+				array( $site_name, $new_url, $admin_url, $restore_date ),
+				$tpl
+			);
+
+			if ( ! empty( $notif['telegram_enabled'] ) && ! empty( $notif['telegram_token'] ) && ! empty( $notif['telegram_chat_id'] ) ) {
+				backupino_send_bot_message( 'telegram', (string) $notif['telegram_token'], (string) $notif['telegram_chat_id'], $restore_msg );
+			}
+			if ( ! empty( $notif['bale_enabled'] ) && ! empty( $notif['bale_token'] ) && ! empty( $notif['bale_chat_id'] ) ) {
+				backupino_send_bot_message( 'bale', (string) $notif['bale_token'], (string) $notif['bale_chat_id'], $restore_msg );
+			}
+		}
 
 		respond(
 			array(
@@ -442,35 +931,72 @@ switch ( $backupino_action ) {
 				'done'    => true,
 				'percent' => 100,
 				'url'     => $new_url,
-				'admin'   => rtrim( $new_url, '/' ) . '/wp-admin/',
+				'admin'   => $admin_login_url,
 				'message' => 'wp-config.php written.',
 			)
 		);
 		break;
 
 	case 'cleanup':
+		$backupino_state->destroy();
+
 		$targets = array(
-			__FILE__,
-			$backupino_archive,
 			$backupino_dir . '/database.sql',
 			$backupino_dir . '/backupino-manifest.ndjson',
 			$backupino_dir . '/backupino-package.json',
 			$backupino_state_file,
+			$backupino_archive,
 		);
 
+		$dir_files = @scandir( $backupino_dir );
+		if ( is_array( $dir_files ) ) {
+			foreach ( $dir_files as $f ) {
+				if ( '.' === $f || '..' === $f ) {
+					continue;
+				}
+				$fpath = $backupino_dir . '/' . $f;
+				if ( ! is_file( $fpath ) ) {
+					continue;
+				}
+				if ( preg_match( '/\.(zip|sql|ndjson)$/i', $f ) ) {
+					if (
+						0 === strpos( $f, 'backupino' ) ||
+						( '' !== $backupino_archive_name && $f === $backupino_archive_name ) ||
+						preg_match( '/^[a-zA-Z0-9_\.\-]+_\d{8}_\d{6}\.zip$/', $f )
+					) {
+						$targets[] = $fpath;
+					}
+				}
+			}
+		}
+
+		$targets = array_unique( $targets );
 		foreach ( $targets as $target ) {
 			if ( is_file( $target ) ) {
+				@chmod( $target, 0777 );
 				@unlink( $target );
 			}
 		}
 
-		$backupino_state->destroy();
+		// Delete installer script itself last
+		$self = __FILE__;
+		@chmod( $self, 0777 );
+		@unlink( $self );
+		register_shutdown_function( static function () use ( $self ) {
+			if ( is_file( $self ) ) {
+				@chmod( $self, 0777 );
+				@unlink( $self );
+			}
+		} );
 
 		respond( array( 'ok' => true, 'done' => true ) );
 		break;
 
 	default:
 		respond( array( 'ok' => false, 'error' => 'Unknown action.' ), 400 );
+}
+} catch ( \Throwable $backupino_err ) {
+	respond( array( 'ok' => false, 'error' => $backupino_err->getMessage() ), 500 );
 }
 
 /**
@@ -483,4 +1009,92 @@ function sanitize_env( string $value ): string {
 	$value = trim( $value );
 
 	return '' === $value ? 'localhost' : preg_replace( '/[^A-Za-z0-9\.\-_:]/', '', $value );
+}
+
+/**
+ * Send notification message via Telegram or Bale API.
+ *
+ * @param string $service Service ('telegram'|'bale').
+ * @param string $token   Bot token.
+ * @param string $chat_id Target chat or channel ID.
+ * @param string $text    Message text.
+ * @return bool
+ */
+function backupino_send_bot_message( string $service, string $token, string $chat_id, string $text ): bool {
+	if ( '' === $token || '' === $chat_id || '' === trim( $text ) ) {
+		return false;
+	}
+
+	$url = 'telegram' === $service
+		? "https://api.telegram.org/bot{$token}/sendMessage"
+		: "https://tapi.bale.ai/bot{$token}/sendMessage";
+
+	if ( 'bale' === $service ) {
+		// Convert HTML links to Markdown links for Bale: <a href="URL">TEXT</a> -> [TEXT](URL)
+		$formatted = preg_replace( '/<a(?:\s+[^>]*)?\bhref=[\'"]([^\'"]+)[\'"][^>]*>(.*?)<\/a>/is', '[$2]($1)', $text );
+		$formatted = preg_replace( '/<(?:b|strong)>(.*?)<\/(?:b|strong)>/is', '*$1*', (string) $formatted );
+		$payload_text = strip_tags( (string) $formatted );
+		$parse_mode   = 'Markdown';
+	} else {
+		// Telegram: Convert Markdown [TEXT](URL) to HTML <a href="URL">TEXT</a>
+		$formatted = preg_replace( '/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/i', '<a href="$2">$1</a>', $text );
+		// Ensure any raw & inside <a href="..."> is escaped as &amp;
+		$payload_text = (string) preg_replace_callback(
+			'/(<a\s+href=[\'"])([^\'"]+)([\'"])/i',
+			static function( array $m ): string {
+				$url = htmlspecialchars( htmlspecialchars_decode( $m[2] ), ENT_COMPAT, 'UTF-8' );
+				return $m[1] . $url . $m[3];
+			},
+			(string) $formatted
+		);
+		$parse_mode = 'HTML';
+	}
+
+	$payload = json_encode(
+		array(
+			'chat_id'                  => $chat_id,
+			'text'                     => $payload_text,
+			'parse_mode'               => $parse_mode,
+			'disable_web_page_preview' => false,
+		)
+	);
+
+	if ( function_exists( 'curl_init' ) ) {
+		$ch = curl_init( $url );
+		if ( false !== $ch ) {
+			curl_setopt_array(
+				$ch,
+				array(
+					CURLOPT_POST           => true,
+					CURLOPT_POSTFIELDS     => $payload,
+					CURLOPT_RETURNTRANSFER => true,
+					CURLOPT_TIMEOUT        => 8,
+					CURLOPT_CONNECTTIMEOUT => 5,
+					CURLOPT_SSL_VERIFYPEER => false,
+					CURLOPT_SSL_VERIFYHOST => 0,
+					CURLOPT_HTTPHEADER     => array( 'Content-Type: application/json' ),
+				)
+			);
+			$res = curl_exec( $ch );
+			$http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+			curl_close( $ch );
+			return 200 === (int) $http_code;
+		}
+	}
+
+	$opts = array(
+		'http' => array(
+			'method'  => 'POST',
+			'header'  => "Content-Type: application/json\r\n",
+			'content' => $payload,
+			'timeout' => 8,
+		),
+		'ssl' => array(
+			'verify_peer'      => false,
+			'verify_peer_name' => false,
+		),
+	);
+	$context = stream_context_create( $opts );
+	$res = @file_get_contents( $url, false, $context );
+	return false !== $res;
 }

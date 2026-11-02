@@ -57,4 +57,21 @@ final class Views {
 
 		return admin_url( 'admin.php?page=' . $slug );
 	}
+
+	/**
+	 * Build an admin download URL for a file in the packages folder.
+	 *
+	 * @param string $filename File name or path.
+	 * @return string
+	 */
+	public static function download_url( string $filename ): string {
+		return add_query_arg(
+			array(
+				'page'     => Admin::SLUG,
+				'download' => rawurlencode( basename( $filename ) ),
+				'_wpnonce' => wp_create_nonce( 'backupino_download' ),
+			),
+			admin_url( 'admin.php' )
+		);
+	}
 }

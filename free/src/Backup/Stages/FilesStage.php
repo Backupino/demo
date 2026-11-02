@@ -69,7 +69,7 @@ final class FilesStage implements Stage {
 			return StageResult::completed( __( 'File archiving disabled.', 'backupino' ) );
 		}
 
-		$per_tick = (int) $context->settings()->get( 'runtime.files_per_tick', 250 );
+		$per_tick = (int) $context->settings()->get( 'runtime.files_per_tick', 1000 );
 		$archive  = $context->work_dir() . '/archive.zip';
 		$writer   = new ZipArchiveWriter( (bool) $context->settings()->get( 'advanced.compression', true ) );
 
@@ -80,10 +80,27 @@ final class FilesStage implements Stage {
 		$processed = 0;
 
 		while ( ! $state['done'] && $processed < $per_tick && ! $context->deadline()->expired() ) {
-			$chunk = $manifest->read_at( (int) $state['offset'], min( 50, $per_tick - $processed ) );
+			$chunk = $manifest->read_at( (int) $state['offset'], min( 250, $per_tick - $processed ) );
 
 			if ( array() === $chunk['entries'] ) {
-				$state['done'] = true;
+				$file_size = (int) @filesize( $manifest->path() );
+				$is_eof    = ( $file_size > 0 && (int) $state['offset'] >= $file_size )
+					|| ( (int) $state['total'] > 0 && (int) $state['added'] >= (int) $state['total'] );
+
+				if ( $is_eof ) {
+					$state['done'] = true;
+				} else {
+					$context->logger()->warning(
+						'Empty manifest chunk before EOF reached.',
+						array(
+							'job'      => $job->id,
+							'offset'   => $state['offset'],
+							'filesize' => $file_size,
+							'added'    => $state['added'],
+							'total'    => $state['total'],
+						)
+					);
+				}
 				break;
 			}
 
@@ -116,6 +133,13 @@ final class FilesStage implements Stage {
 
 		$total = max( 1, (int) $state['total'] );
 		$ratio = min( 1.0, (float) $state['added'] / (float) $total );
+
+		if ( $state['done'] && (int) $state['added'] < $total ) {
+			$file_size = (int) @filesize( $manifest->path() );
+			if ( $file_size > 0 && (int) $state['offset'] < $file_size ) {
+				$state['done'] = false;
+			}
+		}
 
 		$message = sprintf(
 			/* translators: 1: packed files, 2: total files, 3: skipped files, 4: archive size. */

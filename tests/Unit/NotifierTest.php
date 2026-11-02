@@ -177,4 +177,40 @@ final class NotifierTest extends TestCase {
 		$this->assertFalse( $notifier->send_test( 'example.com' ) );
 		$this->assertTrue( '' !== $notifier->error() );
 	}
+
+	/**
+	 * Simultaneous Telegram and Bale notifications are dispatched to both platforms.
+	 *
+	 * @return void
+	 */
+	public function test_simultaneous_telegram_and_bale_broadcast(): void {
+		$dispatched_urls = array();
+
+		$notifier = $this->notifier(
+			array(
+				'telegram_enabled' => true,
+				'telegram_token'   => 'TG_TOKEN',
+				'telegram_chat_id' => '111',
+				'bale_enabled'     => true,
+				'bale_token'       => 'BALE_TOKEN',
+				'bale_chat_id'     => '222',
+			),
+			static function ( $url, $args ) use ( &$dispatched_urls ) {
+				$dispatched_urls[] = $url;
+
+				return array(
+					'code'  => 200,
+					'body'  => '{"ok":true}',
+					'error' => '',
+				);
+			}
+		);
+
+		$this->assertTrue( $notifier->is_enabled() );
+		$this->assertCount( 2, $notifier->channels() );
+		$this->assertTrue( $notifier->send_test( 'example.com' ) );
+		$this->assertCount( 2, $dispatched_urls );
+		$this->assertStringContains( 'api.telegram.org', $dispatched_urls[0] );
+		$this->assertStringContains( 'tapi.bale.ai', $dispatched_urls[1] );
+	}
 }

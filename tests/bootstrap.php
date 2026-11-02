@@ -91,6 +91,93 @@ if ( ! function_exists( 'esc_attr' ) ) {
 	}
 }
 
+if ( ! function_exists( 'esc_html_e' ) ) {
+	/**
+	 * Escaped translation echo shim.
+	 *
+	 * @param string $text   Text.
+	 * @param string $domain Domain.
+	 * @return void
+	 */
+	function esc_html_e( $text, $domain = '' ) {
+		echo htmlspecialchars( (string) $text, ENT_QUOTES, 'UTF-8' );
+	}
+}
+
+if ( ! function_exists( 'esc_attr_e' ) ) {
+	/**
+	 * Attribute escaping echo shim.
+	 *
+	 * @param string $text   Text.
+	 * @param string $domain Domain.
+	 * @return void
+	 */
+	function esc_attr_e( $text, $domain = '' ) {
+		echo htmlspecialchars( (string) $text, ENT_QUOTES, 'UTF-8' );
+	}
+}
+
+if ( ! function_exists( 'esc_textarea' ) ) {
+	/**
+	 * Textarea escaping shim.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	function esc_textarea( $text ) {
+		return htmlspecialchars( (string) $text, ENT_QUOTES, 'UTF-8' );
+	}
+}
+
+if ( ! function_exists( 'esc_url' ) ) {
+	/**
+	 * URL escaping shim.
+	 *
+	 * @param string $url URL.
+	 * @return string
+	 */
+	function esc_url( $url ) {
+		return htmlspecialchars( (string) $url, ENT_QUOTES, 'UTF-8' );
+	}
+}
+
+if ( ! function_exists( 'checked' ) ) {
+	/**
+	 * Checked helper shim.
+	 *
+	 * @param mixed $checked Checked.
+	 * @param mixed $current Current.
+	 * @param bool  $echo    Echo.
+	 * @return string
+	 */
+	function checked( $checked, $current = true, $echo = true ) {
+		$result = ( (string) $checked === (string) $current ) ? ' checked="checked"' : '';
+		if ( $echo ) {
+			echo $result;
+		}
+		return $result;
+	}
+}
+
+if ( ! function_exists( 'selected' ) ) {
+	/**
+	 * Selected helper shim.
+	 *
+	 * @param mixed $selected Selected.
+	 * @param mixed $current  Current.
+	 * @param bool  $echo     Echo.
+	 * @return string
+	 */
+	function selected( $selected, $current = true, $echo = true ) {
+		$result = ( (string) $selected === (string) $current ) ? ' selected="selected"' : '';
+		if ( $echo ) {
+			echo $result;
+		}
+		return $result;
+	}
+}
+
+
 if ( ! function_exists( 'wp_json_encode' ) ) {
 	/**
 	 * JSON shim.
@@ -388,3 +475,18 @@ if ( ! function_exists( 'current_user_can' ) ) {
 		return ! empty( $GLOBALS['backupino_current_user_can'][ $capability ] );
 	}
 }
+
+if ( ! function_exists( 'admin_url' ) ) {
+	/**
+	 * Admin URL shim.
+	 *
+	 * @param string $path Path relative to admin.
+	 * @return string
+	 */
+	function admin_url( $path = '' ) {
+		return 'https://example.test/wp-admin/' . ltrim( (string) $path, '/' );
+	}
+}
+
+$GLOBALS['wpdb'] = new \Backupino\Tests\Support\FakeDb();
+

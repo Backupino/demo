@@ -58,7 +58,7 @@ final class Settings {
 				'ignore_larger_than' => 0,
 			),
 			'runtime'   => array(
-				'files_per_tick' => 250,
+				'files_per_tick' => 1000,
 				'rows_per_tick'  => 1000,
 				'time_budget'    => 20,
 				'retry_limit'    => 3,
@@ -85,9 +85,17 @@ final class Settings {
 				'keep'     => 3,
 			),
 			'notify'    => array(
-				'service' => 'none',
-				'token'   => '',
-				'chat_id' => '',
+				'service'             => 'none',
+				'token'               => '',
+				'chat_id'             => '',
+				'telegram_enabled'    => false,
+				'telegram_token'      => '',
+				'telegram_chat_id'    => '',
+				'bale_enabled'        => false,
+				'bale_token'          => '',
+				'bale_chat_id'        => '',
+				'msg_backup_template' => '',
+				'msg_restore_template'=> '',
 			),
 			'installer' => array(
 				'password' => '',
@@ -236,6 +244,13 @@ final class Settings {
 
 		$clean['notify']['token']   = trim( sanitize_text_field( $clean['notify']['token'] ) );
 		$clean['notify']['chat_id'] = trim( sanitize_text_field( $clean['notify']['chat_id'] ) );
+
+		if ( isset( $clean['notify']['msg_backup_template'] ) ) {
+			$clean['notify']['msg_backup_template'] = trim( (string) $clean['notify']['msg_backup_template'] );
+		}
+		if ( isset( $clean['notify']['msg_restore_template'] ) ) {
+			$clean['notify']['msg_restore_template'] = trim( (string) $clean['notify']['msg_restore_template'] );
+		}
 
 		$clean['advanced']['opt_in_news'] = (bool) ( $clean['advanced']['opt_in_news'] ?? false );
 

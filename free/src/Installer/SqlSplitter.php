@@ -84,11 +84,13 @@ final class SqlSplitter {
 			if ( array() !== $result['statements'] || $offset + strlen( $chunk ) >= $size || $chunk_size >= self::MAX_CHUNK ) {
 				$new_offset  = $offset + $result['consumed'];
 				$reached_eof = ( $offset + strlen( $chunk ) ) >= $size;
+				$trailing    = $reached_eof ? trim( substr( $chunk, $result['consumed'] ) ) : '';
+				$all_done    = $reached_eof && ( '' === $trailing || 0 === strpos( $trailing, '--' ) || 0 === strpos( $trailing, '#' ) || 0 === strpos( $trailing, '/*' ) );
 
 				return array(
 					'statements' => $result['statements'],
-					'offset'     => $new_offset,
-					'done'       => $new_offset >= $size || $reached_eof,
+					'offset'     => $all_done ? $size : $new_offset,
+					'done'       => $new_offset >= $size || $all_done,
 				);
 			}
 

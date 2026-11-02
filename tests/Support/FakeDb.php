@@ -130,6 +130,62 @@ final class FakeDb implements Db {
 	}
 
 	/**
+	 * WordPress wpdb compat: get_results.
+	 *
+	 * @param string $sql    Statement.
+	 * @param string $output Output format.
+	 * @return array<int, mixed>
+	 */
+	public function get_results( string $sql, string $output = 'OBJECT' ): array {
+		return $this->rows( $sql );
+	}
+
+	/**
+	 * WordPress wpdb compat: get_row.
+	 *
+	 * @param string $sql    Statement.
+	 * @param string $output Output format.
+	 * @return mixed
+	 */
+	public function get_row( string $sql, string $output = 'OBJECT' ) {
+		return $this->row( $sql );
+	}
+
+	/**
+	 * WordPress wpdb compat: get_var.
+	 *
+	 * @param string $sql Statement.
+	 * @return mixed
+	 */
+	public function get_var( string $sql ) {
+		return $this->var( $sql );
+	}
+
+	/**
+	 * WordPress wpdb compat: prepare.
+	 *
+	 * @param string $query Query.
+	 * @param mixed  ...$args Arguments.
+	 * @return string
+	 */
+	public function prepare( string $query, ...$args ): string {
+		if ( empty( $args ) ) {
+			return $query;
+		}
+		if ( isset( $args[0] ) && is_array( $args[0] ) ) {
+			$args = $args[0];
+		}
+		$escaped_args = array_map(
+			static function ( $arg ) {
+				return is_numeric( $arg ) ? $arg : addslashes( (string) $arg );
+			},
+			$args
+		);
+		$format = str_replace( array( '%s', '%d', '%f' ), array( "'%s'", '%d', '%f' ), $query );
+		return vsprintf( $format, $escaped_args );
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function var( string $sql, $default = null ) {

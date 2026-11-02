@@ -2,7 +2,7 @@
 
 # Backupino — Monorepo
 
-> **Status:** 🟢 Phase 1 — free `v1.0.0` completed (100%) · **Tests:** 142 green (PHP 7.4 / 8.3 / 8.4)
+> **Status:** 🟢 Phase 1 — free `v1.0.0` completed (100%) · **Tests:** 148 green (PHP 7.4 / 8.3 / 8.4)
 > **Entry point for contributors/agents:** [`docs/Dev/DEVELOPMENT-RULES.md`](docs/Dev/DEVELOPMENT-RULES.md) → [`roadmaps/README.md`](roadmaps/README.md)
 
 Backupino backs up a WordPress site — **files + database** — into one resumable package with a

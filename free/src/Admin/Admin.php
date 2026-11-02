@@ -29,6 +29,7 @@ final class Admin {
 	public function register(): void {
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
+		add_action( 'admin_notices', array( $this, 'migration_notice' ) );
 		add_action( 'rest_api_init', array( new RestController(), 'register_routes' ) );
 		DownloadHandler::register();
 		add_filter( 'plugin_action_links_' . plugin_basename( BACKUPINO_FILE ), array( $this, 'action_links' ) );
@@ -110,6 +111,9 @@ final class Admin {
 					'saved'    => __( 'Settings saved.', 'backupino' ),
 					'copied'   => __( 'Link copied to the clipboard.', 'backupino' ),
 					'notified' => __( 'Test message sent.', 'backupino' ),
+					'jobDetails'    => __( 'Backup Job', 'backupino' ),
+					'cancelConfirm' => __( 'Cancel the current backup job?', 'backupino' ),
+					'cancelled'     => __( 'Backup cancelled.', 'backupino' ),
 				),
 			)
 		);
@@ -156,5 +160,28 @@ final class Admin {
 		);
 
 		return $links;
+	}
+
+	/**
+	 * Display migration/restoration success notice if flag is set.
+	 *
+	 * @return void
+	 */
+	public function migration_notice(): void {
+		if ( '1' !== (string) get_option( 'backupino_migration_notice', '0' ) ) {
+			return;
+		}
+
+		delete_option( 'backupino_migration_notice' );
+
+		?>
+		<div class="notice notice-success is-dismissible" style="padding: 12px 16px; border-left-color: #10b981; border-right-color: #10b981;">
+			<p style="font-size: 14px; margin: 0; font-weight: 500;">
+				<strong><?php esc_html_e( 'Backupino — Site Migration Completed!', 'backupino' ); ?></strong>
+				<br>
+				<?php esc_html_e( 'Your website has been successfully restored and migrated to this location. Installer files and temporary data have been cleaned up.', 'backupino' ); ?>
+			</p>
+		</div>
+		<?php
 	}
 }

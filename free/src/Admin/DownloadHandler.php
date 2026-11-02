@@ -59,6 +59,11 @@ final class DownloadHandler {
 			wp_die( esc_html__( 'This package no longer exists on the server.', 'backupino' ), '', array( 'response' => 404 ) );
 		}
 
-		Fs::stream_download( $path );
+		$download_name = '';
+		if ( preg_match( '/(?:^|-)installer\.php$/i', $file ) ) {
+			$download_name = 'installer.php';
+		}
+
+		Fs::stream_download( $path, $download_name );
 	}
 }

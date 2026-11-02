@@ -351,10 +351,11 @@ final class RestController {
 	 *
 	 * @return \WP_REST_Response
 	 */
-	public function test_notification(): \WP_REST_Response {
+	public function test_notification( \WP_REST_Request $request ): \WP_REST_Response {
 		$plugin   = Plugin::instance();
 		$notifier = $plugin->notifier();
-		$sent     = $notifier->send_test( $plugin->site_name() );
+		$service  = sanitize_key( (string) $request->get_param( 'service' ) );
+		$sent     = $notifier->send_test( $plugin->site_name(), '' !== $service ? $service : null );
 
 		return new \WP_REST_Response(
 			array(
@@ -453,6 +454,23 @@ final class RestController {
 					: '',
 			);
 		}
+
+		$all_logs = Plugin::instance()->logger()->tail( 250 );
+		$job_logs = array();
+		if ( is_string( $all_logs ) && '' !== trim( $all_logs ) ) {
+			$lines       = explode( "\n", trim( $all_logs ) );
+			$pattern     = '"job":' . $job->id;
+			$alt_pattern = 'job #' . $job->id;
+			foreach ( $lines as $line ) {
+				if ( false !== strpos( $line, $pattern ) || false !== stripos( $line, $alt_pattern ) ) {
+					$job_logs[] = $line;
+				}
+			}
+			if ( empty( $job_logs ) ) {
+				$job_logs = array_values( array_slice( array_filter( $lines ), -40 ) );
+			}
+		}
+		$data['logs'] = $job_logs;
 
 		return $data;
 	}

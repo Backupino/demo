@@ -172,8 +172,12 @@ final class Fs {
 			$probe = $parent;
 		}
 
+		if ( ! function_exists( 'disk_free_space' ) ) {
+			return -1;
+		}
+
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
-		$free = @disk_free_space( $probe );
+		$free = @\disk_free_space( $probe );
 
 		return false === $free ? -1 : (int) $free;
 	}
@@ -205,10 +209,11 @@ final class Fs {
 	 *
 	 * Uses a plain readfile loop so that large archives never hit memory limits.
 	 *
-	 * @param string $path Absolute path.
+	 * @param string $path          Absolute path.
+	 * @param string $download_name Optional custom filename for the Content-Disposition header.
 	 * @return void
 	 */
-	public static function stream_download( string $path ): void {
+	public static function stream_download( string $path, string $download_name = '' ): void {
 		if ( ! is_readable( $path ) ) {
 			wp_die(
 				esc_html__( 'The requested file does not exist.', 'backupino' ),
@@ -217,9 +222,11 @@ final class Fs {
 			);
 		}
 
+		$filename = '' !== $download_name ? $download_name : basename( $path );
+
 		nocache_headers();
 		header( 'Content-Type: application/octet-stream' );
-		header( 'Content-Disposition: attachment; filename="' . basename( $path ) . '"' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 		header( 'Content-Length: ' . (string) self::size( $path ) );
 		header( 'X-Accel-Buffering: no' );
 

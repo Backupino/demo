@@ -76,7 +76,7 @@ final class UrlRewrite {
 	 * @param float                $seconds Time budget.
 	 * @return array<string, mixed>
 	 */
-	public function step( array $state, int $rows = 500, float $seconds = 8.0 ): array {
+	public function step( array $state, int $rows = 200, float $seconds = 6.0 ): array {
 		$state = array_merge( self::initial_state(), $state );
 		$start = microtime( true );
 
@@ -95,8 +95,12 @@ final class UrlRewrite {
 			if ( array() === $state['columns'] ) {
 				$columns = $this->text_columns( $table );
 
-				if ( array() === $columns ) {
+				if ( array() === $columns || array() === $columns['columns'] ) {
 					++$state['index'];
+					$state['columns'] = array();
+					$state['primary'] = '';
+					$state['cursor']  = null;
+					$state['offset']  = 0;
 					continue;
 				}
 
@@ -106,14 +110,27 @@ final class UrlRewrite {
 				$state['offset']  = 0;
 			}
 
-			$result = $this->rewrite_table(
-				$table,
-				(array) $state['columns'],
-				(string) $state['primary'],
-				$state['cursor'],
-				(int) $state['offset'],
-				$rows
-			);
+			$remaining = max( 0.5, $seconds - ( microtime( true ) - $start ) );
+
+			try {
+				$result = $this->rewrite_table(
+					$table,
+					(array) $state['columns'],
+					(string) $state['primary'],
+					$state['cursor'],
+					(int) $state['offset'],
+					$rows,
+					$remaining
+				);
+			} catch ( \Throwable $e ) {
+				// Skip table on error and proceed with remaining tables
+				++$state['index'];
+				$state['columns'] = array();
+				$state['primary'] = '';
+				$state['cursor']  = null;
+				$state['offset']  = 0;
+				continue;
+			}
 
 			$state['rows']    += $result['rows'];
 			$state['changes'] += $result['changes'];
@@ -142,11 +159,21 @@ final class UrlRewrite {
 	public function tables(): array {
 		$tables = array();
 
-		foreach ( $this->connection->rows( 'SHOW TABLES' ) as $row ) {
+		foreach ( $this->connection->rows( "SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'" ) as $row ) {
 			$values = array_values( $row );
 
 			if ( isset( $values[0] ) ) {
 				$tables[] = (string) $values[0];
+			}
+		}
+
+		if ( array() === $tables ) {
+			foreach ( $this->connection->rows( 'SHOW TABLES' ) as $row ) {
+				$values = array_values( $row );
+
+				if ( isset( $values[0] ) ) {
+					$tables[] = (string) $values[0];
+				}
 			}
 		}
 
@@ -202,9 +229,20 @@ final class UrlRewrite {
 	 * @param string|null $cursor  Last primary key value.
 	 * @param int         $offset  Row offset when there is no primary key.
 	 * @param int         $rows    Rows per query.
+	 * @param float       $timeout Max seconds allowed for this batch.
 	 * @return array{rows: int, changes: int, finished: bool, cursor: string|null, offset: int}
 	 */
-	private function rewrite_table( string $table, array $columns, string $primary, ?string $cursor, int $offset, int $rows ): array {
+	private function rewrite_table( string $table, array $columns, string $primary, ?string $cursor, int $offset, int $rows, float $timeout = 6.0 ): array {
+		if ( array() === $columns ) {
+			return array(
+				'rows'     => 0,
+				'changes'  => 0,
+				'finished' => true,
+				'cursor'   => null,
+				'offset'   => 0,
+			);
+		}
+
 		$select = 'SELECT ' . ( '' !== $primary ? self::quote( $primary ) . ', ' : '' )
 			. implode( ', ', array_map( array( self::class, 'quote' ), $columns ) )
 			. ' FROM ' . self::quote( $table );
@@ -231,9 +269,16 @@ final class UrlRewrite {
 			);
 		}
 
-		$changes = 0;
+		$changes         = 0;
+		$processed_count = 0;
+		$start_batch     = microtime( true );
+		$last_key        = $cursor;
 
 		foreach ( $result as $row ) {
+			if ( ( microtime( true ) - $start_batch ) >= $timeout ) {
+				break;
+			}
+
 			$updates = array();
 
 			foreach ( $columns as $column ) {
@@ -246,30 +291,28 @@ final class UrlRewrite {
 				}
 			}
 
-			if ( array() === $updates || '' === $primary ) {
-				continue;
+			if ( array() !== $updates && '' !== $primary && isset( $row[ $primary ] ) ) {
+				$this->connection->query(
+					'UPDATE ' . self::quote( $table ) . ' SET ' . implode( ', ', $updates )
+					. ' WHERE ' . self::quote( $primary ) . ' = ' . $this->quoted( (string) $row[ $primary ] )
+				);
 			}
 
-			$this->connection->query(
-				'UPDATE ' . self::quote( $table ) . ' SET ' . implode( ', ', $updates )
-				. ' WHERE ' . self::quote( $primary ) . ' = ' . $this->quoted( (string) $row[ $primary ] )
-			);
+			++$processed_count;
+			if ( '' !== $primary && isset( $row[ $primary ] ) ) {
+				$last_key = (string) $row[ $primary ];
+			}
 		}
 
-		$finished = count( $result ) < $rows;
-		$next     = null;
-
-		if ( '' !== $primary ) {
-			$last = $result[ count( $result ) - 1 ];
-			$next = isset( $last[ $primary ] ) ? (string) $last[ $primary ] : null;
-		}
+		$finished = ( $processed_count >= count( $result ) ) && ( count( $result ) < $rows );
+		$next     = ( '' !== $primary ) ? $last_key : null;
 
 		return array(
-			'rows'     => count( $result ),
+			'rows'     => $processed_count,
 			'changes'  => $changes,
 			'finished' => $finished,
 			'cursor'   => $next,
-			'offset'   => $finished ? 0 : $offset + count( $result ),
+			'offset'   => $finished ? 0 : $offset + $processed_count,
 		);
 	}
 
