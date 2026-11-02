@@ -476,6 +476,18 @@ if ( ! function_exists( 'current_user_can' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wp_strip_all_tags' ) ) {
+	/**
+	 * Strip all tags shim.
+	 *
+	 * @param string $text Content.
+	 * @return string
+	 */
+	function wp_strip_all_tags( $text ) {
+		return strip_tags( (string) $text );
+	}
+}
+
 if ( ! function_exists( 'admin_url' ) ) {
 	/**
 	 * Admin URL shim.
