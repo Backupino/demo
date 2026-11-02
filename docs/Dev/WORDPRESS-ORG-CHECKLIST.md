@@ -2,9 +2,21 @@
 
 # چک‌لیست انتشار در WordPress.org
 
-> **Status:** active · **Last updated:** 2026-11-01
+> **Status:** active · **Last updated:** 2026-11-02
 > **Referenced by:** [`DEVELOPMENT-RULES.md`](DEVELOPMENT-RULES.md) بند ۱۲
 > این سند برای رد شدن **حتمی** از مرحله‌ی بررسی کد مخزن وردپرس است. تیک هر مورد الزامی است.
+
+---
+
+## ۰) ممیزی رسمی Plugin Check (PCP)
+- [x] تست رسمی با افزونه Plugin Check (PCP) روی WordPress 6.x/7.x لوکال اجرا شد
+- [x] نتیجه ممیزی Plugin Check در تمام ۵ دسته‌بندی (General, Plugin Repo, Security, Performance, Accessibility): **صفر خطا و صفر هشدار**
+- [x] رفع خطای `hidden_files` با حذف فایل‌های ناخواسته از دایرکتوری ترجمه‌ها
+- [x] رفع خطاهای `ExceptionNotEscaped` در مراحل پایپ‌لاین و فایل‌های نصاب
+- [x] رفع تمام خطاهای `AlternativeFunctions` مطابق نام‌گذاری دقیق WPCS 3.2
+- [x] تنظیم نسخه `Tested up to: 7.1` مطابق آخرین نسخه اصلی منتشرشده در API وردپرس
+- [x] ایجاد فایل‌های حفاظتی سه‌گانه (`.htaccess`, `web.config`, `index.php`) برای دایرکتوری پکیج‌ها
+- [x] هماهنگی `Plugin URI` با مخزن رسمی مستندات پروژه برای جلوگیری از خطای دامنه غیرفعال
 
 ---
 
@@ -72,10 +84,12 @@
 
 ```
 audit: Passed
+plugin_check_pcp: 100% Clean (0 Errors, 0 Warnings across 5 categories)
 automated_tests: 148/148 passed
 security_vectors: zip-slip, unauthorized-rest, dangerous-functions, data-leak checked
 php_compatibility: 7.4 - 8.4 verified
-date: 2026-11-01
+wp_tested_up_to: 7.1
+date: 2026-11-02
 ```
 
 </div>
