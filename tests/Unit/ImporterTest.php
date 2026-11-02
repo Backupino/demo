@@ -79,4 +79,27 @@ final class ImporterTest extends TestCase {
 
 		$this->assertSame( strlen( $sql ), $importer->size() );
 	}
+
+	/**
+	 * Table prefixes are rewritten on the fly during statement execution.
+	 *
+	 * @return void
+	 */
+	public function test_prefix_rewriting_during_import(): void {
+		$dir  = $this->temp_dir();
+		$sql  = "CREATE TABLE `wp_options` (`option_id` bigint(20));\nINSERT INTO `wp_options` VALUES (1);\nDROP TABLE IF EXISTS `wp_users`;\n";
+		$file = $this->make_file( $dir, 'dump.sql', $sql );
+
+		$connection = new FakeConnection();
+		$importer   = new Importer( $connection, new SqlSplitter( $file ), 'wp_', 'jvd_' );
+		$offset     = 0;
+		$result     = $importer->step( $offset, 65536, 5.0 );
+
+		$this->assertSame( '', $result['error'] );
+		$this->assertTrue( $result['done'] );
+		$this->assertCount( 3, $connection->log );
+		$this->assertStringContains( '`jvd_options`', $connection->log[0] );
+		$this->assertStringContains( '`jvd_options`', $connection->log[1] );
+		$this->assertStringContains( '`jvd_users`', $connection->log[2] );
+	}
 }
