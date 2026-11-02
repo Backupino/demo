@@ -34,6 +34,10 @@ msgstr ""
 msgid "100% privacy-compliant: zero tracking, zero telemetry, strictly optional notifications."
 msgstr ""
 
+#: free/src/Core/Updater.php:148
+msgid "A new version of Backupino is available (%s)."
+msgstr ""
+
 #: free/backupino.php:1
 msgid "API token provided by Telegram @BotFather or Bale Bot platform."
 msgstr ""
@@ -159,6 +163,10 @@ msgstr ""
 msgid "Backupino cannot run on this server:"
 msgstr ""
 
+#: free/src/Core/Updater.php:128
+msgid "Backupino is up to date. You are running the latest version (%s)."
+msgstr ""
+
 #: free/src/Core/Compatibility.php:47
 msgid "Backupino requires PHP %1$s or newer. This server runs PHP %2$s."
 msgstr ""
@@ -167,7 +175,7 @@ msgstr ""
 msgid "Backupino settings"
 msgstr ""
 
-#: free/src/Admin/Admin.php:181
+#: free/src/Admin/Admin.php:184
 msgid "Backupino — Site Migration Completed!"
 msgstr ""
 
@@ -268,8 +276,17 @@ msgstr ""
 msgid "Chat id"
 msgstr ""
 
-#: free/src/Admin/Admin.php:160
+#: free/templates/settings.php:614
+msgid "Check GitHub releases for the latest version and updates."
+msgstr ""
+
+#: free/src/Admin/Admin.php:163
+#: free/templates/settings.php:619
 msgid "Check for updates"
+msgstr ""
+
+#: free/backupino.php:1
+msgid "Checking for updates…"
 msgstr ""
 
 #: free/templates/dashboard.php:318
@@ -313,6 +330,10 @@ msgstr ""
 msgid "Could not add file to archive: %s"
 msgstr ""
 
+#: free/src/Core/Updater.php:171
+msgid "Could not check for updates. Please try again later."
+msgstr ""
+
 #: free/src/Backup/ZipArchiveWriter.php:69
 msgid "Could not open the archive (error %d)."
 msgstr ""
@@ -339,6 +360,10 @@ msgstr ""
 
 #: free/src/Download/PublicDownload.php:269
 msgid "Created Date"
+msgstr ""
+
+#: free/templates/settings.php:613
+msgid "Current Version:"
 msgstr ""
 
 #: free/templates/dashboard.php:220
@@ -379,6 +404,10 @@ msgstr ""
 
 #: free/src/Admin/Admin.php:110
 msgid "Delete this package permanently?"
+msgstr ""
+
+#: free/backupino.php:1
+msgid "Description of the plugin"
 msgstr ""
 
 #: free/templates/dashboard.php:98
@@ -452,6 +481,10 @@ msgstr ""
 msgid "Download Link"
 msgstr ""
 
+#: free/src/Core/Updater.php:158
+msgid "Download ZIP"
+msgstr ""
+
 #: free/templates/dashboard.php:169
 msgid "Dumps all WordPress database tables into pure standard SQL without relying on mysqldump."
 msgstr ""
@@ -512,7 +545,7 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: free/src/Core/Updater.php:134
+#: free/src/Core/Updater.php:268
 msgid "Fast, resumable WordPress backups, cloning and migration with a self-contained installer."
 msgstr ""
 
@@ -815,6 +848,10 @@ msgstr ""
 msgid "Permanent download link"
 msgstr ""
 
+#: free/backupino.php:1
+msgid "Plugin Name of the plugin"
+msgstr ""
+
 #: free/templates/settings.php:585
 msgid "Preset target URL for search & replace when migrating to a known new domain."
 msgstr ""
@@ -897,7 +934,7 @@ msgstr ""
 msgid "Running"
 msgstr ""
 
-#: free/templates/settings.php:614
+#: free/templates/settings.php:630
 msgid "Save settings"
 msgstr ""
 
@@ -927,7 +964,7 @@ msgstr ""
 
 #: free/src/Admin/Admin.php:65
 #: free/src/Admin/Admin.php:66
-#: free/src/Admin/Admin.php:159
+#: free/src/Admin/Admin.php:162
 #: free/templates/dashboard.php:47
 #: free/templates/settings.php:76
 msgid "Settings"
@@ -1175,6 +1212,10 @@ msgstr ""
 msgid "Unknown pipeline stage."
 msgstr ""
 
+#: free/src/Core/Updater.php:153
+msgid "Update Now"
+msgstr ""
+
 #: free/backupino.php:1
 msgid "Updates & Community"
 msgstr ""
@@ -1190,6 +1231,10 @@ msgstr ""
 
 #: free/src/Backup/Stages/FinalizeStage.php:266
 msgid "Upload failed: %s"
+msgstr ""
+
+#: free/src/Core/Updater.php:162
+msgid "View Release Notes"
 msgstr ""
 
 #: free/templates/settings.php:605
@@ -1217,7 +1262,11 @@ msgstr ""
 msgid "You are not allowed to manage backups."
 msgstr ""
 
-#: free/src/Admin/Admin.php:183
+#: free/src/Core/Updater.php:57
+msgid "You do not have permission to check for updates."
+msgstr ""
+
+#: free/src/Admin/Admin.php:186
 msgid "Your website has been successfully restored and migrated to this location. Installer files and temporary data have been cleaned up."
 msgstr ""
 

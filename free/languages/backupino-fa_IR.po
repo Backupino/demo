@@ -36,6 +36,10 @@ msgstr "%s messenger is not enabled or not fully configured."
 msgid "100% privacy-compliant: zero tracking, zero telemetry, strictly optional notifications."
 msgstr "100٪ منطبق با حریم خصوصی: بدون ردیابی، بدون تله‌متری و اطلاع‌رسانی کاملاً اختیاری."
 
+#: free/src/Core/Updater.php:148
+msgid "A new version of Backupino is available (%s)."
+msgstr "نسخه جدیدی از افزونه بکاپینو موجود است (%s)."
+
 #: free/backupino.php:1
 msgid "API token provided by Telegram @BotFather or Bale Bot platform."
 msgstr "توکن API دریافت شده از BotFather تلگرام یا پلتفرم بازوی بله."
@@ -134,57 +138,61 @@ msgstr "در حال ایجاد نسخه پشتیبان"
 #: free/templates/dashboard.php:34
 #: free/templates/settings.php:63
 msgid "Backupino"
-msgstr "بک‌آپینو"
+msgstr "بکاپینو"
 
 #: free/src/Admin/Admin.php:45
 msgid "Backupino - Free WordPress Backup & Migration"
-msgstr "Backupino - Free WordPress Backup & Migration"
+msgstr "Backupino - بکاپ‌گیری رایگان و انتقال آسان وردپرس"
 
 #: free/templates/dashboard.php:40
 #: free/templates/settings.php:69
 msgid "Backupino Navigation"
-msgstr "ناوبری بک‌آپینو"
+msgstr "ناوبری بکاپینو"
 
 #: free/src/Download/PublicDownload.php:254
 msgid "Backupino Verified Package"
-msgstr "بسته تایید شده بک‌آپینو"
+msgstr "بسته تایید شده بکاپینو"
 
 #: free/backupino.php:1
 msgid "Backupino can announce every finished backup, with the permanent download link, in Telegram or Bale. The bot belongs to you: create one with @BotFather, then paste its token and your chat id here."
-msgstr "بک‌آپینو می‌تواند اتمام هر نسخه پشتیبان را به همراه لینک دائمی دانلود در تلگرام یا بله اطلاع‌رسانی کند. ربات متعلق به خودتان است: یکی در BotFather بسازید، سپس توکن و شناسه چت خود را اینجا قرار دهید."
+msgstr "بکاپینو می‌تواند اتمام هر نسخه پشتیبان را به همراه لینک دائمی دانلود در تلگرام یا بله اطلاع‌رسانی کند. ربات متعلق به خودتان است: یکی در BotFather بسازید، سپس توکن و شناسه چت خود را اینجا قرار دهید."
 
 #: free/templates/settings.php:356
 msgid "Backupino can announce every finished backup, with the permanent download link, in Telegram or Bale. You can enable either or both messengers simultaneously."
-msgstr "بک‌آپینو می‌تواند اتمام هر نسخه پشتیبان را به همراه لینک مستقیم در تلگرام یا بله اطلاع‌رسانی کند. می‌توانید یک یا هر دو پیام‌رسان را به‌طور همزمان فعال کنید."
+msgstr "بکاپینو می‌تواند اتمام هر نسخه پشتیبان را به همراه لینک مستقیم در تلگرام یا بله اطلاع‌رسانی کند. می‌توانید یک یا هر دو پیام‌رسان را به‌طور همزمان فعال کنید."
 
 #: free/src/Plugin.php:202
 msgid "Backupino cannot run on this server:"
-msgstr "بک‌آپینو امکان اجرا روی این سرور را ندارد:"
+msgstr "بکاپینو امکان اجرا روی این سرور را ندارد:"
+
+#: free/src/Core/Updater.php:128
+msgid "Backupino is up to date. You are running the latest version (%s)."
+msgstr "افزونه بکاپینو آخرین نسخه است. شما در حال استفاده از آخرین نسخه موجود (%s) هستید."
 
 #: free/src/Core/Compatibility.php:47
 msgid "Backupino requires PHP %1$s or newer. This server runs PHP %2$s."
-msgstr "بک‌آپینو به PHP %1$s یا جدیدتر نیاز دارد. نسخه فعلی این سرور %2$s است."
+msgstr "بکاپینو به PHP %1$s یا جدیدتر نیاز دارد. نسخه فعلی این سرور %2$s است."
 
 #: free/backupino.php:1
 msgid "Backupino settings"
-msgstr "تنظیمات بک‌آپینو"
+msgstr "تنظیمات بکاپینو"
 
-#: free/src/Admin/Admin.php:181
+#: free/src/Admin/Admin.php:184
 msgid "Backupino — Site Migration Completed!"
-msgstr "بک‌آپینو — بازگردانی و انتقال وب‌سایت تکمیل شد!"
+msgstr "بکاپینو — بازگردانی و انتقال وب‌سایت تکمیل شد!"
 
 #: free/backupino.php:1
 msgid "Backupino — backup finished: %s"
-msgstr "بک‌آپینو — پشتیبان‌گیری تکمیل شد: %s"
+msgstr "بکاپینو — پشتیبان‌گیری تکمیل شد: %s"
 
 #: free/backupino.php:1
 msgid "Backupino — test message from %s"
-msgstr "بک‌آپینو — پیام آزمایشی از %s"
+msgstr "بکاپینو — پیام آزمایشی از %s"
 
 #: free/src/Core/Activator.php:43
 #: free/src/Cron/Scheduler.php:60
 msgid "Backupino: every minute"
-msgstr "بک‌آپینو: هر دقیقه"
+msgstr "بکاپینو: هر دقیقه"
 
 #: free/src/Admin/Admin.php:56
 #: free/src/Admin/Admin.php:57
@@ -270,9 +278,18 @@ msgstr "فهرست‌بندی"
 msgid "Chat id"
 msgstr "شناسه چت (Chat ID)"
 
-#: free/src/Admin/Admin.php:160
+#: free/templates/settings.php:614
+msgid "Check GitHub releases for the latest version and updates."
+msgstr "بررسی مخزن گیت‌هاب برای دریافت آخرین نسخه و به‌روزرسانی‌ها."
+
+#: free/src/Admin/Admin.php:163
+#: free/templates/settings.php:619
 msgid "Check for updates"
-msgstr "Check for updates"
+msgstr "بررسی به‌روزرسانی"
+
+#: free/backupino.php:1
+msgid "Checking for updates…"
+msgstr "در حال بررسی به‌روزرسانی…"
 
 #: free/templates/dashboard.php:318
 msgid "Click to view log and details"
@@ -315,6 +332,10 @@ msgstr "پشتیبان‌گیری از پایگاه داده"
 msgid "Could not add file to archive: %s"
 msgstr "افزودن فایل به آرشیو ممکن نبود: %s"
 
+#: free/src/Core/Updater.php:171
+msgid "Could not check for updates. Please try again later."
+msgstr "بررسی به‌روزرسانی ناموفق بود. لطفاً بعداً دوباره امتحان کنید."
+
 #: free/src/Backup/ZipArchiveWriter.php:69
 msgid "Could not open the archive (error %d)."
 msgstr "امکان باز کردن آرشیو وجود نداشت (خطای %d)."
@@ -342,6 +363,10 @@ msgstr "تاریخ ایجاد"
 #: free/src/Download/PublicDownload.php:269
 msgid "Created Date"
 msgstr "تاریخ ایجاد"
+
+#: free/templates/settings.php:613
+msgid "Current Version:"
+msgstr "نسخه فعلی:"
 
 #: free/templates/dashboard.php:220
 msgid "Database"
@@ -382,6 +407,10 @@ msgstr "Delete backup package"
 #: free/src/Admin/Admin.php:110
 msgid "Delete this package permanently?"
 msgstr "آیا این بسته برای همیشه حذف شود؟"
+
+#: free/backupino.php:1
+msgid "Description of the plugin"
+msgstr "تهیه نسخه پشتیبان سریع، قطعه‌بندی‌شده، شبیه‌سازی و انتقال آسان وردپرس به همراه اینستالر مستقل خودکفا."
 
 #: free/templates/dashboard.php:98
 msgid "Destination"
@@ -454,6 +483,10 @@ msgstr "دانلود فایل نصاب (installer.php)"
 msgid "Download Link"
 msgstr "لینک دانلود مستقیم"
 
+#: free/src/Core/Updater.php:158
+msgid "Download ZIP"
+msgstr "دانلود ZIP"
+
 #: free/templates/dashboard.php:169
 msgid "Dumps all WordPress database tables into pure standard SQL without relying on mysqldump."
 msgstr "خروجی استاندارد و کامل تمام جداول پایگاه‌داده بدون وابستگی به mysqldump."
@@ -514,7 +547,7 @@ msgstr "سقف زمان اجرا"
 msgid "Failed"
 msgstr "ناموفق"
 
-#: free/src/Core/Updater.php:134
+#: free/src/Core/Updater.php:268
 msgid "Fast, resumable WordPress backups, cloning and migration with a self-contained installer."
 msgstr "Fast, resumable WordPress backups, cloning and migration with a self-contained installer."
 
@@ -817,6 +850,10 @@ msgstr "جایگزین PclZip"
 msgid "Permanent download link"
 msgstr "لینک دائمی دانلود"
 
+#: free/backupino.php:1
+msgid "Plugin Name of the plugin"
+msgstr "Backupino - بکاپ‌گیری رایگان و انتقال آسان وردپرس"
+
 #: free/templates/settings.php:585
 msgid "Preset target URL for search & replace when migrating to a known new domain."
 msgstr "آدرس اینترنتی مقصد برای جستجو و جایگزینی خودکار در زمان مهاجرت به دامنه جدید."
@@ -899,7 +936,7 @@ msgstr "اجرای خودکار پشتیبان‌گیری"
 msgid "Running"
 msgstr "در حال اجرا"
 
-#: free/templates/settings.php:614
+#: free/templates/settings.php:630
 msgid "Save settings"
 msgstr "ذخیره تنظیمات"
 
@@ -929,7 +966,7 @@ msgstr "ارسال پیام آزمایشی"
 
 #: free/src/Admin/Admin.php:65
 #: free/src/Admin/Admin.php:66
-#: free/src/Admin/Admin.php:159
+#: free/src/Admin/Admin.php:162
 #: free/templates/dashboard.php:47
 #: free/templates/settings.php:76
 msgid "Settings"
@@ -1177,6 +1214,10 @@ msgstr "محدودیت زمان اجرا"
 msgid "Unknown pipeline stage."
 msgstr "مرحله پایپ‌لاین نامشخص است."
 
+#: free/src/Core/Updater.php:153
+msgid "Update Now"
+msgstr "به‌روزرسانی اکنون"
+
 #: free/backupino.php:1
 msgid "Updates & Community"
 msgstr "به‌روزرسانی‌ها و جامعه کاربری"
@@ -1193,6 +1234,10 @@ msgstr "هر دو فایل (آرشیو zip و installer.php) را درون یک 
 #: free/src/Backup/Stages/FinalizeStage.php:266
 msgid "Upload failed: %s"
 msgstr "آپلود ناموفق بود: %s"
+
+#: free/src/Core/Updater.php:162
+msgid "View Release Notes"
+msgstr "مشاهده یادداشت‌های انتشار"
 
 #: free/templates/settings.php:605
 msgid "We respect your privacy. No telemetry or personal data is collected or sent without your explicit consent."
@@ -1219,7 +1264,11 @@ msgstr "شما دسترسی لازم برای دانلود پشتیبان‌ها
 msgid "You are not allowed to manage backups."
 msgstr "شما دسترسی لازم برای مدیریت پشتیبان‌ها را ندارید."
 
-#: free/src/Admin/Admin.php:183
+#: free/src/Core/Updater.php:57
+msgid "You do not have permission to check for updates."
+msgstr "شما دسترسی لازم برای بررسی به‌روزرسانی را ندارید."
+
+#: free/src/Admin/Admin.php:186
 msgid "Your website has been successfully restored and migrated to this location. Installer files and temporary data have been cleaned up."
 msgstr "وب‌سایت شما با موفقیت در این موقعیت جدید بازگردانی شد. فایل‌های نصبی و داده‌های موقت پاکسازی شدند."
 
