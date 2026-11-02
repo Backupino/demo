@@ -183,12 +183,20 @@ if ( ! defined( 'BACKUPINO_TESTS' ) && ( ( isset( $_SERVER['argv'][0] ) && false
 
 	try {
 		$result = ReleaseBuilder::build( $free, $out, $version );
+
+		// Always maintain canonical release archive releases/backupino-free.zip for direct testing and downloads
+		$canonicalZip = $root . '/releases/backupino-free.zip';
+		if ( realpath( $out ) !== realpath( $canonicalZip ) ) {
+			@copy( $out, $canonicalZip );
+		}
+
 		echo "Backupino release package built successfully:\n";
-		echo "  Version:  {$result['version']}\n";
-		echo "  Archive:  {$result['archive']}\n";
-		echo "  Files:    {$result['files']} files (" . number_format( $result['bytes'] ) . " bytes uncompressed)\n";
-		echo "  Zip size: " . number_format( $result['size'] ) . " bytes\n";
-		echo "  SHA-256:  {$result['sha256']}\n";
+		echo "  Version:   {$result['version']}\n";
+		echo "  Archive:   {$result['archive']}\n";
+		echo "  Canonical: {$canonicalZip}\n";
+		echo "  Files:     {$result['files']} files (" . number_format( $result['bytes'] ) . " bytes uncompressed)\n";
+		echo "  Zip size:  " . number_format( $result['size'] ) . " bytes\n";
+		echo "  SHA-256:   {$result['sha256']}\n";
 	} catch ( \Throwable $e ) {
 		fwrite( STDERR, "Error: " . $e->getMessage() . "\n" );
 		exit( 1 );
