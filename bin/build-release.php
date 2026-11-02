@@ -73,6 +73,7 @@ final class ReleaseBuilder {
 			'tmp',
 			'log',
 			'swp',
+			'md',
 		);
 
 		foreach ( $iterator as $item ) {
@@ -82,22 +83,27 @@ final class ReleaseBuilder {
 
 			$filename  = $item->getFilename();
 			$extension = strtolower( $item->getExtension() );
+			$fullPath  = $item->getPathname();
+			$relPath   = substr( $fullPath, strlen( $freeDir ) + 1 );
+			$relPath   = str_replace( '\\', '/', $relPath );
+
+			// Exclude .git directories, git files, and all hidden files/directories
+			if ( 0 === strpos( $relPath, '.git/' ) || false !== strpos( $relPath, '/.git/' ) || 0 === strpos( $filename, '.' ) ) {
+				continue;
+			}
 
 			if ( in_array( $filename, $excludedNames, true ) ) {
 				continue;
 			}
 
-			if ( 0 === strpos( $filename, '.' ) ) {
+			// Exclude all markdown files (README.md, README.fa.md, etc.) from release packages
+			if ( 'md' === $extension || false !== stripos( $filename, 'readme.md' ) ) {
 				continue;
 			}
 
 			if ( in_array( $extension, $excludedExtensions, true ) ) {
 				continue;
 			}
-
-			$fullPath = $item->getPathname();
-			$relPath  = substr( $fullPath, strlen( $freeDir ) + 1 );
-			$relPath  = str_replace( '\\', '/', $relPath );
 
 			// Validate PHP syntax for every packaged PHP file
 			if ( 'php' === $extension ) {

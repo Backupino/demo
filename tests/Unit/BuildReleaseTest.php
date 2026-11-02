@@ -67,14 +67,19 @@ final class BuildReleaseTest extends TestCase {
 			$this->assertFalse( 0 === strpos( $entry, 'backupino/tools/' ) );
 			$this->assertFalse( 0 === strpos( $entry, 'backupino/bin/' ) );
 			$this->assertFalse( 0 === strpos( $entry, 'backupino/.github/' ) );
+			$this->assertFalse( 0 === strpos( $entry, 'backupino/.git/' ) );
+			$this->assertFalse( false !== strpos( $entry, '/.git/' ) );
 			$this->assertFalse( false !== strpos( $entry, '.gitkeep' ) );
 			$this->assertFalse( false !== strpos( $entry, '.DS_Store' ) );
+			$this->assertFalse( false !== stripos( $entry, 'readme.md' ) );
+			$this->assertFalse( '.md' === substr( strtolower( $entry ), -3 ) );
 		}
 
 		// Essential files must be present
 		$this->assertTrue( in_array( 'backupino/backupino.php', $entries, true ) );
 		$this->assertTrue( in_array( 'backupino/uninstall.php', $entries, true ) );
 		$this->assertTrue( in_array( 'backupino/readme.txt', $entries, true ) );
+		$this->assertTrue( in_array( 'backupino/LICENSE', $entries, true ) );
 		$this->assertTrue( in_array( 'backupino/languages/backupino-fa_IR.mo', $entries, true ) );
 		$this->assertTrue( in_array( 'backupino/languages/backupino.pot', $entries, true ) );
 	}
