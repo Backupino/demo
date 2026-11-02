@@ -28,3 +28,6 @@
 # Local tooling cache (phpcs/wpcs downloads)
 /.tools/
 /wp-content/
+ 
+# Cloned documents repository
+/docs/Public/
