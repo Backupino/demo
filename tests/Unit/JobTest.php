@@ -44,6 +44,11 @@ final class JobTest extends TestCase {
 	 *
 	 * @return void
 	 */
+	public function test_package_default_name_has_random_suffix(): void {
+		$name = \Backupino\Backup\Package::default_name( 'mysite' );
+		$this->assertSame( 1, preg_match( '/^mysite_\\d{8}_\\d{6}_[a-f0-9]{12}$/', $name ) );
+	}
+
 	public function test_create(): void {
 		$job = Job::create( array( 'type' => 'manual' ), new SystemClock() );
 
