@@ -10,6 +10,18 @@ this project adheres to **Backupino's Custom Versioning Specification**:
 - **Minor (0..∞):** Unbounded integer representing feature iterations and milestone rollouts (`1.9.9` $\to$ `1.10.0` $\to$ ...).
 - **Major (1..9):** Capped at 9, reserved for foundational architecture redesigns.
 
+## [1.0.1] — 2026-11-03
+
+### Fixed
+- **Fatal Error Prevention in JobRunner**: Replaced nonexistent method call `Fs::mkdir()` with defensive `Fs::ensure_dir()` in `JobRunner::step()` (line 122), ensuring backup jobs initialize flawlessly on fresh WordPress installations.
+- **Lock Management & Clean Releasing**: Added comprehensive lock release (`LOCK_UN`) and `.lock` file unlinking in `JobRunner` on pipeline stage lookup failure and job failures, preventing orphaned lock files on disk.
+- **WP-Cron Manual Job Detection**: Fixed `Scheduler::run_jobs()` to read `$job->option('type', 'manual')` instead of undefined property `$job->type`, and ensured `RestController::create_job()` sets default `'manual'` type when not explicitly supplied by browser requests.
+
+### Security
+- **Nginx Installer Execution Shield**: Standalone installer (`installer-template.php`) now enforces a strict 403 Forbidden guard if executed inside `wp-content/`, completely thwarting unauthenticated installer execution on Nginx servers.
+- **Cryptographic Package Suffix**: Package filenames generated via `Package::default_name()` now incorporate a 12-character random hexadecimal suffix (`Str::random(6)`), eliminating any predictable URL enumeration on web servers lacking `.htaccess` support.
+- **Ephemeral Installer Storage**: Removed persistent `packages/installer.php` storage in `FinalizeStage`, streaming installer files directly through authenticated download endpoints with clean `installer.php` headers.
+
 ## [1.0.0] — 2026-11-03
 
 ### Added

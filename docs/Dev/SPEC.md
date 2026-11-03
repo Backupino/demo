@@ -2,7 +2,7 @@
 
 # Backupino — Product & Technical Specification
 
-Version 1.0.0 · 2026-11-03 · status: living document
+Version 1.0.1 · 2026-11-03 · status: living document
 
 ## 0. Versioning Policy
 
