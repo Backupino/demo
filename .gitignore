@@ -1,0 +1,33 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build output
+/dist/
+/releases/*.zip
+/releases/*.php
+/build/
+*.zip
+
+# Runtime artifacts
+/tmp/
+/.backupino/
+/storage/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.sublime-project
+
+# Tooling caches
+.phpcs-cache
+.phpunit.result.cache
+/coverage/
+
+# Local tooling cache (phpcs/wpcs downloads)
+/.tools/
+/wp-content/
+ 
+# Cloned documents repository
+/docs/Public/

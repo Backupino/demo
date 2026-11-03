@@ -1,0 +1,27 @@
+{
+  "name": "backupino/backupino",
+  "description": "Fast, resumable WordPress backups, cloning and migration with a self-contained installer.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "keywords": ["wordpress", "backup", "migration", "clone", "s3"],
+  "require": {
+    "php": ">=7.4"
+  },
+  "require-dev": {
+    "wp-coding-standards/wpcs": "^3.1",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "phpcompatibility/phpcompatibility-paragonie": "^1.3",
+    "phpcompatibility/phpcompatibility-passwordcompat": "^1.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "lint": "phpcs",
+    "test": "php tests/run.php",
+    "installer": "php bin/build-installer.php"
+  }
+}

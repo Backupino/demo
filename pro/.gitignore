@@ -1,0 +1,14 @@
+# OS & Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Logs & temp
+*.log
+/tmp/
+/build/
+/dist/
+/vendor/

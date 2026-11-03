@@ -1,0 +1,19 @@
+{
+  "name": "backupino",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Local PHP test harness for the Backupino WordPress plugin (php-wasm).",
+  "type": "module",
+  "scripts": {
+    "test": "node tools/run-php.mjs tests/run.php",
+    "test:filter": "node tools/run-php.mjs tests/run.php --filter",
+    "test:74": "BACKUPINO_PHP=7.4 node tools/run-php.mjs tests/run.php",
+    "test:80": "BACKUPINO_PHP=8.0 node tools/run-php.mjs tests/run.php",
+    "test:84": "BACKUPINO_PHP=8.4 node tools/run-php.mjs tests/run.php",
+    "build:installer": "node tools/run-php.mjs bin/build-installer.php"
+  },
+  "devDependencies": {
+    "@php-wasm/node": "^3.1.61",
+    "@php-wasm/universal": "^3.1.61"
+  }
+}
