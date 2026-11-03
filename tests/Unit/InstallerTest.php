@@ -241,4 +241,42 @@ final class InstallerTest extends TestCase {
 		$this->assertFalse( Extractor::is_safe( '/abs' ) );
 		$this->assertTrue( Extractor::is_safe( 'wp-content/themes/x/style.css' ) );
 	}
+	/**
+	 * Potentially dangerous web server configs (.htaccess, .user.ini, php.ini, wp-config.php)
+	 * are quarantined as .backupino-orig so that extraction never crashes the web server.
+	 *
+	 * @return void
+	 */
+	public function test_server_configs_are_quarantined_during_extraction(): void {
+		$dir = $this->temp_dir();
+		$zip = $dir . '/test-configs.zip';
+		$w   = new ZipArchiveWriter();
+		$w->open( $zip );
+		$w->add_from_string( '.htaccess', 'Options +FollowSymLinks' );
+		$w->add_from_string( '.user.ini', 'auto_prepend_file=missing.php' );
+		$w->add_from_string( 'php.ini', 'memory_limit=512M' );
+		$w->add_from_string( 'wp-config.php', '<?php define("DB_NAME", "orig");' );
+		$w->close();
+
+		$target    = $dir . '/extracted';
+		$extractor = new Extractor( $zip, $target );
+		$extractor->open();
+
+		$offset = 0;
+		$extractor->step( $offset, 10 );
+		$extractor->close();
+
+		$this->assertFalse( is_file( $target . '/.htaccess' ) );
+		$this->assertTrue( is_file( $target . '/.htaccess.backupino-orig' ) );
+		$this->assertSame( 'Options +FollowSymLinks', (string) file_get_contents( $target . '/.htaccess.backupino-orig' ) );
+
+		$this->assertFalse( is_file( $target . '/.user.ini' ) );
+		$this->assertTrue( is_file( $target . '/.user.ini.backupino-orig' ) );
+
+		$this->assertFalse( is_file( $target . '/php.ini' ) );
+		$this->assertTrue( is_file( $target . '/php.ini.backupino-orig' ) );
+
+		$this->assertFalse( is_file( $target . '/wp-config.php' ) );
+		$this->assertTrue( is_file( $target . '/wp-config.backupino-orig.php' ) );
+	}
 }
