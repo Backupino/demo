@@ -4,11 +4,28 @@
 
 All notable changes to this project are documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
-this project adheres to [Semantic Versioning](https://semver.org/).
+this project adheres to **Backupino's Custom Versioning Specification**:
+- **Format:** `Major.Minor.Patch`
+- **Patch (0..9):** Capped strictly at 9. Rolling over from 9 resets Patch to 0 and increments Minor (`1.0.0` .. `1.0.9` $\to$ `1.1.0`).
+- **Minor (0..∞):** Unbounded integer representing feature iterations and milestone rollouts (`1.9.9` $\to$ `1.10.0` $\to$ ...).
+- **Major (1..9):** Capped at 9, reserved for foundational architecture redesigns.
 
-## [1.0.0] — 2026-11-01
+## [1.0.0] — 2026-11-03
 
 ### Added
+- **7-Step Standalone Installer Wizard**: Completely self-contained deployment engine (~72 KB) featuring dynamic multi-step wizardry:
+  - Step 1: Pre-flight system requirement validation (PHP version, ZipArchive, write permissions).
+  - Step 2: Database connection testing & MySQL credential verification.
+  - Step 3: Database options & custom table prefix mapping (e.g. `jvd_` or custom prefixes) with automatic user capabilities & option prefix synchronization to eliminate admin lockouts.
+  - Step 4: Chunked archive file extraction & streaming SQL dump importer with memory resilience and live progress metrics.
+  - Step 5: Deep serialized & JSON-aware search-and-replace, preserving Elementor dynamic tags (`@elementor-tag-data:...@`) and raw / URL-encoded UTF-8 Persian slugs with automatic string length recalculation, plus clean `wp-config.php` and `.htaccess` generation.
+  - Step 6: Administrator account setup & verification with option to update or create admin credentials.
+  - Step 7: Final summary, deployment verification, one-click admin login, and automated self-cleanup of installer runtime assets.
+- **Server Config Quarantine Extraction**: Intelligent protection during archive extraction isolating `.htaccess`, `.user.ini`, `php.ini`, and `wp-config.php` as `.backupino-orig` to prevent LiteSpeed/cPanel HTTP 500 Internal Server Errors from incompatible source host directives.
+- **Dual Installer Artifacts**: Automatic generation of both standardized `installer.php` and uniquely timestamped `[site]_[timestamp]-installer.php` in the backup packages directory.
+- **Independent Messenger Controls**: Decoupled toggle switches (`telegram_enabled` and `bale_enabled`) allowing Telegram and Bale bots to be enabled, tested, or disabled independently.
+- **Database Import Resilience**: Auto-recovery against MariaDB/InnoDB Error 1813 (`Tablespace exists`) via automatic tablespace discarding, multi-row `INSERT` statement batching for low `max_allowed_packet` hosts, and foreign key constraint safety (`FOREIGN_KEY_CHECKS=0`).
+- **Full WordPress Plugin Check (PCP) Compliance**: 100% clean check across all 5 official WordPress.org Plugin Check categories with zero errors and zero warnings.
 - **Storage Partitioning**: Partitioned architecture separating core backup engine from cloud providers; `StorageManager` is filter-driven (`backupino_storage_drivers`) with local-only storage in the free core.
 - **Permanent Download Link**: Admin login-gated, non-expiring `?backupino_download=latest` URL with secure 32-byte secret token and one-click copyable UI in the admin dashboard.
 - **Bot Notifications**: Telegram Bot API and Bale Bot API support for instant backup completion alerts, containing domain, size, timestamp, and download link. Includes "Send test message" action in Settings, automated retry queue, messenger-specific formatting (Markdown links for Bale and entity-safe HTML for Telegram), and post-restore notification dispatch.
@@ -16,15 +33,13 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 - **Automatic Storage Housekeeping**: Automatic cleanup of temporary jobs slices and files upon process completion or cancellation to prevent disk waste.
 - **Monthly Automated Backup**: Cron-scheduled backup running on the 1st of every month, with native Jalali solar calendar for Persian locale (`fa_IR`) and Gregorian calendar for other locales (`Support\Dates`).
 - **Internationalization (i18n) & RTL**: Complete gettext catalog (`backupino.pot`), full Persian translation (`backupino-fa_IR.po` & `backupino-fa_IR.mo`), native RTL styling via CSS logical properties, and strict Latin digit normalization (`Str::latin_digits`).
-- **Standalone Installer Builder**: Dynamically builds `installer.php` (~72 KB) with chunked file extraction, streaming SQL dump importer, deep JSON/nested serialization search-and-replace, multi-step navigation (Back/Next), preserved source language and custom constants, robust prefix mapping preserving administrator roles, and fresh `wp-config.php` generation with unique salts.
-- **Pure SQL Dumper**: Native MySQL string escaping preserving Persian slugs and UTF-8 characters without `%` placeholder corruption.
 - **Release Packaging Pipeline**: `bin/build-release.php` and `ReleaseBuilder` creating clean distribution packages (`releases/backupino-{version}.zip`) stripped of dev tools, tests, and non-free code with SHA-256 verification.
 - **Security QA & Audit**: Comprehensive test suite (`SecurityQATest`) verifying REST capability checks, safe output escaping, removal of `extract()`, and Zip-Slip traversal defenses.
 - **Offline-First Architecture**: 100% offline-first operation with zero external CDN dependencies, remote fonts, or third-party telemetry.
-- **Settings & UX**: Retention policy defaulting to 3 packages, and explicit opt-in preference for security notices.
 - **WP-CLI Support**: Native commands (`wp backupino create`, `wp backupino jobs`, `wp backupino status`).
 
 ### Changed
+- Upgraded standalone installer architecture from 5-step prototype to complete 7-step production lifecycle.
 - Default package retention set to 3 copies.
 - Replaced `extract()` in view templates with explicit variable binding for WordPress.org coding standard compliance.
 - Removed leftover S3/cloud UI elements and styles from the free core plugin.

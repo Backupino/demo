@@ -2,7 +2,15 @@
 
 # Backupino — Product & Technical Specification
 
-Version 0.1 · 2026-10-31 · status: living document
+Version 1.0.0 · 2026-11-03 · status: living document
+
+## 0. Versioning Policy
+
+Backupino adheres to a custom SemVer rule for all source code, tags, and documentation:
+- Format: Major.Minor.Patch
+- **Patch:** Caps strictly at 9 (1.0.0 .. 1.0.9). After 9, rolls over to 0 and bumps Minor (1.0.9 -> 1.1.0).
+- **Minor:** Unbounded non-negative integer (1.0.x, 1.1.x, 1.2.x, ..., 1.10.x, ...).
+- **Major:** Caps at 9 (1.x.x through 9.x.x).
 
 ---
 
@@ -100,16 +108,17 @@ Single PHP file, no WordPress, no Composer. Steps are separate AJAX calls so no 
 
 1. **Environment** — PHP ≥ 7.4, `json`/`zlib`/`zip`, `mysqli` or `pdo_mysql`, writable dir, free disk
    ≥ 2 × archive, archive SHA-256 matches the embedded hash.
-2. **Database** — connect (mysqli, PDO fallback), create the database when the user may, warn about
-   existing tables, persist credentials in `backupino-install.json` (`0600`).
-3. **Extract** — 200 entries per request, zip-slip protected (`..`, absolute paths, drive letters,
-   null bytes rejected).
-4. **Import** — statement splitter that understands strings, backticks, `--`/`#`/`/* */` comments;
-   resume by byte offset; error messages include a statement preview.
-5. **URL rewrite** — for every text column of every table: rows read by keyset, values replaced with a
-   serialized/JSON-aware replacer, `UPDATE` issued only when the value actually changed.
-6. **Config** — writes `wp-config.php` (with a timestamped backup of any previous file), fresh salts,
-   updates `siteurl`/`home`, then offers to delete the installer, archive, dump and state file.
+2. **Database** — connect (mysqli, PDO fallback), create database when permissions allow, warn about
+   existing tables, auto-drop tables on empty DB request, persist credentials in `backupino-install.json` (`0600`).
+3. **Extract** — 300 entries per slice, zip-slip protected. Automatically quarantines server config files
+   (`.htaccess`, `.user.ini`, `php.ini`, `wp-config.php`) as `.backupino-orig` to prevent web server 500 crashes on LiteSpeed/cPanel.
+4. **Import** — streaming SQL statement splitter; time-budgeted execution; packet-size auto-splitting for giant multi-row INSERTs;
+   automatic recovery from MariaDB/InnoDB orphaned tablespaces and NTFS file lock collisions.
+5. **URL rewrite** — deep keyset-paginated replacement across serialized arrays/objects and JSON structures;
+   preserves Elementor dynamic tag syntax (`settings=\"%7B%7D\"`); preserves and auto-heals UTF-8 Persian slugs and URLs.
+6. **Config** — writes fresh `wp-config.php` preserving custom constants from original config, generates secure salts,
+   configures valid WordPress `.htaccess` with target `RewriteBase`, and detects custom login URLs.
+7. **Cleanup** — securely removes installer script, archive, database dump, state file, and temporary `.backupino-orig` files.
 
 Security model:
 
