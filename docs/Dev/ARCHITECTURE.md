@@ -130,6 +130,7 @@ Run locally during task development: `php tests/run.php --filter=TargetTest`. Fu
 | `backupino_storage_drivers` | Register additional storage drivers |
 | `backupino_schedule_intervals` / `backupino_schedule_intervals_labels` | Register / label schedule intervals |
 | `backupino_job_completed` | Fired after a successful job |
+| `backupino_design_tokens` / `backupino_download_page_styles` | Filter download page tokens and custom styles (implemented in `P1-T12`) |
 
 ### 8.2 Hooks planned in Phase 2 «**not** in code today»
 
@@ -138,7 +139,7 @@ Run locally during task development: `php tests/run.php --filter=TargetTest`. Fu
 | `backupino_stages` | Append encryption / upload / local-cleanup stages to the pipeline |
 | `backupino_limits` / `backupino_pro_features` | Plan-based feature gating |
 | `backupino_restore_pipeline` + `RestoreStep` | Reuse Installer primitives locally without importing `Backupino\Installer\*` from Pro |
-| `backupino_design_tokens` / `backupino_download_page_styles` | Single design-token layer «registered as `P1-T12`, deferred» |
+
 | `backupino_package_published` | Notify add-ons that a package was published |
 
 ### 8.3 Separation of responsibilities

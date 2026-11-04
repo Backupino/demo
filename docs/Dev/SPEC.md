@@ -193,8 +193,8 @@ Base: `/wp-json/backupino/v1/`
 | Phase | Scope | State |
 |---|---|---|
 | 0 | Spec, skeleton, CI, test harness | ✅ done |
-| 1 | Free v1.0.x «reopened: 11/12, `P1-T12` deferred» | 🔄 reopened |
-| 2 | Contract gate: Ed25519 license, API v1, privacy, restore/rescue contract | ⏳ todo |
+| 1 | Free v1.0.x «v1.0.2: 12/12 done» | ✅ done |
+| 2 | Contract gate: Ed25519 license, API v1, privacy, restore/rescue contract | 🔄 in-progress |
 | 3 | Official WordPress site: Elementor Pro, WooCommerce, panel, custom renewal | ⏳ todo |
 | 4 | Pro addon, rescue agent, two-phase panel restore, customer cloud drivers | ⏳ todo |
 | 5 | Independent central bot «Telegram → Bale, bilingual» | ⏳ todo |
