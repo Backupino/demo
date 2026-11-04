@@ -2,7 +2,7 @@
 
 # چک‌لیست انتشار در WordPress.org
 
-> **Status:** active · **Last updated:** 2026-11-02
+> **Status:** active · **Last updated:** 2026-11-04
 > **Referenced by:** [`DEVELOPMENT-RULES.md`](DEVELOPMENT-RULES.md) بند ۱۲
 > این سند برای رد شدن **حتمی** از مرحله‌ی بررسی کد مخزن وردپرس است. تیک هر مورد الزامی است.
 
@@ -59,7 +59,7 @@
 
 - [x] ماتریس پشتیبانی PHP 7.4 تا 8.4 بدون هشدار یا خطای نحوی تایید شد
 - [x] سازگار با ساختار هسته WP 6.0 تا آخرین نسخه‌ها
-- [x] تمامی آزمون‌های خودکار به‌صورت ۱۰۰٪ آفلاین و بدون وابستگی خارجی سبز هستند (۱۴۸ تست پاس)
+- [x] تمامی آزمون‌های خودکار به‌صورت ۱۰۰٪ آفلاین و بدون وابستگی خارجی سبز هستند (۱۵۲ تست پاس)
 - [x] اصل آفلاین ۱۰۰٪: تمام اسکریپت‌ها و استایل‌ها محلی بوده و فاقد ارجاع به CDN خارجی هستند
 - [x] فایل `readme.txt` نهایی شامل کلیه بخش‌های مورد نیاز وردپرس بازنگری شود (تسک P1-T09)
 
@@ -85,11 +85,35 @@
 ```
 audit: Passed
 plugin_check_pcp: 100% Clean (0 Errors, 0 Warnings across 5 categories)
-automated_tests: 148/148 passed
+automated_tests: 152/152 passed
 security_vectors: zip-slip, unauthorized-rest, dangerous-functions, data-leak checked
 php_compatibility: 7.4 - 8.4 verified
 wp_tested_up_to: 7.1
-date: 2026-11-02
+date: 2026-11-04
+note: 152 verified via php-wasm on PHP 7.4 / 8.3 / 8.4; older 145/148 figures are historical
+note: PCP claim above is documentary; re-run is mandatory after P1-T12
 ```
+
+---
+
+## ۹) تغییرات آتی هستهٔ رایگان «`P1-T12`» و بررسی انطباق
+
+`P1-T12` در فاز ۱ فقط **ثبت** شده است؛ در این شاخه هیچ فایلی از `free/` تغییر نکرده است. دو تغییر آیندهدار عبارتاند از:
+
+| تغییر | حکم |
+|---|---|
+| فیلتر `backupino_design_tokens` / `backupino_download_page_styles` در `PublicDownload::render_download_page()` | ✅ مجاز: هوک اکستنشن «`D-001`»، پیشفرض کامل، بدون gating، بدون منبع ریموت |
+| یکدستسازی fallback لوکال نصاب «`fa_IR` ↔ `en` → `en_US`» و حفظ `locale` بسته | ✅ مجاز: رفع ناسازگاری، رفتار بستههای واقعی ثابت میماند |
+
+**شش شرط الزامی هنگام اجرا:**
+
+1. پیشفرض دقیقاً همان ظاهر فعلی بماند؛ هیچ بنر / محدودیت / کد ناقص «بند ۲».
+2. هیچ فونت/استایل/CDN ریموتی؛ فقط مسیر محلی Elementor Pro Custom Fonts با `esc_url` و همان `phpcs:ignore` مستند.
+3. مقادیر CSS با `sanitize_hex_color` / لیست سفید `px|rem` / `esc_attr`؛ بدون تزریق.
+4. رشتههای جدید با دامنهٔ `backupino` و بازسازی `.pot/.po/.mo`؛ `SecurityQATest` سبز بماند.
+5. `PHPCompatibilityWP 7.4-`، `declare(strict_types=1)`، `@package Backupino`؛ چون `installer-template.php` از PHPCS معاف است، حتماً `npm run build:installer` + `php -l` نصاب تولیدشده اجرا شود.
+6. نسخهٔ `1.1.0` طبق `D-029` و هماهنگسازی `readme.txt` / `CHANGELOG.md` / `package-lock.json` / `docs/Public/`؛ **اجرای مجدد Plugin Check الزامی** است.
+
+> بدهی مستنداتی: `README.md` ریشه و `releases/README.md` همچنان `۱۴۸`/`۱۴۵` و «فاز ۱ کامل» را اعلام میکنند؛ چون خارج از دامنهٔ مجاز این شاخهاند، عمداً دستنخورده ماندند و در فاز ۶ اصلاح میشوند «`D-047`».
 
 </div>

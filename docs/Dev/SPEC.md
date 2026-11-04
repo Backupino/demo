@@ -2,7 +2,7 @@
 
 # Backupino — Product & Technical Specification
 
-Version 1.0.1 · 2026-11-03 · status: living document
+Version 1.0.2 · 2026-11-04 · status: living document «roadmap revised; Phase 1 complete»
 
 ## 0. Versioning Policy
 
@@ -36,14 +36,19 @@ Three jobs, one architecture:
 | Standalone installer + URL rewrite | ✅ | ✅ | ✅ |
 | Local storage | ✅ | ✅ | — |
 | Cloud storage (S3 / Drive / download hosts) | — *(no cloud code in the free plugin)* | ✅ | ✅ |
-| Scheduling + retention | — | ✅ | ✅ |
+| Scheduling + retention | ✅ «ماهانه + retention، پیشفرض ۳» | ✅ «دلخواه» | ✅ |
 | Restore in place + rollback | — | ✅ | ✅ |
 | Multisite | — | ✅ | ✅ |
 | Incremental packages | — | ✅ | ✅ |
-| Off-site storage we host | — | — | ✅ |
+| Off-site storage we host | — | ⏳ «فاز ۷» | ✅ |
+| Central bot | — «فقط ربات شخصی» | ✅ «پیشفرض خاموش» | ✅ |
+| Panel-driven manual backup / restore | — | ✅ «فقط مالک» | ✅ |
+| Recoverable client-side encryption | — | ✅ «فاز ۷» | ✅ |
 
 **Rule we do not break:** restoring a backup you already own is never paywalled.
 **Architecture tier rule:** The Pro plugin is a lightweight **Addon** that requires the Free plugin to be active. It hooks into Free's filters/actions to enable commercial capabilities rather than shipping as a duplicate fat standalone plugin.
+
+**Correction «2026-11-04»:** an earlier revision of this table incorrectly listed *Scheduling + retention* as Pro-only. It is implemented in Free «monthly + Jalali/Gregorian + retention» and only *arbitrary intervals* are Pro. The central bot never enters Free. Dedicated cloud is deferred to Phase 7. See [`DECISIONS.md`](DECISIONS.md) `D-013`, `D-033`, `D-041`.
 
 ## 3. Package format
 
@@ -188,12 +193,15 @@ Base: `/wp-json/backupino/v1/`
 | Phase | Scope | State |
 |---|---|---|
 | 0 | Spec, skeleton, CI, test harness | ✅ done |
-| 1 | MVP: scan → zip → dump → installer (single site) | ✅ done |
-| 2 | Resume/cron hardening, chunked archive format, CLI parity | 🔜 next |
-| 3 | S3 hardening (multipart, list, retention in bucket), encryption | ⏳ |
-| 4 | Restore in place + rollback + pre-restore snapshot | ⏳ |
-| 5 | Multisite, incremental packages, import-from-URL, Persian UX polish | ⏳ |
+| 1 | Free v1.0.x «reopened: 11/12, `P1-T12` deferred» | 🔄 reopened |
+| 2 | Contract gate: Ed25519 license, API v1, privacy, restore/rescue contract | ⏳ todo |
+| 3 | Official WordPress site: Elementor Pro, WooCommerce, panel, custom renewal | ⏳ todo |
+| 4 | Pro addon, rescue agent, two-phase panel restore, customer cloud drivers | ⏳ todo |
+| 5 | Independent central bot «Telegram → Bale, bilingual» | ⏳ todo |
+| 6 | Integration, release gate, live-WordPress E2E | ⏳ todo |
+| 7 | Dedicated Backupino cloud + recoverable encryption «post-launch» | ⏳ todo |
 
+**Canonical roadmap:** [`roadmaps/README.md`](../../roadmaps/README.md). Phase 2 must close before Phases 3/4; Phases 3 and 4 may run in parallel; Phase 7 starts only after 3+4+5+6.
 ## 11. Decisions log
 
 | # | Decision | Why |
@@ -205,5 +213,26 @@ Base: `/wp-json/backupino/v1/`
 | 5 | Installer built by flattening real classes | one implementation, still unit-testable |
 | 6 | Keyset pagination everywhere | `LIMIT offset` degrades linearly and breaks on gaps |
 | 7 | Token pairing instead of archive name matching | prevents “wrong installer for this archive” disasters |
+
+---
+
+## 12. مسیر فازهای ۲ تا ۷ «خلاصهٔ مرجع»
+
+```text
+فاز ۲ Gate «قرارداد» ──► فاز ۳ «سایت» ┐
+                         ├─► فاز ۵ «ربات» ──► فاز ۶ «انتشار/E2E» ──► فاز ۷ «ابر اختصاصی»
+                         └─► فاز ۴ «Pro»  ┘
+```
+
+| موضوع | تصمیم قفلشده |
+|---|---|
+| لایسنس | `Ed25519` + مدل `B` + کش ۷روزه + heartbeat اختیاری «`D-031`/`D-032`» |
+| هستهٔ رایگان | هرگز پنل را صدا نمیزند؛ ربات مرکزی فقط Pro «`D-033`» |
+| سایت | `en_US` دیفالت + `fa_IR` ۱۰۰٪ + ۲ فونت محلی + توکن واحد «`D-034`…`D-036`» |
+| ریستور پنلی | دستی، فقط مالک، `Shadow → تأیید → Commit → تأیید → Rollback`، اسنپشات ۴۸h «`D-042`/`D-043`» |
+| ریکاوری | `wrapped_DEK` + Shamir ۲از۳ برای همه «`D-044`» |
+| قانون فاز ۱ | هر تغییر `free/` تسک فاز ۱ میگیرد؛ `P1-T12` ثبت شد «`D-045`» |
+
+تست مرجع: **۱۵۲** «`D-047`». این سند در شاخهٔ طراحی نقشهٔ راه فقط **مستنداتی** بهروز شد؛ هیچ کد `free/` تغییر نکرده است.
 
 </div>

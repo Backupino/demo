@@ -93,6 +93,6 @@ final class BuildReleaseTest extends TestCase {
 		$mainFile = dirname( __DIR__, 2 ) . '/free/backupino.php';
 		$version  = ReleaseBuilder::detect_version( $mainFile );
 
-		$this->assertSame( '1.0.1', $version );
+		$this->assertSame( '1.0.2', $version );
 	}
 }
