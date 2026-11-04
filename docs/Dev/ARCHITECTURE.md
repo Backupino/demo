@@ -115,6 +115,42 @@ Run locally during task development: `php tests/run.php --filter=TargetTest`. Fu
 - Single-site only; multisite tables are dumped but URLs of sub-sites are not rewritten.
 - No encryption yet; the local storage directory is protected by `.htaccess`/`index.php` only.
 - S3 uploads are single-PUT (no multipart resume yet); objects > 5 GB are rejected by S3 itself.
-- Restore in place (over a live site) is not implemented; the installer restores *to* a directory.
+- Dedicated Backupino cloud, client-side encryption and key recovery are **deferred to Phase 7** (post-launch); only contract fields are reserved in Phase 2 «`D-041`, `D-044`».
+- Restore in place (over a live site) was not implemented in 1.0.x; it is now a **Phase-4 launch-critical** capability: panel-driven, two-phase `Shadow → Confirm → Commit → Confirm → Rollback`, executed by `backupino-rescue.php` without booting WordPress. See [`roadmaps/phase-04-pro-addon.md`](../../roadmaps/phase-04-pro-addon.md).
+
+---
+
+## 8. Extension contract for Phases 2–7 «design only — not implemented in this branch»
+
+### 8.1 Hooks that already exist in `free/`
+
+| Hook | Purpose |
+|---|---|
+| `backupino_manage_capability` | Filter the capability required to manage backups |
+| `backupino_storage_drivers` | Register additional storage drivers |
+| `backupino_schedule_intervals` / `backupino_schedule_intervals_labels` | Register / label schedule intervals |
+| `backupino_job_completed` | Fired after a successful job |
+
+### 8.2 Hooks planned in Phase 2 «**not** in code today»
+
+| Planned hook | Purpose |
+|---|---|
+| `backupino_stages` | Append encryption / upload / local-cleanup stages to the pipeline |
+| `backupino_limits` / `backupino_pro_features` | Plan-based feature gating |
+| `backupino_restore_pipeline` + `RestoreStep` | Reuse Installer primitives locally without importing `Backupino\Installer\*` from Pro |
+| `backupino_design_tokens` / `backupino_download_page_styles` | Single design-token layer «registered as `P1-T12`, deferred» |
+| `backupino_package_published` | Notify add-ons that a package was published |
+
+### 8.3 Separation of responsibilities
+
+```text
+free/   → pure local primitives, no license code, no portal call, no central bot
+pro/    → Ed25519 license client, rescue agent, restore coordinator, optional bot toggle «default OFF»
+portal/ → signed commands, signed license documents, UI, audit «never inbound to customer site»
+```
+
+Commands are **pulled** by the Pro/rescue agent over outbound HTTPS, verified with the embedded public key, bound to `instance_id + domain_hash + backup_hash + expiry + nonce`. No inbound endpoint is opened on the customer site. Data leaving the site is limited to hashed identifiers and versions; site content, DB rows, file names, `wp-config.php` and tokens never leave.
+
+> ⚠️ This section documents the future contract only. In the current branch **no file under `free/`, `pro/`, `tests/`, `bin/` or `tools/` was modified**. See `D-046`.
 
 </div>

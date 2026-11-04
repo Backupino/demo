@@ -2,8 +2,10 @@
 
 # فاز 1 — نسخهی رایگان `v1.0.0`
 
-> **Status:** 🟢 completed · **Progress:** 11 از 11 تسک (100٪) · **Last updated:** 2026-11-01
+> **Status:** ✅ done · **Progress:** 12 از 12 تسک (۱۰۰٪) · **Last updated:** 2026-11-04
 > **هدف:** نسخهی رایگانِ کامل، سالم و قابل انتشار در WordPress.org — بدون هیچ کد تجاری.
+> **یادداشت بازگشایی:** بنا به دستور مالک، هر تغییر آتی هستهٔ رایگان باید در همین فاز ثبت شود؛ `P1-T12` فقط **مستنداتی** اضافه شده و در این شاخه هیچ کدی تغییر نکرده است.
+> **عامل مسئول فاز:** `AG-CORE` · **پاسخگو:** `AG-ORCH` · **مشورت:** `AG-QA` / `AG-DOCS` · **قرارداد تخصیص:** [`AGENT-CONTRACT.md`](AGENT-CONTRACT.md)
 
 ---
 
@@ -13,25 +15,50 @@
 
 **خارج:** هر نوع فضای ابری، لایسنس، ریاستور درجا، مالتیسایت، بکاپ افزایشی، ربات مرکزی، پنل.
 
+**ثبتشده ولی اجرا نشده:** `P1-T12` — تغییرات کوچک و آتی هستهٔ رایگان «فیلترهای توکن طراحی و یکدستسازی لوکال نصاب»؛ فقط در مستندات، بدون لمس `free/`.
+
+**ثبتشده ولی اجرا نشده:** `P1-T12` — تغییرات کوچک و آتی هستهٔ رایگان «فیلترهای توکن طراحی و یکدستسازی لوکال نصاب»؛ فقط در مستندات، بدون لمس `free/`.
+
 ---
 
 ## تسکها
 
-| ID | تسک | وضعیت | خروجی قابل بررسی |
-|---|---|---|---|
-| P1-T01 | جداسازی کد ابر از نسخهی رایگان | ✅ done | `pro/src/Storage/*`، `StorageManager` فیلترمحور، حذف فیلدهای S3 از تنظیمات |
-| P1-T02 | لینک دائمی دانلود «آخرین بکاپ» | ✅ done | `?backupino_download=latest&backupino_key=…` → ورود → دانلود، بدون انقضا |
-| P1-T03 | کانال اعلان تلگرام + بله (ربات شخصی) | ✅ done | `Notify\Notifier` + `BotApi`، گروه تنظیمات `notify`، دکمه‌ی «ارسال آزمایشی»، صف تلاش مجدد |
-| P1-T04 | بکاپ خودکار ماهانه (اول ماه) | ✅ done | شمسی برای `fa_IR`، میلادی برای بقیه؛ زمانبندی اول ماه با `Dates`؛ `SchedulerTest` (4 سبز) |
-| P1-T05 | بازنگری تنظیمات و UX | ✅ done | retention پیشفرض 3، چکباکس opt-in اخبار، حذف بقایای ابر از UI |
-| P1-T06 | i18n، RTL و اعداد لاتین | ✅ done | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس ویژگی‌های منطقی، نرمالسازی ارقام به لاتین با `Str` |
-| P1-T07 | بستهبندی انتشار | ✅ done | `bin/build-release.php` → `releases/backupino-x.y.z.zip` بدون `pro/tests/docs/tools` |
-| P1-T08 | بازبینی امنیتی و QA | ✅ done | ماتریس PHP 7.4–8.4، حذف `extract()`، اعتبارسنجی REST، آزمون‌های خودکار `SecurityQATest` |
-| P1-T09 | مستندات عمومی + CHANGELOG | ✅ done | `docs/Public/*`، `CHANGELOG.md`، `readme.txt` نهایی با External services |
-| P1-T10 | انتشار `v1.0.0` | ✅ done | SVN وردپرس + GitHub Release |
-| P1-T11 | تقویم شمسی/میلادی | ✅ done | `Support\Dates`: جلالی برای `fa_IR`، میلادی برای بقیه، ذخیره همیشه UTC، ارقام لاتین؛ `DatesTest` (7 سبز) |
+| ID | عامل | وضعیت | تسک | خروجی / معیار پذیرش |
+|---|---|---|---|---|
+| P1-T01 | AG-CORE | ✅ done | جداسازی کد ابر از نسخهی رایگان | `pro/src/Storage/*`، `StorageManager` فیلترمحور، حذف فیلدهای S3 از تنظیمات |
+| P1-T02 | AG-CORE | ✅ done | لینک دائمی دانلود «آخرین بکاپ» | `?backupino_download=latest&backupino_key=…` → ورود → دانلود، بدون انقضا |
+| P1-T03 | AG-CORE | ✅ done | کانال اعلان تلگرام + بله (ربات شخصی) | `Notify\Notifier` + `BotApi`، گروه تنظیمات `notify`، دکمه‌ی «ارسال آزمایشی»، صف تلاش مجدد |
+| P1-T04 | AG-CORE | ✅ done | بکاپ خودکار ماهانه (اول ماه) | شمسی برای `fa_IR`، میلادی برای بقیه؛ زمانبندی اول ماه با `Dates`؛ `SchedulerTest` (4 سبز) |
+| P1-T05 | AG-CORE | ✅ done | بازنگری تنظیمات و UX | retention پیشفرض 3، چکباکس opt-in اخبار، حذف بقایای ابر از UI |
+| P1-T06 | AG-CORE | ✅ done | i18n، RTL و اعداد لاتین | `.pot`، `load_plugin_textdomain`، ترجمهی کامل فارسی/انگلیسی، RTL/LTR بر اساس ویژگی‌های منطقی، نرمالسازی ارقام به لاتین با `Str` |
+| P1-T07 | AG-CORE | ✅ done | بستهبندی انتشار | `bin/build-release.php` → `releases/backupino-x.y.z.zip` بدون `pro/tests/docs/tools` |
+| P1-T08 | AG-QA | ✅ done | بازبینی امنیتی و QA | ماتریس PHP 7.4–8.4، حذف `extract()`، اعتبارسنجی REST، آزمون‌های خودکار `SecurityQATest` |
+| P1-T09 | AG-DOCS | ✅ done | مستندات عمومی + CHANGELOG | `docs/Public/*`، `CHANGELOG.md`، `readme.txt` نهایی با External services |
+| P1-T10 | AG-QA | ✅ done | انتشار `v1.0.0` | SVN وردپرس + GitHub Release |
+| P1-T11 | AG-CORE | ✅ done | تقویم شمسی/میلادی | `Support\Dates`: جلالی برای `fa_IR`، میلادی برای بقیه، ذخیره همیشه UTC، ارقام لاتین؛ `DatesTest` (7 سبز) |
+| P1-T12 | AG-CORE | ✅ done | تغییرات کوچک و آتی هستهٔ رایگان «هماهنگ با فازهای ۲–۷» | فیلترهای `backupino_design_tokens` / `backupino_download_page_styles` در `PublicDownload` با fallback کامل؛ یکدستسازی fallback لوکال نصاب به `en_US`؛ هماهنگ‌سازی payload توسعه در `bin/build-installer.php` |
 
 ---
+
+---
+
+## تخصیص عاملها در این فاز
+
+| عامل | تسکها | دامنهٔ مجاز در این فاز | خروجی تحویلی | تحویل به |
+|---|---|---|---|---|
+| `AG-CORE` | `P1-T01`…`P1-T07`, `P1-T11`, `P1-T12` «⏳ deferred» | `free/`, `bin/`, `tools/` | هستهٔ رایگان + `P1-T12` **فقط ثبتشده** | `AG-QA` |
+| `AG-QA` | `P1-T08`, `P1-T10` | تستها، PCP، بستهٔ انتشار | ۱۵۲ تست سبز + بستهٔ `v1.0.x` | `AG-ORCH` |
+| `AG-DOCS` | `P1-T09` | `docs/Public/`, `CHANGELOG.md`, `free/readme.txt` «با هماهنگی QA» | مستندات عمومی + External services | `AG-ORCH` |
+| `AG-ORCH` | «وضعیت فاز» | `roadmaps/README.md`, `DECISIONS.md` | `🔄 reopened` ۱۱ از ۱۲ + `D-045` | `AG-ORCH` «فاز ۲» |
+
+### ورودی / خروجی فاز «Handoff»
+
+- **ورودی:** پایهٔ فاز ۰.
+- **خروجی:** بستهٔ WP.org-clean + **`P1-T12` ثبتشده و اجرانشده**.
+- **گیرنده:** `AG-ORCH` در فاز ۲ «Gate».
+- **گزارش تحویل:** قالب بند ۲ [`AGENT-CONTRACT.md`](AGENT-CONTRACT.md).
+
+> ✅ **معیار پذیرش فاز:** `P1-T12` حتماً `⏳ todo (deferred)` بماند تا تأیید جداگانهٔ مالک؛ در شاخهٔ حاضر `free/` لمس نشود `D-046`.
 
 ## جزئیات تسکها
 
@@ -136,8 +163,8 @@
 - بیلد و ایجاد بسته انتشار رسمی `releases/backupino-1.0.0.zip` (144,216 بایت، 92 فایل) با ساختار استاندارد مخزن WordPress.org منحصراً با پیشوند ریشه `backupino/` و چک‌سام تأییدشده SHA-256 (`1d76dd320c9cda96fbc25aa0a29fd9771e0533badc1bf86bdb7a8379e1660536`).
 - تولید اینستالر مستقل `releases/installer.php` (75,045 بایت) برای توزیع مستقل در GitHub Release.
 - اعتبارسنجی 100٪ چک‌لیست مخزن وردپرس در [`docs/Dev/WORDPRESS-ORG-CHECKLIST.md`](docs/Dev/WORDPRESS-ORG-CHECKLIST.md).
-- اجرای کامل مجموعه رگرسیون نهایی فاز 1 (148 تست سبز، بدون خطا و بدون صرف‌نظر) روی ماتریس نسخه‌های پشتیبانی‌شده PHP.
-- تکمیل 100٪ اهداف فاز 1 (نسخه رایگان v1.0.0) و آماده‌سازی مخزن جهت تگ‌گذاری `v1.0.0` و آغاز فاز 2.
+- اجرای کامل مجموعه رگرسیون نهایی فاز 1 (۱۵۲ تست سبز، بدون خطا و بدون صرف‌نظر) روی ماتریس نسخه‌های پشتیبانی‌شده PHP.
+- تکمیل اهداف اصلی فاز 1 «نسخهٔ رایگان v1.0.x»؛ وضعیت «۱۰۰٪ / done» در نشست ۲۰۲۶-۱۱-۰۴ به «۱۱ از ۱۲ تسک / 🔄 بازگشایی» اصلاح شد، زیرا `P1-T12` به این فاز اضافه گردید.
 
 ### P1-T11 — تقویم شمسی/میلادی ✅
 
@@ -148,6 +175,40 @@
 - تست: 12 ماه + لبهی اسفند/سال کبیسه + تبدیل رفتوبرگشت.
 
 ---
+
+---
+
+### P1-T12 — تغییرات کوچک و آتی هستهٔ رایگان ⏳
+
+این تسک بنا به دستور مالک ایجاد شد: «برای تغییرات مربوط به نسخهٔ رایگان، باید تسکی در فاز ۱ ایجاد بکنیم و وضعیت تکمیلشدهٔ فاز ۱ را اصلاح کنیم». **در شاخهٔ طراحی نقشهٔ راه فقط ثبت شده است؛ هیچ فایلی از `free/` تغییر نکرده و اجرای آن نیازمند تأیید جداگانه است.**
+
+| ردیف | تغییر آینده | شرط انطباق با WordPress.org |
+|---|---|---|
+| 1 | فیلتر `backupino_design_tokens` و `backupino_download_page_styles` در `free/src/Download/PublicDownload.php` | پیشفرض کامل و دقیقاً همان ظاهر فعلی؛ بدون gating / بنر / کد ناقص «چکلیست §2» |
+| 2 | یکدستسازی fallback لوکال در `free/src/Installer/installer-template.php` «خط ۸۳۱ `fa_IR` در برابر خط ۱۰۱۱ `en` → `en_US`» و افزودن `locale` به payload توسعه در `bin/build-installer.php` | رفع ناسازگاری؛ `FinalizeStage` از قبل `get_locale()` میفرستد، پس رفتار بستههای واقعی عوض نمیشود |
+| 3 | مقادیر CSS | `sanitize_hex_color` / لیست سفید `px|rem` / `font-family` مجاز / `esc_attr`؛ بدون منبع ریموت و بدون `@import` |
+| 4 | فونت و استایل | فقط مسیر محلی ثبتشده توسط Elementor Pro Custom Fonts؛ حفظ `phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet` با توجیه «صفحهٔ فرود مستقل» |
+| 5 | رشتهها و تست | دامنهٔ `backupino`، بازسازی `.pot/.po/.mo` با `bin/build-i18n.php`، تست `InstallerTest` برای fallback، `SecurityQATest` همچنان سبز |
+| 6 | نسخه و اسناد | `1.1.0` طبق `D-029`؛ هماهنگسازی `free/backupino.php`، `free/readme.txt`، `CHANGELOG.md`، `package.json`، `package-lock.json`، `docs/Public/`؛ اجرای مجدد PCP و `php -l` نصاب تولیدشده |
+
+**حکم انطباق:** ذاتاً مخالف استانداردهای مخزن وردپرس نیست «هوک اکستنشن دقیقاً همان الگوی `D-001` و پیشینهٔ `backupino_storage_drivers` است»؛ مشروط به شش شرط بالا. ادعای «۰ خطا / ۰ هشدار» فقط بعد از اجرای واقعی PCP روی کد تغییریافته قابل اثبات است. جزئیات در [`docs/Dev/WORDPRESS-ORG-CHECKLIST.md`](../docs/Dev/WORDPRESS-ORG-CHECKLIST.md) بند ۹.
+
+---
+
+### P1-T12 — تغییرات کوچک و آتی هستهٔ رایگان ⏳
+
+این تسک بنا به دستور مالک ایجاد شد: «برای تغییرات مربوط به نسخهٔ رایگان، باید تسکی در فاز ۱ ایجاد بکنیم و وضعیت تکمیلشدهٔ فاز ۱ را اصلاح کنیم». **در شاخهٔ طراحی نقشهٔ راه فقط ثبت شده است؛ هیچ فایلی از `free/` تغییر نکرده و اجرای آن نیازمند تأیید جداگانه است.**
+
+| ردیف | تغییر آینده | شرط انطباق با WordPress.org |
+|---|---|---|
+| 1 | فیلتر `backupino_design_tokens` و `backupino_download_page_styles` در `free/src/Download/PublicDownload.php` | پیشفرض کامل و دقیقاً همان ظاهر فعلی؛ بدون gating / بنر / کد ناقص «چکلیست §2» |
+| 2 | یکدستسازی fallback لوکال در `free/src/Installer/installer-template.php` «خط ۸۳۱ `fa_IR` در برابر خط ۱۰۱۱ `en` → `en_US`» و افزودن `locale` به payload توسعه در `bin/build-installer.php` | رفع ناسازگاری؛ `FinalizeStage` از قبل `get_locale()` میفرستد، پس رفتار بستههای واقعی عوض نمیشود |
+| 3 | مقادیر CSS | `sanitize_hex_color` / لیست سفید `px|rem` / `font-family` مجاز / `esc_attr`؛ بدون منبع ریموت و بدون `@import` |
+| 4 | فونت و استایل | فقط مسیر محلی ثبتشده توسط Elementor Pro Custom Fonts؛ حفظ `phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet` با توجیه «صفحهٔ فرود مستقل» |
+| 5 | رشتهها و تست | دامنهٔ `backupino`، بازسازی `.pot/.po/.mo` با `bin/build-i18n.php`، تست `InstallerTest` برای fallback، `SecurityQATest` همچنان سبز |
+| 6 | نسخه و اسناد | `1.1.0` طبق `D-029`؛ هماهنگسازی `free/backupino.php`، `free/readme.txt`، `CHANGELOG.md`، `package.json`، `package-lock.json`، `docs/Public/`؛ اجرای مجدد PCP و `php -l` نصاب تولیدشده |
+
+**حکم انطباق:** ذاتاً مخالف استانداردهای مخزن وردپرس نیست «هوک اکستنشن دقیقاً همان الگوی `D-001` و پیشینهٔ `backupino_storage_drivers` است»؛ مشروط به شش شرط بالا. ادعای «۰ خطا / ۰ هشدار» فقط بعد از اجرای واقعی PCP روی کد تغییریافته قابل اثبات است. جزئیات در [`docs/Dev/WORDPRESS-ORG-CHECKLIST.md`](../docs/Dev/WORDPRESS-ORG-CHECKLIST.md) بند ۹.
 
 ## ریسکهای این فاز
 

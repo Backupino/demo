@@ -37,6 +37,7 @@ $backupino_payload = array(
 	'home_url'     => 'https://example.test',
 	'table_prefix' => 'wp_',
 	'created'      => gmdate( 'Y-m-d H:i:s' ),
+	'locale'       => 'en_US',
 	'password'     => '',
 );
 

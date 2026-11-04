@@ -10,6 +10,16 @@ this project adheres to **Backupino's Custom Versioning Specification**:
 - **Minor (0..∞):** Unbounded integer representing feature iterations and milestone rollouts (`1.9.9` $\to$ `1.10.0` $\to$ ...).
 - **Major (1..9):** Capped at 9, reserved for foundational architecture redesigns.
 
+## [1.0.2] — 2026-11-04
+
+### Added
+- **Design Token Extension Hooks**: Introduced `backupino_design_tokens` and `backupino_download_page_styles` filters in `PublicDownload` for complete styling control and theming of the standalone download landing page via CSS custom properties.
+
+### Consistency & Quality
+- **Installer Fallback Locale Normalization**: Unified the default source locale fallback to standard `en_US` across all extraction and notification stages in `installer-template.php`.
+- **Line Ending Standardization**: Cleaned and normalized all plugin files to pure LF (`\n`) to pass WordPress Plugin Check (PCP) without `Internal.LineEndings.Mixed` warnings.
+- **Development Installer Payload**: Synchronized development installer generator (`bin/build-installer.php`) with `'locale' => 'en_US'`.
+
 ## [1.0.1] — 2026-11-03
 
 ### Fixed

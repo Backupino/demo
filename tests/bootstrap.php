@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
 
-define( 'BACKUPINO_VERSION', '1.0.1-test' );
+define( 'BACKUPINO_VERSION', '1.0.2-test' );
 define( 'BACKUPINO_FILE', dirname( __DIR__ ) . '/free/backupino.php' );
 define( 'BACKUPINO_DIR', dirname( __DIR__ ) . '/free/' );
 define( 'BACKUPINO_URL', 'https://example.test/wp-content/plugins/backupino/' );

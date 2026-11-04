@@ -3,6 +3,7 @@
 # فاز ۰ — زیرساخت و اسکلت پروژه
 
 > **Status:** ✅ done · **Progress:** ۱۰۰٪ · **Completed:** 2026-10-31
+> **عامل مسئول فاز:** `AG-CORE` / `AG-QA` / `AG-DOCS` «تاریخی، انجامشده» · **هماهنگ:** `AG-ORCH` · **قرارداد تخصیص:** [`AGENT-CONTRACT.md`](AGENT-CONTRACT.md)
 
 ## هدف
 
@@ -10,23 +11,43 @@
 
 ## تسکها
 
-| ID | تسک | وضعیت | یادداشت |
-|---|---|---|---|
-| P0-T01 | اسکلت افزونه، autoloader، `Plugin` container | ✅ done | بدون وابستگی Composer در زمان اجرا |
-| P0-T02 | `Settings`, `Paths`, `Schema`, `Activator`, `Compatibility` | ✅ done | تنظیمات dot-notation با sanitize بازگشتی |
-| P0-T03 | موتور Job (Repository/Runner/Pipeline/Stage/Deadline) | ✅ done | مقاوم به timeout، ریاستارتپذیر |
-| P0-T04 | اسکن فایل + مانیفست NDJSON + فیلترها | ✅ done | پشتهی صریح، بدون بازگشت |
-| P0-T05 | آرشیو ZIP قابل ادامه + بستهبندی | ✅ done | بازکردن مجدد زیپ در هر tick |
-| P0-T06 | دامپ دیتابیس با keyset pagination | ✅ done | `MySqlDumper` + `SqlWriter` |
-| P0-T07 | اینستالر مستقل (فلتنشده از کلاسهای واقعی) | ✅ done | ~۷۲KB، بدون وردپرس |
-| P0-T08 | Replace آگاه به serialize/JSON | ✅ done | پارسر بازگشتی، نه regex |
-| P0-T09 | لایهی ذخیرهسازی (قرارداد + local) | ✅ done | درایور S3 ساخته شد و بعد به `pro/` منتقل شد |
-| P0-T10 | پیشخوان، REST، WP-CLI، Cron، لاگ | ✅ done | |
-| P0-T11 | مجموعه تست بدون وابستگی (۸۶ تست) | ✅ done | اجرا در php-wasm |
-| P0-T12 | CI (PHP 7.4–8.4، PHPCS، ساخت اینستالر) | ✅ done | `.github/workflows/ci.yml` |
-| P0-T13 | مستندات پایه (Spec، Architecture) | ✅ done | `docs/Dev/` |
-| P0-T14 | پارتیشنبندی مخزن (`free/`, `pro/`, `docs/`, `tests/`, `roadmaps/`, `releases/`) | ✅ done | 2026-10-31 |
-| P0-T15 | قوانین توسعه و باکس وضعیت | ✅ done | `docs/Dev/DEVELOPMENT-RULES.md` |
+| ID | عامل | وضعیت | تسک | یادداشت / معیار پذیرش |
+|---|---|---|---|---|
+| P0-T01 | AG-CORE | ✅ done | اسکلت افزونه، autoloader، `Plugin` container | بدون وابستگی Composer در زمان اجرا |
+| P0-T02 | AG-CORE | ✅ done | `Settings`, `Paths`, `Schema`, `Activator`, `Compatibility` | تنظیمات dot-notation با sanitize بازگشتی |
+| P0-T03 | AG-CORE | ✅ done | موتور Job (Repository/Runner/Pipeline/Stage/Deadline) | مقاوم به timeout، ریاستارتپذیر |
+| P0-T04 | AG-CORE | ✅ done | اسکن فایل + مانیفست NDJSON + فیلترها | پشتهی صریح، بدون بازگشت |
+| P0-T05 | AG-CORE | ✅ done | آرشیو ZIP قابل ادامه + بستهبندی | بازکردن مجدد زیپ در هر tick |
+| P0-T06 | AG-CORE | ✅ done | دامپ دیتابیس با keyset pagination | `MySqlDumper` + `SqlWriter` |
+| P0-T07 | AG-CORE | ✅ done | اینستالر مستقل (فلتنشده از کلاسهای واقعی) | ~۷۲KB، بدون وردپرس |
+| P0-T08 | AG-CORE | ✅ done | Replace آگاه به serialize/JSON | پارسر بازگشتی، نه regex |
+| P0-T09 | AG-CORE | ✅ done | لایهی ذخیرهسازی (قرارداد + local) | درایور S3 ساخته شد و بعد به `pro/` منتقل شد |
+| P0-T10 | AG-CORE | ✅ done | پیشخوان، REST، WP-CLI، Cron، لاگ |  |
+| P0-T11 | AG-QA | ✅ done | مجموعه تست بدون وابستگی (۸۶ تست) | اجرا در php-wasm |
+| P0-T12 | AG-QA | ✅ done | CI (PHP 7.4–8.4، PHPCS، ساخت اینستالر) | `.github/workflows/ci.yml` |
+| P0-T13 | AG-DOCS | ✅ done | مستندات پایه (Spec، Architecture) | `docs/Dev/` |
+| P0-T14 | AG-ORCH | ✅ done | پارتیشنبندی مخزن (`free/`, `pro/`, `docs/`, `tests/`, `roadmaps/`, `releases/`) | 2026-10-31 |
+| P0-T15 | AG-DOCS | ✅ done | قوانین توسعه و باکس وضعیت | `docs/Dev/DEVELOPMENT-RULES.md` |
+
+---
+
+## تخصیص عاملها در این فاز
+
+| عامل | تسکها | دامنهٔ مجاز در این فاز | خروجی تحویلی | تحویل به |
+|---|---|---|---|---|
+| `AG-CORE` | `P0-T01`…`P0-T10` | `free/`, `bin/`, `tools/` | اسکلت، موتور Job، ZIP، دامپ، نصاب، REST | `AG-QA` |
+| `AG-QA` | `P0-T11`, `P0-T12` | `tests/`, `.github/workflows/` | ۸۶ تست + CI روی PHP 7.4–8.4 | `AG-ORCH` |
+| `AG-DOCS` | `P0-T13`, `P0-T15` | `docs/Dev/` | `SPEC.md`, `ARCHITECTURE.md`, `DEVELOPMENT-RULES.md` | `AG-ORCH` |
+| `AG-ORCH` | `P0-T14` | ساختار مخزن | پارتیشنبندی `free/ pro/ docs/ tests/ roadmaps/ releases/` | `AG-CORE` «فاز ۱» |
+
+### ورودی / خروجی فاز «Handoff»
+
+- **ورودی:** هیچ «فاز آغازین».
+- **خروجی:** پایهٔ ۸۶ تستی، نصاب مستقل، CI و مستندات پایه.
+- **گیرنده:** `AG-CORE` در فاز ۱.
+- **گزارش تحویل:** قالب بند ۲ [`AGENT-CONTRACT.md`](AGENT-CONTRACT.md).
+
+> ✅ **معیار پذیرش فاز:** همهٔ ۱۵ ردیف `✅ done` و دارای `عامل` مشخصاند. این فاز تاریخی است و نیازی به اجرای مجدد ندارد.
 
 ## نتیجه
 
