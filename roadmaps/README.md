@@ -22,7 +22,7 @@
 |---|---|---|---|---|
 | 0 | بوتاسترپ و ساختار مخزن | [phase-00](phase-00-bootstrap.md) | ✅ done | 100٪ |
 | 1 | نسخهٔ رایگان `v1.0.x` | [phase-01](phase-01-free-v1.0.0.md) | ✅ done | 12 از 12 |
-| 2 | قرارداد مشترک، لایسنس و حریم خصوصی «Gate» | [phase-02](phase-02-contract-gate.md) | 🔄 in-progress | ۱۰ از ۱۵ (۶۷٪) |
+| 2 | قرارداد مشترک، لایسنس و حریم خصوصی «Gate» | [phase-02](phase-02-contract-gate.md) | 🔄 in-progress | ۱۱ از ۱۵ (۷۳٪) |
 | 3 | سایت رسمی وردپرسی، پنل و فروش لایسنس | [phase-03](phase-03-official-site.md) | ⏳ todo | 0٪ |
 | 4 | افزونهٔ Pro و بازگردانی امن از پنل | [phase-04](phase-04-pro-addon.md) | ⏳ todo | 0٪ |
 | 5 | ربات مرکزی «فاز مستقل» | [phase-05](phase-05-central-bot.md) | ⏳ todo | 0٪ |
