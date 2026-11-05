@@ -2,7 +2,7 @@
 
 # فاز ۲ — قرارداد مشترک، لایسنس و حریم خصوصی «Gate»
 
-> **Status:** 🔄 in-progress · **Progress:** ۱ از ۱۵ تسک (۷٪) · **Last updated:** 2026-11-04
+> **Status:** 🔄 in-progress · **Progress:** ۲ از ۱۵ تسک (۱۳٪) · **Last updated:** 2026-11-04
 > **پیشنیاز:** اصلاح وضعیت فاز ۱ و ثبت `P1-T12` انجام شده باشد.
 > **دامنه:** در این شاخه فقط **طراحی و ثبت قرارداد**؛ هیچ کدی در `free/` یا `pro/` نوشته نمیشود.
 > **عامل مسئول فاز:** `AG-ORCH` «طراح قرارداد» · **نگهداشت سند:** `AG-DOCS` · **همکاران طراح:** `AG-CORE` / `AG-PRO` / `AG-PORTAL` / `AG-UI` / `AG-QA` · **قرارداد تخصیص:** [`AGENT-CONTRACT.md`](AGENT-CONTRACT.md)
@@ -16,7 +16,7 @@
 | ID | عامل | وضعیت | تسک | خروجی / معیار پذیرش | وابستگی |
 |---|---|---|---|---|---|
 | `C2-T01` | `AG-DOCS` | ✅ done | ثبت تصمیمات `D-031`…`D-053` و اصلاح `D-009` / `D-002` / `SPEC.md` §2 و §10 | `docs/Dev/DECISIONS.md`، `PRODUCT-PLANS.md`، `SPEC.md`، `ARCHITECTURE.md` | — |
-| `C2-T02` | `AG-ORCH` | ⏳ todo | قرارداد API `v1` افزونه ↔ پنل | `activate`، `validate`، `heartbeat`، `deactivate`، `plans`، `usage`، `backup-index`، `download-url`، `feature-flags`، `version-matrix`، `command-queue`؛ JSON Schema، کد خطا، idempotency، ضد replay، نرخمحدود، نسخهبندی `/v1` | `C2-T01` |
+| `C2-T02` | `AG-ORCH` | ✅ done | قرارداد API `v1` افزونه ↔ پنل | `docs/Dev/API-CONTRACT-V1.md`: تدوین ۱۱ اندپوینت، JSON Schema، ضد replay، هدرهای نرخ‌محدود، کاتالوگ جامع خطاها | `C2-T01` |
 | `C2-T03` | `AG-ORCH` | ⏳ todo | قرارداد سند لایسنس `Ed25519` | payload امضاشده: `plan`، `quota`، `domains`، `activation_id`، `expiry`، `issued_at`، `nonce`، `signature`؛ کلید خصوصی فقط پنل، کلید عمومی `۳۲ بایت` در Pro، امضای `۶۴ بایت`؛ ماتریس fallback روی PHP 7.4–8.4 با/بدون `ext-sodium` | `C2-T01` |
 | `C2-T04` | `AG-ORCH` | ⏳ todo | مدل `B` هیبرید pull-first | سند امضاشده + کش آفلاین ۷ روزه + heartbeat **اختیاری** + `فعال → T-3d اخطار → انقضا → رایگان خواندنی`؛ هیچ تماس اجباری از `free/` | `C2-T03` |
 | `C2-T05` | `AG-CORE` | ⏳ todo | نقاط اتصال هستهٔ رایگان «طراحی، نه پیادهسازی» | هوکهای واقعی فعلی: `backupino_manage_capability`، `backupino_storage_drivers`، `backupino_schedule_intervals`، `backupino_schedule_intervals_labels`، `backupino_job_completed`. هوکهای برنامهریزیشده: `backupino_stages`، `backupino_limits`، `backupino_pro_features`، `backupino_restore_pipeline`، `backupino_design_tokens`، `backupino_download_page_styles`، `backupino_package_published` | `C2-T01` |
