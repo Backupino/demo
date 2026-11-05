@@ -2,7 +2,7 @@
 
 # فاز ۲ — قرارداد مشترک، لایسنس و حریم خصوصی «Gate»
 
-> **Status:** 🔄 in-progress · **Progress:** ۱۳ از ۱۵ تسک (۸۷٪) · **Last updated:** 2026-11-05
+> **Status:** 🔄 in-progress · **Progress:** ۱۴ از ۱۵ تسک (۹۳٪) · **Last updated:** 2026-11-05
 > **پیشنیاز:** اصلاح وضعیت فاز ۱ و ثبت `P1-T12` انجام شده باشد.
 > **دامنه:** در این شاخه فقط **طراحی و ثبت قرارداد**؛ هیچ کدی در `free/` یا `pro/` نوشته نمیشود.
 > **عامل مسئول فاز:** `AG-ORCH` «طراح قرارداد» · **نگهداشت سند:** `AG-DOCS` · **همکاران طراح:** `AG-CORE` / `AG-PRO` / `AG-PORTAL` / `AG-UI` / `AG-QA` · **قرارداد تخصیص:** [`AGENT-CONTRACT.md`](AGENT-CONTRACT.md)
@@ -28,7 +28,7 @@
 | `C2-T11` | `AG-PORTAL` | ✅ done | رزرو فیلدهای ابر اختصاصی بدون پیادهسازی | `docs/Dev/DEDICATED-CLOUD-RESERVATION-SCHEMA.md`: اسکیمای MySQL، رزرو سهمیه ۳۰/۱۰۰ گیگ، رمزنگاری Zero-Knowledge، سیاست ۶۰ روز/۳ اخطار و Signed URL | `D-041` |
 | `C2-T12` | `AG-QA` | ✅ done | تستهای قرارداد و mockها | `docs/Dev/CONTRACT-TEST-SUITE-SPEC.md`: شبیه‌ساز FakeLicenseServer، ماتریس ۱۴ سناریوی تست، ساختار فایل‌های tests/Pro/* و برنامه CI فاز ۴ | `C2-T02`…`C2-T08` |
 | `C2-T13` | `AG-ORCH` | ✅ done | قرارداد آپدیت خودکار Pro | `docs/Dev/PRO-AUTO-UPDATE-CONTRACT.md`: هوک‌های pre_set_site_transient و plugins_api، لینک امضاشده ۱۵ دقیقه‌ای، بررسی هش و رول‌بک خودکار | `C2-T02` |
-| `C2-T14` | `AG-ORCH` | ⏳ todo | قواعد لیست سفید دامنه‌های استیجینگ/لوکال | رجکس و قوانین دامنه برای محیط‌های تستی بدون کسر سهمیه لایسنس (`localhost`, `127.0.0.1`, `*.test`, `*.local`, `staging.*`, `dev.*`, `test.*`) `D-051` | `C2-T03` |
+| `C2-T14` | `AG-ORCH` | ✅ done | قواعد لیست سفید دامنه‌های استیجینگ/لوکال | `docs/Dev/STAGING-WHITELIST-RULES.md`: الگوریتم نرمال‌سازی، ۴ گروه رجکس (لوکال، TLDهای RFC، ساب‌دامنه‌ها، هاست‌های کلاد)، سقف استیجینگ و عدم کسر لایسنس | `D-051` |
 | `C2-T15` | `AG-CORE` | ⏳ todo | قرارداد مانیفست و بسته‌های دلتای بکاپ افزایشی | ساختار داده‌ای `manifest.json` (شامل سایز، mtime و sha256 فایل‌ها)، ژورنال حذفیات و نحوه ادغام با درایورهای FTP و S3 `D-048`، `D-050` | `C2-T05` |
 
 ---
