@@ -2,7 +2,7 @@
 
 # فاز ۲ — قرارداد مشترک، لایسنس و حریم خصوصی «Gate»
 
-> **Status:** 🔄 in-progress · **Progress:** ۷ از ۱۵ تسک (۴۷٪) · **Last updated:** 2026-11-05
+> **Status:** 🔄 in-progress · **Progress:** ۸ از ۱۵ تسک (۵۳٪) · **Last updated:** 2026-11-05
 > **پیشنیاز:** اصلاح وضعیت فاز ۱ و ثبت `P1-T12` انجام شده باشد.
 > **دامنه:** در این شاخه فقط **طراحی و ثبت قرارداد**؛ هیچ کدی در `free/` یا `pro/` نوشته نمیشود.
 > **عامل مسئول فاز:** `AG-ORCH` «طراح قرارداد» · **نگهداشت سند:** `AG-DOCS` · **همکاران طراح:** `AG-CORE` / `AG-PRO` / `AG-PORTAL` / `AG-UI` / `AG-QA` · **قرارداد تخصیص:** [`AGENT-CONTRACT.md`](AGENT-CONTRACT.md)
@@ -22,7 +22,7 @@
 | `C2-T05` | `AG-CORE` | ✅ done | نقاط اتصال هستهٔ رایگان «طراحی، نه پیادهسازی» | `docs/Dev/FREE-EXTENSION-HOOKS-CONTRACT.md`: تعریف ۵ هوک موجود + ۵ هوک برنامه‌ریزی‌شده، الگوی ProAddon، ایمنی در غیاب Pro | `C2-T01` |
 | `C2-T06` | `AG-CORE` | ✅ done | قرارداد `Restore` محلی خالص | `docs/Dev/LOCAL-RESTORE-PIPELINE-CONTRACT.md`: اینترفیس RestoreStep، فیلتر backupino_restore_pipeline، مراحل ۷گانه، بازگردانی سایه دو مرحله‌ای و رول‌بک خودکار | `C2-T05` |
 | `C2-T07` | `AG-PRO` | ✅ done | قرارداد عامل نجات و دستور امضاشده | `docs/Dev/RESCUE-AGENT-CONTRACT.md`: اسکریپت ریشه بدون لود وردپرس، توکن ۳۲ بایت hash_equals، ارتباط خروجی pull-only، دستورات امضاشده Ed25519 و خودتخریبی | `C2-T02`، `C2-T03` |
-| `C2-T08` | `AG-QA` | ⏳ todo | ماتریس سازگاری نسخهها | `free >= 1.0.1` ↔ `pro 1.x` ↔ `portal 1.x`؛ حداقل نسخه، اعلام ناسازگاری، حالت read-only هنگام mismatch؛ آپدیت رایگان از WordPress.org و آپدیت Pro از پنل امضاشده | `C2-T02` |
+| `C2-T08` | `AG-QA` | ✅ done | ماتریس سازگاری نسخهها | `docs/Dev/VERSION-COMPATIBILITY-MATRIX.md`: ماتریس Free 1.0.1+ / Pro 1.x / Portal 1.x، پروتکل خطای mismatch، حالت Dormant/Read-only، آپدیت Pro از پرتال (D-049) | `C2-T02` |
 | `C2-T09` | `AG-UI` | ⏳ todo | قرارداد `en_US` / `fa_IR` و توکنهای طراحی | `locale` وردپرس + `hreflang` + RTL/LTR کامل + ۲ فونت محلی جدا از Elementor Pro Custom Fonts + لایهٔ توکن واحد شامل ایمیلها و `PublicDownload`؛ یکدستسازی fallback لوکال نصاب و `locale` بسته | `D-035`، `D-036` |
 | `C2-T10` | `AG-QA` | ⏳ todo | خطمشی حریم خصوصی و WordPress.org | جدول دادههای مجاز/ممنوع، `domain_hash` بهجای دامنهٔ خام، عدم ذخیرهٔ IP پایدار، عدم تلهٔمتری، افشای نشدن سرویس جدید در `readme.txt` رایگان، `D-020` و `D-002` پابرجا | `C2-T04` |
 | `C2-T11` | `AG-PORTAL` | ⏳ todo | رزرو فیلدهای ابر اختصاصی بدون پیادهسازی | `plan.cloud_quota`، `cloud_versions`، `usage`، `signed-upload-url`، `zero_knowledge`، سیاست `۳ اخطار / ۶۰ روز` فقط بهصورت داده؛ جلوگیری از migration در فاز ۷ | `D-041` |
