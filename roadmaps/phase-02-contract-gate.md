@@ -2,7 +2,7 @@
 
 # فاز ۲ — قرارداد مشترک، لایسنس و حریم خصوصی «Gate»
 
-> **Status:** 🔄 in-progress · **Progress:** ۵ از ۱۵ تسک (۳۳٪) · **Last updated:** 2026-11-05
+> **Status:** 🔄 in-progress · **Progress:** ۶ از ۱۵ تسک (۴۰٪) · **Last updated:** 2026-11-05
 > **پیشنیاز:** اصلاح وضعیت فاز ۱ و ثبت `P1-T12` انجام شده باشد.
 > **دامنه:** در این شاخه فقط **طراحی و ثبت قرارداد**؛ هیچ کدی در `free/` یا `pro/` نوشته نمیشود.
 > **عامل مسئول فاز:** `AG-ORCH` «طراح قرارداد» · **نگهداشت سند:** `AG-DOCS` · **همکاران طراح:** `AG-CORE` / `AG-PRO` / `AG-PORTAL` / `AG-UI` / `AG-QA` · **قرارداد تخصیص:** [`AGENT-CONTRACT.md`](AGENT-CONTRACT.md)
@@ -20,7 +20,7 @@
 | `C2-T03` | `AG-ORCH` | ✅ done | قرارداد سند لایسنس `Ed25519` | `docs/Dev/LICENSE-CONTRACT-ED25519.md`: ساختار فشرده توکن لایسنس، کلید عمومی ۳۲ بایت، امضای ۶۴ بایت، ماتریس ۳ لایه‌ای Fallback، پشتیبانی از وایت‌لیست استیجینگ | `C2-T01` |
 | `C2-T04` | `AG-ORCH` | ✅ done | مدل `B` هیبرید pull-first | `docs/Dev/HYBRID-LICENSE-MODEL-B.md`: ماشین وضعیت ۵ مرحله‌ای، کش آفلاین ۷ روزه، حفظ دسترسی خواندنی پس از انقضا، ایزولاسیون کامل هسته رایگان | `C2-T03` |
 | `C2-T05` | `AG-CORE` | ✅ done | نقاط اتصال هستهٔ رایگان «طراحی، نه پیادهسازی» | `docs/Dev/FREE-EXTENSION-HOOKS-CONTRACT.md`: تعریف ۵ هوک موجود + ۵ هوک برنامه‌ریزی‌شده، الگوی ProAddon، ایمنی در غیاب Pro | `C2-T01` |
-| `C2-T06` | `AG-CORE` | ⏳ todo | قرارداد `Restore` محلی خالص | اینترفیس `RestoreStep` + فیلتر `backupino_restore_pipeline`؛ هسته همان کلاسهای `Installer` را بهعنوان مراحل پیشفرض ثبت کند؛ Pro فقط از طریق فیلتر/اینترفیس، بدون `use Backupino\Installer\...` مستقیم «قاعدهٔ جدا نشدن `D-022`» | `C2-T05` |
+| `C2-T06` | `AG-CORE` | ✅ done | قرارداد `Restore` محلی خالص | `docs/Dev/LOCAL-RESTORE-PIPELINE-CONTRACT.md`: اینترفیس RestoreStep، فیلتر backupino_restore_pipeline، مراحل ۷گانه، بازگردانی سایه دو مرحله‌ای و رول‌بک خودکار | `C2-T05` |
 | `C2-T07` | `AG-PRO` | ⏳ todo | قرارداد عامل نجات و دستور امضاشده | `backupino-rescue.php` در ریشهٔ سایت، خارج از `wp-content/` «همان قفل ۴۰۳»، توکن یکبارمصرف، `hash_equals`، `noindex/no-store`، **فقط درخواست خروجی HTTPS**؛ پنل هرگز inbound نمیشود؛ دستور مقید به `instance_id` + `domain_hash` + `backup_hash` + `expiry` + `nonce` | `C2-T02`، `C2-T03` |
 | `C2-T08` | `AG-QA` | ⏳ todo | ماتریس سازگاری نسخهها | `free >= 1.0.1` ↔ `pro 1.x` ↔ `portal 1.x`؛ حداقل نسخه، اعلام ناسازگاری، حالت read-only هنگام mismatch؛ آپدیت رایگان از WordPress.org و آپدیت Pro از پنل امضاشده | `C2-T02` |
 | `C2-T09` | `AG-UI` | ⏳ todo | قرارداد `en_US` / `fa_IR` و توکنهای طراحی | `locale` وردپرس + `hreflang` + RTL/LTR کامل + ۲ فونت محلی جدا از Elementor Pro Custom Fonts + لایهٔ توکن واحد شامل ایمیلها و `PublicDownload`؛ یکدستسازی fallback لوکال نصاب و `locale` بسته | `D-035`، `D-036` |
