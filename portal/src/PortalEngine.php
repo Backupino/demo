@@ -16,6 +16,8 @@ use Backupino\Portal\Audit\AuditLogger;
 use Backupino\Portal\Auth\RoleManager;
 use Backupino\Portal\Api\LicenseController;
 use Backupino\Portal\Api\PlansController;
+use Backupino\Portal\Commerce\OrderSyncService;
+use Backupino\Portal\Commerce\PaymentGatewayManager;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -55,6 +57,10 @@ final class PortalEngine {
 		// Register REST API routes (S3-T04 / S3-T05 / S3-T10)
 		add_action( 'rest_api_init', array( LicenseController::class, 'register_routes' ) );
 		add_action( 'rest_api_init', array( PlansController::class, 'register_routes' ) );
+
+		// Register Commerce & Order hooks (S3-T06)
+		OrderSyncService::init();
+		PaymentGatewayManager::init();
 
 		// Add admin notice in development environment
 		if ( Environment::is_dev() ) {
