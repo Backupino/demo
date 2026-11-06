@@ -147,6 +147,16 @@ final class LicenseRepository {
 	}
 
 	/**
+	 * Alias for find_by_user.
+	 *
+	 * @param int $user_id
+	 * @return License[]
+	 */
+	public static function find_by_user_id( int $user_id ): array {
+		return self::find_by_user( $user_id );
+	}
+
+	/**
 	 * Update license status.
 	 */
 	public static function update_status( int $id, string $status ): bool {

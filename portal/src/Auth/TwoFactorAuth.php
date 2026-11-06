@@ -102,6 +102,28 @@ final class TwoFactorAuth {
 	}
 
 	/**
+	 * Verify TOTP code for a specific user ID.
+	 *
+	 * @param int    $user_id   User ID.
+	 * @param string $totp_code 6-digit TOTP code.
+	 * @return bool
+	 */
+	public static function verify_totp( int $user_id, string $totp_code ): bool {
+		$secret = (string) get_user_meta( $user_id, self::META_SECRET, true );
+		if ( empty( $secret ) ) {
+			return false;
+		}
+		return self::verify_code( $secret, $totp_code );
+	}
+
+	/**
+	 * Alias for get_totp_code.
+	 */
+	public static function generate_totp_code( string $secret, ?int $timestamp = null ): string {
+		return self::get_totp_code( $secret, $timestamp );
+	}
+
+	/**
 	 * Generate an otpauth:// URI suitable for authenticator apps / QR codes.
 	 *
 	 * @param string $username Account identifier (email).

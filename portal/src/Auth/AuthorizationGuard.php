@@ -43,6 +43,42 @@ final class AuthorizationGuard {
 	}
 
 	/**
+	 * Verify license ownership returning true or WP_Error.
+	 *
+	 * @param int $user_id    User ID.
+	 * @param int $license_id License ID.
+	 * @return true|\WP_Error
+	 */
+	public static function verify_license_ownership( int $user_id, int $license_id ) {
+		if ( ! self::is_license_owner( $user_id, $license_id ) ) {
+			return new \WP_Error(
+				'UNAUTHORIZED_OWNERSHIP',
+				__( 'You do not have permission to manage this license.', 'backupino-portal' ),
+				array( 'status' => 403 )
+			);
+		}
+		return true;
+	}
+
+	/**
+	 * Check if user can restore returning true or WP_Error.
+	 *
+	 * @param int $user_id    User ID.
+	 * @param int $license_id License ID.
+	 * @return true|\WP_Error
+	 */
+	public static function can_restore( int $user_id, int $license_id ) {
+		if ( ! self::is_license_owner( $user_id, $license_id ) ) {
+			return new \WP_Error(
+				'UNAUTHORIZED_OWNERSHIP',
+				__( 'Only the account owner can initiate a restore.', 'backupino-portal' ),
+				array( 'status' => 403 )
+			);
+		}
+		return true;
+	}
+
+	/**
 	 * Check if a user can view or manage a license.
 	 *
 	 * Owners can manage their license.

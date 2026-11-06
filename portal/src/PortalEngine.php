@@ -19,6 +19,7 @@ use Backupino\Portal\Api\PlansController;
 use Backupino\Portal\Commerce\OrderSyncService;
 use Backupino\Portal\Commerce\PaymentGatewayManager;
 use Backupino\Portal\Lifecycle\LicenseLifecycleManager;
+use Backupino\Portal\Ui\CustomerDashboardController;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -65,6 +66,9 @@ final class PortalEngine {
 
 		// Register Lifecycle & Renewal hooks (S3-T07)
 		LicenseLifecycleManager::init();
+
+		// Register Customer Dashboard & My Account hooks (S3-T08)
+		CustomerDashboardController::init();
 
 		// Add admin notice in development environment
 		if ( Environment::is_dev() ) {

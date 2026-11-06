@@ -86,6 +86,24 @@ final class ActivationRepository {
 	}
 
 	/**
+	 * Find activation by ID.
+	 *
+	 * @param int $id Activation ID.
+	 * @return Activation|null
+	 */
+	public static function find_by_id( int $id ): ?Activation {
+		global $wpdb;
+
+		$table = self::table();
+		$row   = $wpdb->get_row(
+			$wpdb->prepare( "SELECT * FROM `{$table}` WHERE `id` = %d LIMIT 1", $id ),
+			ARRAY_A
+		);
+
+		return $row ? new Activation( $row ) : null;
+	}
+
+	/**
 	 * Find activation by license ID and domain hash.
 	 */
 	public static function find_by_license_and_hash( int $license_id, string $domain_hash ): ?Activation {
