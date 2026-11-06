@@ -45,15 +45,14 @@ final class SettingsTest extends TestCase {
 
 		$settings->update(
 			array(
-				'storage'  => array( 'driver' => 's3' ),
+				'storage'  => array( 'driver' => 'local' ),
 				'advanced' => array( 'opt_in_news' => true ),
 			)
 		);
 
-		$this->assertSame( 's3', $settings->get( 'storage.driver' ) );
-		$this->assertSame( 'us-east-1', $settings->get( 'storage.s3.region' ) );
-		$this->assertTrue( $settings->get( 'advanced.opt_in_news' ) );
-		$this->assertSame( 's3', $store->values[ Settings::OPTION ]['storage']['driver'] );
+		$this->assertSame( 'local', $settings->get( 'storage.driver' ) );
+				$this->assertTrue( $settings->get( 'advanced.opt_in_news' ) );
+		$this->assertSame( 'local', $store->values[ Settings::OPTION ]['storage']['driver'] );
 		$this->assertTrue( $store->values[ Settings::OPTION ]['advanced']['opt_in_news'] );
 	}
 

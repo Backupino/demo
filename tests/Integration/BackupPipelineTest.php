@@ -137,10 +137,10 @@ final class BackupPipelineTest extends TestCase {
 		$this->assertGreaterThan( 0, (int) $package['size'] );
 
 		$archive = $paths->packages() . '/' . $package['archive'];
-		$installer = $paths->packages() . '/' . $package['installer'];
+		$meta    = $paths->packages() . '/' . preg_replace( '/\.zip$/i', '.meta.json', $package['archive'] );
 
 		$this->assertTrue( is_file( $archive ), 'Archive was not published.' );
-		$this->assertTrue( is_file( $installer ), 'Installer was not published.' );
+		$this->assertTrue( is_file( $meta ), 'Package metadata was not published.' );
 
 		// --- archive content ----------------------------------------------
 		$reader = new ZipArchiveReader();
@@ -169,7 +169,8 @@ final class BackupPipelineTest extends TestCase {
 		$reader->close();
 
 		// --- installer ----------------------------------------------------
-		$code = (string) file_get_contents( $installer );
+		$builder = new \Backupino\Backup\InstallerBuilder();
+		$code    = $builder->build_for_package( $archive, $settings );
 
 		token_get_all( $code, TOKEN_PARSE );
 

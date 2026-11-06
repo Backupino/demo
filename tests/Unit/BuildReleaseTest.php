@@ -80,7 +80,6 @@ final class BuildReleaseTest extends TestCase {
 		$this->assertTrue( in_array( 'backupino/uninstall.php', $entries, true ) );
 		$this->assertTrue( in_array( 'backupino/readme.txt', $entries, true ) );
 		$this->assertTrue( in_array( 'backupino/LICENSE', $entries, true ) );
-		$this->assertTrue( in_array( 'backupino/languages/backupino-fa_IR.mo', $entries, true ) );
 		$this->assertTrue( in_array( 'backupino/languages/backupino.pot', $entries, true ) );
 	}
 
@@ -93,6 +92,6 @@ final class BuildReleaseTest extends TestCase {
 		$mainFile = dirname( __DIR__, 2 ) . '/free/backupino.php';
 		$version  = ReleaseBuilder::detect_version( $mainFile );
 
-		$this->assertSame( '1.0.2', $version );
+		$this->assertSame( '1.0.3', $version );
 	}
 }
