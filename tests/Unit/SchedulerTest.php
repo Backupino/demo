@@ -49,7 +49,6 @@ final class SchedulerTest extends TestCase {
 		$schedules = $scheduler->add_schedules( array() );
 
 		$this->assertArrayHasKey( 'backupino_minute', $schedules );
-		$this->assertArrayHasKey( 'weekly', $schedules );
 		$this->assertArrayHasKey( 'backupino_monthly', $schedules );
 		$this->assertSame( 2592000, $schedules['backupino_monthly']['interval'] );
 	}

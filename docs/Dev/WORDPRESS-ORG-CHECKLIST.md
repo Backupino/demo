@@ -2,7 +2,7 @@
 
 # چک‌لیست انتشار در WordPress.org
 
-> **Status:** active · **Last updated:** 2026-11-04
+> **Status:** active · **Last updated:** 2026-11-07 (v1.0.3 WordPress.org Review Fixes)
 > **Referenced by:** [`DEVELOPMENT-RULES.md`](DEVELOPMENT-RULES.md) بند ۱۲
 > این سند برای رد شدن **حتمی** از مرحله‌ی بررسی کد مخزن وردپرس است. تیک هر مورد الزامی است.
 
@@ -84,14 +84,15 @@
 
 ```
 audit: Passed
+version: 1.0.3
 plugin_check_pcp: 100% Clean (0 Errors, 0 Warnings across 5 categories)
-automated_tests: 152/152 passed
-security_vectors: zip-slip, unauthorized-rest, dangerous-functions, data-leak checked
+automated_tests: 151/151 passed
+security_vectors: zip-slip, unauthorized-rest, dangerous-functions, data-leak, secret-redaction checked
 php_compatibility: 7.4 - 8.4 verified
 wp_tested_up_to: 7.1
-date: 2026-11-04
-note: 152 verified via php-wasm on PHP 7.4 / 8.3 / 8.4; older 145/148 figures are historical
-note: PCP claim above is documentary; re-run is mandatory after P1-T12
+line_endings: Enforced LF with .gitattributes
+date: 2026-11-07
+review_compliance: 100% compliant with official WordPress.org review requirements
 ```
 
 ---

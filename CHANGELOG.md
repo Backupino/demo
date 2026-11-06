@@ -10,6 +10,23 @@ this project adheres to **Backupino's Custom Versioning Specification**:
 - **Minor (0..∞):** Unbounded integer representing feature iterations and milestone rollouts (`1.9.9` $\to$ `1.10.0` $\to$ ...).
 - **Major (1..9):** Capped at 9, reserved for foundational architecture redesigns.
 
+## [1.0.3] — 2026-11-07
+
+### Security & Compliance (WordPress.org Review Response)
+- **Trialware & Upsell Sanitization**: Removed trialware upsell options from free settings defaults (`weekly` interval and `s3` storage driver stripped), exposing extensible WordPress filter hooks (`backupino_schedule_intervals_labels` and `backupino_storage_drivers`) for seamless future modularity.
+- **Credential Protection & Secret Redaction**: Implemented `ConfigWriter::redact_secrets()` to strip database credentials, auth salts, and secret keys from `wp-config.php` during package build. Injected clean `backupino-wp-config.tpl` template into archive root, and generated fresh, cryptographically secure 64-character salts dynamically during restoration.
+- **Dynamic Installer Streaming**: Eliminated physical `.php` installer files from uploads storage directories; installer packages are now compiled and streamed on-the-fly through `Fs::stream_string_download()`. Protected storage root with static `index.html`.
+- **Static Asset Extraction**: Decoupled all inline styles and scripts into static cacheable assets:
+  - Download page: `free/assets/css/public-download.css` & `free/assets/js/public-download.js`.
+  - Standalone installer: `free/assets/css/installer.css`, `free/assets/js/installer.js`, and `free/src/Installer/installer-layout.html`.
+- **Strict Input Validation & Nonce Hardening**: Added cryptographic `hash_equals()` validation for download tokens, strict alphanumeric regex validation for table prefixes (`/^[a-zA-Z0-9_]+$/`), URL protocol validation (`filter_var` + `^https?://`), and eliminated direct file path disclosures (`__FILE__` cleanup).
+- **Translation Standard Alignment**: Removed bundled `.po`/`.mo` translation files and deleted `load_plugin_textdomain()` to rely exclusively on official WordPress.org language pack delivery (`translate.wordpress.org`).
+- **Enforced Unix Line Endings**: Standardized all text files across codebase to LF (`\n`) and added `.gitattributes` to eliminate `Internal.LineEndings.Mixed` warnings permanently.
+
+### Fixed
+- **Settings Page Fatal Error**: Fixed undefined variable `$backupino_settings` in `templates/settings.php` by properly reading `$backupino_values['schedule']['interval']`, eliminating fatal error on settings page.
+- **Installer Step 2 Submission Loop**: Changed connect button to `type="button"`, prevented native form GET submissions on `#dbform`, and resolved button ID mismatch (`back-to-step1`) to ensure smooth progression into Step 3 extraction.
+
 ## [1.0.2] — 2026-11-04
 
 ### Added

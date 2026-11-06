@@ -49,7 +49,7 @@ final class PathsTest extends TestCase {
 		$this->assertTrue( is_dir( $paths->jobs() ) );
 		$this->assertTrue( is_dir( $paths->packages() ) );
 		$this->assertTrue( is_file( $paths->base() . '/.htaccess' ) );
-		$this->assertTrue( is_file( $paths->base() . '/index.php' ) );
+		$this->assertTrue( is_file( $paths->base() . '/index.html' ) );
 	}
 
 	/**
