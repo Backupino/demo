@@ -174,4 +174,52 @@ final class BackupRepository {
 			)
 		);
 	}
+
+	/**
+	 * Find a backup record by backup/package hash.
+	 *
+	 * @param string $backup_hash
+	 * @return CloudBackup|null
+	 */
+	public static function find_by_backup_hash( string $backup_hash ): ?CloudBackup {
+		global $wpdb;
+
+		$table = self::table();
+		$row   = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT * FROM `{$table}` WHERE `backup_hash` = %s AND `retention_status` != 'purged' LIMIT 1",
+				$backup_hash
+			),
+			ARRAY_A
+		);
+
+		return $row ? new CloudBackup( $row ) : null;
+	}
+
+	/**
+	 * Find active backups by activation ID.
+	 *
+	 * @param int $activation_id
+	 * @param int $limit
+	 * @return CloudBackup[]
+	 */
+	public static function find_by_activation_id( int $activation_id, int $limit = 50 ): array {
+		global $wpdb;
+
+		$table = self::table();
+		$rows  = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM `{$table}` WHERE `activation_id` = %d AND `retention_status` != 'purged' ORDER BY `created_at` DESC LIMIT %d",
+				$activation_id,
+				$limit
+			),
+			ARRAY_A
+		);
+
+		if ( ! is_array( $rows ) ) {
+			return array();
+		}
+
+		return array_map( fn( $row ) => new CloudBackup( $row ), $rows );
+	}
 }

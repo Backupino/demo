@@ -1277,51 +1277,138 @@ $is_en = ( 'en' === $preferred_loc );
 					<h2 class="bk-title">⚙️ <span data-i18n="general_settings_title"><?php echo $is_en ? 'General Settings, Bot & Upgrades' : 'تنظیمات عمومی، ربات و ارتقای سهمیه'; ?></span></h2>
 				</div>
 
-				<!-- 1. Central Notification Bot -->
+				<!-- 1. Central Notification Bot (S3-T12, D-009, D-033, D-040) -->
 				<div class="bk-card">
-					<h3 style="margin: 0 0 10px; font-size: 16px; font-weight: 700;">🤖 <span data-i18n="bot_settings_title"><?php echo $is_en ? 'Central Notification Bot (Telegram & Bale)' : 'ربات اطلاع‌رسانی مرکزی (Telegram & Bale)'; ?></span></h3>
+					<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
+						<h3 style="margin: 0; font-size: 16px; font-weight: 700;">🤖 <span data-i18n="bot_settings_title"><?php echo $is_en ? 'Central Notification Bot (Telegram & Bale)' : 'ربات اطلاع‌رسانی مرکزی (Telegram & Bale)'; ?></span></h3>
+						<?php if ( ! empty( $settings['has_pro_license'] ) ) : ?>
+							<?php if ( ! empty( $settings['bot_is_linked'] ) ) : ?>
+								<span class="bk-badge bk-badge-active" style="display: inline-flex; align-items: center; gap: 4px;">
+									🟢 <?php echo $is_en ? 'Connected' : 'متصل به ربات'; ?> (<?php echo esc_html( ucfirst( $settings['bot_messenger'] ?? 'Telegram' ) ); ?>)
+								</span>
+							<?php else : ?>
+								<span class="bk-badge bk-badge-warning" style="display: inline-flex; align-items: center; gap: 4px;">
+									⚪ <?php echo $is_en ? 'Not Linked' : 'متصل نشده'; ?>
+								</span>
+							<?php endif; ?>
+						<?php else : ?>
+							<span class="bk-badge bk-badge-revoked" style="display: inline-flex; align-items: center; gap: 4px;">
+								🔒 <?php echo $is_en ? 'Pro License Required' : 'نیازمند لایسنس Pro'; ?>
+							</span>
+						<?php endif; ?>
+					</div>
+
 					<p style="font-size: 13px; color: var(--bk-slate-500); margin: 0 0 18px;" data-i18n="bot_settings_desc">
-						<?php echo $is_en ? 'Receive real-time notifications for completed backups, expiry alerts, and errors via Telegram or Bale.' : 'دریافت هشدارهای بلادرنگ تهیه بکاپ، انقضای لایسنس و خطاهای احتمالی از طریق پیام‌رسان‌های تلگرام و بله.'; ?>
+						<?php echo $is_en ? 'Receive real-time notifications for completed backups, expiry alerts, and errors via Telegram or Bale. Central bot is strictly opt-in and disabled by default (D-009).' : 'دریافت هشدارهای بلادرنگ تهیه بکاپ، انقضای لایسنس و خطاهای احتمالی از طریق پیام‌رسان‌های تلگرام و بله. ربات مرکزی به صورت پیش‌فرض خاموش است و نیازمند تایید صریح شماست (D-009).'; ?>
 					</p>
 
-					<form id="bk-bot-settings-form" onsubmit="bkSaveGeneralSettings(event);">
-						<div style="margin-bottom: 16px;">
-							<label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; cursor: pointer;">
-								<input type="checkbox" id="cfg-bot-enabled" <?php checked( ! empty( $settings['central_bot_enabled'] ) ); ?>>
-								<span data-i18n="bot_enable_checkbox"><?php echo $is_en ? 'Enable Central Notification Bot' : 'فعال‌سازی ربات اطلاع‌رسانی مرکزی'; ?></span>
-							</label>
+					<?php if ( empty( $settings['has_pro_license'] ) ) : ?>
+						<div style="background: #f8fafc; border: 1px solid var(--bk-slate-200); border-radius: var(--bk-radius-sm); padding: 16px; text-align: center;">
+							<p style="margin: 0 0 8px; font-size: 13.5px; font-weight: 600; color: var(--bk-slate-700);">
+								⚡ <?php echo $is_en ? 'Central notification bot is exclusively available for active Pro licenses (Personal, Freelancer, Agency, Enterprise).' : 'قابلیت ربات اطلاع‌رسانی مرکزی منحصراً برای لایسنس‌های تجاری فعال Pro در دسترس است.'; ?>
+							</p>
+							<p style="margin: 0; font-size: 12.5px; color: var(--bk-slate-500);">
+								<?php echo $is_en ? 'Free users can use their personal Telegram/Bale bot tokens directly in their WordPress plugin settings.' : 'کاربران نسخه رایگان می‌توانند از ربات شخصی تلگرام یا بله خود مستقیماً در تنظیمات افزونه استفاده نمایند.'; ?>
+							</p>
 						</div>
-
-						<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 16px;">
-							<div>
-								<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;" data-i18n="bot_messenger_label"><?php echo $is_en ? 'Messenger:' : 'پیام‌رسان هدف:'; ?></label>
-								<select id="cfg-bot-messenger" class="bk-select">
-									<option value="telegram" <?php selected( $settings['bot_messenger'] ?? '', 'telegram' ); ?>><?php echo $is_en ? 'Telegram' : 'تلگرام (Telegram)'; ?></option>
-									<option value="bale" <?php selected( $settings['bot_messenger'] ?? '', 'bale' ); ?>><?php echo $is_en ? 'Bale Messenger' : 'پیام‌رسان بله (Bale)'; ?></option>
-								</select>
+					<?php else : ?>
+						<!-- Bot Connection & /link Code Section -->
+						<div style="background: var(--bk-slate-50); border: 1px solid var(--bk-slate-200); border-radius: var(--bk-radius-sm); padding: 16px; margin-bottom: 20px;">
+							<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+								<div>
+									<h4 style="margin: 0 0 4px; font-size: 14px; font-weight: 700;">🔗 <?php echo $is_en ? 'Account Link Code' : 'کد اتصال سریع به ربات (/link)'; ?></h4>
+									<p style="margin: 0; font-size: 12px; color: var(--bk-slate-500);">
+										<?php echo $is_en ? 'Generate a secure 15-minute code and send `/link CODE` to the official bot:' : 'یک کد یکبارمصرف ۱۵ دقیقه‌ای ایجاد کرده و دستور `/link CODE` را به ربات ارسال نمایید:'; ?>
+									</p>
+								</div>
+								<div style="display: flex; gap: 8px;">
+									<?php if ( ! empty( $settings['bot_is_linked'] ) ) : ?>
+										<button type="button" class="bk-btn bk-btn-secondary bk-btn-sm" onclick="bkUnlinkBot();" style="color: var(--bk-rose); border-color: var(--bk-rose-border);">
+											❌ <?php echo $is_en ? 'Disconnect Bot' : 'قطع اتصال ربات'; ?>
+										</button>
+									<?php endif; ?>
+									<button type="button" class="bk-btn bk-btn-primary bk-btn-sm" onclick="bkGenerateBotCode();" id="btn-gen-bot-code">
+										🔑 <?php echo $is_en ? 'Generate Link Code' : 'تولید کد اتصال جدید'; ?>
+									</button>
+								</div>
 							</div>
 
-							<div>
-								<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;" data-i18n="bot_chat_id_label"><?php echo $is_en ? 'Chat ID:' : 'شناسه چت (Chat ID):'; ?></label>
-								<input type="text" id="cfg-bot-chat-id" class="bk-input" value="<?php echo esc_attr( $settings['bot_chat_id'] ?? '' ); ?>" placeholder="<?php echo $is_en ? '@username or 123456789' : '@username یا 123456789'; ?>">
+							<!-- Display box for generated code -->
+							<div id="bk-bot-code-box" style="display: none; background: #fff; border: 2px dashed #0284c7; border-radius: var(--bk-radius-sm); padding: 14px; text-align: center; margin-top: 10px;">
+								<div style="font-size: 11px; text-transform: uppercase; color: #0284c7; font-weight: 700; margin-bottom: 4px;"><?php echo $is_en ? 'Your 15-Minute Link Code' : 'کد اتصال ۱۵ دقیقه‌ای شما'; ?></div>
+								<div id="bk-bot-code-display" style="font-size: 24px; font-family: monospace; font-weight: 800; letter-spacing: 4px; color: #0f172a; margin-bottom: 8px;">BK-XXXXXX</div>
+								<div style="font-size: 12px; color: var(--bk-slate-600);">
+									<?php echo $is_en ? 'Send this to Telegram:' : 'در تلگرام ارسال به:'; ?> <strong style="direction: ltr; display: inline-block; color: var(--bk-brand);">@Backupino_Bot</strong> 
+									&nbsp;|&nbsp; 
+									<?php echo $is_en ? 'Or Bale Messenger:' : 'یا در بله ارسال به:'; ?> <strong style="direction: ltr; display: inline-block; color: var(--bk-brand);">@Backupino_Bot</strong>
+								</div>
 							</div>
+
+							<?php if ( ! empty( $settings['bot_is_linked'] ) ) : ?>
+								<div style="font-size: 12px; color: var(--bk-emerald); font-weight: 600; margin-top: 8px;">
+									✔ <?php echo $is_en ? 'Active Chat ID:' : 'شناسه چت تایید‌شده:'; ?> 
+									<code><?php echo esc_html( substr( (string) $settings['bot_chat_id'], 0, 4 ) . '****' ); ?></code>
+									<?php if ( ! empty( $settings['bot_username'] ) ) : ?>
+										(@<?php echo esc_html( $settings['bot_username'] ); ?>)
+									<?php endif; ?>
+								</div>
+							<?php endif; ?>
 						</div>
 
-						<div style="margin-bottom: 18px; display: flex; flex-direction: column; gap: 8px;">
-							<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
-								<input type="checkbox" id="cfg-notify-backup" <?php checked( ! empty( $settings['notify_on_backup'] ) ); ?>>
-								<span data-i18n="notify_backup_ok"><?php echo $is_en ? 'Notify on successful cloud backup completion' : 'ارسال پیام هنگام تکمیل موفقیت‌آمیز بکاپ‌های ابری'; ?></span>
-							</label>
-							<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
-								<input type="checkbox" id="cfg-notify-expire" <?php checked( ! empty( $settings['notify_on_expire'] ) ); ?>>
-								<span data-i18n="notify_expiry_warn"><?php echo $is_en ? 'Notify before license expiration' : 'ارسال پیام هشدار قبل از فرارسیدن موعد تمدید لایسنس'; ?></span>
-							</label>
-						</div>
+						<form id="bk-bot-settings-form" onsubmit="bkSaveGeneralSettings(event);">
+							<div style="margin-bottom: 16px;">
+								<label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; cursor: pointer;">
+									<input type="checkbox" id="cfg-bot-enabled" <?php checked( ! empty( $settings['central_bot_enabled'] ) ); ?>>
+									<span data-i18n="bot_enable_checkbox"><?php echo $is_en ? 'Enable Central Notification Bot' : 'فعال‌سازی ربات اطلاع‌رسانی مرکزی'; ?></span>
+								</label>
+							</div>
 
-						<button type="submit" id="btn-save-settings" class="bk-btn bk-btn-primary">
-							<span data-i18n="btn_save_bot"><?php echo $is_en ? 'Save Bot Settings' : 'ذخیره تنظیمات ربات'; ?></span>
-						</button>
-					</form>
+							<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 16px;">
+								<div>
+									<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;" data-i18n="bot_messenger_label"><?php echo $is_en ? 'Preferred Messenger:' : 'پیام‌رسان پیش‌فرض:'; ?></label>
+									<select id="cfg-bot-messenger" class="bk-select">
+										<option value="telegram" <?php selected( $settings['bot_messenger'] ?? '', 'telegram' ); ?>><?php echo $is_en ? 'Telegram (@Backupino_Bot)' : 'تلگرام (@Backupino_Bot)'; ?></option>
+										<option value="bale" <?php selected( $settings['bot_messenger'] ?? '', 'bale' ); ?>><?php echo $is_en ? 'Bale Messenger (@Backupino_Bot)' : 'پیام‌رسان بله (@Backupino_Bot)'; ?></option>
+									</select>
+								</div>
+
+								<div>
+									<label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;" data-i18n="bot_chat_id_label"><?php echo $is_en ? 'Manual Chat ID (Optional fallback):' : 'شناسه چت دستی (اختیاری):'; ?></label>
+									<input type="text" id="cfg-bot-chat-id" class="bk-input" value="<?php echo esc_attr( $settings['bot_chat_id'] ?? '' ); ?>" placeholder="<?php echo $is_en ? '@username or 123456789' : '@username یا 123456789'; ?>">
+								</div>
+							</div>
+
+							<!-- Explicit Privacy Consent (D-009 / B5-T01 - Modal Trigger) -->
+							<div style="background: var(--bk-slate-50); border: 1px solid var(--bk-slate-200); border-radius: var(--bk-radius-sm); padding: 14px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+								<label style="display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--bk-slate-800); margin: 0;">
+									<input type="checkbox" id="cfg-bot-consent" <?php checked( ! empty( $settings['bot_consent_given'] ) ); ?> style="margin: 0; width: 17px; height: 17px; accent-color: var(--bk-brand);">
+									<span><?php echo $is_en ? 'I have read and agree to the <a href="javascript:void(0);" onclick="bkOpenPrivacyModal();" style="color: var(--bk-brand); text-decoration: underline; font-weight: 700;">Data Privacy & Disclosure Policy (D-009)</a>.' : 'متن <a href="javascript:void(0);" onclick="bkOpenPrivacyModal();" style="color: var(--bk-brand); text-decoration: underline; font-weight: 700;">خط‌مشی حریم خصوصی و افشای داده‌ها (D-009)</a> را مطالعه کرده و می‌پذیرم.'; ?></span>
+								</label>
+								<button type="button" class="bk-btn bk-btn-secondary bk-btn-sm" onclick="bkOpenPrivacyModal();" style="font-size: 12px; padding: 6px 14px;">
+									🛡️ <?php echo $is_en ? 'Read Policy' : 'مطالعه خط‌مشی کامل'; ?>
+								</button>
+							</div>
+
+							<div style="margin-bottom: 18px; display: flex; flex-direction: column; gap: 8px;">
+								<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+									<input type="checkbox" id="cfg-notify-backup" <?php checked( ! empty( $settings['notify_on_backup'] ) ); ?>>
+									<span data-i18n="notify_backup_ok"><?php echo $is_en ? 'Notify on successful cloud backup completion' : 'ارسال پیام هنگام تکمیل موفقیت‌آمیز بکاپ‌های ابری'; ?></span>
+								</label>
+								<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+									<input type="checkbox" id="cfg-notify-expire" <?php checked( ! empty( $settings['notify_on_expire'] ) ); ?>>
+									<span data-i18n="notify_expiry_warn"><?php echo $is_en ? 'Notify before license expiration' : 'ارسال پیام هشدار قبل از فرارسیدن موعد تمدید لایسنس'; ?></span>
+								</label>
+								<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+									<input type="checkbox" id="cfg-notify-error" <?php checked( ! empty( $settings['notify_on_error'] ) ); ?>>
+									<span data-i18n="notify_error_warn"><?php echo $is_en ? 'Notify immediately on backup errors or warnings' : 'ارسال پیام فوری هنگام بروز خطا یا هشدارهای پشتیبان‌گیری'; ?></span>
+								</label>
+							</div>
+
+							<button type="submit" id="btn-save-settings" class="bk-btn bk-btn-primary">
+								<span data-i18n="btn_save_bot"><?php echo $is_en ? 'Save Bot Settings' : 'ذخیره تنظیمات ربات'; ?></span>
+							</button>
+						</form>
+					<?php endif; ?>
 				</div>
 
 				<!-- 2. Quota Upgrade & Plan Request -->
@@ -1409,36 +1496,111 @@ $is_en = ( 'en' === $preferred_loc );
 
 	<!-- ================= MODALS (ONLY FOR SECURITY 2FA RESTORE GATE & SETUP) ================= -->
 
-	<!-- 1. Restore Modal (Strict D-042: Owner only + 2FA Gate) -->
+	<!-- 1. Restore Modal (Strict D-042: Owner only + 2FA Gate & Two-Phase Preview - S3-T11) -->
 	<div class="bk-modal-backdrop" id="modal-restore-gate">
-		<div class="bk-modal-card">
+		<div class="bk-modal-card" style="max-width: 580px; width: 90%;">
 			<div class="bk-card-header" style="border-bottom: 1px solid var(--bk-slate-200); padding-bottom: 14px; margin-bottom: 18px;">
-				<h3 style="margin: 0; font-size: 18px; font-weight: 800;" data-i18n="modal_restore_title"><?php echo $is_en ? '🔄 Confirm Restore Command' : '🔄 تایید صدور دستور بازیابی (Restore)'; ?></h3>
-				<button type="button" onclick="bkCloseModal('modal-restore-gate');" style="background: none; border: none; font-size: 22px; cursor: pointer; color: var(--bk-slate-400);">&times;</button>
+				<h3 style="margin: 0; font-size: 18px; font-weight: 800;" data-i18n="modal_restore_title"><?php echo $is_en ? '🔄 Two-Phase Shadow Restore' : '🔄 بازگردانی دومرحله‌ای در سایه (D-042)'; ?></h3>
+				<button type="button" onclick="bkCloseRestoreModal();" style="background: none; border: none; font-size: 22px; cursor: pointer; color: var(--bk-slate-400);">&times;</button>
 			</div>
 
-			<div style="background: var(--bk-rose-bg); border: 1px solid var(--bk-rose-border); border-radius: var(--bk-radius-sm); padding: 14px; margin-bottom: 18px;">
-				<p style="margin: 0; font-size: 13px; color: var(--bk-rose); font-weight: 600;" data-i18n="restore_warning">
-					<?php echo $is_en ? '⚠️ Warning: Restoring will overwrite existing website data. 6-digit 2FA code is strictly required (D-042).' : '⚠️ هشدار: بازیابی این نسخه باعث جایگزینی داده‌های فعلی سایت خواهد شد. جهت امنیت، وارد کردن کد ۶ رقمی برنامه تایید دو مرحله‌ای الزامی است.'; ?>
+			<!-- STATE 1: 2FA Authentication Gate -->
+			<div id="bk-restore-state-2fa">
+				<div style="background: var(--bk-rose-bg); border: 1px solid var(--bk-rose-border); border-radius: var(--bk-radius-sm); padding: 14px; margin-bottom: 18px;">
+					<p style="margin: 0; font-size: 13px; color: var(--bk-rose); font-weight: 600;" data-i18n="restore_warning">
+						<?php echo $is_en ? '⚠️ Strict Security (D-042): Only the verified account owner can issue restore commands. Please enter your 6-digit TOTP code.' : '⚠️ اصل امنیتی D-042: صدور دستور بازگردانی منحصراً در اختیار مالک حساب بوده و نیازمند تایید هویت دومرحله‌ای (2FA) است.'; ?>
+					</p>
+				</div>
+
+				<p style="font-size: 13.5px; margin: 0 0 12px;"><span data-i18n="selected_package"><?php echo $is_en ? 'Selected Package:' : 'بسته انتخابی:'; ?></span> <strong id="restore-package-name"></strong></p>
+
+				<form id="bk-restore-form" onsubmit="bkSubmitRestore(event);">
+					<input type="hidden" id="restore-license-id" value="0">
+					<input type="hidden" id="restore-backup-id" value="0">
+
+					<div style="margin-bottom: 20px;">
+						<label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px;" data-i18n="totp_label"><?php echo $is_en ? 'Two-Factor Code (TOTP):' : 'کد تایید دو مرحله‌ای (TOTP):'; ?></label>
+						<input type="text" id="restore-totp-code" class="bk-input" required maxlength="6" placeholder="123456" style="font-size: 22px; letter-spacing: 6px; text-align: center; font-weight: bold;">
+					</div>
+
+					<div style="display: flex; justify-content: flex-end; gap: 10px;">
+						<button type="button" class="bk-btn bk-btn-secondary" onclick="bkCloseRestoreModal();" data-i18n="cancel"><?php echo $is_en ? 'Cancel' : 'انصراف'; ?></button>
+						<button type="submit" id="btn-submit-restore" class="bk-btn bk-btn-danger" data-i18n="confirm_restore"><?php echo $is_en ? 'Verify & Prepare Shadow' : 'تایید هویت و شروع آماده‌سازی سایه'; ?></button>
+					</div>
+				</form>
+			</div>
+
+			<!-- STATE 2: Shadow Progress & Live Poller -->
+			<div id="bk-restore-state-progress" style="display: none; text-align: center; padding: 20px 0;">
+				<div class="bk-spinner" style="width: 44px; height: 44px; border: 4px solid var(--bk-slate-200); border-top-color: var(--bk-primary); border-radius: 50%; margin: 0 auto 16px; animation: bkSpin 1s linear infinite;"></div>
+				<h4 id="bk-restore-progress-title" style="margin: 0 0 8px; font-size: 16px; font-weight: 700;">
+					<?php echo $is_en ? 'Preparing Shadow Environment...' : 'در حال آماده‌سازی محیط سایه در سایت کلاینت...'; ?>
+				</h4>
+				<p id="bk-restore-progress-desc" style="font-size: 13px; color: var(--bk-slate-500); margin: 0 0 16px;">
+					<?php echo $is_en ? 'Signed Ed25519 command queued. Waiting for client rescue agent to poll and extract files without touching live site (D-042)...' : 'فرمان امضاشده در صف قرار گرفت. منتظر پولینگ کلاینت و استخراج در سایه بدون دستکاری سایت لایو...'; ?>
 				</p>
+				<div style="background: var(--bk-slate-100); border-radius: var(--bk-radius-sm); padding: 10px 14px; font-size: 12px; font-family: monospace; color: var(--bk-slate-700); text-align: start;" id="bk-restore-status-log">
+					Status: PENDING_PULL | Command ID: <span id="bk-active-cmd-id">-</span>
+				</div>
 			</div>
 
-			<p style="font-size: 13.5px; margin: 0 0 12px;"><span data-i18n="selected_package"><?php echo $is_en ? 'Selected Package:' : 'بسته انتخابی:'; ?></span> <strong id="restore-package-name"></strong></p>
-
-			<form id="bk-restore-form" onsubmit="bkSubmitRestore(event);">
-				<input type="hidden" id="restore-license-id" value="0">
-				<input type="hidden" id="restore-backup-id" value="0">
-
-				<div style="margin-bottom: 20px;">
-					<label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px;" data-i18n="totp_label"><?php echo $is_en ? 'Two-Factor Code (TOTP):' : 'کد تایید دو مرحله‌ای (TOTP):'; ?></label>
-					<input type="text" id="restore-totp-code" class="bk-input" required maxlength="6" placeholder="123456" style="font-size: 22px; letter-spacing: 6px; text-align: center; font-weight: bold;">
+			<!-- STATE 3: Shadow Ready, Health Check & Commit/Abort Decision -->
+			<div id="bk-restore-state-preview" style="display: none;">
+				<div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--bk-radius-sm); padding: 14px; margin-bottom: 16px;">
+					<h4 style="margin: 0 0 6px; color: #065f46; font-size: 15px; font-weight: 700;">
+						✅ <?php echo $is_en ? 'Shadow Restore Prepared Successfully!' : 'محیط سایه با موفقیت آماده شد!'; ?>
+					</h4>
+					<p style="margin: 0; font-size: 12.5px; color: #047857;">
+						<?php echo $is_en ? 'Files extracted and database imported into isolated shadow tables. Live website remains 100% untouched.' : 'فایل‌ها و دیتابیس در جداول ایزوله سایه استخراج شدند. سایت لایو شما کاملاً دست‌نخورده باقی مانده است.'; ?>
+					</p>
 				</div>
 
-				<div style="display: flex; justify-content: flex-end; gap: 10px;">
-					<button type="button" class="bk-btn bk-btn-secondary" onclick="bkCloseModal('modal-restore-gate');" data-i18n="cancel"><?php echo $is_en ? 'Cancel' : 'انصراف'; ?></button>
-					<button type="submit" id="btn-submit-restore" class="bk-btn bk-btn-danger" data-i18n="confirm_restore"><?php echo $is_en ? 'Verify & Start Restore' : 'تایید و شروع بازیابی'; ?></button>
+				<!-- Health Check Summary -->
+				<div style="border: 1px solid var(--bk-slate-200); border-radius: var(--bk-radius-sm); padding: 14px; margin-bottom: 16px; font-size: 13px;">
+					<h5 style="margin: 0 0 10px; font-size: 13.5px; font-weight: 700;">📋 <?php echo $is_en ? 'Health Check Report & Integrity' : 'گزارش ارزیابی سلامت و یکپارچگی'; ?></h5>
+					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+						<div>✔ <span data-i18n="tables_restored"><?php echo $is_en ? 'Shadow Tables:' : 'جداول سایه:'; ?></span> <strong id="bk-res-tables">-</strong></div>
+						<div>✔ <span data-i18n="checksum"><?php echo $is_en ? 'Checksum Integrity:' : 'تطابق چک‌سام:'; ?></span> <strong style="color: var(--bk-emerald);"><?php echo $is_en ? 'Verified' : 'تایید شده'; ?></strong></div>
+						<div>✔ <span data-i18n="snapshot_ttl"><?php echo $is_en ? 'Emergency Snapshot:' : 'اسنپ‌شات اضطراری:'; ?></span> <strong>48h TTL</strong></div>
+						<div>✔ <span data-i18n="live_site"><?php echo $is_en ? 'Live Site Impact:' : 'تاثیر بر سایت لایو:'; ?></span> <strong style="color: var(--bk-emerald);"><?php echo $is_en ? 'Zero (Isolated)' : 'صفر (کاملاً ایزوله)'; ?></strong></div>
+					</div>
 				</div>
-			</form>
+
+				<!-- Secure Preview Button -->
+				<div style="background: #f8fafc; border: 1px dashed var(--bk-slate-300); border-radius: var(--bk-radius-sm); padding: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+					<div>
+						<div style="font-weight: 700; font-size: 13px;">🔗 <?php echo $is_en ? 'Inspect Preview Site' : 'بررسی پیش‌نمایش سایت'; ?></div>
+						<div style="font-size: 11px; color: var(--bk-slate-500);"><?php echo $is_en ? 'Temporary token, strictly protected with noindex, no-store' : 'لینک محافظت‌شده با هدرهای noindex و no-store'; ?></div>
+					</div>
+					<a id="bk-preview-link" href="#" target="_blank" rel="noopener noreferrer" class="bk-btn bk-btn-secondary bk-btn-sm" style="white-space: nowrap;">
+						👁️ <?php echo $is_en ? 'Open Preview' : 'مشاهده پیش‌نمایش'; ?>
+					</a>
+				</div>
+
+				<!-- Customer Decision Buttons -->
+				<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--bk-slate-200); padding-top: 16px;">
+					<button type="button" class="bk-btn bk-btn-danger bk-btn-sm" onclick="bkAbortRestore();" id="btn-abort-restore">
+						❌ <?php echo $is_en ? 'Abort & Discard Shadow' : 'لغو و پاکسازی سایه'; ?>
+					</button>
+					<button type="button" class="bk-btn bk-btn-primary" onclick="bkCommitRestore();" id="btn-commit-restore" style="background: #059669; border-color: #047857;">
+						🚀 <?php echo $is_en ? 'Confirm & Commit Restore' : 'تایید نهایی و اعمال اتمیک (Commit)'; ?>
+					</button>
+				</div>
+			</div>
+
+			<!-- STATE 4: Completed -->
+			<div id="bk-restore-state-completed" style="display: none; text-align: center; padding: 20px 0;">
+				<div style="font-size: 48px; margin-bottom: 12px;">🎉</div>
+				<h4 style="margin: 0 0 8px; font-size: 17px; font-weight: 800; color: #065f46;">
+					<?php echo $is_en ? 'Restore Successfully Committed!' : 'بازگردانی با موفقیت روی سایت لایو اعمال شد!'; ?>
+				</h4>
+				<p style="font-size: 13px; color: var(--bk-slate-600); margin: 0 0 20px;">
+					<?php echo $is_en ? 'Database tables swapped atomically. Shadow artifacts and rescue tokens are self-destructed.' : 'جداول دیتابیس به صورت اتمیک جایگزین شدند. فایل‌های موقت سایه و اسکریپت نجات خودتخریبی را انجام دادند.'; ?>
+				</p>
+				<button type="button" class="bk-btn bk-btn-primary" onclick="bkCloseRestoreModal(); location.reload();">
+					<?php echo $is_en ? 'Close & Refresh' : 'بستن و به‌روزرسانی صفحه'; ?>
+				</button>
+			</div>
 		</div>
 	</div>
 
@@ -1500,6 +1662,63 @@ $is_en = ( 'en' === $preferred_loc );
 				</button>
 				<button type="button" class="bk-btn bk-btn-primary" onclick="location.reload();">
 					<span data-i18n="saved_done"><?php echo $is_en ? 'Saved, Done' : 'ذخیره کردم، پایان'; ?></span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Explicit Privacy & Data Disclosure Modal (D-009 / B5-T01) -->
+	<div class="bk-modal-backdrop" id="modal-bot-privacy">
+		<div class="bk-modal-card" style="max-width: 640px; width: 92%;">
+			<div class="bk-card-header" style="border-bottom: 1px solid var(--bk-slate-200); padding-bottom: 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+				<h3 style="margin: 0; font-size: 17px; font-weight: 800; color: var(--bk-slate-900);">
+					🛡️ <?php echo $is_en ? 'Central Bot Privacy & Data Disclosure Policy (D-009)' : 'خط‌مشی حریم خصوصی و افشای داده‌های ربات اطلاع‌رسانی (D-009)'; ?>
+				</h3>
+				<button type="button" onclick="bkCloseModal('modal-bot-privacy');" style="background: none; border: none; font-size: 22px; cursor: pointer; color: var(--bk-slate-400); line-height: 1;">&times;</button>
+			</div>
+
+			<div style="font-size: 13px; color: var(--bk-slate-700); line-height: 1.75; max-height: 60vh; overflow-y: auto; padding-right: 4px; margin-bottom: 20px;">
+				<div style="background: var(--bk-brand-light); border: 1px solid var(--bk-brand-border); border-radius: var(--bk-radius-sm); padding: 12px 14px; margin-bottom: 16px; font-size: 12.5px; color: var(--bk-brand-hover);">
+					<strong><?php echo $is_en ? 'Guaranteed Privacy Architecture:' : 'معماری تضمین حریم خصوصی:'; ?></strong>
+					<?php echo $is_en 
+						? 'The central notification bot is strictly opt-in and operates solely on anonymized operational signals. All messages are ephemeral and never store website or personal customer data.' 
+						: 'ربات اطلاع‌رسانی مرکزی کاملاً اختیاری (Opt-in) بوده و منحصراً بر پایه سیگنال‌های عملیاتی ناشناس عمل می‌کند. پیام‌ها فرار بوده و هیچ اطلاعاتی از محتوای سایت، فایل‌ها یا هویت شخصی شما ذخیره نمی‌گردد.'; ?>
+				</div>
+
+				<h4 style="font-size: 13.5px; font-weight: 700; color: var(--bk-emerald); margin: 0 0 8px;">
+					✅ <?php echo $is_en ? 'Authorized & Transmitted Data:' : 'داده‌های مجاز ارسالی به ربات:'; ?>
+				</h4>
+				<ul style="margin: 0 0 16px 20px; padding: 0; font-size: 12.5px; color: var(--bk-slate-600); line-height: 1.7;">
+					<li><?php echo $is_en ? '<strong>Installation Instance ID:</strong> Random unique 32-character string.' : '<strong>شناسه یکتای نصب:</strong> یک رشته تصادفی ۳۲ کاراکتری جهت شناسایی مبدا نصب.'; ?></li>
+					<li><?php echo $is_en ? '<strong>One-Way Domain Hash:</strong> SHA-256 hash of the domain name (raw domain is never transmitted).' : '<strong>هش یکطرفه دامنه:</strong> هش SHA-256 نام دامنه؛ نام دامنه خام هرگز مخابره نمی‌شود.'; ?></li>
+					<li><?php echo $is_en ? '<strong>Operational Event Type:</strong> Backup success, backup failure, storage limit, or license expiry warning.' : '<strong>نوع رویداد عملیاتی:</strong> وضعیت تکمیل بکاپ، هشدار فضا یا یادآوری انقضا.'; ?></li>
+					<li><?php echo $is_en ? '<strong>Timestamp & Status:</strong> Exact server timestamp and execution exit code.' : '<strong>زمان و کد وضعیت:</strong> زمان دقیق رخداد و کد وضعیت اجرایی.'; ?></li>
+				</ul>
+
+				<h4 style="font-size: 13.5px; font-weight: 700; color: var(--bk-rose); margin: 0 0 8px;">
+					🛑 <?php echo $is_en ? 'Strictly Prohibited & Protected Data (Never Transmitted):' : 'داده‌های اکیداً ممنوع و محافظت‌شده (هرگز ارسال نمی‌شوند):'; ?>
+				</h4>
+				<ul style="margin: 0 0 16px 20px; padding: 0; font-size: 12.5px; color: var(--bk-slate-600); line-height: 1.7;">
+					<li><?php echo $is_en ? 'Raw website domain names, server IP addresses, or hosting credentials.' : 'نام دامنه خام سایت، آدرس IP سرور، یا اطلاعات ورود به هاست/کنترل‌پنل.'; ?></li>
+					<li><?php echo $is_en ? 'Database table rows, customer records, posts, users, or WooCommerce orders.' : 'سطرهای دیتابیس، مشخصات کاربران، محتوای سفارشات یا اطلاعات ووکامرس.'; ?></li>
+					<li><?php echo $is_en ? 'Website backup archive contents, wp-config.php keys, salts, or passwords.' : 'محتوای فایل‌های بکاپ، کلیدها و سالت‌های wp-config.php یا کلمات عبور.'; ?></li>
+					<li><?php echo $is_en ? 'Customer personal information (PII), email addresses, or payment card details.' : 'اطلاعات هویتی شخصی (PII)، آدرس‌های ایمیل مشتری یا اطلاعات پرداخت بانکی.'; ?></li>
+				</ul>
+
+				<div style="font-size: 12px; color: var(--bk-slate-500); background: var(--bk-slate-50); border: 1px solid var(--bk-slate-200); border-radius: var(--bk-radius-sm); padding: 10px 14px;">
+					🔒 <strong><?php echo $is_en ? 'Compliance & Standards:' : 'انطباق و استانداردها:'; ?></strong>
+					<?php echo $is_en 
+						? 'Complies with GDPR Data Minimization principles and Backupino Security Standard D-009 / B5-T01.' 
+						: 'منطبق بر اصل حداقل‌سازی داده‌ها (Data Minimization) بر اساس استانداردهای بین‌المللی و اسناد فنی D-009 و B5-T01 بکاپینو.'; ?>
+				</div>
+			</div>
+
+			<div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--bk-slate-200); padding-top: 16px;">
+				<button type="button" class="bk-btn bk-btn-secondary" onclick="bkCloseModal('modal-bot-privacy');">
+					<?php echo $is_en ? 'Close' : 'بستن'; ?>
+				</button>
+				<button type="button" class="bk-btn bk-btn-primary" onclick="bkAcceptPrivacyConsent();">
+					✔ <?php echo $is_en ? 'Accept & Confirm' : 'تایید و پذیرش شرایط'; ?>
 				</button>
 			</div>
 		</div>
@@ -1678,6 +1897,18 @@ $is_en = ( 'en' === $preferred_loc );
 			if (m) m.classList.remove('open');
 		}
 
+		function bkOpenPrivacyModal() {
+			bkOpenModal('modal-bot-privacy');
+		}
+
+		function bkAcceptPrivacyConsent() {
+			const chk = document.getElementById('cfg-bot-consent');
+			if (chk) {
+				chk.checked = true;
+			}
+			bkCloseModal('modal-bot-privacy');
+		}
+
 		function bkCopyText(text) {
 			const lang = document.getElementById('bk-customer-portal').dataset.lang || 'en';
 			navigator.clipboard.writeText(text).then(() => {
@@ -1732,13 +1963,32 @@ $is_en = ( 'en' === $preferred_loc );
 				});
 		}
 
-		// Restore Modal & Handler (D-042 2FA Gate)
+		// Restore Modal & Handler (D-042 2FA Gate & S3-T11 Two-Phase Restore)
+		let bkActiveRestoreCmdId = null;
+		let bkRestorePollerTimer = null;
+
 		function bkOpenRestoreModal(licenseId, backupId, pkgName) {
+			bkCloseRestoreModal();
 			document.getElementById('restore-license-id').value = licenseId;
 			document.getElementById('restore-backup-id').value = backupId;
 			document.getElementById('restore-package-name').textContent = pkgName;
 			document.getElementById('restore-totp-code').value = '';
+
+			document.getElementById('bk-restore-state-2fa').style.display = 'block';
+			document.getElementById('bk-restore-state-progress').style.display = 'none';
+			document.getElementById('bk-restore-state-preview').style.display = 'none';
+			document.getElementById('bk-restore-state-completed').style.display = 'none';
+
 			bkOpenModal('modal-restore-gate');
+		}
+
+		function bkCloseRestoreModal() {
+			if (bkRestorePollerTimer) {
+				clearInterval(bkRestorePollerTimer);
+				bkRestorePollerTimer = null;
+			}
+			bkActiveRestoreCmdId = null;
+			bkCloseModal('modal-restore-gate');
 		}
 
 		function bkSubmitRestore(e) {
@@ -1750,7 +2000,7 @@ $is_en = ( 'en' === $preferred_loc );
 			const btn   = document.getElementById('btn-submit-restore');
 
 			btn.disabled = true;
-			btn.textContent = lang === 'fa' ? 'در حال اعتبارسنجی...' : 'Validating...';
+			btn.textContent = lang === 'fa' ? 'در حال اعتبارسنجی ۲FA...' : 'Validating 2FA...';
 
 			const data = new URLSearchParams();
 			data.append('action', 'backupino_customer_restore');
@@ -1763,18 +2013,132 @@ $is_en = ( 'en' === $preferred_loc );
 				.then(r => r.json())
 				.then(res => {
 					btn.disabled = false;
-					btn.textContent = lang === 'fa' ? 'تایید و شروع بازیابی' : 'Verify & Start Restore';
-					if (res.success) {
-						alert(res.data.message || (lang === 'fa' ? 'دستور بازیابی تایید و در صف قرار گرفت.' : 'Restore command verified and queued.'));
-						bkCloseModal('modal-restore-gate');
+					btn.textContent = lang === 'fa' ? 'تایید هویت و شروع آماده‌سازی سایه' : 'Verify & Prepare Shadow';
+					if (res.success && res.data) {
+						bkActiveRestoreCmdId = res.data.command_id;
+						document.getElementById('bk-active-cmd-id').textContent = bkActiveRestoreCmdId;
+
+						// Switch to Live Polling Progress State
+						document.getElementById('bk-restore-state-2fa').style.display = 'none';
+						document.getElementById('bk-restore-state-progress').style.display = 'block';
+
+						// Start status poller every 2.5s
+						bkRestorePollerTimer = setInterval(bkPollRestoreStatus, 2500);
 					} else {
-						alert(res.data.message || (lang === 'fa' ? 'کد ۲FA نامعتبر است.' : 'Invalid 2FA code.'));
+						alert(res.data ? res.data.message : (lang === 'fa' ? 'کد ۲FA نامعتبر است.' : 'Invalid 2FA code.'));
 					}
 				})
 				.catch(() => {
 					btn.disabled = false;
-					btn.textContent = lang === 'fa' ? 'تایید و شروع بازیابی' : 'Verify & Start Restore';
+					btn.textContent = lang === 'fa' ? 'تایید هویت و شروع آماده‌سازی سایه' : 'Verify & Prepare Shadow';
 					alert(lang === 'fa' ? 'خطای ارتباط با سرور.' : 'Network connection error.');
+				});
+		}
+
+		function bkPollRestoreStatus() {
+			if (!bkActiveRestoreCmdId) return;
+			const lang = document.getElementById('bk-customer-portal').dataset.lang || 'en';
+
+			const data = new URLSearchParams();
+			data.append('action', 'backupino_customer_restore_status');
+			data.append('_wpnonce', BK_PORTAL_NONCE);
+			data.append('command_id', bkActiveRestoreCmdId);
+
+			fetch(BK_AJAX_URL, { method: 'POST', body: data })
+				.then(r => r.json())
+				.then(res => {
+					if (!res.success || !res.data) return;
+					const status = res.data.status;
+					const logEl  = document.getElementById('bk-restore-status-log');
+					if (logEl) {
+						logEl.textContent = 'Status: ' + status.toUpperCase() + ' | Action: ' + (res.data.action || 'SHADOW') + ' | Checked: ' + new Date().toLocaleTimeString();
+					}
+
+					// Check if Shadow phase is prepared and ready for Preview
+					if (res.data.is_shadow_ready) {
+						if (bkRestorePollerTimer) {
+							clearInterval(bkRestorePollerTimer);
+							bkRestorePollerTimer = null;
+						}
+
+						// Populate health report
+						document.getElementById('bk-res-tables').textContent = res.data.tables_count ? res.data.tables_count + ' tables' : (lang === 'fa' ? 'تکمیل شد' : 'Verified');
+						if (res.data.preview_url) {
+							document.getElementById('bk-preview-link').href = res.data.preview_url;
+						} else {
+							document.getElementById('bk-preview-link').href = '#';
+						}
+
+						// Switch to Preview and Decision state
+						document.getElementById('bk-restore-state-progress').style.display = 'none';
+						document.getElementById('bk-restore-state-preview').style.display = 'block';
+					} else if (status === 'completed' && res.data.action === 'COMMIT_RESTORE') {
+						if (bkRestorePollerTimer) {
+							clearInterval(bkRestorePollerTimer);
+							bkRestorePollerTimer = null;
+						}
+						document.getElementById('bk-restore-state-progress').style.display = 'none';
+						document.getElementById('bk-restore-state-completed').style.display = 'block';
+					} else if (status === 'aborted' || status === 'failed') {
+						if (bkRestorePollerTimer) {
+							clearInterval(bkRestorePollerTimer);
+							bkRestorePollerTimer = null;
+						}
+						alert(lang === 'fa' ? 'عملیات بازگردانی متوقف شد: ' + (res.data.execution_log || status) : 'Restore stopped: ' + status);
+						bkCloseRestoreModal();
+					}
+				});
+		}
+
+		function bkCommitRestore() {
+			const lang = document.getElementById('bk-customer-portal').dataset.lang || 'en';
+			if (!confirm(lang === 'fa' ? 'آیا از اعمال نهایی و بازگردانی دیتابیس و فایل‌های سایت اطمینان کامل دارید؟' : 'Are you sure you want to commit atomic restore to the live site?')) {
+				return;
+			}
+
+			const btn = document.getElementById('btn-commit-restore');
+			btn.disabled = true;
+
+			// Switch to progress view for Commit
+			document.getElementById('bk-restore-state-preview').style.display = 'none';
+			document.getElementById('bk-restore-state-progress').style.display = 'block';
+			document.getElementById('bk-restore-progress-title').textContent = lang === 'fa' ? 'در حال اعمال اتمیک بازگردانی...' : 'Committing Atomic Restore...';
+			document.getElementById('bk-restore-progress-desc').textContent = lang === 'fa' ? 'در حال تعویض جداول دیتابیس، جایگزینی فایل‌ها و پاکسازی امن...' : 'Swapping tables, applying snapshot and self-destructing temporary shadow...';
+
+			const data = new URLSearchParams();
+			data.append('action', 'backupino_customer_restore_commit');
+			data.append('_wpnonce', BK_PORTAL_NONCE);
+			data.append('command_id', bkActiveRestoreCmdId);
+
+			fetch(BK_AJAX_URL, { method: 'POST', body: data })
+				.then(r => r.json())
+				.then(res => {
+					if (res.success && res.data) {
+						bkActiveRestoreCmdId = res.data.command_id;
+						bkRestorePollerTimer = setInterval(bkPollRestoreStatus, 2000);
+					} else {
+						alert(res.data ? res.data.message : 'Error committing restore');
+						bkCloseRestoreModal();
+					}
+				});
+		}
+
+		function bkAbortRestore() {
+			const lang = document.getElementById('bk-customer-portal').dataset.lang || 'en';
+			if (!confirm(lang === 'fa' ? 'آیا مایل به لغو بازگردانی و حذف فایل‌های موقت سایه هستید؟' : 'Abort restore and purge shadow artifacts?')) {
+				return;
+			}
+
+			const data = new URLSearchParams();
+			data.append('action', 'backupino_customer_restore_abort');
+			data.append('_wpnonce', BK_PORTAL_NONCE);
+			data.append('command_id', bkActiveRestoreCmdId);
+
+			fetch(BK_AJAX_URL, { method: 'POST', body: data })
+				.then(r => r.json())
+				.then(res => {
+					alert(res.data ? res.data.message : (lang === 'fa' ? 'عملیات بازگردانی لغو شد.' : 'Restore aborted.'));
+					bkCloseRestoreModal();
 				});
 		}
 
@@ -1987,10 +2351,18 @@ $is_en = ( 'en' === $preferred_loc );
 				});
 		}
 
-		// General Settings & Upgrade Handlers
+		// General Settings, Central Bot & Upgrade Handlers (S3-T12)
 		function bkSaveGeneralSettings(e) {
 			e.preventDefault();
 			const lang = document.getElementById('bk-customer-portal').dataset.lang || 'en';
+			const botEnabled = document.getElementById('cfg-bot-enabled') ? document.getElementById('cfg-bot-enabled').checked : false;
+			const consentEl = document.getElementById('cfg-bot-consent');
+
+			if (botEnabled && consentEl && !consentEl.checked) {
+				alert(lang === 'fa' ? 'لطفاً ابتدا تاییدیه رضایت‌نامه حریم خصوصی ربات را علامت بزنید.' : 'Please acknowledge the privacy consent checkbox to enable the bot.');
+				return;
+			}
+
 			const btn = document.getElementById('btn-save-settings');
 			btn.disabled = true;
 			btn.textContent = lang === 'fa' ? 'در حال ذخیره...' : 'Saving...';
@@ -1998,11 +2370,13 @@ $is_en = ( 'en' === $preferred_loc );
 			const data = new URLSearchParams();
 			data.append('action', 'backupino_customer_save_settings');
 			data.append('_wpnonce', BK_PORTAL_NONCE);
-			data.append('central_bot_enabled', document.getElementById('cfg-bot-enabled').checked ? 1 : 0);
-			data.append('bot_messenger', document.getElementById('cfg-bot-messenger').value);
-			data.append('bot_chat_id', document.getElementById('cfg-bot-chat-id').value);
-			data.append('notify_on_backup', document.getElementById('cfg-notify-backup').checked ? 1 : 0);
-			data.append('notify_on_expire', document.getElementById('cfg-notify-expire').checked ? 1 : 0);
+			data.append('central_bot_enabled', botEnabled ? 1 : 0);
+			data.append('bot_messenger', document.getElementById('cfg-bot-messenger') ? document.getElementById('cfg-bot-messenger').value : 'telegram');
+			data.append('bot_chat_id', document.getElementById('cfg-bot-chat-id') ? document.getElementById('cfg-bot-chat-id').value : '');
+			data.append('bot_consent_given', consentEl && consentEl.checked ? 1 : 0);
+			data.append('notify_on_backup', document.getElementById('cfg-notify-backup') && document.getElementById('cfg-notify-backup').checked ? 1 : 0);
+			data.append('notify_on_expire', document.getElementById('cfg-notify-expire') && document.getElementById('cfg-notify-expire').checked ? 1 : 0);
+			data.append('notify_on_error', document.getElementById('cfg-notify-error') && document.getElementById('cfg-notify-error').checked ? 1 : 0);
 			data.append('preferred_locale', lang);
 
 			fetch(BK_AJAX_URL, { method: 'POST', body: data })
@@ -2011,6 +2385,50 @@ $is_en = ( 'en' === $preferred_loc );
 					btn.disabled = false;
 					btn.textContent = lang === 'fa' ? 'ذخیره تنظیمات ربات' : 'Save Bot Settings';
 					alert(res.data.message || (lang === 'fa' ? 'تنظیمات ذخیره شد.' : 'Settings saved.'));
+				});
+		}
+
+		function bkGenerateBotCode() {
+			const lang = document.getElementById('bk-customer-portal').dataset.lang || 'en';
+			const btn  = document.getElementById('btn-gen-bot-code');
+			btn.disabled = true;
+
+			const data = new URLSearchParams();
+			data.append('action', 'backupino_customer_bot_generate_code');
+			data.append('_wpnonce', BK_PORTAL_NONCE);
+
+			fetch(BK_AJAX_URL, { method: 'POST', body: data })
+				.then(r => r.json())
+				.then(res => {
+					btn.disabled = false;
+					if (res.success && res.data) {
+						document.getElementById('bk-bot-code-display').textContent = res.data.code;
+						document.getElementById('bk-bot-code-box').style.display = 'block';
+					} else {
+						alert(res.data ? res.data.message : (lang === 'fa' ? 'خطا در تولید کد.' : 'Error generating code.'));
+					}
+				})
+				.catch(() => {
+					btn.disabled = false;
+					alert(lang === 'fa' ? 'خطای ارتباط با سرور.' : 'Server error.');
+				});
+		}
+
+		function bkUnlinkBot() {
+			const lang = document.getElementById('bk-customer-portal').dataset.lang || 'en';
+			if (!confirm(lang === 'fa' ? 'آیا از قطع اتصال حساب کاربری به ربات مرکزی اطمینان دارید؟' : 'Disconnect account from central bot?')) {
+				return;
+			}
+
+			const data = new URLSearchParams();
+			data.append('action', 'backupino_customer_bot_unlink');
+			data.append('_wpnonce', BK_PORTAL_NONCE);
+
+			fetch(BK_AJAX_URL, { method: 'POST', body: data })
+				.then(r => r.json())
+				.then(res => {
+					alert(res.data ? res.data.message : (lang === 'fa' ? 'اتصال ربات قطع شد.' : 'Bot disconnected.'));
+					location.reload();
 				});
 		}
 

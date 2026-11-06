@@ -58,7 +58,19 @@ final class OrderSyncService {
 			return array();
 		}
 
-		$user_id     = (int) $order->get_user_id();
+		$user_id = (int) $order->get_user_id();
+
+		// Handle renewal order if linked to existing license (D-037)
+		$renewal_license_id = (int) $order->get_meta( '_backupino_renewal_license_id', true );
+		if ( $renewal_license_id > 0 ) {
+			$renewal_res = \Backupino\Portal\Lifecycle\RenewalService::renew_license( $renewal_license_id, 365, $order_id, $user_id );
+			if ( ! is_wp_error( $renewal_res ) ) {
+				$order->update_meta_data( '_backupino_provisioned', 1 );
+				$order->save();
+				return array( $renewal_license_id );
+			}
+		}
+
 		$created_ids = array();
 
 		foreach ( $order->get_items() as $item_id => $item ) {

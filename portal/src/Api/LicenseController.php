@@ -72,7 +72,7 @@ final class LicenseController {
 	 * POST /wp-json/backupino/v1/license/activate
 	 */
 	public static function handle_activate( \WP_REST_Request $request ): \WP_REST_Response {
-		$security_error = self::verify_request_security( $request );
+		$security_error = ApiSecurityMiddleware::verify( $request, ApiRateLimiter::TYPE_MUTATING );
 		if ( null !== $security_error ) {
 			return $security_error;
 		}
@@ -101,22 +101,28 @@ final class LicenseController {
 			'wp_version'  => (string) $request->get_param( 'wp_version' ),
 			'pro_version' => (string) $request->get_param( 'pro_version' ),
 			'locale'      => (string) $request->get_param( 'locale' ),
+			'is_staging'  => ApiSecurityMiddleware::is_sandbox( $request ),
 		);
 
 		$result = LicenseService::activate( $license_key, $domain, $instance_id, $meta );
 
 		if ( is_wp_error( $result ) ) {
-			return self::error_response( $result );
+			return ApiSecurityMiddleware::error_response( $result );
 		}
 
-		return self::success_response( $result, 200 );
+		$idemp_key = (string) $request->get_header( 'Idempotency-Key' );
+		if ( ! empty( $idemp_key ) ) {
+			ApiSecurityMiddleware::set_idempotent_response( $idemp_key, $request, $result, 200 );
+		}
+
+		return ApiSecurityMiddleware::success_response( $result, 200 );
 	}
 
 	/**
 	 * POST /wp-json/backupino/v1/license/validate
 	 */
 	public static function handle_validate( \WP_REST_Request $request ): \WP_REST_Response {
-		$security_error = self::verify_request_security( $request );
+		$security_error = ApiSecurityMiddleware::verify( $request, ApiRateLimiter::TYPE_MUTATING );
 		if ( null !== $security_error ) {
 			return $security_error;
 		}
@@ -131,17 +137,17 @@ final class LicenseController {
 		$result = LicenseService::validate( $activation_id, $cached_sig_hash );
 
 		if ( is_wp_error( $result ) ) {
-			return self::error_response( $result );
+			return ApiSecurityMiddleware::error_response( $result );
 		}
 
-		return self::success_response( $result, 200 );
+		return ApiSecurityMiddleware::success_response( $result, 200 );
 	}
 
 	/**
 	 * POST /wp-json/backupino/v1/license/deactivate
 	 */
 	public static function handle_deactivate( \WP_REST_Request $request ): \WP_REST_Response {
-		$security_error = self::verify_request_security( $request );
+		$security_error = ApiSecurityMiddleware::verify( $request, ApiRateLimiter::TYPE_MUTATING );
 		if ( null !== $security_error ) {
 			return $security_error;
 		}
@@ -156,17 +162,22 @@ final class LicenseController {
 		$result = LicenseService::deactivate( $activation_id, $reason );
 
 		if ( is_wp_error( $result ) ) {
-			return self::error_response( $result );
+			return ApiSecurityMiddleware::error_response( $result );
 		}
 
-		return self::success_response( $result, 200 );
+		$idemp_key = (string) $request->get_header( 'Idempotency-Key' );
+		if ( ! empty( $idemp_key ) ) {
+			ApiSecurityMiddleware::set_idempotent_response( $idemp_key, $request, $result, 200 );
+		}
+
+		return ApiSecurityMiddleware::success_response( $result, 200 );
 	}
 
 	/**
 	 * POST /wp-json/backupino/v1/license/heartbeat
 	 */
 	public static function handle_heartbeat( \WP_REST_Request $request ): \WP_REST_Response {
-		$security_error = self::verify_request_security( $request );
+		$security_error = ApiSecurityMiddleware::verify( $request, ApiRateLimiter::TYPE_POLLING );
 		if ( null !== $security_error ) {
 			return $security_error;
 		}
@@ -186,10 +197,10 @@ final class LicenseController {
 		$result = LicenseService::heartbeat( $activation_id, $telemetry );
 
 		if ( is_wp_error( $result ) ) {
-			return self::error_response( $result );
+			return ApiSecurityMiddleware::error_response( $result );
 		}
 
-		return self::success_response( $result, 200 );
+		return ApiSecurityMiddleware::success_response( $result, 200 );
 	}
 
 	/**

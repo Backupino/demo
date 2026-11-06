@@ -104,6 +104,7 @@ final class MigrationRunner {
 			'2026_11_06_000002_create_licensing_tables' => array( self::class, 'migrate_000002_licensing_tables' ),
 			'2026_11_06_000003_create_support_tickets_table' => array( self::class, 'migrate_000003_support_tickets' ),
 			'2026_11_06_000004_add_ticket_attachments' => array( self::class, 'migrate_000004_ticket_attachments' ),
+			'2026_11_06_000005_create_command_queue_table' => array( self::class, 'migrate_000005_command_queue' ),
 		);
 	}
 
@@ -270,6 +271,37 @@ final class MigrationRunner {
 		if ( empty( $col ) ) {
 			$wpdb->query( "ALTER TABLE `{$replies_table}` ADD COLUMN `attachment_url` VARCHAR(500) NULL AFTER `message`, ADD COLUMN `attachment_name` VARCHAR(255) NULL AFTER `attachment_url`" );
 		}
+		return true;
+	}
+
+	/**
+	 * Migration 000005: Create command queue table for remote customer actions (D-042).
+	 */
+	public static function migrate_000005_command_queue( \wpdb $wpdb ): bool {
+		$table   = $wpdb->prefix . 'backupino_command_queue';
+		$charset = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE IF NOT EXISTS `{$table}` (
+			`id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			`command_id` VARCHAR(32) NOT NULL UNIQUE,
+			`license_id` BIGINT UNSIGNED NOT NULL DEFAULT 0,
+			`activation_id` BIGINT UNSIGNED NOT NULL DEFAULT 0,
+			`action` VARCHAR(64) NOT NULL,
+			`payload` LONGTEXT NOT NULL,
+			`nonce` VARCHAR(32) NOT NULL,
+			`status` ENUM('pending', 'delivered', 'completed', 'failed', 'expired') NOT NULL DEFAULT 'pending',
+			`result_payload` LONGTEXT NULL,
+			`issued_at` DATETIME NOT NULL,
+			`expires_at` DATETIME NOT NULL,
+			`completed_at` DATETIME NULL,
+			`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			INDEX `idx_act_status` (`activation_id`, `status`),
+			INDEX `idx_expires` (`status`, `expires_at`),
+			INDEX `idx_command_id` (`command_id`)
+		) ENGINE=InnoDB {$charset};";
+
+		$wpdb->query( $sql );
+
 		return true;
 	}
 }

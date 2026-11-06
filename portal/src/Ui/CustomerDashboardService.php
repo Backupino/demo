@@ -25,6 +25,7 @@ use Backupino\Portal\Lifecycle\LicenseLifecycleManager;
 use Backupino\Portal\Lifecycle\SlaManager;
 use Backupino\Portal\Audit\AuditLogger;
 use Backupino\Portal\Plans\PlanManager;
+use Backupino\Portal\Commands\SignedCommandService;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -283,6 +284,10 @@ final class CustomerDashboardService {
 			'central_bot_enabled' => false,
 			'bot_messenger'       => 'telegram', // telegram or bale
 			'bot_chat_id'         => '',
+			'bot_username'        => '',
+			'bot_consent_given'   => false,
+			'bot_consent_at'      => null,
+			'bot_linked_at'       => null,
 			'notify_on_backup'    => true,
 			'notify_on_expire'    => true,
 			'notify_on_error'     => true,
@@ -290,7 +295,22 @@ final class CustomerDashboardService {
 			'preferred_locale'    => str_starts_with( determine_locale(), 'fa' ) ? 'fa' : 'en',
 		);
 		$saved = get_user_meta( $user_id, self::USER_SETTINGS_META, true );
-		return array_merge( $defaults, is_array( $saved ) ? $saved : array() );
+		$merged = array_merge( $defaults, is_array( $saved ) ? $saved : array() );
+
+		// Check Pro tier eligibility
+		$licenses = LicenseRepository::find_by_user_id( $user_id );
+		$has_pro  = false;
+		foreach ( $licenses as $lic ) {
+			if ( 'active' === $lic->status && in_array( $lic->plan_slug, array( 'personal', 'freelancer', 'agency', 'enterprise' ), true ) ) {
+				$has_pro = true;
+				break;
+			}
+		}
+
+		$merged['has_pro_license'] = $has_pro;
+		$merged['bot_is_linked']   = ! empty( $merged['bot_chat_id'] );
+
+		return $merged;
 	}
 
 	/**
@@ -301,24 +321,106 @@ final class CustomerDashboardService {
 	 * @return bool
 	 */
 	public static function save_customer_settings( int $user_id, array $settings ): bool {
+		$existing = self::get_customer_settings( $user_id );
+		$want_bot = ! empty( $settings['central_bot_enabled'] );
+
+		// If user wants to enable bot, verify they have an active Pro license
+		if ( $want_bot && empty( $existing['has_pro_license'] ) ) {
+			$want_bot = false;
+		}
+
+		$consent_given = ! empty( $settings['bot_consent_given'] );
+		$consent_at    = $existing['bot_consent_at'];
+		if ( $consent_given && empty( $consent_at ) ) {
+			$consent_at = current_time( 'mysql', true );
+		}
+
 		$clean = array(
-			'central_bot_enabled' => ! empty( $settings['central_bot_enabled'] ),
-			'bot_messenger'       => in_array( $settings['bot_messenger'] ?? '', array( 'telegram', 'bale' ), true ) ? $settings['bot_messenger'] : 'telegram',
-			'bot_chat_id'         => sanitize_text_field( (string) ( $settings['bot_chat_id'] ?? '' ) ),
+			'central_bot_enabled' => $want_bot,
+			'bot_messenger'       => in_array( $settings['bot_messenger'] ?? '', array( 'telegram', 'bale' ), true ) ? $settings['bot_messenger'] : ( $existing['bot_messenger'] ?? 'telegram' ),
+			'bot_chat_id'         => sanitize_text_field( (string) ( $settings['bot_chat_id'] ?? $existing['bot_chat_id'] ?? '' ) ),
+			'bot_username'        => sanitize_text_field( (string) ( $settings['bot_username'] ?? $existing['bot_username'] ?? '' ) ),
+			'bot_consent_given'   => $consent_given,
+			'bot_consent_at'      => $consent_at,
+			'bot_linked_at'       => $existing['bot_linked_at'] ?? null,
 			'notify_on_backup'    => ! empty( $settings['notify_on_backup'] ),
 			'notify_on_expire'    => ! empty( $settings['notify_on_expire'] ),
 			'notify_on_error'     => ! empty( $settings['notify_on_error'] ),
 			'default_retention_h' => (int) ( $settings['default_retention_h'] ?? 48 ),
 			'preferred_locale'    => ( 'fa' === ( $settings['preferred_locale'] ?? '' ) ) ? 'fa' : 'en',
 		);
+
 		update_user_meta( $user_id, self::USER_SETTINGS_META, $clean );
+
 		AuditLogger::log(
 			'customer_settings_updated',
 			$user_id,
 			0,
 			null,
-			array( 'bot_enabled' => $clean['central_bot_enabled'], 'locale' => $clean['preferred_locale'] )
+			array(
+				'bot_enabled' => $clean['central_bot_enabled'],
+				'messenger'   => $clean['bot_messenger'],
+				'locale'      => $clean['preferred_locale'],
+			)
 		);
+
+		return true;
+	}
+
+	/**
+	 * Generate a one-time alphanumeric link code for the central bot (S3-T12, B5-T04).
+	 *
+	 * @param int $user_id
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function generate_bot_link_code( int $user_id ) {
+		$settings = self::get_customer_settings( $user_id );
+		if ( empty( $settings['has_pro_license'] ) ) {
+			return new \WP_Error(
+				'PRO_REQUIRED',
+				__( 'قابلیت ربات اطلاع‌رسانی مرکزی منحصراً برای لایسنس‌های فعال Pro فعال است.', 'backupino-portal' ),
+				array( 'status' => 403 )
+			);
+		}
+
+		$code = 'BK-' . strtoupper( bin2hex( random_bytes( 3 ) ) );
+		$transient_key = 'bk_bot_link_' . $code;
+
+		// Valid for 15 minutes (900 seconds)
+		set_transient( $transient_key, $user_id, 900 );
+
+		return array(
+			'code'         => $code,
+			'expires_in'   => 900,
+			'bot_telegram' => '@BackupinoBot',
+			'bot_bale'     => '@backupinobot',
+			'message'      => __( 'کد اتصال تولید شد. لطفاً دستور /link را به ربات ارسال نمایید.', 'backupino-portal' ),
+		);
+	}
+
+	/**
+	 * Unlink Central Bot from Customer Account.
+	 *
+	 * @param int $user_id
+	 * @return bool
+	 */
+	public static function unlink_central_bot( int $user_id ): bool {
+		$settings = self::get_customer_settings( $user_id );
+		$settings['central_bot_enabled'] = false;
+		$settings['bot_chat_id']         = '';
+		$settings['bot_username']        = '';
+		$settings['bot_linked_at']       = null;
+
+		update_user_meta( $user_id, self::USER_SETTINGS_META, $settings );
+
+		AuditLogger::log(
+			'bot_unlinked',
+			$user_id,
+			0,
+			null,
+			array( 'status' => 'unlinked' )
+		);
+
 		return true;
 	}
 
@@ -806,7 +908,9 @@ final class CustomerDashboardService {
 	}
 
 	/**
-	 * Request manual restore (Owner only with mandatory 2FA verification - D-042).
+	 * Request manual restore with Two-Factor Authentication (Strict D-042).
+	 *
+	 * Delegates to SignedCommandService::prepare_shadow_restore.
 	 *
 	 * @param int    $user_id
 	 * @param int    $license_id
@@ -815,57 +919,40 @@ final class CustomerDashboardService {
 	 * @return array<string, mixed>|\WP_Error
 	 */
 	public static function request_manual_restore( int $user_id, int $license_id, int $backup_id, string $totp_code ) {
-		// Strict ownership check (D-042)
-		$auth = AuthorizationGuard::can_restore( $user_id, $license_id );
-		if ( is_wp_error( $auth ) ) {
-			return $auth;
-		}
+		return SignedCommandService::prepare_shadow_restore( $user_id, $license_id, $backup_id, $totp_code );
+	}
 
-		// Verify 2FA TOTP code (D-042 Requirement)
-		$is_2fa_enabled = TwoFactorAuth::is_2fa_enabled( $user_id );
-		if ( ! $is_2fa_enabled ) {
-			return new \WP_Error(
-				'2FA_REQUIRED',
-				__( 'برای ارسال دستور بازیابی، فعال بودن احراز هویت دو مرحله‌ای (2FA) در حساب شما الزامی است.', 'backupino-portal' ),
-				array( 'status' => 403 )
-			);
-		}
+	/**
+	 * Commit Two-Phase Restore after inspecting shadow preview.
+	 *
+	 * @param int    $user_id
+	 * @param string $command_id
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function commit_restore( int $user_id, string $command_id ) {
+		return SignedCommandService::commit_restore( $user_id, $command_id );
+	}
 
-		$totp_valid = TwoFactorAuth::verify_totp( $user_id, $totp_code );
-		if ( ! $totp_valid ) {
-			return new \WP_Error(
-				'INVALID_2FA_CODE',
-				__( 'کد ۶ رقمی احراز هویت دوعاملی نامعتبر است.', 'backupino-portal' ),
-				array( 'status' => 403 )
-			);
-		}
+	/**
+	 * Abort Two-Phase Restore and discard shadow artifacts.
+	 *
+	 * @param int    $user_id
+	 * @param string $command_id
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function abort_restore( int $user_id, string $command_id ) {
+		return SignedCommandService::abort_restore( $user_id, $command_id );
+	}
 
-		$backup = BackupRepository::find_by_id( $backup_id );
-		if ( ! $backup || $backup->license_id !== $license_id ) {
-			return new \WP_Error( 'BACKUP_NOT_FOUND', __( 'فایل بکاپ یافت نشد.', 'backupino-portal' ), array( 'status' => 404 ) );
-		}
-
-		$command_id = 'cmd_rst_' . bin2hex( random_bytes( 8 ) );
-
-		AuditLogger::log(
-			'manual_restore_requested',
-			$user_id,
-			$license_id,
-			$backup->domain_hash,
-			array(
-				'command_id'   => $command_id,
-				'backup_id'    => $backup_id,
-				'package_name' => $backup->package_name,
-			)
-		);
-
-		return array(
-			'success'      => true,
-			'command_id'   => $command_id,
-			'package_name' => $backup->package_name,
-			'status'       => 'pending_worker',
-			'message'      => __( 'دستور بازیابی با تایید هویت دو مرحله‌ای در صف پردازش ایمن قرار گرفت.', 'backupino-portal' ),
-		);
+	/**
+	 * Get live restore execution status and health report.
+	 *
+	 * @param int    $user_id
+	 * @param string $command_id
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function get_restore_status( int $user_id, string $command_id ) {
+		return SignedCommandService::get_command_status( $user_id, $command_id );
 	}
 
 	/**

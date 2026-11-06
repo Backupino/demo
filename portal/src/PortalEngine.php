@@ -16,11 +16,21 @@ use Backupino\Portal\Audit\AuditLogger;
 use Backupino\Portal\Auth\RoleManager;
 use Backupino\Portal\Api\LicenseController;
 use Backupino\Portal\Api\PlansController;
+use Backupino\Portal\Api\StorageController;
+use Backupino\Portal\Api\CompatibilityController;
+use Backupino\Portal\Api\CommandQueueController;
+use Backupino\Portal\Api\BotController;
+use Backupino\Portal\Api\UpdateServerController;
+use Backupino\Portal\Commerce\RecurringWebhookHandler;
 use Backupino\Portal\Commerce\OrderSyncService;
 use Backupino\Portal\Commerce\PaymentGatewayManager;
 use Backupino\Portal\Lifecycle\LicenseLifecycleManager;
 use Backupino\Portal\Ui\CustomerDashboardController;
 use Backupino\Portal\Admin\OperatorDashboardController;
+use Backupino\Portal\Notifications\NotificationService;
+use Backupino\Portal\Notifications\WooCommerceEmailStyler;
+use Backupino\Portal\Seo\SeoMetaManager;
+use Backupino\Portal\Seo\PerformanceOptimizer;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -60,6 +70,12 @@ final class PortalEngine {
 		// Register REST API routes (S3-T04 / S3-T05 / S3-T10)
 		add_action( 'rest_api_init', array( LicenseController::class, 'register_routes' ) );
 		add_action( 'rest_api_init', array( PlansController::class, 'register_routes' ) );
+		add_action( 'rest_api_init', array( StorageController::class, 'register_routes' ) );
+		add_action( 'rest_api_init', array( CompatibilityController::class, 'register_routes' ) );
+		add_action( 'rest_api_init', array( CommandQueueController::class, 'register_routes' ) );
+		add_action( 'rest_api_init', array( BotController::class, 'register_routes' ) );
+		add_action( 'rest_api_init', array( RecurringWebhookHandler::class, 'register_routes' ) );
+		add_action( 'rest_api_init', array( UpdateServerController::class, 'register_routes' ) );
 
 		// Register Commerce & Order hooks (S3-T06)
 		OrderSyncService::init();
@@ -68,8 +84,16 @@ final class PortalEngine {
 		// Register Lifecycle & Renewal hooks (S3-T07)
 		LicenseLifecycleManager::init();
 
+		// Register Notification & Styling hooks (S3-T13, S3-T14)
+		NotificationService::init();
+		WooCommerceEmailStyler::init();
+
 		// Register Customer Dashboard & My Account hooks (S3-T08)
 		CustomerDashboardController::init();
+
+		// Register SEO, GEO, and Performance Optimizers (S3-T15)
+		SeoMetaManager::init();
+		PerformanceOptimizer::init();
 
 		// Register Internal Operator Dashboard hooks (S3-T09)
 		if ( is_admin() ) {

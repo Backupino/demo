@@ -43,6 +43,9 @@ final class CustomerDashboardController {
 		// AJAX endpoints: Backup & Restore
 		add_action( 'wp_ajax_backupino_customer_create_backup', array( self::class, 'ajax_create_backup' ) );
 		add_action( 'wp_ajax_backupino_customer_restore', array( self::class, 'ajax_restore' ) );
+		add_action( 'wp_ajax_backupino_customer_restore_status', array( self::class, 'ajax_restore_status' ) );
+		add_action( 'wp_ajax_backupino_customer_restore_commit', array( self::class, 'ajax_restore_commit' ) );
+		add_action( 'wp_ajax_backupino_customer_restore_abort', array( self::class, 'ajax_restore_abort' ) );
 		add_action( 'wp_ajax_backupino_customer_deactivate_domain', array( self::class, 'ajax_deactivate_domain' ) );
 		add_action( 'wp_ajax_backupino_customer_update_retention', array( self::class, 'ajax_update_retention' ) );
 		add_action( 'wp_ajax_backupino_customer_download', array( self::class, 'ajax_download_backup' ) );
@@ -61,6 +64,8 @@ final class CustomerDashboardController {
 		// AJAX endpoints: General Settings & Upgrade Requests
 		add_action( 'wp_ajax_backupino_customer_save_settings', array( self::class, 'ajax_save_settings' ) );
 		add_action( 'wp_ajax_backupino_customer_request_upgrade', array( self::class, 'ajax_request_upgrade' ) );
+		add_action( 'wp_ajax_backupino_customer_bot_generate_code', array( self::class, 'ajax_bot_generate_code' ) );
+		add_action( 'wp_ajax_backupino_customer_bot_unlink', array( self::class, 'ajax_bot_unlink' ) );
 
 		// AJAX endpoints: Domain Management (Add, Change, Delete)
 		add_action( 'wp_ajax_backupino_customer_add_domain', array( self::class, 'ajax_add_domain' ) );
@@ -179,6 +184,57 @@ final class CustomerDashboardController {
 		$res = CustomerDashboardService::request_manual_restore( $user_id, $license_id, $backup_id, $totp_code );
 		if ( is_wp_error( $res ) ) {
 			wp_send_json_error( array( 'message' => $res->get_error_message() ), $res->get_error_data()['status'] ?? 400 );
+		}
+
+		wp_send_json_success( $res );
+	}
+
+	/**
+	 * AJAX: Get live restore status and health checks (S3-T11).
+	 */
+	public static function ajax_restore_status(): void {
+		check_ajax_referer( 'backupino_customer_nonce', '_wpnonce' );
+
+		$user_id    = get_current_user_id();
+		$command_id = isset( $_POST['command_id'] ) ? sanitize_text_field( (string) $_POST['command_id'] ) : '';
+
+		$res = CustomerDashboardService::get_restore_status( $user_id, $command_id );
+		if ( is_wp_error( $res ) ) {
+			wp_send_json_error( array( 'message' => $res->get_error_message() ), 400 );
+		}
+
+		wp_send_json_success( $res );
+	}
+
+	/**
+	 * AJAX: Commit Two-Phase Restore (Step 2 - S3-T11).
+	 */
+	public static function ajax_restore_commit(): void {
+		check_ajax_referer( 'backupino_customer_nonce', '_wpnonce' );
+
+		$user_id    = get_current_user_id();
+		$command_id = isset( $_POST['command_id'] ) ? sanitize_text_field( (string) $_POST['command_id'] ) : '';
+
+		$res = CustomerDashboardService::commit_restore( $user_id, $command_id );
+		if ( is_wp_error( $res ) ) {
+			wp_send_json_error( array( 'message' => $res->get_error_message() ), 400 );
+		}
+
+		wp_send_json_success( $res );
+	}
+
+	/**
+	 * AJAX: Abort Two-Phase Restore and rollback shadow (S3-T11).
+	 */
+	public static function ajax_restore_abort(): void {
+		check_ajax_referer( 'backupino_customer_nonce', '_wpnonce' );
+
+		$user_id    = get_current_user_id();
+		$command_id = isset( $_POST['command_id'] ) ? sanitize_text_field( (string) $_POST['command_id'] ) : '';
+
+		$res = CustomerDashboardService::abort_restore( $user_id, $command_id );
+		if ( is_wp_error( $res ) ) {
+			wp_send_json_error( array( 'message' => $res->get_error_message() ), 400 );
 		}
 
 		wp_send_json_success( $res );
@@ -402,6 +458,7 @@ final class CustomerDashboardController {
 			'central_bot_enabled' => ! empty( $_POST['central_bot_enabled'] ),
 			'bot_messenger'       => sanitize_text_field( (string) ( $_POST['bot_messenger'] ?? 'telegram' ) ),
 			'bot_chat_id'         => sanitize_text_field( (string) ( $_POST['bot_chat_id'] ?? '' ) ),
+			'bot_consent_given'   => ! empty( $_POST['bot_consent_given'] ),
 			'notify_on_backup'    => ! empty( $_POST['notify_on_backup'] ),
 			'notify_on_expire'    => ! empty( $_POST['notify_on_expire'] ),
 			'notify_on_error'     => ! empty( $_POST['notify_on_error'] ),
@@ -411,6 +468,34 @@ final class CustomerDashboardController {
 
 		CustomerDashboardService::save_customer_settings( $user_id, $settings );
 		wp_send_json_success( array( 'message' => __( 'تنظیمات عمومی با موفقیت ذخیره شد.', 'backupino-portal' ) ) );
+	}
+
+	/**
+	 * AJAX: Generate One-Time Bot Linking Code (S3-T12, B5-T04).
+	 */
+	public static function ajax_bot_generate_code(): void {
+		check_ajax_referer( 'backupino_customer_nonce', '_wpnonce' );
+
+		$user_id = get_current_user_id();
+		$res     = CustomerDashboardService::generate_bot_link_code( $user_id );
+
+		if ( is_wp_error( $res ) ) {
+			wp_send_json_error( array( 'message' => $res->get_error_message() ), 403 );
+		}
+
+		wp_send_json_success( $res );
+	}
+
+	/**
+	 * AJAX: Unlink Central Bot from Customer Account.
+	 */
+	public static function ajax_bot_unlink(): void {
+		check_ajax_referer( 'backupino_customer_nonce', '_wpnonce' );
+
+		$user_id = get_current_user_id();
+		CustomerDashboardService::unlink_central_bot( $user_id );
+
+		wp_send_json_success( array( 'message' => __( 'اتصال به ربات مرکزی با موفقیت قطع گردید.', 'backupino-portal' ) ) );
 	}
 
 	/**
