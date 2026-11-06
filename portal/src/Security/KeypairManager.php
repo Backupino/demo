@@ -121,6 +121,104 @@ final class KeypairManager {
 	}
 
 	/**
+	 * Verify an Ed25519 detached signature.
+	 *
+	 * Checks against the active public key or optionally previous public key (for rotation grace).
+	 *
+	 * @param string      $data          Original message.
+	 * @param string      $signature_b64 Base64Url-encoded signature.
+	 * @param string|null $pub_b64       Optional public key (defaults to active key).
+	 * @return bool True if valid.
+	 */
+	public static function verify_detached( string $data, string $signature_b64, ?string $pub_b64 = null ): bool {
+		$pub_key = null !== $pub_b64 ? $pub_b64 : self::get_public_key();
+		$pub_bin = self::base64url_decode( $pub_key );
+		$sig_bin = self::base64url_decode( $signature_b64 );
+
+		if ( 32 !== strlen( $pub_bin ) || 64 !== strlen( $sig_bin ) ) {
+			return false;
+		}
+
+		if ( function_exists( 'sodium_crypto_sign_verify_detached' ) ) {
+			try {
+				if ( sodium_crypto_sign_verify_detached( $sig_bin, $data, $pub_bin ) ) {
+					return true;
+				}
+
+				// If no custom key was supplied, also try verifying against the previous key during rotation grace
+				if ( null === $pub_b64 ) {
+					$prev_key = self::get_previous_public_key();
+					if ( ! empty( $prev_key ) ) {
+						$prev_bin = self::base64url_decode( $prev_key );
+						if ( 32 === strlen( $prev_bin ) && sodium_crypto_sign_verify_detached( $sig_bin, $data, $prev_bin ) ) {
+							return true;
+						}
+					}
+				}
+			} catch ( \Throwable $e ) {
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get previous public key (if rotation occurred).
+	 */
+	public static function get_previous_public_key(): ?string {
+		$prev = (string) get_option( 'backupino_portal_previous_public_key', '' );
+		return ! empty( $prev ) ? $prev : null;
+	}
+
+	/**
+	 * Perform Ed25519 key rotation.
+	 *
+	 * Archives current public key and generates new active keypair.
+	 *
+	 * @return array{public: string, private: string, previous_public: string}
+	 */
+	public static function rotate_keypair(): array {
+		$current_pub = self::get_public_key();
+		update_option( 'backupino_portal_previous_public_key', $current_pub, 'no' );
+
+		$dir       = self::ensure_secure_dir();
+		$priv_path = $dir . '/' . self::PRIVATE_KEY_FILE;
+		$pub_path  = $dir . '/' . self::PUBLIC_KEY_FILE;
+
+		// Archive old keys with timestamp suffix
+		$timestamp = time();
+		if ( file_exists( $priv_path ) ) {
+			@rename( $priv_path, $dir . '/' . self::PRIVATE_KEY_FILE . '.' . $timestamp . '.bak' );
+		}
+		if ( file_exists( $pub_path ) ) {
+			@rename( $pub_path, $dir . '/' . self::PUBLIC_KEY_FILE . '.' . $timestamp . '.bak' );
+		}
+
+		delete_option( 'backupino_portal_public_key' );
+		$new_keypair = self::initialize_keypair();
+
+		if ( class_exists( 'Backupino\Portal\Audit\AuditLogger' ) ) {
+			\Backupino\Portal\Audit\AuditLogger::log(
+				'keypair_rotated',
+				get_current_user_id(),
+				0,
+				null,
+				array(
+					'old_public' => substr( $current_pub, 0, 16 ) . '...',
+					'new_public' => substr( $new_keypair['public'], 0, 16 ) . '...',
+				)
+			);
+		}
+
+		return array(
+			'public'          => $new_keypair['public'],
+			'private'         => $new_keypair['private'],
+			'previous_public' => $current_pub,
+		);
+	}
+
+	/**
 	 * Base64Url encoding without padding.
 	 */
 	public static function base64url_encode( string $data ): string {
