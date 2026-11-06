@@ -1,6 +1,6 @@
 {
   "name": "backupino",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "description": "Local PHP test harness for the Backupino WordPress plugin (php-wasm).",
   "type": "module",

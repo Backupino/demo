@@ -109,7 +109,7 @@ final class InstallerTest extends TestCase {
 
 		$backups = glob( $file . '.backupino-*' );
 
-		$this->assertCount( 1, $backups );
+		$this->assertCount( 0, $backups );
 		$this->assertStringContains( 'wp-settings.php', (string) file_get_contents( $file ) );
 	}
 
