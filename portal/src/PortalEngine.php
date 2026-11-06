@@ -15,6 +15,7 @@ use Backupino\Portal\Security\KeypairManager;
 use Backupino\Portal\Audit\AuditLogger;
 use Backupino\Portal\Auth\RoleManager;
 use Backupino\Portal\Api\LicenseController;
+use Backupino\Portal\Api\PlansController;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,8 +52,9 @@ final class PortalEngine {
 		// Register portal roles and capabilities (S3-T03)
 		RoleManager::register_roles();
 
-		// Register REST API routes (S3-T04 / S3-T10)
+		// Register REST API routes (S3-T04 / S3-T05 / S3-T10)
 		add_action( 'rest_api_init', array( LicenseController::class, 'register_routes' ) );
+		add_action( 'rest_api_init', array( PlansController::class, 'register_routes' ) );
 
 		// Add admin notice in development environment
 		if ( Environment::is_dev() ) {
