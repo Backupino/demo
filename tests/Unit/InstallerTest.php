@@ -148,6 +148,20 @@ final class InstallerTest extends TestCase {
 		$this->assertStringContains( "\$table_prefix = 'custom_';", $updated );
 		$this->assertStringContains( "// Custom configuration for Redis", $updated );
 		$this->assertStringContains( "define( 'WP_REDIS_HOST', '127.0.0.1' );", $updated );
+		token_get_all( $updated, TOKEN_PARSE );
+
+		// Complex password with $1 backreferences and quotes does not corrupt PHP syntax or value
+		$complex_pass    = 'pass$1\'"\\special$0';
+		$complex_config  = array(
+			'name'     => 'new_db',
+			'user'     => 'new_user',
+			'password' => $complex_pass,
+			'host'     => '127.0.0.1',
+			'prefix'   => 'wp_',
+		);
+		$complex_updated = ConfigWriter::update_wp_config( $original, $complex_config );
+		token_get_all( $complex_updated, TOKEN_PARSE );
+		$this->assertStringContains( addcslashes( $complex_pass, "'\\" ), $complex_updated );
 		$this->assertStringContains( "define( 'WP_REDIS_PORT', 6379 );", $updated );
 		$this->assertStringContains( "define( 'WP_MEMORY_LIMIT', '512M' );", $updated );
 	}
@@ -277,6 +291,6 @@ final class InstallerTest extends TestCase {
 		$this->assertTrue( is_file( $target . '/php.ini.backupino-orig' ) );
 
 		$this->assertFalse( is_file( $target . '/wp-config.php' ) );
-		$this->assertTrue( is_file( $target . '/wp-config.backupino-orig.php' ) );
+		$this->assertFalse( is_file( $target . '/wp-config.backupino-orig.php' ) );
 	}
 }
