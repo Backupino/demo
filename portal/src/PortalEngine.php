@@ -13,6 +13,7 @@ use Backupino\Portal\Config\Environment;
 use Backupino\Portal\Database\MigrationRunner;
 use Backupino\Portal\Security\KeypairManager;
 use Backupino\Portal\Audit\AuditLogger;
+use Backupino\Portal\Auth\RoleManager;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -45,6 +46,9 @@ final class PortalEngine {
 
 		// Ensure Ed25519 keypair exists
 		KeypairManager::ensure_secure_dir();
+
+		// Register portal roles and capabilities (S3-T03)
+		RoleManager::register_roles();
 
 		// Add admin notice in development environment
 		if ( Environment::is_dev() ) {

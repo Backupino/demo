@@ -48,9 +48,9 @@ final class MigrationRunner {
 
 				if ( class_exists( 'Backupino\Portal\Audit\AuditLogger' ) ) {
 					\Backupino\Portal\Audit\AuditLogger::log(
-						0,
-						0,
 						'migration_executed',
+						0,
+						0,
 						null,
 						array( 'version' => $version )
 					);
