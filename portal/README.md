@@ -23,9 +23,29 @@ portal/
     │   └── KeypairManager.php       # تولید و نگهداری کلیدهای Ed25519
     ├── Database/
     │   └── MigrationRunner.php      # موتور اجرای مهاجرت‌های دیتابیس
+    ├── Models/
+    │   ├── License.php              # مدل رکورد لایسنس
+    │   └── Activation.php           # مدل رکورد فعال‌سازی دامنه
+    ├── Repository/
+    │   ├── LicenseRepository.php    # لایه دسترسی دیتابیس لایسنس‌ها
+    │   └── ActivationRepository.php # لایه دسترسی دیتابیس فعال‌سازی‌ها
+    ├── Support/
+    │   └── DomainHelper.php         # نرمال‌سازی و تشخیص دامنه‌های استیجینگ (D-051)
     └── Audit/
         └── AuditLogger.php          # ثبت لاگ‌های امنیتی و رویدادهای سیستم
 ```
+
+---
+
+## ۲. جداول اختصاصی پایگاه‌داده (D-051, D-052)
+
+تمام جداول دیتابیس به صورت خودکار توسط کلاس `MigrationRunner` ایجاد شده و با پیشوند دیتابیس وردپرس ثبت می‌گردند:
+
+1. **`wp_backupino_schema_migrations`**: ثبت نسخه‌های اجراشده مایگریشن‌ها جهت جلوگیری از اجرای تکراری.
+2. **`wp_backupino_audit_logs`**: ثبت کلیه رخدادهای حساس امنیتی (صدور لایسنس، فعال‌سازی، تغییر وضعیت).
+3. **`wp_backupino_licenses`**: نگهداری لایسنس‌ها، متصل به سفارشات ووکامرس، شامل فیلدهای اختصاصی لایسنس و فیلدهای رزروشده سهمیه ابری فاز ۷ (`cloud_storage_enabled`, `cloud_quota_bytes`, `cloud_used_bytes`, `cloud_max_versions_per_domain`, `cloud_zero_knowledge_enabled`, `cloud_retention_days`).
+4. **`wp_backupino_activations`**: نگهداری وضعیت فعال‌سازی هر دامنه به ازای لایسنس، شامل هش یکتای دامنه، تایم‌بیس آخرین هارت‌بیت، فلگ `is_staging` (`D-051`) و فیلدهای مصرف حجم ابری هر دامنه.
+5. **`wp_backupino_cloud_backups`**: رزرو ساختار پشتیبان‌های ابر اختصاصی فاز ۷ (`D-041`) به همراه کلیدهای Zero-Knowledge (`wrapped_dek`)، راهنمای شمیر و چرخه نگهداری ۶۰ روزه با ۳ اخطار (`retention_status`).
 
 ---
 
