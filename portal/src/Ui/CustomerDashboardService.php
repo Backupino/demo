@@ -14,12 +14,15 @@ namespace Backupino\Portal\Ui;
 use Backupino\Portal\Models\License;
 use Backupino\Portal\Models\Activation;
 use Backupino\Portal\Models\CloudBackup;
+use Backupino\Portal\Models\Ticket;
 use Backupino\Portal\Repository\LicenseRepository;
 use Backupino\Portal\Repository\ActivationRepository;
 use Backupino\Portal\Repository\BackupRepository;
+use Backupino\Portal\Repository\TicketRepository;
 use Backupino\Portal\Auth\AuthorizationGuard;
 use Backupino\Portal\Auth\TwoFactorAuth;
 use Backupino\Portal\Lifecycle\LicenseLifecycleManager;
+use Backupino\Portal\Lifecycle\SlaManager;
 use Backupino\Portal\Audit\AuditLogger;
 use Backupino\Portal\Plans\PlanManager;
 
@@ -32,6 +35,7 @@ final class CustomerDashboardService {
 
 	public const DEFAULT_SNAPSHOT_RETENTION_HOURS = 48; // Default 48h (S3-T08)
 	public const ALLOWED_RETENTION_HOURS          = array( 24, 48, 72, 168 ); // 24h, 48h, 72h, 7 days
+	public const PENDING_2FA_META                 = '_backupino_pending_2fa_secret';
 
 	/**
 	 * Get full overview data for a customer's dashboard.
@@ -42,17 +46,42 @@ final class CustomerDashboardService {
 	public static function get_customer_overview( int $user_id ): array {
 		if ( $user_id <= 0 ) {
 			return array(
+				'user_profile'  => array(),
+				'stats'         => array(),
+				'support_sla'   => array(),
 				'licenses'      => array(),
+				'tickets'       => array(),
 				'invoices'      => array(),
 				'is_2fa_active' => false,
 			);
 		}
 
+		$user = get_userdata( $user_id );
+		$user_profile = array(
+			'id'           => $user_id,
+			'display_name' => $user ? ( $user->display_name ?: $user->user_login ) : 'User #' . $user_id,
+			'email'        => $user ? $user->user_email : '',
+			'registered'   => $user ? substr( (string) $user->user_registered, 0, 10 ) : '',
+			'avatar'       => get_avatar_url( $user_id, array( 'size' => 80 ) ),
+		);
+
 		$raw_licenses = LicenseRepository::find_by_user_id( $user_id );
 		$licenses_out = array();
 		$now          = time();
 
+		$total_sites       = 0;
+		$total_staging     = 0;
+		$total_backups     = 0;
+		$total_cloud_bytes = 0;
+		$highest_plan      = 'personal';
+
 		foreach ( $raw_licenses as $license ) {
+			if ( 'agency' === $license->plan_slug ) {
+				$highest_plan = 'agency';
+			} elseif ( 'freelancer' === $license->plan_slug && 'agency' !== $highest_plan ) {
+				$highest_plan = 'freelancer';
+			}
+
 			$activations = ActivationRepository::find_active_by_license( $license->id );
 			$prod_count  = 0;
 			$stage_count = 0;
@@ -61,8 +90,10 @@ final class CustomerDashboardService {
 			foreach ( $activations as $act ) {
 				if ( $act->is_staging ) {
 					$stage_count++;
+					$total_staging++;
 				} else {
 					$prod_count++;
+					$total_sites++;
 				}
 
 				// Calculate 72h cooling-off status if deactivated
@@ -75,6 +106,31 @@ final class CustomerDashboardService {
 					}
 				}
 
+				// Fetch backups specifically for this domain
+				$dom_backups_raw = BackupRepository::find_by_domain_hash( $act->domain_hash, 15 );
+				$dom_backups_out = array();
+				foreach ( $dom_backups_raw as $b ) {
+					$dl_token = wp_create_nonce( 'backupino_dl_' . $b->id . '_' . $user_id );
+					$dl_url   = add_query_arg(
+						array(
+							'action'    => 'backupino_customer_download',
+							'backup_id' => $b->id,
+							'_wpnonce'  => $dl_token,
+						),
+						admin_url( 'admin-ajax.php' )
+					);
+					$dom_backups_out[] = array(
+						'id'               => $b->id,
+						'package_name'     => $b->package_name,
+						'file_size_bytes'  => $b->file_size_bytes,
+						'formatted_size'   => $b->get_formatted_size(),
+						'created_at'       => $b->created_at,
+						'storage_provider' => $b->storage_provider,
+						'retention_status' => $b->retention_status,
+						'download_url'     => $dl_url,
+					);
+				}
+
 				$domain_list[] = array(
 					'id'                            => $act->id,
 					'domain_name'                   => $act->domain_name,
@@ -84,16 +140,17 @@ final class CustomerDashboardService {
 					'last_heartbeat_at'             => $act->last_heartbeat_at,
 					'cooling_off_remaining_seconds' => $cooling_off_remaining_seconds,
 					'cooling_off_active'            => $cooling_off_remaining_seconds > 0,
+					'backups'                       => $dom_backups_out,
 				);
 			}
 
 			// Calculate offline days remaining (7-day offline cache window - D-032)
 			$offline_days_remaining = 7;
 			if ( ! empty( $license->updated_at ) ) {
-				$last_sync_time   = strtotime( $license->updated_at );
-				$elapsed_seconds  = max( 0, $now - $last_sync_time );
-				$seven_days_sec   = 7 * 86400;
-				$remain_sec       = max( 0, $seven_days_sec - $elapsed_seconds );
+				$last_sync_time         = strtotime( $license->updated_at );
+				$elapsed_seconds        = max( 0, $now - $last_sync_time );
+				$seven_days_sec         = 7 * 86400;
+				$remain_sec             = max( 0, $seven_days_sec - $elapsed_seconds );
 				$offline_days_remaining = (int) ceil( $remain_sec / 86400 );
 			}
 
@@ -107,6 +164,9 @@ final class CustomerDashboardService {
 			$backups_raw = BackupRepository::find_by_license_id( $license->id, 20 );
 			$backups_out = array();
 			foreach ( $backups_raw as $b ) {
+				$total_backups++;
+				$total_cloud_bytes += (int) $b->file_size_bytes;
+
 				$dl_token = wp_create_nonce( 'backupino_dl_' . $b->id . '_' . $user_id );
 				$dl_url   = add_query_arg(
 					array(
@@ -151,14 +211,138 @@ final class CustomerDashboardService {
 			);
 		}
 
+		// Support SLA guarantee details based on highest user plan
+		$support_sla = array(
+			'plan_slug' => $highest_plan,
+			'sla_hours' => SlaManager::get_sla_hours( $highest_plan ),
+			'title'     => 'agency' === $highest_plan ? __( '12-Hour Dedicated VIP Support', 'backupino-portal' ) :
+				( 'freelancer' === $highest_plan ? __( '24-Hour High Priority Support', 'backupino-portal' ) :
+				__( '48-Hour Standard Support', 'backupino-portal' ) ),
+			'badge'     => 'agency' === $highest_plan ? 'VIP 12h' :
+				( 'freelancer' === $highest_plan ? 'Priority 24h' : 'Standard 48h' ),
+		);
+
+		// Support tickets
+		$raw_tickets = TicketRepository::find_by_user( $user_id );
+		$tickets_out = array();
+		foreach ( $raw_tickets as $t ) {
+			$replies_count = count( TicketRepository::get_replies( $t->id ) );
+			$tickets_out[] = array(
+				'id'              => $t->id,
+				'ticket_number'   => $t->ticket_number,
+				'license_id'      => $t->license_id,
+				'plan_slug'       => $t->plan_slug,
+				'subject'         => $t->subject,
+				'priority'        => $t->priority,
+				'status'          => $t->status,
+				'sla_deadline_at' => $t->sla_deadline_at,
+				'sla_breached'    => (bool) $t->sla_breached,
+				'created_at'      => $t->created_at,
+				'updated_at'      => $t->updated_at,
+				'replies_count'   => $replies_count,
+			);
+		}
+
 		// Invoices from WooCommerce
 		$invoices = self::get_customer_invoices( $user_id );
 
+		// Aggregated Stats
+		$stats = array(
+			'total_licenses'        => count( $licenses_out ),
+			'active_licenses'       => count( array_filter( $licenses_out, fn( $l ) => 'active' === $l['status'] ) ),
+			'total_sites'           => $total_sites,
+			'staging_sites'         => $total_staging,
+			'total_backups'         => $total_backups,
+			'cloud_used_bytes'      => $total_cloud_bytes,
+			'cloud_used_formatted'  => function_exists( 'size_format' ) ? size_format( $total_cloud_bytes ) : ( round( $total_cloud_bytes / 1048576, 2 ) . ' MB' ),
+			'open_tickets_count'    => count( array_filter( $tickets_out, fn( $t ) => in_array( $t['status'], array( 'open', 'in_progress', 'waiting_customer' ), true ) ) ),
+		);
+
 		return array(
+			'user_profile'  => $user_profile,
+			'stats'         => $stats,
+			'support_sla'   => $support_sla,
 			'licenses'      => $licenses_out,
+			'tickets'       => $tickets_out,
 			'invoices'      => $invoices,
+			'settings'      => self::get_customer_settings( $user_id ),
 			'is_2fa_active' => TwoFactorAuth::is_2fa_enabled( $user_id ),
 		);
+	}
+
+	public const USER_SETTINGS_META = '_backupino_customer_settings';
+
+	/**
+	 * Get General Settings for Customer.
+	 *
+	 * @param int $user_id
+	 * @return array<string, mixed>
+	 */
+	public static function get_customer_settings( int $user_id ): array {
+		$defaults = array(
+			'central_bot_enabled' => false,
+			'bot_messenger'       => 'telegram', // telegram or bale
+			'bot_chat_id'         => '',
+			'notify_on_backup'    => true,
+			'notify_on_expire'    => true,
+			'notify_on_error'     => true,
+			'default_retention_h' => 48,
+			'preferred_locale'    => str_starts_with( determine_locale(), 'fa' ) ? 'fa' : 'en',
+		);
+		$saved = get_user_meta( $user_id, self::USER_SETTINGS_META, true );
+		return array_merge( $defaults, is_array( $saved ) ? $saved : array() );
+	}
+
+	/**
+	 * Save General Settings for Customer.
+	 *
+	 * @param int                  $user_id
+	 * @param array<string, mixed> $settings
+	 * @return bool
+	 */
+	public static function save_customer_settings( int $user_id, array $settings ): bool {
+		$clean = array(
+			'central_bot_enabled' => ! empty( $settings['central_bot_enabled'] ),
+			'bot_messenger'       => in_array( $settings['bot_messenger'] ?? '', array( 'telegram', 'bale' ), true ) ? $settings['bot_messenger'] : 'telegram',
+			'bot_chat_id'         => sanitize_text_field( (string) ( $settings['bot_chat_id'] ?? '' ) ),
+			'notify_on_backup'    => ! empty( $settings['notify_on_backup'] ),
+			'notify_on_expire'    => ! empty( $settings['notify_on_expire'] ),
+			'notify_on_error'     => ! empty( $settings['notify_on_error'] ),
+			'default_retention_h' => (int) ( $settings['default_retention_h'] ?? 48 ),
+			'preferred_locale'    => ( 'fa' === ( $settings['preferred_locale'] ?? '' ) ) ? 'fa' : 'en',
+		);
+		update_user_meta( $user_id, self::USER_SETTINGS_META, $clean );
+		AuditLogger::log(
+			'customer_settings_updated',
+			$user_id,
+			0,
+			null,
+			array( 'bot_enabled' => $clean['central_bot_enabled'], 'locale' => $clean['preferred_locale'] )
+		);
+		return true;
+	}
+
+	/**
+	 * Submit a License Quota Upgrade or Plan Request.
+	 *
+	 * @param int                  $user_id
+	 * @param array<string, mixed> $data
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function request_license_upgrade( int $user_id, array $data ) {
+		$type   = sanitize_text_field( (string) ( $data['upgrade_type'] ?? 'more_domains' ) );
+		$notes  = sanitize_textarea_field( (string) ( $data['notes'] ?? '' ) );
+		$lic_id = (int) ( $data['license_id'] ?? 0 );
+
+		$subject = sprintf( __( 'درخواست ارتقای لایسنس و سهمیه (%s)', 'backupino-portal' ), $type );
+		$message = sprintf(
+			"درخواست جدید ارتقای خدمات:\nنوع ارتقا: %s\nشناسه لایسنس مرتبط: %d\nتوضیحات و نیازمندی کاربر:\n%s",
+			$type,
+			$lic_id,
+			$notes
+		);
+
+		return self::create_ticket( $user_id, $subject, $message, $lic_id );
 	}
 
 	/**
@@ -205,6 +389,343 @@ final class CustomerDashboardService {
 		}
 
 		return $out;
+	}
+
+	/**
+	 * Create a new support ticket.
+	 *
+	 * @param int    $user_id
+	 * @param string $subject
+	 * @param string $message
+	 * @param int    $license_id
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function create_ticket( int $user_id, string $subject, string $message, int $license_id = 0 ) {
+		if ( $user_id <= 0 ) {
+			return new \WP_Error( 'UNAUTHORIZED', __( 'User not authorized.', 'backupino-portal' ), array( 'status' => 401 ) );
+		}
+
+		$subject = sanitize_text_field( trim( $subject ) );
+		$message = trim( $message );
+
+		if ( empty( $subject ) || empty( $message ) ) {
+			return new \WP_Error( 'EMPTY_FIELDS', __( 'Subject and message are required.', 'backupino-portal' ), array( 'status' => 400 ) );
+		}
+
+		// Determine plan slug for SLA calculation
+		$plan_slug = 'personal';
+		if ( $license_id > 0 ) {
+			$license = LicenseRepository::find_by_id( $license_id );
+			if ( $license && $license->user_id === $user_id ) {
+				$plan_slug = $license->plan_slug;
+			}
+		} else {
+			// Find highest plan for this user
+			$licenses = LicenseRepository::find_by_user_id( $user_id );
+			foreach ( $licenses as $l ) {
+				if ( 'agency' === $l->plan_slug ) {
+					$plan_slug = 'agency';
+					break;
+				}
+				if ( 'freelancer' === $l->plan_slug ) {
+					$plan_slug = 'freelancer';
+				}
+			}
+		}
+
+		$ticket_id = TicketRepository::create(
+			array(
+				'user_id'    => $user_id,
+				'license_id' => $license_id,
+				'plan_slug'  => $plan_slug,
+				'subject'    => $subject,
+				'message'    => $message,
+			)
+		);
+
+		if ( ! $ticket_id ) {
+			return new \WP_Error( 'CREATE_FAILED', __( 'Could not create support ticket.', 'backupino-portal' ), array( 'status' => 500 ) );
+		}
+
+		$ticket = TicketRepository::find_by_id( (int) $ticket_id );
+
+		AuditLogger::log(
+			'support_ticket_created',
+			$user_id,
+			$license_id,
+			null,
+			array(
+				'ticket_id'     => $ticket_id,
+				'ticket_number' => $ticket ? $ticket->ticket_number : '',
+				'plan_slug'     => $plan_slug,
+			)
+		);
+
+		return array(
+			'success'       => true,
+			'ticket_id'     => $ticket_id,
+			'ticket_number' => $ticket ? $ticket->ticket_number : '',
+			'message'       => __( 'تیکت پشتیبانی شما با موفقیت ثبت شد.', 'backupino-portal' ),
+		);
+	}
+
+	/**
+	 * Securely process an uploaded ticket attachment file.
+	 *
+	 * @param array<string, mixed> $file
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function handle_file_attachment( array $file ) {
+		if ( ! isset( $file['error'] ) || UPLOAD_ERR_OK !== $file['error'] ) {
+			return new \WP_Error( 'UPLOAD_ERROR', __( 'خطا در بارگذاری فایل.', 'backupino-portal' ) );
+		}
+
+		if ( $file['size'] > 10 * 1024 * 1024 ) {
+			return new \WP_Error( 'FILE_TOO_LARGE', __( 'حجم فایل پیوست نباید بیشتر از ۱۰ مگابایت باشد.', 'backupino-portal' ) );
+		}
+
+		$allowed_exts = array( 'jpg', 'jpeg', 'png', 'webp', 'pdf', 'txt', 'log', 'zip' );
+		$ext          = strtolower( pathinfo( (string) $file['name'], PATHINFO_EXTENSION ) );
+		if ( ! in_array( $ext, $allowed_exts, true ) ) {
+			return new \WP_Error( 'INVALID_EXTENSION', __( 'پسوند فایل مجاز نیست. فقط فایل‌های jpg, png, webp, pdf, txt, log, zip مجاز هستند.', 'backupino-portal' ) );
+		}
+
+		// Security: MIME validation
+		if ( function_exists( 'finfo_open' ) ) {
+			$finfo = finfo_open( FILEINFO_MIME_TYPE );
+			$mime  = finfo_file( $finfo, (string) $file['tmp_name'] );
+			finfo_close( $finfo );
+
+			$allowed_mimes = array(
+				'image/jpeg', 'image/png', 'image/webp',
+				'application/pdf', 'text/plain', 'text/x-log',
+				'application/zip', 'application/x-zip-compressed',
+			);
+			if ( ! in_array( $mime, $allowed_mimes, true ) ) {
+				return new \WP_Error( 'INVALID_MIME', __( 'محتوای فایل ارسالی با پسوند آن همخوانی ندارد.', 'backupino-portal' ) );
+			}
+		}
+
+		$upload_dir = wp_upload_dir();
+		$target_dir = $upload_dir['basedir'] . '/backupino-attachments';
+		if ( ! file_exists( $target_dir ) ) {
+			wp_mkdir_p( $target_dir );
+			file_put_contents( $target_dir . '/.htaccess', "Order Deny,Allow\nDeny from all\n<FilesMatch \"\.(?i:jpg|jpeg|png|webp|pdf|txt|log|zip)$\">\nAllow from all\n</FilesMatch>\n" );
+			file_put_contents( $target_dir . '/index.php', '<?php // Silence is golden' );
+		}
+
+		$safe_name   = 'att_' . wp_generate_password( 16, false, false ) . '.' . $ext;
+		$target_file = $target_dir . '/' . $safe_name;
+
+		if ( ! move_uploaded_file( (string) $file['tmp_name'], $target_file ) ) {
+			return new \WP_Error( 'SAVE_FAILED', __( 'خطا در ذخیره فایل در سرور.', 'backupino-portal' ) );
+		}
+
+		return array(
+			'url'  => $upload_dir['baseurl'] . '/backupino-attachments/' . $safe_name,
+			'name' => sanitize_file_name( (string) $file['name'] ),
+		);
+	}
+
+	/**
+	 * Close a support ticket by customer.
+	 *
+	 * @param int $user_id
+	 * @param int $ticket_id
+	 * @return bool|\WP_Error
+	 */
+	public static function close_ticket( int $user_id, int $ticket_id ) {
+		$ticket = TicketRepository::find_by_id( $ticket_id );
+		if ( ! $ticket || $ticket->user_id !== $user_id ) {
+			return new \WP_Error( 'TICKET_NOT_FOUND', __( 'تیکت یافت نشد.', 'backupino-portal' ) );
+		}
+
+		$closed = TicketRepository::close_ticket( $ticket_id, $user_id, false );
+		if ( ! $closed ) {
+			return new \WP_Error( 'CLOSE_FAILED', __( 'خطا در بستن تیکت.', 'backupino-portal' ) );
+		}
+
+		AuditLogger::log(
+			'support_ticket_closed_by_customer',
+			$user_id,
+			$ticket->license_id,
+			null,
+			array( 'ticket_id' => $ticket_id, 'ticket_number' => $ticket->ticket_number )
+		);
+
+		return true;
+	}
+
+	/**
+	 * Add a reply to a user's support ticket.
+	 *
+	 * @param int         $user_id
+	 * @param int         $ticket_id
+	 * @param string      $message
+	 * @param string|null $attachment_url
+	 * @param string|null $attachment_name
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function reply_ticket( int $user_id, int $ticket_id, string $message, ?string $attachment_url = null, ?string $attachment_name = null ) {
+		if ( $user_id <= 0 ) {
+			return new \WP_Error( 'UNAUTHORIZED', __( 'User not authorized.', 'backupino-portal' ), array( 'status' => 401 ) );
+		}
+
+		$ticket = TicketRepository::find_by_id( $ticket_id );
+		if ( ! $ticket || $ticket->user_id !== $user_id ) {
+			return new \WP_Error( 'TICKET_NOT_FOUND', __( 'Ticket not found or access denied.', 'backupino-portal' ), array( 'status' => 404 ) );
+		}
+
+		$message = trim( $message );
+		if ( empty( $message ) && empty( $attachment_url ) ) {
+			return new \WP_Error( 'EMPTY_MESSAGE', __( 'پیام یا فایل پیوست نمی‌تواند خالی باشد.', 'backupino-portal' ), array( 'status' => 400 ) );
+		}
+
+		$added = TicketRepository::add_reply( $ticket_id, $user_id, $message, 0, $attachment_url, $attachment_name );
+		if ( ! $added ) {
+			return new \WP_Error( 'REPLY_FAILED', __( 'Could not post reply.', 'backupino-portal' ), array( 'status' => 500 ) );
+		}
+
+		AuditLogger::log(
+			'support_ticket_replied_by_customer',
+			$user_id,
+			$ticket->license_id,
+			null,
+			array( 'ticket_id' => $ticket_id, 'ticket_number' => $ticket->ticket_number )
+		);
+
+		return array(
+			'success' => true,
+			'message' => __( 'پاسخ شما با موفقیت ثبت شد.', 'backupino-portal' ),
+		);
+	}
+
+	/**
+	 * Get details and conversation thread of a ticket.
+	 *
+	 * @param int $user_id
+	 * @param int $ticket_id
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function get_ticket_details( int $user_id, int $ticket_id ) {
+		$ticket = TicketRepository::find_by_id( $ticket_id );
+		if ( ! $ticket || $ticket->user_id !== $user_id ) {
+			return new \WP_Error( 'TICKET_NOT_FOUND', __( 'Ticket not found or access denied.', 'backupino-portal' ), array( 'status' => 404 ) );
+		}
+
+		$replies_raw = TicketRepository::get_replies( $ticket_id );
+		$replies_out = array();
+
+		foreach ( $replies_raw as $r ) {
+			$sender = get_userdata( (int) $r['user_id'] );
+			$replies_out[] = array(
+				'id'              => $r['id'],
+				'is_staff'        => (bool) $r['is_staff'],
+				'sender_name'     => $r['is_staff'] ? __( 'Official Backupino Support', 'backupino-portal' ) : ( $sender ? $sender->display_name : __( 'Customer', 'backupino-portal' ) ),
+				'message'         => wp_kses_post( $r['message'] ),
+				'attachment_url'  => $r['attachment_url'] ?? null,
+				'attachment_name' => $r['attachment_name'] ?? null,
+				'created_at'      => $r['created_at'],
+			);
+		}
+
+		return array(
+			'id'              => $ticket->id,
+			'ticket_number'   => $ticket->ticket_number,
+			'subject'         => $ticket->subject,
+			'priority'        => $ticket->priority,
+			'status'          => $ticket->status,
+			'sla_deadline_at' => $ticket->sla_deadline_at,
+			'created_at'      => $ticket->created_at,
+			'replies'         => $replies_out,
+		);
+	}
+
+	/**
+	 * Prepare 2FA setup data for a customer.
+	 *
+	 * @param int $user_id
+	 * @return array<string, string>
+	 */
+	public static function get_2fa_setup_data( int $user_id ): array {
+		$secret = TwoFactorAuth::generate_secret( 16 );
+		update_user_meta( $user_id, self::PENDING_2FA_META, $secret );
+
+		$user        = get_userdata( $user_id );
+		$username    = $user ? $user->user_email : "user_{$user_id}";
+		$otpauth_uri = TwoFactorAuth::get_otpauth_uri( $username, $secret, 'Backupino Portal' );
+		$qr_api_url  = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' . rawurlencode( $otpauth_uri );
+
+		return array(
+			'secret'      => $secret,
+			'otpauth_uri' => $otpauth_uri,
+			'qr_url'      => $qr_api_url,
+		);
+	}
+
+	/**
+	 * Confirm and activate 2FA with verified TOTP code.
+	 *
+	 * @param int    $user_id
+	 * @param string $totp_code
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function confirm_enable_2fa( int $user_id, string $totp_code ) {
+		$pending_secret = (string) get_user_meta( $user_id, self::PENDING_2FA_META, true );
+		if ( empty( $pending_secret ) ) {
+			return new \WP_Error( 'NO_PENDING_2FA', __( 'No pending 2FA setup found. Please generate a new QR code.', 'backupino-portal' ), array( 'status' => 400 ) );
+		}
+
+		if ( ! TwoFactorAuth::verify_code( $pending_secret, $totp_code ) ) {
+			return new \WP_Error( 'INVALID_2FA_CODE', __( 'کد اعتبارسنجی وارد شده صحیح نیست یا منقضی شده است.', 'backupino-portal' ), array( 'status' => 400 ) );
+		}
+
+		$recovery_codes = TwoFactorAuth::generate_recovery_codes( 8 );
+		TwoFactorAuth::enable_2fa( $user_id, $pending_secret, $recovery_codes );
+		delete_user_meta( $user_id, self::PENDING_2FA_META );
+
+		AuditLogger::log(
+			'two_factor_auth_enabled',
+			$user_id,
+			0,
+			null,
+			array( 'method' => 'totp_rfc6238' )
+		);
+
+		return array(
+			'success'        => true,
+			'message'        => __( 'احراز هویت دو مرحله‌ای با موفقیت فعال شد.', 'backupino-portal' ),
+			'recovery_codes' => $recovery_codes,
+		);
+	}
+
+	/**
+	 * Disable 2FA with valid TOTP code verification.
+	 *
+	 * @param int    $user_id
+	 * @param string $totp_code
+	 * @return bool|\WP_Error
+	 */
+	public static function disable_2fa( int $user_id, string $totp_code ) {
+		if ( ! TwoFactorAuth::is_2fa_enabled( $user_id ) ) {
+			return true;
+		}
+
+		if ( ! TwoFactorAuth::verify_totp( $user_id, $totp_code ) ) {
+			return new \WP_Error( 'INVALID_2FA_CODE', __( 'کد دو مرحله‌ای نامعتبر است.', 'backupino-portal' ), array( 'status' => 400 ) );
+		}
+
+		TwoFactorAuth::disable_2fa( $user_id );
+
+		AuditLogger::log(
+			'two_factor_auth_disabled',
+			$user_id,
+			0,
+			null,
+			array( 'status' => 'disabled' )
+		);
+
+		return true;
 	}
 
 	/**
@@ -280,7 +801,7 @@ final class CustomerDashboardService {
 			'command_id'  => $command_id,
 			'domain_name' => $activation->domain_name,
 			'status'      => 'queued',
-			'message'     => __( 'Backup command successfully queued for site.', 'backupino-portal' ),
+			'message'     => __( 'دستور تهیه بکاپ ابری برای سایت در صف پردازش قرار گرفت.', 'backupino-portal' ),
 		);
 	}
 
@@ -305,7 +826,7 @@ final class CustomerDashboardService {
 		if ( ! $is_2fa_enabled ) {
 			return new \WP_Error(
 				'2FA_REQUIRED',
-				__( 'Two-factor authentication (2FA) must be enabled on your account before issuing restore commands.', 'backupino-portal' ),
+				__( 'برای ارسال دستور بازیابی، فعال بودن احراز هویت دو مرحله‌ای (2FA) در حساب شما الزامی است.', 'backupino-portal' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -314,14 +835,14 @@ final class CustomerDashboardService {
 		if ( ! $totp_valid ) {
 			return new \WP_Error(
 				'INVALID_2FA_CODE',
-				__( 'Invalid two-factor authentication code.', 'backupino-portal' ),
+				__( 'کد ۶ رقمی احراز هویت دوعاملی نامعتبر است.', 'backupino-portal' ),
 				array( 'status' => 403 )
 			);
 		}
 
 		$backup = BackupRepository::find_by_id( $backup_id );
 		if ( ! $backup || $backup->license_id !== $license_id ) {
-			return new \WP_Error( 'BACKUP_NOT_FOUND', __( 'Backup package not found.', 'backupino-portal' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'BACKUP_NOT_FOUND', __( 'فایل بکاپ یافت نشد.', 'backupino-portal' ), array( 'status' => 404 ) );
 		}
 
 		$command_id = 'cmd_rst_' . bin2hex( random_bytes( 8 ) );
@@ -343,7 +864,7 @@ final class CustomerDashboardService {
 			'command_id'   => $command_id,
 			'package_name' => $backup->package_name,
 			'status'       => 'pending_worker',
-			'message'      => __( 'Restore command validated with 2FA and queued for processing.', 'backupino-portal' ),
+			'message'      => __( 'دستور بازیابی با تایید هویت دو مرحله‌ای در صف پردازش ایمن قرار گرفت.', 'backupino-portal' ),
 		);
 	}
 
@@ -379,6 +900,187 @@ final class CustomerDashboardService {
 				'activation_id' => $activation_id,
 				'domain_name'   => $activation->domain_name,
 			)
+		);
+
+		return true;
+	}
+
+	/**
+	 * Add / Register a new domain for a customer license.
+	 *
+	 * @param int    $user_id
+	 * @param int    $license_id
+	 * @param string $domain_name
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function add_domain( int $user_id, int $license_id, string $domain_name ) {
+		$ownership = AuthorizationGuard::verify_license_ownership( $user_id, $license_id );
+		if ( is_wp_error( $ownership ) ) {
+			return $ownership;
+		}
+
+		$clean_domain = strtolower( trim( $domain_name ) );
+		$clean_domain = (string) preg_replace( '#^https?://#i', '', $clean_domain );
+		$clean_domain = rtrim( $clean_domain, '/' );
+
+		if ( empty( $clean_domain ) || ! str_contains( $clean_domain, '.' ) ) {
+			return new \WP_Error( 'INVALID_DOMAIN', __( 'نام دامنه وارد شده معتبر نیست.', 'backupino-portal' ), array( 'status' => 400 ) );
+		}
+
+		$is_staging = \Backupino\Portal\Licensing\DomainHelper::is_staging_domain( $clean_domain );
+		$license    = LicenseRepository::find_by_id( $license_id );
+
+		if ( ! $license ) {
+			return new \WP_Error( 'LICENSE_NOT_FOUND', __( 'لایسنس یافت نشد.', 'backupino-portal' ), array( 'status' => 404 ) );
+		}
+
+		if ( ! $is_staging ) {
+			$active_prod = ActivationRepository::count_active_production( $license_id );
+			if ( $active_prod >= $license->max_domains ) {
+				return new \WP_Error(
+					'QUOTA_EXCEEDED',
+					sprintf( __( 'سقف دامنه‌های فعال این لایسنس (%d دامنه) تکمیل است. لطفاً پلن خود را ارتقا دهید یا یکی از دامنه‌ها را حذف نمایید.', 'backupino-portal' ), $license->max_domains ),
+					array( 'status' => 400 )
+				);
+			}
+		}
+
+		$domain_hash = hash( 'sha256', $clean_domain );
+
+		// Check if domain already active on this license
+		$existing = ActivationRepository::find_by_license_and_hash( $license_id, $domain_hash );
+		if ( $existing && $existing->is_active ) {
+			return new \WP_Error( 'ALREADY_ACTIVE', __( 'این دامنه قبلاً روی این لایسنس فعال شده است.', 'backupino-portal' ), array( 'status' => 400 ) );
+		}
+
+		if ( $existing ) {
+			ActivationRepository::reactivate( $existing->id );
+			$act_id = $existing->id;
+		} else {
+			$act_id = ActivationRepository::create(
+				array(
+					'license_id'  => $license_id,
+					'domain_hash' => $domain_hash,
+					'domain_name' => $clean_domain,
+					'is_staging'  => $is_staging ? 1 : 0,
+					'is_active'   => 1,
+				)
+			);
+		}
+
+		if ( ! $act_id ) {
+			return new \WP_Error( 'CREATE_FAILED', __( 'خطا در ثبت دامنه جدید.', 'backupino-portal' ), array( 'status' => 500 ) );
+		}
+
+		// Update active count
+		$new_active_count = ActivationRepository::count_active_production( $license_id );
+		LicenseRepository::update( $license_id, array( 'active_domains_count' => $new_active_count ) );
+
+		AuditLogger::log(
+			'domain_added_manually_by_customer',
+			$user_id,
+			$license_id,
+			$domain_hash,
+			array( 'domain_name' => $clean_domain, 'is_staging' => $is_staging )
+		);
+
+		return array(
+			'success'     => true,
+			'id'          => $act_id,
+			'domain_name' => $clean_domain,
+			'is_staging'  => $is_staging,
+			'message'     => __( 'دامنه با موفقیت به لایسنس شما افزوده شد.', 'backupino-portal' ),
+		);
+	}
+
+	/**
+	 * Request or perform a Domain Migration / Change.
+	 *
+	 * @param int    $user_id
+	 * @param int    $activation_id
+	 * @param string $new_domain_name
+	 * @param string $reason
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public static function request_change_domain( int $user_id, int $activation_id, string $new_domain_name, string $reason = '' ) {
+		$activation = ActivationRepository::find_by_id( $activation_id );
+		if ( ! $activation ) {
+			return new \WP_Error( 'ACTIVATION_NOT_FOUND', __( 'اسلات دامنه یافت نشد.', 'backupino-portal' ), array( 'status' => 404 ) );
+		}
+
+		$ownership = AuthorizationGuard::verify_license_ownership( $user_id, $activation->license_id );
+		if ( is_wp_error( $ownership ) ) {
+			return $ownership;
+		}
+
+		$clean_domain = strtolower( trim( $new_domain_name ) );
+		$clean_domain = (string) preg_replace( '#^https?://#i', '', $clean_domain );
+		$clean_domain = rtrim( $clean_domain, '/' );
+
+		if ( empty( $clean_domain ) || ! str_contains( $clean_domain, '.' ) ) {
+			return new \WP_Error( 'INVALID_DOMAIN', __( 'نام دامنه جدید معتبر نیست.', 'backupino-portal' ), array( 'status' => 400 ) );
+		}
+
+		$is_staging = \Backupino\Portal\Licensing\DomainHelper::is_staging_domain( $clean_domain );
+		$new_hash   = hash( 'sha256', $clean_domain );
+
+		$updated = ActivationRepository::update_domain( $activation_id, $clean_domain, $new_hash, $is_staging ? 1 : 0 );
+		if ( ! $updated ) {
+			return new \WP_Error( 'UPDATE_FAILED', __( 'تغییر دامنه با خطا مواجه شد.', 'backupino-portal' ), array( 'status' => 500 ) );
+		}
+
+		AuditLogger::log(
+			'domain_migrated_by_customer',
+			$user_id,
+			$activation->license_id,
+			$new_hash,
+			array(
+				'old_domain' => $activation->domain_name,
+				'new_domain' => $clean_domain,
+				'reason'     => $reason,
+			)
+		);
+
+		return array(
+			'success'    => true,
+			'message'    => sprintf( __( 'دامنه با موفقیت از %s به %s تغییر یافت.', 'backupino-portal' ), $activation->domain_name, $clean_domain ),
+			'new_domain' => $clean_domain,
+		);
+	}
+
+	/**
+	 * Permanently delete / remove a domain slot to free up capacity.
+	 *
+	 * @param int $user_id
+	 * @param int $activation_id
+	 * @return bool|\WP_Error
+	 */
+	public static function delete_domain( int $user_id, int $activation_id ) {
+		$activation = ActivationRepository::find_by_id( $activation_id );
+		if ( ! $activation ) {
+			return new \WP_Error( 'ACTIVATION_NOT_FOUND', __( 'اسلات دامنه یافت نشد.', 'backupino-portal' ), array( 'status' => 404 ) );
+		}
+
+		$ownership = AuthorizationGuard::verify_license_ownership( $user_id, $activation->license_id );
+		if ( is_wp_error( $ownership ) ) {
+			return $ownership;
+		}
+
+		$deleted = ActivationRepository::delete( $activation_id );
+		if ( ! $deleted ) {
+			return new \WP_Error( 'DELETE_FAILED', __( 'حذف دامنه با خطا مواجه شد.', 'backupino-portal' ), array( 'status' => 500 ) );
+		}
+
+		// Recalculate production domains
+		$new_active_count = ActivationRepository::count_active_production( $activation->license_id );
+		LicenseRepository::update( $activation->license_id, array( 'active_domains_count' => $new_active_count ) );
+
+		AuditLogger::log(
+			'domain_permanently_deleted_by_customer',
+			$user_id,
+			$activation->license_id,
+			$activation->domain_hash,
+			array( 'deleted_domain' => $activation->domain_name )
 		);
 
 		return true;

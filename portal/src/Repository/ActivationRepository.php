@@ -280,4 +280,51 @@ final class ActivationRepository {
 
 		return false !== $updated;
 	}
+
+	/**
+	 * Permanently delete an activation record from database.
+	 *
+	 * @param int $id
+	 * @return bool
+	 */
+	public static function delete( int $id ): bool {
+		global $wpdb;
+
+		$table   = self::table();
+		$deleted = $wpdb->delete( $table, array( 'id' => $id ), array( '%d' ) );
+
+		return false !== $deleted;
+	}
+
+	/**
+	 * Update domain name and hash for an activation slot (domain migration).
+	 *
+	 * @param int    $id
+	 * @param string $new_domain
+	 * @param string $new_hash
+	 * @param int    $is_staging
+	 * @return bool
+	 */
+	public static function update_domain( int $id, string $new_domain, string $new_hash, int $is_staging ): bool {
+		global $wpdb;
+
+		$table = self::table();
+		$now   = current_time( 'mysql', true );
+
+		$updated = $wpdb->update(
+			$table,
+			array(
+				'domain_name'       => $new_domain,
+				'domain_hash'       => $new_hash,
+				'is_staging'        => $is_staging,
+				'activated_at'      => $now,
+				'last_heartbeat_at' => $now,
+			),
+			array( 'id' => $id ),
+			array( '%s', '%s', '%d', '%s', '%s' ),
+			array( '%d' )
+		);
+
+		return false !== $updated;
+	}
 }

@@ -102,6 +102,8 @@ final class MigrationRunner {
 		return array(
 			'2026_11_06_000001_create_audit_logs_table' => array( self::class, 'migrate_000001_audit_logs' ),
 			'2026_11_06_000002_create_licensing_tables' => array( self::class, 'migrate_000002_licensing_tables' ),
+			'2026_11_06_000003_create_support_tickets_table' => array( self::class, 'migrate_000003_support_tickets' ),
+			'2026_11_06_000004_add_ticket_attachments' => array( self::class, 'migrate_000004_ticket_attachments' ),
 		);
 	}
 
@@ -214,6 +216,60 @@ final class MigrationRunner {
 		$wpdb->query( $sql_activations );
 		$wpdb->query( $sql_backups );
 
+		return true;
+	}
+
+	/**
+	 * Migration 000003: Create support tickets and replies tables.
+	 */
+	public static function migrate_000003_support_tickets( \wpdb $wpdb ): bool {
+		$tickets_table = $wpdb->prefix . 'backupino_tickets';
+		$replies_table = $wpdb->prefix . 'backupino_ticket_replies';
+		$charset       = $wpdb->get_charset_collate();
+
+		$sql_tickets = "CREATE TABLE IF NOT EXISTS `{$tickets_table}` (
+			`id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			`ticket_number` VARCHAR(32) NOT NULL UNIQUE,
+			`user_id` BIGINT UNSIGNED NOT NULL,
+			`license_id` BIGINT UNSIGNED NOT NULL DEFAULT 0,
+			`plan_slug` VARCHAR(64) NOT NULL DEFAULT 'personal',
+			`subject` VARCHAR(255) NOT NULL,
+			`priority` ENUM('standard', 'high', 'critical_dedicated') NOT NULL DEFAULT 'standard',
+			`status` ENUM('open', 'in_progress', 'waiting_customer', 'resolved', 'closed') NOT NULL DEFAULT 'open',
+			`sla_deadline_at` DATETIME NULL,
+			`sla_breached` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+			`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			`updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			INDEX `idx_user_status` (`user_id`, `status`),
+			INDEX `idx_license_id` (`license_id`),
+			INDEX `idx_sla_deadline` (`status`, `sla_deadline_at`)
+		) ENGINE=InnoDB {$charset};";
+
+		$sql_replies = "CREATE TABLE IF NOT EXISTS `{$replies_table}` (
+			`id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			`ticket_id` BIGINT UNSIGNED NOT NULL,
+			`user_id` BIGINT UNSIGNED NOT NULL,
+			`is_staff` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+			`message` TEXT NOT NULL,
+			`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			INDEX `idx_ticket_id` (`ticket_id`)
+		) ENGINE=InnoDB {$charset};";
+
+		$wpdb->query( $sql_tickets );
+		$wpdb->query( $sql_replies );
+
+		return true;
+	}
+
+	/**
+	 * Migration 000004: Add attachment columns to ticket replies.
+	 */
+	public static function migrate_000004_ticket_attachments( \wpdb $wpdb ): bool {
+		$replies_table = $wpdb->prefix . 'backupino_ticket_replies';
+		$col = $wpdb->get_results( "SHOW COLUMNS FROM `{$replies_table}` LIKE 'attachment_url'" );
+		if ( empty( $col ) ) {
+			$wpdb->query( "ALTER TABLE `{$replies_table}` ADD COLUMN `attachment_url` VARCHAR(500) NULL AFTER `message`, ADD COLUMN `attachment_name` VARCHAR(255) NULL AFTER `attachment_url`" );
+		}
 		return true;
 	}
 }

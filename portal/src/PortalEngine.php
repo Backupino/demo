@@ -20,6 +20,7 @@ use Backupino\Portal\Commerce\OrderSyncService;
 use Backupino\Portal\Commerce\PaymentGatewayManager;
 use Backupino\Portal\Lifecycle\LicenseLifecycleManager;
 use Backupino\Portal\Ui\CustomerDashboardController;
+use Backupino\Portal\Admin\OperatorDashboardController;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -69,6 +70,11 @@ final class PortalEngine {
 
 		// Register Customer Dashboard & My Account hooks (S3-T08)
 		CustomerDashboardController::init();
+
+		// Register Internal Operator Dashboard hooks (S3-T09)
+		if ( is_admin() ) {
+			OperatorDashboardController::init();
+		}
 
 		// Add admin notice in development environment
 		if ( Environment::is_dev() ) {

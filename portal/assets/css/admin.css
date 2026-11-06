@@ -1,0 +1,169 @@
+/**
+ * Backupino Operator Admin Styling.
+ *
+ * Ensures 100% full width layout, overrides WP .card 520px limit,
+ * and styles tables cleanly.
+ */
+
+.backupino-admin-wrap {
+	max-width: 100% !important;
+	margin-inline-end: 20px;
+	box-sizing: border-box;
+}
+
+/* Override WordPress core .card max-width: 520px limitation */
+.backupino-admin-wrap .card,
+.backupino-admin-wrap .bk-admin-card {
+	max-width: 100% !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 8px;
+	box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+	margin-top: 16px;
+	padding: 20px;
+}
+
+/* Metric Cards Grid */
+.backupino-admin-wrap .bk-metrics-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 16px;
+	margin-bottom: 24px;
+}
+
+.backupino-admin-wrap .bk-metric-card {
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 8px;
+	padding: 16px 20px;
+	box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+	box-sizing: border-box;
+}
+
+/* Table Full-Width and Responsive Layout */
+.backupino-admin-wrap table.widefat {
+	width: 100% !important;
+	max-width: 100% !important;
+	table-layout: auto !important;
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
+	box-shadow: none;
+	overflow: hidden;
+}
+
+.backupino-admin-wrap table.widefat th,
+.backupino-admin-wrap table.widefat td {
+	padding: 12px 14px;
+	vertical-align: middle;
+}
+
+.backupino-admin-wrap table.widefat code {
+	white-space: nowrap;
+	font-family: Consolas, Monaco, monospace;
+	font-size: 13px;
+}
+
+.backupino-admin-wrap select,
+.backupino-admin-wrap input[type="search"],
+.backupino-admin-wrap input[type="text"] {
+	border-radius: 4px;
+	border-color: #cbd5e1;
+}
+
+/* Modal styling */
+#bk-admin-override-modal {
+	box-sizing: border-box;
+}
+
+/* Modern Dedicated SaaS Table Style */
+.backupino-admin-wrap .bk-modern-table {
+	width: 100% !important;
+	border-collapse: separate !important;
+	border-spacing: 0 !important;
+	background: #ffffff !important;
+	border: 1px solid #e2e8f0 !important;
+	border-radius: 10px !important;
+	overflow: hidden !important;
+	box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+	margin-top: 14px !important;
+}
+
+.backupino-admin-wrap .bk-modern-table thead th {
+	background: #0f172a !important;
+	color: #f8fafc !important;
+	font-weight: 700 !important;
+	font-size: 13px !important;
+	padding: 13px 16px !important;
+	border: none !important;
+	text-align: start !important;
+	white-space: nowrap !important;
+	letter-spacing: 0.2px !important;
+}
+
+.backupino-admin-wrap .bk-modern-table tbody td {
+	padding: 13px 16px !important;
+	border-bottom: 1px solid #f1f5f9 !important;
+	vertical-align: middle !important;
+	background: #ffffff !important;
+	color: #334155 !important;
+	font-size: 13px !important;
+	transition: background 0.15s ease !important;
+}
+
+.backupino-admin-wrap .bk-modern-table tbody tr:last-child td {
+	border-bottom: none !important;
+}
+
+.backupino-admin-wrap .bk-modern-table tbody tr:hover td {
+	background: #f8fafc !important;
+}
+
+/* Chat bubble styling for operator SLA drawer */
+.bk-chat-bubble {
+	max-width: 78%;
+	padding: 14px 18px;
+	border-radius: 12px;
+	box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+	margin-bottom: 12px;
+}
+.bk-chat-bubble.user {
+	align-self: flex-start;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-bottom-left-radius: 2px;
+}
+.bk-chat-bubble.staff {
+	align-self: flex-end;
+	background: #f0f9ff;
+	border: 1px solid #bae6fd;
+	border-bottom-right-radius: 2px;
+}
+.bk-chat-bubble .bk-bubble-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 6px;
+	gap: 12px;
+}
+.bk-attachment-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 8px;
+	padding: 5px 12px;
+	background: #f8fafc;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	color: #0284c7;
+	text-decoration: none;
+	font-size: 12px;
+	font-weight: 600;
+	transition: all 0.2s ease;
+}
+.bk-attachment-btn:hover {
+	background: #e0f2fe;
+	color: #0369a1;
+	border-color: #7dd3fc;
+}
