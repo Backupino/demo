@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Backupino — Design Tokens & Theme Variables
+   ========================================================================== */
+
+:root,
+:root[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-muted: #6c757d;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-light: #dbeafe;
+  --accent-contrast: #ffffff;
+  --border: #dee2e6;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --card-bg: #ffffff;
+  --code-bg: #f1f3f5;
+  --code-text: #212529;
+  --code-block-bg: #0f172a;
+  --code-block-text: #e2e8f0;
+  --code-block-border: #1e293b;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --hero-grid: rgba(37, 99, 235, 0.07);
+  --glow-1: rgba(37, 99, 235, 0.16);
+  --glow-2: rgba(96, 165, 250, 0.14);
+  --glow-3: rgba(16, 185, 129, 0.1);
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-light: #1e3a5f;
+  --accent-contrast: #ffffff;
+  --border: #334155;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --card-bg: #1e293b;
+  --code-bg: #0f172a;
+  --code-text: #f1f5f9;
+  --code-block-bg: #0b1220;
+  --code-block-text: #e2e8f0;
+  --code-block-border: #1e293b;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+  --header-bg: rgba(15, 23, 42, 0.85);
+  --hero-grid: rgba(148, 163, 184, 0.06);
+  --glow-1: rgba(59, 130, 246, 0.22);
+  --glow-2: rgba(96, 165, 250, 0.16);
+  --glow-3: rgba(52, 211, 153, 0.12);
+}
+
+/* Shared design tokens */
+:root {
+  --font-en: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-fa: "Vazirmatn", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-code: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --radius-card: 12px;
+  --radius-button: 8px;
+  --radius-input: 6px;
+  --radius-pill: 999px;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --space-10: 80px;
+  --space-12: 96px;
+
+  --max-width: 1200px;
+  --max-read: 800px;
+
+  --header-height: 72px;
+
+  --transition: 0.3s ease;
+  --transition-fast: 0.15s ease;
+
+  --shadow-sm: 0 1px 2px var(--shadow);
+  --shadow-md: 0 4px 16px var(--shadow);
+  --shadow-lg: 0 16px 48px var(--shadow);
+
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
