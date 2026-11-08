@@ -197,6 +197,69 @@ export function AuthArt({ className }: ArtProps) {
   );
 }
 
+/* ---------- Download: package archive box + fast streaming arrow ---------- */
+export function DownloadArt({ className }: ArtProps) {
+  return (
+    <svg viewBox="0 0 400 300" fill="none" className={className} aria-hidden="true" role="presentation">
+      <circle cx="200" cy="150" r="110" fill="var(--accent-light)" opacity="0.35" />
+      <circle cx="200" cy="150" r="85" stroke="var(--accent)" strokeWidth="2" strokeDasharray="6 8" opacity="0.4" />
+      <g className="art-shield">
+        <rect x="135" y="115" width="130" height="90" rx="14" fill="var(--card-bg)" stroke="var(--accent)" strokeWidth="3.5" />
+        <path d="M135 145h130" stroke="var(--accent-light)" strokeWidth="2.5" />
+        <rect x="180" y="132" width="40" height="26" rx="6" fill="var(--accent-light)" />
+        <circle cx="200" cy="145" r="4" fill="var(--accent)" />
+      </g>
+      <g className="art-float-slow">
+        <circle cx="200" cy="72" r="28" fill="var(--accent)" />
+        <path d="M200 58v28m0 0l-9-9m9 9l9-9" stroke="var(--accent-contrast)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+      <g className="art-float-a" transform="translate(65, 80)">
+        <rect width="90" height="34" rx="17" fill="var(--card-bg)" stroke="var(--accent)" strokeWidth="2" />
+        <path d="m18 17 6 6 12-12" stroke="var(--success)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="42" y="22" fill="var(--text-primary)" fontSize="11" fontWeight="bold">v1.0.3</text>
+      </g>
+      <g className="art-float-b" transform="translate(265, 175)">
+        <rect width="78" height="52" rx="10" fill="var(--card-bg)" stroke="var(--accent)" strokeWidth="2" />
+        <path d="M280 195h24M280 207h16" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+        <circle cx="325" cy="201" r="5" fill="var(--success)" />
+      </g>
+      <circle cx="95" cy="220" r="4.5" fill="var(--accent)" opacity="0.4" />
+      <circle cx="310" cy="95" r="4" fill="var(--success)" className="art-pulse-dot" />
+    </svg>
+  );
+}
+
+/* ---------- Contact: customer support dialogue & connection nodes ---------- */
+export function ContactArt({ className }: ArtProps) {
+  return (
+    <svg viewBox="0 0 400 300" fill="none" className={className} aria-hidden="true" role="presentation">
+      <g stroke="var(--accent)" strokeWidth="2" opacity="0.25">
+        <path d="M70 150 Q200 40 330 150" strokeDasharray="5 7" />
+        <path d="M70 150 Q200 260 330 150" strokeDasharray="5 7" />
+      </g>
+      <g className="art-shield">
+        <rect x="120" y="85" width="160" height="100" rx="18" fill="var(--card-bg)" stroke="var(--accent)" strokeWidth="3.5" />
+        <path d="M165 185l-15 22v-22h15z" fill="var(--card-bg)" stroke="var(--accent)" strokeWidth="3.5" strokeLinejoin="round" />
+        <rect x="145" y="112" width="70" height="10" rx="5" fill="var(--accent)" />
+        <rect x="145" y="132" width="110" height="8" rx="4" fill="var(--accent-light)" />
+        <rect x="145" y="148" width="90" height="8" rx="4" fill="var(--accent-light)" opacity="0.7" />
+      </g>
+      <g className="art-float-slow" transform="translate(230, 160)">
+        <rect width="115" height="60" rx="14" fill="var(--accent)" />
+        <path d="M25 60l10 12v-12h-10z" fill="var(--accent)" />
+        <path d="m35 30 7 7 14-14" stroke="var(--accent-contrast)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="62" y="27" width="38" height="6" rx="3" fill="var(--accent-contrast)" opacity="0.85" />
+      </g>
+      <g className="art-float-a" transform="translate(55, 90)">
+        <circle cx="28" cy="28" r="28" fill="var(--card-bg)" stroke="var(--success)" strokeWidth="2.5" />
+        <path d="M28 16v13l9 5" stroke="var(--success)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+      <circle cx="200" cy="50" r="5" fill="var(--success)" className="art-pulse-dot" />
+      <circle cx="80" cy="230" r="4" fill="var(--accent)" opacity="0.5" />
+    </svg>
+  );
+}
+
 /* ---------- Wave divider between alternating section backgrounds ---------- */
 export function SectionDivider({ toAlt = true, flip = false }: { toAlt?: boolean; flip?: boolean }) {
   return (

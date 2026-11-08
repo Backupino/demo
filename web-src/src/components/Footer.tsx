@@ -39,6 +39,7 @@ export function Footer() {
             <ul>
               <li><a href={href("home")}>{t("footer.links.home")}</a></li>
               <li><a href="#/?scroll=features">{t("footer.links.features")}</a></li>
+              <li><a href={href("download")}>{t("footer.links.download")}</a></li>
               <li><a href={href("pricing")}>{t("footer.links.pricing")}</a></li>
               <li><a href={href("pro")}>{t("footer.links.pro")}</a></li>
               <li><a href={href("docs")}>{t("footer.links.docs")}</a></li>
@@ -49,6 +50,7 @@ export function Footer() {
             <h3>{t("footer.company")}</h3>
             <ul>
               <li><a href={href("about")}>{t("footer.links.about")}</a></li>
+              <li><a href={href("contact")}>{t("footer.links.contact")}</a></li>
               <li><a href={href("privacy")}>{t("footer.links.privacy")}</a></li>
               <li><a href={href("privacy")}>{t("footer.links.terms")}</a></li>
             </ul>

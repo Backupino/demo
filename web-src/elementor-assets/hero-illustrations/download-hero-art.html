@@ -1,0 +1,35 @@
+<!-- Elementor HTML Widget: download-hero-art -->
+<div class="bk-hero-art-wrapper" style="display:flex;justify-content:center;align-items:center;width:100%;">
+<svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;height:auto;">
+  <style>
+    @keyframes dlArrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+    @keyframes pulseSoft { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
+    .dl-arrow { animation: dlArrow 2s ease-in-out infinite; }
+    .pulse-glow { animation: pulseSoft 3s ease-in-out infinite; transform-origin: 200px 150px; }
+  </style>
+  <circle cx="200" cy="150" r="110" fill="#dbeafe" opacity="0.35" class="pulse-glow"/>
+  <circle cx="200" cy="150" r="85" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 8" opacity="0.4"/>
+  <g>
+    <rect x="135" y="115" width="130" height="90" rx="14" fill="#ffffff" stroke="#2563eb" stroke-width="3.5"/>
+    <path d="M135 145h130" stroke="#dbeafe" stroke-width="2.5"/>
+    <rect x="180" y="132" width="40" height="26" rx="6" fill="#dbeafe"/>
+    <circle cx="200" cy="145" r="4" fill="#2563eb"/>
+  </g>
+  <g class="dl-arrow">
+    <circle cx="200" cy="72" r="28" fill="#2563eb"/>
+    <path d="M200 58v28m0 0l-9-9m9 9l9-9" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(65, 80)">
+    <rect width="90" height="34" rx="17" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+    <path d="m18 17 6 6 12-12" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="42" y="22" fill="#0f172a" font-size="11" font-weight="bold" font-family="sans-serif">v1.0.3</text>
+  </g>
+  <g transform="translate(265, 175)">
+    <rect width="78" height="52" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+    <path d="M280 195h24M280 207h16" stroke="#2563eb" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="325" cy="201" r="5" fill="#10b981"/>
+  </g>
+  <circle cx="95" cy="220" r="4.5" fill="#2563eb" opacity="0.4"/>
+  <circle cx="310" cy="95" r="4" fill="#10b981"/>
+</svg>
+</div>

@@ -8,15 +8,28 @@ import { useEffect, useState } from "react";
 
 export type Route =
   | "home"
+  | "download"
   | "about"
   | "pricing"
   | "pro"
   | "privacy"
   | "docs"
+  | "contact"
   | "login"
   | "register";
 
-export const ROUTES: Route[] = ["home", "about", "pricing", "pro", "privacy", "docs", "login", "register"];
+export const ROUTES: Route[] = [
+  "home",
+  "download",
+  "about",
+  "pricing",
+  "pro",
+  "privacy",
+  "docs",
+  "contact",
+  "login",
+  "register",
+];
 
 export function href(route: Route): string {
   return route === "home" ? "#/" : `#/${route}`;

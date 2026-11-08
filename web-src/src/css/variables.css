@@ -64,7 +64,7 @@
 /* Shared design tokens */
 :root {
   --font-en: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-fa: "Vazirmatn", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-fa: "Arad", "Vazirmatn", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-code: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
   --radius-card: 12px;

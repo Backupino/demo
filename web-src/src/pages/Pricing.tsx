@@ -96,7 +96,7 @@ export default function Pricing() {
               <Reveal key={plan.name} delay={i * 80}>
                 <article className={`price-card tier-${plan.style}${plan.popular ? " popular" : ""}`}>
                   {plan.popular && <span className="popular-tag">{t("pricing.popularTag")}</span>}
-                  <h2 className="price-name">{plan.name}</h2>
+                  <h3 className="price-name">{plan.name}</h3>
                   <p className="price-desc">{plan.desc}</p>
                   <div className="price-amount">
                     <span className="price-value">{plan.price}</span>

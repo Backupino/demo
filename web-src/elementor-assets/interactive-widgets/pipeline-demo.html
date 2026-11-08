@@ -1,0 +1,209 @@
+<!-- ==========================================================================
+     Backupino — Interactive Live Pipeline Demo Widget (Elementor Ready)
+     Paste directly into an Elementor HTML Widget on your Home Page
+     ========================================================================== -->
+<div class="bk-pipeline-container" id="bk-pipeline-demo" style="max-width: 480px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; direction: ltr;">
+  <style>
+    .bk-pipeline-container {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      box-shadow: 0 20px 48px -12px rgba(15, 23, 42, 0.65), 0 0 0 1px rgba(59, 130, 246, 0.15);
+      overflow: hidden;
+      color: #f1f5f9;
+    }
+    .bk-pipe-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: #0b1220;
+      border-bottom: 1px solid #1e293b;
+    }
+    .bk-traffic-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .bk-traffic-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .bk-dot-r { background: #ff5f56; }
+    .bk-dot-y { background: #ffbd2e; }
+    .bk-dot-g { background: #27c93f; }
+    .bk-pipe-title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #94a3b8;
+      font-family: monospace;
+    }
+    .bk-pipe-body {
+      padding: 22px 20px;
+      display: grid;
+      gap: 16px;
+    }
+    .bk-stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .bk-stage-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #e2e8f0;
+    }
+    .bk-stage-pct {
+      color: #38bdf8;
+      font-family: monospace;
+      font-weight: 700;
+    }
+    .bk-track {
+      width: 100%;
+      height: 7px;
+      background: #1e293b;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bk-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-radius: 999px;
+      transition: width 0.1s linear;
+    }
+    .bk-fill.done {
+      background: #10b981;
+    }
+    .bk-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 16px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+    }
+    .bk-mini-stat b {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #38bdf8;
+      font-family: monospace;
+    }
+    .bk-mini-stat span {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+  </style>
+
+  <div class="bk-pipe-head">
+    <div class="bk-traffic-dots">
+      <span class="bk-dot-r"></span>
+      <span class="bk-dot-y"></span>
+      <span class="bk-dot-g"></span>
+    </div>
+    <span class="bk-pipe-title">wp-admin → Backupino Pipeline</span>
+    <span style="font-size: 0.75rem; color: #10b981; font-weight: 600;">LIVE</span>
+  </div>
+
+  <div class="bk-pipe-body">
+    <!-- Stage 1 -->
+    <div class="bk-stage-item">
+      <div class="bk-stage-header">
+        <span class="bk-stage-name" id="bk-name-0">1. Environment Scan</span>
+        <span class="bk-stage-pct" id="bk-pct-0">0%</span>
+      </div>
+      <div class="bk-track"><div class="bk-fill" id="bk-fill-0"></div></div>
+    </div>
+    <!-- Stage 2 -->
+    <div class="bk-stage-item">
+      <div class="bk-stage-header">
+        <span class="bk-stage-name" id="bk-name-1">2. Database Streaming</span>
+        <span class="bk-stage-pct" id="bk-pct-1">0%</span>
+      </div>
+      <div class="bk-track"><div class="bk-fill" id="bk-fill-1"></div></div>
+    </div>
+    <!-- Stage 3 -->
+    <div class="bk-stage-item">
+      <div class="bk-stage-header">
+        <span class="bk-stage-name" id="bk-name-2">3. Filesystem Chunking</span>
+        <span class="bk-stage-pct" id="bk-pct-2">0%</span>
+      </div>
+      <div class="bk-track"><div class="bk-fill" id="bk-fill-2"></div></div>
+    </div>
+    <!-- Stage 4 -->
+    <div class="bk-stage-item">
+      <div class="bk-stage-header">
+        <span class="bk-stage-name" id="bk-name-3">4. Package Finalize</span>
+        <span class="bk-stage-pct" id="bk-pct-3">0%</span>
+      </div>
+      <div class="bk-track"><div class="bk-fill" id="bk-fill-3"></div></div>
+    </div>
+
+    <!-- Live Counters -->
+    <div class="bk-stats-row">
+      <div class="bk-mini-stat">
+        <b id="bk-stat-files">0</b>
+        <span>Files Archived</span>
+      </div>
+      <div class="bk-mini-stat">
+        <b id="bk-stat-rows">0</b>
+        <span>Rows Streamed</span>
+      </div>
+      <div class="bk-mini-stat">
+        <b id="bk-stat-size">0.0 MB</b>
+        <span>Package Size</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var progress = 0;
+      var paused = false;
+      var timer = setInterval(function() {
+        if (paused) return;
+        progress += 1.8 + Math.random() * 2.2;
+        if (progress >= 400) {
+          progress = 400;
+          paused = true;
+          setTimeout(function() {
+            progress = 0;
+            paused = false;
+          }, 1800);
+        }
+        for (var i = 0; i < 4; i++) {
+          var start = i * 100;
+          var local = Math.min(100, Math.max(0, progress - start));
+          var fillEl = document.getElementById('bk-fill-' + i);
+          var pctEl = document.getElementById('bk-pct-' + i);
+          if (fillEl && pctEl) {
+            fillEl.style.width = local + '%';
+            pctEl.innerText = Math.round(local) + '%';
+            if (local >= 100) {
+              fillEl.classList.add('done');
+            } else {
+              fillEl.classList.remove('done');
+            }
+          }
+        }
+        var files = Math.round((progress / 400) * 8421);
+        var rows = Math.round((progress / 400) * 28436);
+        var size = ((progress / 400) * 186.4).toFixed(1);
+        var fEl = document.getElementById('bk-stat-files');
+        var rEl = document.getElementById('bk-stat-rows');
+        var sEl = document.getElementById('bk-stat-size');
+        if (fEl) fEl.innerText = files.toLocaleString('en-US');
+        if (rEl) rEl.innerText = rows.toLocaleString('en-US');
+        if (sEl) sEl.innerText = size + ' MB';
+      }, 50);
+    })();
+  </script>
+</div>

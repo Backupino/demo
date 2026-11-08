@@ -1,0 +1,21 @@
+<!-- ==========================================================================
+     Backupino — Interactive Terminal Widget (Elementor Ready)
+     Paste directly into an Elementor HTML Widget
+     ========================================================================== -->
+<div class="bk-terminal-widget" style="background:#0b1220;border:1px solid #1e293b;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,0.4);max-width:540px;margin:0 auto;overflow:hidden;font-family:monospace;direction:ltr;text-align:left;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#0f172a;border-bottom:1px solid #1e293b;">
+    <div style="display:flex;gap:6px;">
+      <span style="width:10px;height:10px;border-radius:50%;background:#ff5f56;display:inline-block;"></span>
+      <span style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;display:inline-block;"></span>
+      <span style="width:10px;height:10px;border-radius:50%;background:#27c93f;display:inline-block;"></span>
+    </div>
+    <span style="color:#94a3b8;font-size:12px;">bash — wp-cli</span>
+  </div>
+  <div style="padding:16px 20px;color:#e2e8f0;font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div>
+      <span style="color:#38bdf8;margin-right:8px;user-select:none;">$</span>
+      <span style="color:#f8fafc;font-weight:600;" id="bk-wpcli-text">wp plugin install backupino --activate</span>
+    </div>
+    <button onclick="navigator.clipboard.writeText(document.getElementById('bk-wpcli-text').innerText);this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000);" style="background:#1e293b;border:1px solid #334155;color:#f1f5f9;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;">Copy</button>
+  </div>
+</div>

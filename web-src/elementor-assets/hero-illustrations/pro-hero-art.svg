@@ -1,0 +1,30 @@
+<svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;height:auto;">
+  <style>
+    @keyframes artFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes rocketPulse { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.02); } }
+    .float { animation: artFloat 4s ease-in-out infinite; }
+    .rocket { animation: rocketPulse 2.5s ease-in-out infinite; }
+  </style>
+  <g class="float">
+    <rect x="62" y="176" width="276" height="92" rx="14" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+    <rect x="62" y="176" width="276" height="30" rx="14" fill="#dbeafe"/>
+    <circle cx="82" cy="191" r="4" fill="#2563eb"/>
+    <circle cx="96" cy="191" r="4" fill="#2563eb" opacity="0.55"/>
+    <circle cx="110" cy="191" r="4" fill="#2563eb" opacity="0.3"/>
+    <rect x="80" y="220" width="70" height="10" rx="5" fill="#dbeafe"/>
+    <rect x="80" y="240" width="46" height="10" rx="5" fill="#dbeafe" opacity="0.7"/>
+    <rect x="250" y="218" width="70" height="34" rx="8" fill="#2563eb" opacity="0.16"/>
+    <path d="m262 240 8 8 14-16" stroke="#2563eb" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g class="rocket" transform="translate(160, 40)">
+    <path d="M40 0 C40 0, 70 30, 70 80 L55 95 L25 95 L10 80 C10 30, 40 0, 40 0 Z" fill="#2563eb"/>
+    <circle cx="40" cy="45" r="12" fill="#ffffff"/>
+    <circle cx="40" cy="45" r="6" fill="#38bdf8"/>
+    <path d="M25 95 L40 120 L55 95 Z" fill="#f59e0b"/>
+    <path d="M32 95 L40 110 L48 95 Z" fill="#ef4444"/>
+    <path d="M10 80 L0 100 L25 95 Z" fill="#1d4ed8"/>
+    <path d="M70 80 L80 100 L55 95 Z" fill="#1d4ed8"/>
+  </g>
+  <circle cx="80" cy="80" r="4" fill="#38bdf8"/>
+  <circle cx="320" cy="100" r="5" fill="#10b981"/>
+</svg>

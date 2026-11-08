@@ -11,10 +11,12 @@ interface HeaderProps {
 
 const NAV_LINKS: { route: Route; key: string; pro?: boolean }[] = [
   { route: "home", key: "nav.home" },
-  { route: "about", key: "nav.about" },
+  { route: "download", key: "nav.download" },
   { route: "pricing", key: "nav.pricing" },
   { route: "pro", key: "nav.pro", pro: true },
   { route: "docs", key: "nav.docs" },
+  { route: "about", key: "nav.about" },
+  { route: "contact", key: "nav.contact" },
 ];
 
 function VersionTag() {
@@ -22,6 +24,16 @@ function VersionTag() {
   return <span className="version-tag">{t("global.version")}</span>;
 }
 
+function TrustChip() {
+  return (
+    <span className="bk-header-trust-chip" aria-label="WordPress.org rating and installs">
+      <span className="bk-chip-star">★</span>
+      <span className="bk-chip-rating">5.0</span>
+      <span className="bk-chip-divider">·</span>
+      <span className="bk-chip-installs">1,000+</span>
+    </span>
+  );
+}
 
 export function Header({ route }: HeaderProps) {
   const { t, theme, toggleThemeMode } = useApp();
@@ -63,6 +75,7 @@ export function Header({ route }: HeaderProps) {
           <a href={href("home")} className="brand" aria-label="Backupino — Home">
             <Logo />
             <VersionTag />
+            <TrustChip />
           </a>
 
           <nav className="main-nav" aria-label="Primary">

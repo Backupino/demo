@@ -5,21 +5,25 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { BackToTop } from "./components/ui";
 import Home from "./pages/Home";
+import Download from "./pages/Download";
 import About from "./pages/About";
 import Pricing from "./pages/Pricing";
 import Pro from "./pages/Pro";
 import Privacy from "./pages/Privacy";
 import Docs from "./pages/Docs";
+import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 const PAGES: Record<Route, ComponentType> = {
   home: Home,
+  download: Download,
   about: About,
   pricing: Pricing,
   pro: Pro,
   privacy: Privacy,
   docs: Docs,
+  contact: Contact,
   login: Login,
   register: Register,
 };

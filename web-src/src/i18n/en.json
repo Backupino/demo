@@ -9,7 +9,9 @@
       "privacy": "Privacy Policy — Backupino",
       "docs": "Documentation — Backupino",
       "login": "Log in — Backupino",
-      "register": "Create Account — Backupino"
+      "register": "Create Account — Backupino",
+      "download": "Download Backupino — Official WordPress Plugin & Standalone Installer",
+      "contact": "Contact Us & Support Center — Backupino"
     }
   },
   "global": {
@@ -26,7 +28,9 @@
     "proBadge": "PRO",
     "openMenu": "Open navigation menu",
     "closeMenu": "Close navigation menu",
-    "skip": "Skip to main content"
+    "skip": "Skip to main content",
+    "download": "Download",
+    "contact": "Contact"
   },
   "langNames": {
     "en": "English",
@@ -57,7 +61,9 @@
       "github": "GitHub Repository",
       "contribute": "Contribute",
       "issues": "Report Issues",
-      "wpProfile": "WordPress.org Profile"
+      "wpProfile": "WordPress.org Profile",
+      "download": "Download Plugin",
+      "contact": "Contact & Support"
     },
     "emailLabel": "Email",
     "email": "support@backupino.dev",
@@ -79,7 +85,12 @@
     },
     "visual": {
       "windowTitle": "wp-admin → Backupino",
-      "stages": ["Scan", "Database", "Files", "Finalize"],
+      "stages": [
+        "Scan",
+        "Database",
+        "Files",
+        "Finalize"
+      ],
       "statFiles": "files archived",
       "statRows": "rows streamed",
       "statSize": "package size",
@@ -161,12 +172,30 @@
       "label": "Open Source & Secure",
       "title": "Numbers we never compromise on",
       "stats": [
-        { "value": "100%", "label": "Free restore & migration, forever" },
-        { "value": "0", "label": "External servers, CDNs or telemetry" },
-        { "value": "7", "label": "Guided steps in the standalone installer" },
-        { "value": "32", "label": "Bytes of entropy in every download token" }
+        {
+          "value": "100%",
+          "label": "Free restore & migration, forever"
+        },
+        {
+          "value": "0",
+          "label": "External servers, CDNs or telemetry"
+        },
+        {
+          "value": "7",
+          "label": "Guided steps in the standalone installer"
+        },
+        {
+          "value": "32",
+          "label": "Bytes of entropy in every download token"
+        }
       ],
-      "badges": ["GPL-2.0 License", "Plugin Check Passed", "Zero Telemetry", "Offline-First", "WordPress 6.0 – 7.1"]
+      "badges": [
+        "GPL-2.0 License",
+        "Plugin Check Passed",
+        "Zero Telemetry",
+        "Offline-First",
+        "WordPress 6.0 – 7.1"
+      ]
     },
     "cta": {
       "title": "Ready to secure your data?",
@@ -360,15 +389,36 @@
         "style": "outline",
         "popular": false,
         "attrs": {
-          "domains": { "s": "text", "t": "1" },
-          "cloudConnections": { "s": "yes" },
-          "cloudVersions": { "s": "text", "t": "2" },
-          "dedicatedCloud": { "s": "no" },
-          "multisite": { "s": "no" },
-          "whitelabel": { "s": "no" },
-          "teamMembers": { "s": "text", "t": "1" },
-          "support": { "s": "no" },
-          "domainChanges": { "s": "no" }
+          "domains": {
+            "s": "text",
+            "t": "1"
+          },
+          "cloudConnections": {
+            "s": "yes"
+          },
+          "cloudVersions": {
+            "s": "text",
+            "t": "2"
+          },
+          "dedicatedCloud": {
+            "s": "no"
+          },
+          "multisite": {
+            "s": "no"
+          },
+          "whitelabel": {
+            "s": "no"
+          },
+          "teamMembers": {
+            "s": "text",
+            "t": "1"
+          },
+          "support": {
+            "s": "no"
+          },
+          "domainChanges": {
+            "s": "no"
+          }
         }
       },
       {
@@ -381,15 +431,38 @@
         "style": "standard",
         "popular": false,
         "attrs": {
-          "domains": { "s": "text", "t": "1" },
-          "cloudConnections": { "s": "yes" },
-          "cloudVersions": { "s": "text", "t": "2" },
-          "dedicatedCloud": { "s": "no" },
-          "multisite": { "s": "no" },
-          "whitelabel": { "s": "no" },
-          "teamMembers": { "s": "text", "t": "1" },
-          "support": { "s": "text", "t": "48 hours" },
-          "domainChanges": { "s": "text", "t": "2 per year" }
+          "domains": {
+            "s": "text",
+            "t": "1"
+          },
+          "cloudConnections": {
+            "s": "yes"
+          },
+          "cloudVersions": {
+            "s": "text",
+            "t": "2"
+          },
+          "dedicatedCloud": {
+            "s": "no"
+          },
+          "multisite": {
+            "s": "no"
+          },
+          "whitelabel": {
+            "s": "no"
+          },
+          "teamMembers": {
+            "s": "text",
+            "t": "1"
+          },
+          "support": {
+            "s": "text",
+            "t": "48 hours"
+          },
+          "domainChanges": {
+            "s": "text",
+            "t": "2 per year"
+          }
         }
       },
       {
@@ -402,15 +475,39 @@
         "style": "popular",
         "popular": true,
         "attrs": {
-          "domains": { "s": "text", "t": "10" },
-          "cloudConnections": { "s": "yes" },
-          "cloudVersions": { "s": "text", "t": "5" },
-          "dedicatedCloud": { "s": "text", "t": "30 GB · 5 versions" },
-          "multisite": { "s": "yes" },
-          "whitelabel": { "s": "yes" },
-          "teamMembers": { "s": "text", "t": "3" },
-          "support": { "s": "text", "t": "24 hours" },
-          "domainChanges": { "s": "text", "t": "Unlimited · 30 activations/yr" }
+          "domains": {
+            "s": "text",
+            "t": "10"
+          },
+          "cloudConnections": {
+            "s": "yes"
+          },
+          "cloudVersions": {
+            "s": "text",
+            "t": "5"
+          },
+          "dedicatedCloud": {
+            "s": "text",
+            "t": "30 GB · 5 versions"
+          },
+          "multisite": {
+            "s": "yes"
+          },
+          "whitelabel": {
+            "s": "yes"
+          },
+          "teamMembers": {
+            "s": "text",
+            "t": "3"
+          },
+          "support": {
+            "s": "text",
+            "t": "24 hours"
+          },
+          "domainChanges": {
+            "s": "text",
+            "t": "Unlimited · 30 activations/yr"
+          }
         }
       },
       {
@@ -423,15 +520,39 @@
         "style": "premium",
         "popular": false,
         "attrs": {
-          "domains": { "s": "text", "t": "30" },
-          "cloudConnections": { "s": "yes" },
-          "cloudVersions": { "s": "text", "t": "10" },
-          "dedicatedCloud": { "s": "text", "t": "100 GB · 10 versions" },
-          "multisite": { "s": "yes" },
-          "whitelabel": { "s": "yes" },
-          "teamMembers": { "s": "text", "t": "10" },
-          "support": { "s": "text", "t": "12 hours + dedicated group" },
-          "domainChanges": { "s": "text", "t": "Unlimited · 100 activations/yr" }
+          "domains": {
+            "s": "text",
+            "t": "30"
+          },
+          "cloudConnections": {
+            "s": "yes"
+          },
+          "cloudVersions": {
+            "s": "text",
+            "t": "10"
+          },
+          "dedicatedCloud": {
+            "s": "text",
+            "t": "100 GB · 10 versions"
+          },
+          "multisite": {
+            "s": "yes"
+          },
+          "whitelabel": {
+            "s": "yes"
+          },
+          "teamMembers": {
+            "s": "text",
+            "t": "10"
+          },
+          "support": {
+            "s": "text",
+            "t": "12 hours + dedicated group"
+          },
+          "domainChanges": {
+            "s": "text",
+            "t": "Unlimited · 100 activations/yr"
+          }
         }
       }
     ],
@@ -439,60 +560,622 @@
       "label": "Free vs Pro",
       "title": "Exactly what each edition includes",
       "subtitle": "The free core remains unlimited — Pro layers professional tooling on top.",
-      "columns": ["Feature", "Free", "Pro"],
+      "columns": [
+        "Feature",
+        "Free",
+        "Pro"
+      ],
       "rows": [
-        { "f": "File & database backup", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "Standalone installer for migration", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "Local storage on host", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "Personal Telegram & Bale bot notifications", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "Monthly scheduling (default UI)", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "URL replacement on migration", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "Resumable step-by-step processing", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "File/folder exclusion rules", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "PHP-based DB export (no shell required)", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "WP-CLI support", "free": ["yes", ""], "pro": ["yes", "Extended"] },
-        { "f": "Permanent download link", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "Persian UI & Shamsi calendar", "free": ["yes", ""], "pro": ["yes", ""] },
-        { "f": "Local version management (1–100)", "free": ["yes", ""], "pro": ["yes", "Advanced policies"] },
-        { "f": "Cloud storage (S3, Google Drive, Dropbox)", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Download host (FTP/FTPS/SFTP)", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Advanced scheduling (hourly to custom)", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Incremental backup", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Point-in-time restore", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Secure in-place restore with rollback", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Preview before restore", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Advanced encryption (AES-256-GCM, XChaCha)", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Multisite support", "free": ["no", ""], "pro": ["yes", "Selected plans"] },
-        { "f": "White label", "free": ["no", ""], "pro": ["yes", "Selected plans"] },
-        { "f": "Team members", "free": ["no", ""], "pro": ["yes", "Up to 10"] },
-        { "f": "Centralized panel management", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Backupino central bot", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Backupino dedicated cloud", "free": ["no", ""], "pro": ["yes", "Selected plans"] },
-        { "f": "Key recovery (Shamir 2-of-3)", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Standalone recovery agent", "free": ["no", ""], "pro": ["yes", ""] },
-        { "f": "Secure Pro update system", "free": ["no", ""], "pro": ["yes", ""] }
+        {
+          "f": "File & database backup",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Standalone installer for migration",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Local storage on host",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Personal Telegram & Bale bot notifications",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Monthly scheduling (default UI)",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "URL replacement on migration",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Resumable step-by-step processing",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "File/folder exclusion rules",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "PHP-based DB export (no shell required)",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "WP-CLI support",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            "Extended"
+          ]
+        },
+        {
+          "f": "Permanent download link",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Persian UI & Shamsi calendar",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Local version management (1–100)",
+          "free": [
+            "yes",
+            ""
+          ],
+          "pro": [
+            "yes",
+            "Advanced policies"
+          ]
+        },
+        {
+          "f": "Cloud storage (S3, Google Drive, Dropbox)",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Download host (FTP/FTPS/SFTP)",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Advanced scheduling (hourly to custom)",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Incremental backup",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Point-in-time restore",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Secure in-place restore with rollback",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Preview before restore",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Advanced encryption (AES-256-GCM, XChaCha)",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Multisite support",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            "Selected plans"
+          ]
+        },
+        {
+          "f": "White label",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            "Selected plans"
+          ]
+        },
+        {
+          "f": "Team members",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            "Up to 10"
+          ]
+        },
+        {
+          "f": "Centralized panel management",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Backupino central bot",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Backupino dedicated cloud",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            "Selected plans"
+          ]
+        },
+        {
+          "f": "Key recovery (Shamir 2-of-3)",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Standalone recovery agent",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        },
+        {
+          "f": "Secure Pro update system",
+          "free": [
+            "no",
+            ""
+          ],
+          "pro": [
+            "yes",
+            ""
+          ]
+        }
       ]
     },
     "comparison": {
       "label": "Benchmarks",
       "title": "Backupino vs. other free plugins",
       "subtitle": "Selected rows from our comprehensive 30+ parameter feature matrix.",
-      "columns": ["Feature", "Backupino", "Duplicator Lite", "UpdraftPlus Free", "All-in-One WP Migration"],
+      "columns": [
+        "Feature",
+        "Backupino",
+        "Duplicator Lite",
+        "UpdraftPlus Free",
+        "All-in-One WP Migration"
+      ],
       "rows": [
-        { "f": "Restore & import cost", "b": ["yes", "100% Free Lifetime"], "d": ["mid", "Free (with limits)"], "u": ["mid", "Free (same domain only)"], "a": ["no", "Paid ($69)"] },
-        { "f": "Archive size limit (free tier)", "b": ["yes", "Unlimited"], "d": ["mid", "500 MB cap"], "u": ["yes", "Unlimited"], "a": ["no", "512 MB or 2 MB cap"] },
-        { "f": "Standalone installer.php", "b": ["yes", "Yes — ~80 KB"], "d": ["yes", "Yes (heavy)"], "u": ["no", "No"], "a": ["no", "No"] },
-        { "f": "Restore without WordPress pre-installed", "b": ["yes", "Deploys on empty webroot"], "d": ["yes", "Yes"], "u": ["no", "WordPress required"], "a": ["no", "WordPress required"] },
-        { "f": "Resumable chunk engine", "b": ["yes", "Stateful checkpoints"], "d": ["no", "Frequent 504 errors"], "u": ["mid", "Moderate"], "a": ["mid", "Server-dependent"] },
-        { "f": "Database export without mysqldump / exec()", "b": ["yes", "Pure PHP SQL streamer"], "d": ["mid", "Needs system binaries"], "u": ["yes", "Yes"], "a": ["yes", "Yes"] },
-        { "f": "Permanent latest-backup download link", "b": ["yes", "32-byte token + admin auth"], "d": ["no", "No"], "u": ["no", "No"], "a": ["no", "No"] },
-        { "f": "Telegram notifications", "b": ["yes", "HTML-formatted status"], "d": ["no", "No"], "u": ["no", "Paid add-on"], "a": ["no", "No"] },
-        { "f": "Bale messenger notifications", "b": ["yes", "With direct download link"], "d": ["no", "No"], "u": ["no", "No"], "a": ["no", "No"] },
-        { "f": "Jalali (Solar Hijri) calendar", "b": ["yes", "First day of each solar month"], "d": ["no", "No"], "u": ["no", "No"], "a": ["no", "No"] },
-        { "f": "100% offline-first (no CDN calls)", "b": ["yes", "Air-gap safe"], "d": ["no", "Remote font dependencies"], "u": ["no", "Remote script calls"], "a": ["no", "Remote dependencies"] },
-        { "f": "Ads & upsell notices", "b": ["yes", "Zero — completely clean"], "d": ["no", "Heavy advertising"], "u": ["no", "Multiple banners"], "a": ["no", "Frequent nags"] },
-        { "f": "Output archive format", "b": ["yes", "Standard .zip"], "d": ["mid", ".zip / .daf"], "u": ["mid", "Multi-part .zip"], "a": ["no", "Proprietary .wpress"] },
-        { "f": "Instant cancellation with cleanup", "b": ["yes", "Auto-purge included"], "d": ["no", "Incomplete"], "u": ["no", "No"], "a": ["no", "No"] }
+        {
+          "f": "Restore & import cost",
+          "b": [
+            "yes",
+            "100% Free Lifetime"
+          ],
+          "d": [
+            "mid",
+            "Free (with limits)"
+          ],
+          "u": [
+            "mid",
+            "Free (same domain only)"
+          ],
+          "a": [
+            "no",
+            "Paid ($69)"
+          ]
+        },
+        {
+          "f": "Archive size limit (free tier)",
+          "b": [
+            "yes",
+            "Unlimited"
+          ],
+          "d": [
+            "mid",
+            "500 MB cap"
+          ],
+          "u": [
+            "yes",
+            "Unlimited"
+          ],
+          "a": [
+            "no",
+            "512 MB or 2 MB cap"
+          ]
+        },
+        {
+          "f": "Standalone installer.php",
+          "b": [
+            "yes",
+            "Yes — ~80 KB"
+          ],
+          "d": [
+            "yes",
+            "Yes (heavy)"
+          ],
+          "u": [
+            "no",
+            "No"
+          ],
+          "a": [
+            "no",
+            "No"
+          ]
+        },
+        {
+          "f": "Restore without WordPress pre-installed",
+          "b": [
+            "yes",
+            "Deploys on empty webroot"
+          ],
+          "d": [
+            "yes",
+            "Yes"
+          ],
+          "u": [
+            "no",
+            "WordPress required"
+          ],
+          "a": [
+            "no",
+            "WordPress required"
+          ]
+        },
+        {
+          "f": "Resumable chunk engine",
+          "b": [
+            "yes",
+            "Stateful checkpoints"
+          ],
+          "d": [
+            "no",
+            "Frequent 504 errors"
+          ],
+          "u": [
+            "mid",
+            "Moderate"
+          ],
+          "a": [
+            "mid",
+            "Server-dependent"
+          ]
+        },
+        {
+          "f": "Database export without mysqldump / exec()",
+          "b": [
+            "yes",
+            "Pure PHP SQL streamer"
+          ],
+          "d": [
+            "mid",
+            "Needs system binaries"
+          ],
+          "u": [
+            "yes",
+            "Yes"
+          ],
+          "a": [
+            "yes",
+            "Yes"
+          ]
+        },
+        {
+          "f": "Permanent latest-backup download link",
+          "b": [
+            "yes",
+            "32-byte token + admin auth"
+          ],
+          "d": [
+            "no",
+            "No"
+          ],
+          "u": [
+            "no",
+            "No"
+          ],
+          "a": [
+            "no",
+            "No"
+          ]
+        },
+        {
+          "f": "Telegram notifications",
+          "b": [
+            "yes",
+            "HTML-formatted status"
+          ],
+          "d": [
+            "no",
+            "No"
+          ],
+          "u": [
+            "no",
+            "Paid add-on"
+          ],
+          "a": [
+            "no",
+            "No"
+          ]
+        },
+        {
+          "f": "Bale messenger notifications",
+          "b": [
+            "yes",
+            "With direct download link"
+          ],
+          "d": [
+            "no",
+            "No"
+          ],
+          "u": [
+            "no",
+            "No"
+          ],
+          "a": [
+            "no",
+            "No"
+          ]
+        },
+        {
+          "f": "Jalali (Solar Hijri) calendar",
+          "b": [
+            "yes",
+            "First day of each solar month"
+          ],
+          "d": [
+            "no",
+            "No"
+          ],
+          "u": [
+            "no",
+            "No"
+          ],
+          "a": [
+            "no",
+            "No"
+          ]
+        },
+        {
+          "f": "100% offline-first (no CDN calls)",
+          "b": [
+            "yes",
+            "Air-gap safe"
+          ],
+          "d": [
+            "no",
+            "Remote font dependencies"
+          ],
+          "u": [
+            "no",
+            "Remote script calls"
+          ],
+          "a": [
+            "no",
+            "Remote dependencies"
+          ]
+        },
+        {
+          "f": "Ads & upsell notices",
+          "b": [
+            "yes",
+            "Zero — completely clean"
+          ],
+          "d": [
+            "no",
+            "Heavy advertising"
+          ],
+          "u": [
+            "no",
+            "Multiple banners"
+          ],
+          "a": [
+            "no",
+            "Frequent nags"
+          ]
+        },
+        {
+          "f": "Output archive format",
+          "b": [
+            "yes",
+            "Standard .zip"
+          ],
+          "d": [
+            "mid",
+            ".zip / .daf"
+          ],
+          "u": [
+            "mid",
+            "Multi-part .zip"
+          ],
+          "a": [
+            "no",
+            "Proprietary .wpress"
+          ]
+        },
+        {
+          "f": "Instant cancellation with cleanup",
+          "b": [
+            "yes",
+            "Auto-purge included"
+          ],
+          "d": [
+            "no",
+            "Incomplete"
+          ],
+          "u": [
+            "no",
+            "No"
+          ],
+          "a": [
+            "no",
+            "No"
+          ]
+        }
       ],
       "note": "Explore the complete 30+ parameter matrix in our documentation"
     },
@@ -734,36 +1417,91 @@
       "title": "Secure In-Place Restore",
       "desc": "Restore directly on your live site through a guarded, seven-stage pipeline — every stage verified before the next one begins.",
       "steps": [
-        { "title": "Pre-restore Snapshot", "desc": "An automatic safety snapshot of your current site is captured before any restore operation." },
-        { "title": "Shadow Environment", "desc": "The selected backup is extracted and prepared in an isolated environment — your live site stays untouched." },
-        { "title": "Preview & Health Check", "desc": "Verify WordPress status, database integrity, admin access and site settings before applying anything." },
-        { "title": "Owner Confirmation", "desc": "Explicit approval is required — with re-authentication and a one-time code." },
-        { "title": "Apply Changes", "desc": "A controlled deployment to production applies the verified backup." },
-        { "title": "Post-Restore Verification", "desc": "An automated health check runs immediately after the restore completes." },
-        { "title": "Rollback", "desc": "If anything goes wrong, revert to the pre-restore snapshot in one move." }
+        {
+          "title": "Pre-restore Snapshot",
+          "desc": "An automatic safety snapshot of your current site is captured before any restore operation."
+        },
+        {
+          "title": "Shadow Environment",
+          "desc": "The selected backup is extracted and prepared in an isolated environment — your live site stays untouched."
+        },
+        {
+          "title": "Preview & Health Check",
+          "desc": "Verify WordPress status, database integrity, admin access and site settings before applying anything."
+        },
+        {
+          "title": "Owner Confirmation",
+          "desc": "Explicit approval is required — with re-authentication and a one-time code."
+        },
+        {
+          "title": "Apply Changes",
+          "desc": "A controlled deployment to production applies the verified backup."
+        },
+        {
+          "title": "Post-Restore Verification",
+          "desc": "An automated health check runs immediately after the restore completes."
+        },
+        {
+          "title": "Rollback",
+          "desc": "If anything goes wrong, revert to the pre-restore snapshot in one move."
+        }
       ]
     },
     "compare": {
       "label": "Free vs Pro",
       "title": "The honest feature ledger",
       "subtitle": "Nothing moves behind a paywall that was free — Pro adds capabilities, never takes them.",
-      "columns": ["Feature", "Free", "Pro"]
+      "columns": [
+        "Feature",
+        "Free",
+        "Pro"
+      ]
     },
     "licensing": {
       "label": "Licensing",
       "title": "How Pro licensing works",
       "subtitle": "Simple rules, documented up front.",
       "items": [
-        { "title": "Companion plugin", "desc": "Pro requires the free Backupino plugin installed and active — it enhances the core, never replaces it." },
-        { "title": "Domain-based licensing", "desc": "Licenses bind to your site's home_url." },
-        { "title": "Subdomains", "desc": "Each subdomain counts as a separate domain." },
-        { "title": "Multisite networks", "desc": "An entire WordPress Multisite network counts as one domain." },
-        { "title": "Local & test environments", "desc": "localhost, .test, .local, .dev and raw IP addresses are excluded." },
-        { "title": "Staging exemptions", "desc": "Up to 2 staging environments are exempt per license." },
-        { "title": "Domain release", "desc": "Released domains carry a 72-hour cooldown before reassignment." },
-        { "title": "Renewal reminders", "desc": "You are notified 3 days before expiry." },
-        { "title": "Grace period", "desc": "A 7-day grace period follows expiry." },
-        { "title": "After grace", "desc": "Pro features pause; read access to existing backups is preserved." }
+        {
+          "title": "Companion plugin",
+          "desc": "Pro requires the free Backupino plugin installed and active — it enhances the core, never replaces it."
+        },
+        {
+          "title": "Domain-based licensing",
+          "desc": "Licenses bind to your site's home_url."
+        },
+        {
+          "title": "Subdomains",
+          "desc": "Each subdomain counts as a separate domain."
+        },
+        {
+          "title": "Multisite networks",
+          "desc": "An entire WordPress Multisite network counts as one domain."
+        },
+        {
+          "title": "Local & test environments",
+          "desc": "localhost, .test, .local, .dev and raw IP addresses are excluded."
+        },
+        {
+          "title": "Staging exemptions",
+          "desc": "Up to 2 staging environments are exempt per license."
+        },
+        {
+          "title": "Domain release",
+          "desc": "Released domains carry a 72-hour cooldown before reassignment."
+        },
+        {
+          "title": "Renewal reminders",
+          "desc": "You are notified 3 days before expiry."
+        },
+        {
+          "title": "Grace period",
+          "desc": "A 7-day grace period follows expiry."
+        },
+        {
+          "title": "After grace",
+          "desc": "Pro features pause; read access to existing backups is preserved."
+        }
       ]
     },
     "cta": {
@@ -827,16 +1565,46 @@
     },
     "tocTitle": "On this page",
     "toc": [
-      { "id": "overview", "label": "1. Overview" },
-      { "id": "data-storage", "label": "2. Data We Store" },
-      { "id": "telemetry", "label": "3. Zero Telemetry" },
-      { "id": "archive-protection", "label": "4. Archive Protection" },
-      { "id": "download-links", "label": "5. Download-Link Security" },
-      { "id": "api-protection", "label": "6. API & CSRF Protection" },
-      { "id": "integrations", "label": "7. Integrations & Tokens" },
-      { "id": "third-parties", "label": "8. Third-Party Services" },
-      { "id": "changes", "label": "9. Changes to This Policy" },
-      { "id": "contact", "label": "10. Contact Us" }
+      {
+        "id": "overview",
+        "label": "1. Overview"
+      },
+      {
+        "id": "data-storage",
+        "label": "2. Data We Store"
+      },
+      {
+        "id": "telemetry",
+        "label": "3. Zero Telemetry"
+      },
+      {
+        "id": "archive-protection",
+        "label": "4. Archive Protection"
+      },
+      {
+        "id": "download-links",
+        "label": "5. Download-Link Security"
+      },
+      {
+        "id": "api-protection",
+        "label": "6. API & CSRF Protection"
+      },
+      {
+        "id": "integrations",
+        "label": "7. Integrations & Tokens"
+      },
+      {
+        "id": "third-parties",
+        "label": "8. Third-Party Services"
+      },
+      {
+        "id": "changes",
+        "label": "9. Changes to This Policy"
+      },
+      {
+        "id": "contact",
+        "label": "10. Contact Us"
+      }
     ],
     "sections": [
       {
@@ -955,38 +1723,73 @@
         "id": "getting-started",
         "title": "Getting Started",
         "items": [
-          { "slug": "what-is" },
-          { "slug": "free-vs-pro" },
-          { "slug": "system-requirements" },
-          { "slug": "install-free" },
-          { "slug": "install-pro", "pro": true }
+          {
+            "slug": "what-is"
+          },
+          {
+            "slug": "free-vs-pro"
+          },
+          {
+            "slug": "system-requirements"
+          },
+          {
+            "slug": "install-free"
+          },
+          {
+            "slug": "install-pro",
+            "pro": true
+          }
         ]
       },
       {
         "id": "configuration",
         "title": "Configuration",
         "items": [
-          { "slug": "general-settings" },
-          { "slug": "backup-scope" },
-          { "slug": "exclusions" },
-          { "slug": "local-storage" },
-          { "slug": "retention" },
-          { "slug": "download-link" },
-          { "slug": "notifications" },
-          { "slug": "persian-calendar" }
+          {
+            "slug": "general-settings"
+          },
+          {
+            "slug": "backup-scope"
+          },
+          {
+            "slug": "exclusions"
+          },
+          {
+            "slug": "local-storage"
+          },
+          {
+            "slug": "retention"
+          },
+          {
+            "slug": "download-link"
+          },
+          {
+            "slug": "notifications"
+          },
+          {
+            "slug": "persian-calendar"
+          }
         ]
       },
       {
         "id": "scheduling",
         "title": "Scheduling",
         "items": [
-          { "slug": "monthly-free" },
+          {
+            "slug": "monthly-free"
+          },
           {
             "slug": "advanced-pro",
             "pro": true,
             "children": [
-              { "anchor": "sched-intervals", "title": "Intervals: hourly → custom" },
-              { "anchor": "sched-chain", "title": "Backup chain → transfer → clean" }
+              {
+                "anchor": "sched-intervals",
+                "title": "Intervals: hourly → custom"
+              },
+              {
+                "anchor": "sched-chain",
+                "title": "Backup chain → transfer → clean"
+              }
             ]
           }
         ]
@@ -995,43 +1798,96 @@
         "id": "remote",
         "title": "Remote Storage (Pro)",
         "items": [
-          { "slug": "cloud-overview", "pro": true },
+          {
+            "slug": "cloud-overview",
+            "pro": true
+          },
           {
             "slug": "s3",
             "pro": true,
             "children": [
-              { "anchor": "s3-amazon", "title": "Amazon S3" },
-              { "anchor": "s3-arvan", "title": "ArvanCloud" },
-              { "anchor": "s3-liara", "title": "Liara" },
-              { "anchor": "s3-parspack", "title": "ParsPack" },
-              { "anchor": "s3-minio", "title": "MinIO" },
-              { "anchor": "s3-r2", "title": "Cloudflare R2" },
-              { "anchor": "s3-wasabi", "title": "Wasabi" },
-              { "anchor": "s3-b2", "title": "Backblaze B2" }
+              {
+                "anchor": "s3-amazon",
+                "title": "Amazon S3"
+              },
+              {
+                "anchor": "s3-arvan",
+                "title": "ArvanCloud"
+              },
+              {
+                "anchor": "s3-liara",
+                "title": "Liara"
+              },
+              {
+                "anchor": "s3-parspack",
+                "title": "ParsPack"
+              },
+              {
+                "anchor": "s3-minio",
+                "title": "MinIO"
+              },
+              {
+                "anchor": "s3-r2",
+                "title": "Cloudflare R2"
+              },
+              {
+                "anchor": "s3-wasabi",
+                "title": "Wasabi"
+              },
+              {
+                "anchor": "s3-b2",
+                "title": "Backblaze B2"
+              }
             ]
           },
-          { "slug": "google-drive", "pro": true },
-          { "slug": "dropbox", "pro": true },
-          { "slug": "download-host", "pro": true }
+          {
+            "slug": "google-drive",
+            "pro": true
+          },
+          {
+            "slug": "dropbox",
+            "pro": true
+          },
+          {
+            "slug": "download-host",
+            "pro": true
+          }
         ]
       },
       {
         "id": "operations",
         "title": "Backup Operations",
         "items": [
-          { "slug": "creating-backup" },
-          { "slug": "resumable" },
-          { "slug": "php-export" },
+          {
+            "slug": "creating-backup"
+          },
+          {
+            "slug": "resumable"
+          },
+          {
+            "slug": "php-export"
+          },
           {
             "slug": "incremental",
             "pro": true,
             "children": [
-              { "anchor": "inc-base", "title": "Base backup" },
-              { "anchor": "inc-delta", "title": "Delta packages" },
-              { "anchor": "inc-chain", "title": "Chain management" }
+              {
+                "anchor": "inc-base",
+                "title": "Base backup"
+              },
+              {
+                "anchor": "inc-delta",
+                "title": "Delta packages"
+              },
+              {
+                "anchor": "inc-chain",
+                "title": "Chain management"
+              }
             ]
           },
-          { "slug": "managing-versions" }
+          {
+            "slug": "managing-versions"
+          }
         ]
       },
       {
@@ -1041,24 +1897,60 @@
           {
             "slug": "installer",
             "children": [
-              { "anchor": "ins-how", "title": "How it works" },
-              { "anchor": "ins-extract", "title": "File extraction" },
-              { "anchor": "ins-db", "title": "Database import" },
-              { "anchor": "ins-config", "title": "WordPress configuration" },
-              { "anchor": "ins-url", "title": "URL replacement (serialized / JSON)" }
+              {
+                "anchor": "ins-how",
+                "title": "How it works"
+              },
+              {
+                "anchor": "ins-extract",
+                "title": "File extraction"
+              },
+              {
+                "anchor": "ins-db",
+                "title": "Database import"
+              },
+              {
+                "anchor": "ins-config",
+                "title": "WordPress configuration"
+              },
+              {
+                "anchor": "ins-url",
+                "title": "URL replacement (serialized / JSON)"
+              }
             ]
           },
           {
             "slug": "in-place",
             "pro": true,
             "children": [
-              { "anchor": "rs-snapshot", "title": "Pre-restore snapshot" },
-              { "anchor": "rs-shadow", "title": "Shadow environment" },
-              { "anchor": "rs-preview", "title": "Preview & health check" },
-              { "anchor": "rs-confirm", "title": "Owner confirmation" },
-              { "anchor": "rs-apply", "title": "Apply changes" },
-              { "anchor": "rs-verify", "title": "Post-restore verification" },
-              { "anchor": "rs-rollback", "title": "Rollback" }
+              {
+                "anchor": "rs-snapshot",
+                "title": "Pre-restore snapshot"
+              },
+              {
+                "anchor": "rs-shadow",
+                "title": "Shadow environment"
+              },
+              {
+                "anchor": "rs-preview",
+                "title": "Preview & health check"
+              },
+              {
+                "anchor": "rs-confirm",
+                "title": "Owner confirmation"
+              },
+              {
+                "anchor": "rs-apply",
+                "title": "Apply changes"
+              },
+              {
+                "anchor": "rs-verify",
+                "title": "Post-restore verification"
+              },
+              {
+                "anchor": "rs-rollback",
+                "title": "Rollback"
+              }
             ]
           }
         ]
@@ -1067,41 +1959,91 @@
         "id": "security",
         "title": "Security (Pro)",
         "items": [
-          { "slug": "encryption", "pro": true },
-          { "slug": "key-management", "pro": true },
-          { "slug": "key-recovery", "pro": true },
-          { "slug": "recovery-agent", "pro": true },
-          { "slug": "storage-protection" }
+          {
+            "slug": "encryption",
+            "pro": true
+          },
+          {
+            "slug": "key-management",
+            "pro": true
+          },
+          {
+            "slug": "key-recovery",
+            "pro": true
+          },
+          {
+            "slug": "recovery-agent",
+            "pro": true
+          },
+          {
+            "slug": "storage-protection"
+          }
         ]
       },
       {
         "id": "management",
         "title": "Management (Pro)",
         "items": [
-          { "slug": "central-panel", "pro": true },
-          { "slug": "central-bot", "pro": true },
+          {
+            "slug": "central-panel",
+            "pro": true
+          },
+          {
+            "slug": "central-bot",
+            "pro": true
+          },
           {
             "slug": "dedicated-cloud",
             "pro": true,
             "children": [
-              { "anchor": "dc-quota", "title": "Quota & alerts" },
-              { "anchor": "dc-retention", "title": "Retention policies" }
+              {
+                "anchor": "dc-quota",
+                "title": "Quota & alerts"
+              },
+              {
+                "anchor": "dc-retention",
+                "title": "Retention policies"
+              }
             ]
           },
-          { "slug": "team-members", "pro": true },
-          { "slug": "white-label", "pro": true }
+          {
+            "slug": "team-members",
+            "pro": true
+          },
+          {
+            "slug": "white-label",
+            "pro": true
+          }
         ]
       },
       {
         "id": "licensing",
         "title": "Licensing (Pro)",
         "items": [
-          { "slug": "license-structure", "pro": true },
-          { "slug": "domain-rules", "pro": true },
-          { "slug": "activation", "pro": true },
-          { "slug": "offline-cache", "pro": true },
-          { "slug": "expiration", "pro": true },
-          { "slug": "plan-comparison", "pro": true }
+          {
+            "slug": "license-structure",
+            "pro": true
+          },
+          {
+            "slug": "domain-rules",
+            "pro": true
+          },
+          {
+            "slug": "activation",
+            "pro": true
+          },
+          {
+            "slug": "offline-cache",
+            "pro": true
+          },
+          {
+            "slug": "expiration",
+            "pro": true
+          },
+          {
+            "slug": "plan-comparison",
+            "pro": true
+          }
         ]
       },
       {
@@ -1111,29 +2053,56 @@
           {
             "slug": "cli-free",
             "children": [
-              { "anchor": "cmd-create", "title": "wp backupino create" },
-              { "anchor": "cmd-dbonly", "title": "wp backupino create --db-only" },
-              { "anchor": "cmd-jobs", "title": "wp backupino jobs" },
-              { "anchor": "cmd-status", "title": "wp backupino status" }
+              {
+                "anchor": "cmd-create",
+                "title": "wp backupino create"
+              },
+              {
+                "anchor": "cmd-dbonly",
+                "title": "wp backupino create --db-only"
+              },
+              {
+                "anchor": "cmd-jobs",
+                "title": "wp backupino jobs"
+              },
+              {
+                "anchor": "cmd-status",
+                "title": "wp backupino status"
+              }
             ]
           },
-          { "slug": "cli-pro", "pro": true }
+          {
+            "slug": "cli-pro",
+            "pro": true
+          }
         ]
       },
       {
         "id": "troubleshooting",
         "title": "Troubleshooting",
         "items": [
-          { "slug": "common-issues" },
-          { "slug": "server-compat" },
-          { "slug": "wp-cron" },
-          { "slug": "faq" }
+          {
+            "slug": "common-issues"
+          },
+          {
+            "slug": "server-compat"
+          },
+          {
+            "slug": "wp-cron"
+          },
+          {
+            "slug": "faq"
+          }
         ]
       },
       {
         "id": "changelog",
         "title": "Changelog",
-        "items": [{ "slug": "changelog" }]
+        "items": [
+          {
+            "slug": "changelog"
+          }
+        ]
       }
     ],
     "articles": {
@@ -1141,70 +2110,154 @@
         "title": "What is Backupino?",
         "intro": "Backupino is a modern, resumable and self-contained WordPress backup, cloning and easy migration platform — engineered for real-world shared hosting and 100% offline-first operation.",
         "blocks": [
-          { "type": "paragraph", "text": "Every backup is packaged as a standard .zip archive plus an ultra-lightweight standalone installer (installer.php, ~80 KB) that rebuilds your entire site on an empty server — no pre-installed WordPress required. A resumable chunk engine keeps multi-gigabyte jobs alive inside strict 30-second execution limits." },
-          { "type": "heading", "text": "Core pillars" },
-          { "type": "list", "ordered": false, "items": [
-            "Truly free — backup, restore and migration with no artificial size limits, forever.",
-            "Resumable processing — micro-batches with persistent checkpoints survive 504 timeouts and closed tabs.",
-            "Zero-dependency restore — the standalone installer rebuilds files, database and wp-config.php from an empty directory.",
-            "Offline-first & private — no CDNs, no remote scripts, no telemetry. Safe for intranets and air-gapped systems."
-          ] },
-          { "type": "callout", "variant": "tip", "text": "Tip: everything in this handbook applies to the free core. Capabilities marked with a PRO badge are provided by the Backupino Pro companion plugin." }
+          {
+            "type": "paragraph",
+            "text": "Every backup is packaged as a standard .zip archive plus an ultra-lightweight standalone installer (installer.php, ~80 KB) that rebuilds your entire site on an empty server — no pre-installed WordPress required. A resumable chunk engine keeps multi-gigabyte jobs alive inside strict 30-second execution limits."
+          },
+          {
+            "type": "heading",
+            "text": "Core pillars"
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Truly free — backup, restore and migration with no artificial size limits, forever.",
+              "Resumable processing — micro-batches with persistent checkpoints survive 504 timeouts and closed tabs.",
+              "Zero-dependency restore — the standalone installer rebuilds files, database and wp-config.php from an empty directory.",
+              "Offline-first & private — no CDNs, no remote scripts, no telemetry. Safe for intranets and air-gapped systems."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "text": "Tip: everything in this handbook applies to the free core. Capabilities marked with a PRO badge are provided by the Backupino Pro companion plugin."
+          }
         ]
       },
       "free-vs-pro": {
         "title": "Free vs Pro Overview",
         "intro": "Backupino ships in two editions that work together: the GPL-2.0 free core, and the Pro companion plugin that layers professional tooling on top.",
         "blocks": [
-          { "type": "heading", "text": "The free core (forever free)" },
-          { "type": "list", "ordered": false, "items": [
-            "Unlimited full, database-only and files-only backups with exclusion rules.",
-            "Standalone installer.php migration to any host or domain, with deep serialized + JSON URL replacement.",
-            "Monthly scheduling with Jalali & Gregorian calendars, and personal Telegram / Bale bot notifications.",
-            "Pure PHP SQL streamer, resumable chunk engine, permanent download link and WP-CLI commands."
-          ] },
-          { "type": "heading", "text": "The Pro layer (companion plugin)" },
-          { "type": "list", "ordered": false, "items": [
-            "Cloud destinations — S3-compatible services, Google Drive, Dropbox, FTP/FTPS/SFTP download hosts.",
-            "Incremental backup chains with point-in-time restore, and secure in-place restore with preview + rollback.",
-            "Advanced scheduling (hourly → custom) with automated create → transfer → clean chains.",
-            "Encryption (AES-256-GCM, XChaCha), Multisite, teams, white label, central panel and Backupino Dedicated Cloud."
-          ] },
-          { "type": "callout", "variant": "pro", "text": "Backupino Pro requires the free plugin installed and active. It extends the core — it never replaces it, and nothing that is free ever moves behind a paywall." }
+          {
+            "type": "heading",
+            "text": "The free core (forever free)"
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Unlimited full, database-only and files-only backups with exclusion rules.",
+              "Standalone installer.php migration to any host or domain, with deep serialized + JSON URL replacement.",
+              "Monthly scheduling with Jalali & Gregorian calendars, and personal Telegram / Bale bot notifications.",
+              "Pure PHP SQL streamer, resumable chunk engine, permanent download link and WP-CLI commands."
+            ]
+          },
+          {
+            "type": "heading",
+            "text": "The Pro layer (companion plugin)"
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Cloud destinations — S3-compatible services, Google Drive, Dropbox, FTP/FTPS/SFTP download hosts.",
+              "Incremental backup chains with point-in-time restore, and secure in-place restore with preview + rollback.",
+              "Advanced scheduling (hourly → custom) with automated create → transfer → clean chains.",
+              "Encryption (AES-256-GCM, XChaCha), Multisite, teams, white label, central panel and Backupino Dedicated Cloud."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "pro",
+            "text": "Backupino Pro requires the free plugin installed and active. It extends the core — it never replaces it, and nothing that is free ever moves behind a paywall."
+          }
         ]
       },
       "system-requirements": {
         "title": "System Requirements",
         "intro": "Backupino is engineered to operate efficiently with minimal server resources — no external binaries, no privileged system access.",
         "blocks": [
-          { "type": "table", "head": ["Component", "Minimum", "Recommended"], "rows": [
-            ["PHP Version", "PHP 7.4", "PHP 8.1 / 8.2 / 8.3 / 8.4"],
-            ["WordPress Core", "WordPress 6.0", "WordPress 6.5 / 6.7+"],
-            ["MySQL / MariaDB", "MySQL 5.7 / MariaDB 10.2", "MySQL 8.0+ / MariaDB 10.6+"],
-            ["PHP Memory Limit", "64 MB", "128 MB or 256 MB"],
-            ["max_execution_time", "30 seconds", "60+ seconds (or 300s on shared hosting)"],
-            ["max_allowed_packet", "16 MB", "64 MB or higher"]
-          ] },
-          { "type": "list", "ordered": false, "items": [
-            "Required extensions: pdo_mysql or mysqli, json, and zip (with an internal PclZip fallback).",
-            "Recommended extensions: mbstring (multibyte-safe search & replace), openssl (HTTPS dispatch), curl (reliable core HTTP requests).",
-            "Verified stacks: Apache 2.4+, LiteSpeed/OpenLiteSpeed, Nginx + PHP-FPM, Microsoft IIS — with cPanel & WHM, DirectAdmin, Plesk, CyberPanel, Cloudways and RunCloud."
-          ] },
-          { "type": "paragraph", "text": "wp-content/ needs standard write permissions — 755 for directories and 644 for files. The internal wp-content/backupino/ storage directory is created automatically with a hardened .htaccess (Deny from all) and a blank index.php that prevents directory listing." }
+          {
+            "type": "table",
+            "head": [
+              "Component",
+              "Minimum",
+              "Recommended"
+            ],
+            "rows": [
+              [
+                "PHP Version",
+                "PHP 7.4",
+                "PHP 8.1 / 8.2 / 8.3 / 8.4"
+              ],
+              [
+                "WordPress Core",
+                "WordPress 6.0",
+                "WordPress 6.5 / 6.7+"
+              ],
+              [
+                "MySQL / MariaDB",
+                "MySQL 5.7 / MariaDB 10.2",
+                "MySQL 8.0+ / MariaDB 10.6+"
+              ],
+              [
+                "PHP Memory Limit",
+                "64 MB",
+                "128 MB or 256 MB"
+              ],
+              [
+                "max_execution_time",
+                "30 seconds",
+                "60+ seconds (or 300s on shared hosting)"
+              ],
+              [
+                "max_allowed_packet",
+                "16 MB",
+                "64 MB or higher"
+              ]
+            ]
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Required extensions: pdo_mysql or mysqli, json, and zip (with an internal PclZip fallback).",
+              "Recommended extensions: mbstring (multibyte-safe search & replace), openssl (HTTPS dispatch), curl (reliable core HTTP requests).",
+              "Verified stacks: Apache 2.4+, LiteSpeed/OpenLiteSpeed, Nginx + PHP-FPM, Microsoft IIS — with cPanel & WHM, DirectAdmin, Plesk, CyberPanel, Cloudways and RunCloud."
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "wp-content/ needs standard write permissions — 755 for directories and 644 for files. The internal wp-content/backupino/ storage directory is created automatically with a hardened .htaccess (Deny from all) and a blank index.php that prevents directory listing."
+          }
         ]
       },
       "install-free": {
         "title": "Installation (Free)",
         "intro": "Four supported installation paths — from one-click directory install to fully automated WP-CLI deployment.",
         "blocks": [
-          { "type": "list", "ordered": true, "items": [
-            "WordPress directory (recommended): Plugins → Add New, search for Backupino, Install Now, then Activate.",
-            "ZIP upload: download the latest release package from GitHub, then Plugins → Add New → Upload Plugin → Install Now → Activate.",
-            "Manual FTP / file manager: upload the extracted backupino directory into wp-content/plugins/ and activate it under Plugins → Installed Plugins.",
-            "WP-CLI: ideal for headless servers and CI/CD pipelines — see the command below."
-          ] },
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "# Install and activate from the WordPress directory:\nwp plugin install backupino --activate\n\n# Or from a local zip package:\nwp plugin install /path/to/backupino.zip --activate\n\n# Verify installation status and system health:\nwp backupino status" },
-          { "type": "callout", "variant": "tip", "text": "After activation open Backupino → Settings → System Status and confirm every prerequisite indicator (PHP version, PDO/Zip extensions, storage write permissions) shows a green Pass checkmark." }
+          {
+            "type": "list",
+            "ordered": true,
+            "items": [
+              "WordPress directory (recommended): Plugins → Add New, search for Backupino, Install Now, then Activate.",
+              "ZIP upload: download the latest release package from GitHub, then Plugins → Add New → Upload Plugin → Install Now → Activate.",
+              "Manual FTP / file manager: upload the extracted backupino directory into wp-content/plugins/ and activate it under Plugins → Installed Plugins.",
+              "WP-CLI: ideal for headless servers and CI/CD pipelines — see the command below."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "# Install and activate from the WordPress directory:\nwp plugin install backupino --activate\n\n# Or from a local zip package:\nwp plugin install /path/to/backupino.zip --activate\n\n# Verify installation status and system health:\nwp backupino status"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "text": "After activation open Backupino → Settings → System Status and confirm every prerequisite indicator (PHP version, PDO/Zip extensions, storage write permissions) shows a green Pass checkmark."
+          }
         ]
       },
       "install-pro": {
@@ -1212,131 +2265,223 @@
         "title": "Installation (Pro — Companion Plugin)",
         "intro": "Backupino Pro installs alongside the free core and activates with your license key. The free plugin must be installed and active first.",
         "blocks": [
-          { "type": "list", "ordered": true, "items": [
-            "Log in to your Backupino account panel and download the Pro package (backupino-pro.zip).",
-            "In wp-admin open Plugins → Add New → Upload Plugin, choose the package, Install Now, then Activate.",
-            "Open Backupino → License, paste your license key, and click Activate License — the key binds to this site's home_url.",
-            "A confirmation banner appears and the Pro tabs (Cloud, Scheduling, Restore, Team) become available in the dashboard."
-          ] },
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "# Pro installation via WP-CLI:\nwp plugin install /path/to/backupino-pro.zip --activate\n\n# Then activate the license from the account panel CLI:\nwp backupino license activate --key=\"BKN-XXXX-XXXX-XXXX\"" },
-          { "type": "callout", "variant": "pro", "text": "Local and staging environments (localhost, .test, .local, .dev, raw IPs) never consume a domain seat — activate Pro there freely for testing." }
+          {
+            "type": "list",
+            "ordered": true,
+            "items": [
+              "Log in to your Backupino account panel and download the Pro package (backupino-pro.zip).",
+              "In wp-admin open Plugins → Add New → Upload Plugin, choose the package, Install Now, then Activate.",
+              "Open Backupino → License, paste your license key, and click Activate License — the key binds to this site's home_url.",
+              "A confirmation banner appears and the Pro tabs (Cloud, Scheduling, Restore, Team) become available in the dashboard."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "# Pro installation via WP-CLI:\nwp plugin install /path/to/backupino-pro.zip --activate\n\n# Then activate the license from the account panel CLI:\nwp backupino license activate --key=\"BKN-XXXX-XXXX-XXXX\""
+          },
+          {
+            "type": "callout",
+            "variant": "pro",
+            "text": "Local and staging environments (localhost, .test, .local, .dev, raw IPs) never consume a domain seat — activate Pro there freely for testing."
+          }
         ]
       },
       "general-settings": {
         "title": "General Settings",
         "intro": "The Backupino dashboard organizes every control into task-focused tabs inside wp-admin.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Dashboard — one-click Create Backup, live progress card with stage percentages and instant Cancel.",
-            "Backups — package inventory with labels, sizes, dates, download and delete actions.",
-            "Settings → System Status — environment checks for PHP, extensions and write permissions.",
-            "Settings → Archive & Exclusions — exclusion patterns, size thresholds and batch size.",
-            "Settings → Scheduling and Notifications — automation intervals plus Telegram / Bale toggles.",
-            "Settings → Download Link — your permanent latest-backup URL and secret key rotation.",
-            "Pro tabs — Cloud destinations, Advanced Scheduling, In-Place Restore, License and Team (when Pro is active)."
-          ] },
-          { "type": "paragraph", "text": "Every settings change saves instantly with a confirmation toast, and sensitive actions (rotation, deletion, restore) always require explicit confirmation. The interface ships fully translated for Persian sites with native Shamsi date display." }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Dashboard — one-click Create Backup, live progress card with stage percentages and instant Cancel.",
+              "Backups — package inventory with labels, sizes, dates, download and delete actions.",
+              "Settings → System Status — environment checks for PHP, extensions and write permissions.",
+              "Settings → Archive & Exclusions — exclusion patterns, size thresholds and batch size.",
+              "Settings → Scheduling and Notifications — automation intervals plus Telegram / Bale toggles.",
+              "Settings → Download Link — your permanent latest-backup URL and secret key rotation.",
+              "Pro tabs — Cloud destinations, Advanced Scheduling, In-Place Restore, License and Team (when Pro is active)."
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Every settings change saves instantly with a confirmation toast, and sensitive actions (rotation, deletion, restore) always require explicit confirmation. The interface ships fully translated for Persian sites with native Shamsi date display."
+          }
         ]
       },
       "backup-scope": {
         "title": "Backup Scope (Files, Database, Full)",
         "intro": "Choose exactly what goes into each package — full site, database-only, or files-only.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Full Backup — all WordPress files (themes, plugins, uploads, core) plus the database and the standalone installer.php. Best for migration and disaster recovery.",
-            "Database Only — an ultra-fast, lightweight SQL package. Ideal before publishing content, adjusting settings or running minor updates.",
-            "Files Only — media, code and asset packages without the database dump. Ideal before theme or plugin changes."
-          ] },
-          { "type": "paragraph", "text": "Scope selection lives on the dashboard's Create Backup card and in WP-CLI via dedicated flags, so routine operations stay one click — or one command — away." },
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "wp backupino create              # full backup\nwp backupino create --db-only    # database only\nwp backupino create --files-only # files only" }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Full Backup — all WordPress files (themes, plugins, uploads, core) plus the database and the standalone installer.php. Best for migration and disaster recovery.",
+              "Database Only — an ultra-fast, lightweight SQL package. Ideal before publishing content, adjusting settings or running minor updates.",
+              "Files Only — media, code and asset packages without the database dump. Ideal before theme or plugin changes."
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Scope selection lives on the dashboard's Create Backup card and in WP-CLI via dedicated flags, so routine operations stay one click — or one command — away."
+          },
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "wp backupino create              # full backup\nwp backupino create --db-only    # database only\nwp backupino create --files-only # files only"
+          }
         ]
       },
       "exclusions": {
         "title": "Exclusion Rules",
         "intro": "Trim heavy media folders, logs and development directories out of your archives with pattern-based exclusion rules.",
         "blocks": [
-          { "type": "paragraph", "text": "In Settings → Archive & Exclusions, add one rule per line. Directory rules (wp-content/uploads/videos/), glob patterns (*.mp4, *.zip, *.iso, *.tar.gz, node_modules/) and diagnostic logs (debug.log, error_log) are all supported. The engine always auto-excludes its own backupino/ storage directory and transient cache folders." },
-          { "type": "list", "ordered": false, "items": [
-            "Skip Files Larger Than (MB) — bypass individual files above a threshold such as 50 or 100; set 0 for unlimited.",
-            "Batch File Processing — files handled per execution tick; default 300, lower to 100 on constrained hosts or raise to 1000 on dedicated servers."
-          ] },
-          { "type": "callout", "variant": "warning", "text": "Excluding core WordPress files (wp-admin, wp-includes) breaks standalone restores. Limit rules to uploads, caches, logs and large media or development folders." }
+          {
+            "type": "paragraph",
+            "text": "In Settings → Archive & Exclusions, add one rule per line. Directory rules (wp-content/uploads/videos/), glob patterns (*.mp4, *.zip, *.iso, *.tar.gz, node_modules/) and diagnostic logs (debug.log, error_log) are all supported. The engine always auto-excludes its own backupino/ storage directory and transient cache folders."
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Skip Files Larger Than (MB) — bypass individual files above a threshold such as 50 or 100; set 0 for unlimited.",
+              "Batch File Processing — files handled per execution tick; default 300, lower to 100 on constrained hosts or raise to 1000 on dedicated servers."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "warning",
+            "text": "Excluding core WordPress files (wp-admin, wp-includes) breaks standalone restores. Limit rules to uploads, caches, logs and large media or development folders."
+          }
         ]
       },
       "local-storage": {
         "title": "Local Storage Settings",
         "intro": "Every artifact Backupino produces lives on your own server — hardened against direct web access.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "wp-content/backupino/packages/ — finalized .zip archives plus their matching installer.php files.",
-            "wp-content/backupino/jobs/ — transient staging chunks, split SQL dumps and runtime logs (purged immediately on completion or cancellation).",
-            "Storage hardening — an .htaccess with Options -Indexes and Require all denied, a web.config for IIS, execution blocking for .php/.py/.cgi and a blank index.php."
-          ] },
-          { "type": "callout", "variant": "info", "text": "Read-only wp-content? Backupino automatically and securely falls back to uploads/backupino/ so backups keep succeeding on restrictive shared hosting." }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "wp-content/backupino/packages/ — finalized .zip archives plus their matching installer.php files.",
+              "wp-content/backupino/jobs/ — transient staging chunks, split SQL dumps and runtime logs (purged immediately on completion or cancellation).",
+              "Storage hardening — an .htaccess with Options -Indexes and Require all denied, a web.config for IIS, execution blocking for .php/.py/.cgi and a blank index.php."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "text": "Read-only wp-content? Backupino automatically and securely falls back to uploads/backupino/ so backups keep succeeding on restrictive shared hosting."
+          }
         ]
       },
       "retention": {
         "title": "Version Retention (1–100)",
         "intro": "Local version management keeps between 1 and 100 recent archives on your host and prunes the rest automatically.",
         "blocks": [
-          { "type": "paragraph", "text": "Set the retention count in Settings → Backups (default: 3). After each successful backup, Backupino inspects the package inventory — when the count exceeds your threshold, the oldest archive, its metadata records and its matching installer files are safely and permanently pruned from disk. This guarantee holds for manual, scheduled and CLI-created backups alike." },
-          { "type": "list", "ordered": false, "items": [
-            "Range: 1–100 retained versions (Pro adds policy-driven rules such as keep-daily-for-N-weeks).",
-            "Pinned packages are never pruned — pin a milestone archive to keep it indefinitely.",
-            "Pruning prevents Disk Full errors and hosting suspensions caused by archive accumulation."
-          ] }
+          {
+            "type": "paragraph",
+            "text": "Set the retention count in Settings → Backups (default: 3). After each successful backup, Backupino inspects the package inventory — when the count exceeds your threshold, the oldest archive, its metadata records and its matching installer files are safely and permanently pruned from disk. This guarantee holds for manual, scheduled and CLI-created backups alike."
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Range: 1–100 retained versions (Pro adds policy-driven rules such as keep-daily-for-N-weeks).",
+              "Pinned packages are never pruned — pin a milestone archive to keep it indefinitely.",
+              "Pruning prevents Disk Full errors and hosting suspensions caused by archive accumulation."
+            ]
+          }
         ]
       },
       "download-link": {
         "title": "Permanent Download Link",
         "intro": "One static URL always resolves to your newest verified backup package — the backbone of off-site automation.",
         "blocks": [
-          { "type": "code", "title": "URL format", "lang": "text", "content": "https://yourdomain.com/?backupino_download=latest&backupino_key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" },
-          { "type": "list", "ordered": false, "items": [
-            "High-entropy 32-byte secret key, compared with the timing-attack-safe hash_equals() function.",
-            "Brute-force rate limiting: 5 consecutive failures trigger a 10-minute IP block (HTTP 429).",
-            "Mandatory administrator session: guests redirect to wp-login.php; non-admins receive HTTP 403.",
-            "Instant key regeneration from settings whenever you suspect compromise."
-          ] },
-          { "type": "code", "title": "cURL example", "lang": "bash", "content": "# Automated off-site pull using an authenticated admin cookie:\ncurl -b \"wordpress_cookie.txt\" -L -o \"latest-backup.zip\" \\\n  \"https://yourdomain.com/?backupino_download=latest&backupino_key=YOUR_SECRET_KEY\"" }
+          {
+            "type": "code",
+            "title": "URL format",
+            "lang": "text",
+            "content": "https://yourdomain.com/?backupino_download=latest&backupino_key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "High-entropy 32-byte secret key, compared with the timing-attack-safe hash_equals() function.",
+              "Brute-force rate limiting: 5 consecutive failures trigger a 10-minute IP block (HTTP 429).",
+              "Mandatory administrator session: guests redirect to wp-login.php; non-admins receive HTTP 403.",
+              "Instant key regeneration from settings whenever you suspect compromise."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "cURL example",
+            "lang": "bash",
+            "content": "# Automated off-site pull using an authenticated admin cookie:\ncurl -b \"wordpress_cookie.txt\" -L -o \"latest-backup.zip\" \\\n  \"https://yourdomain.com/?backupino_download=latest&backupino_key=YOUR_SECRET_KEY\""
+          }
         ]
       },
       "notifications": {
         "title": "Notification Setup (Telegram & Bale)",
         "intro": "Personal bots deliver instant completion reports — archive size, file count, execution time and a direct download link — straight from your host.",
         "blocks": [
-          { "type": "list", "ordered": true, "items": [
-            "Telegram: create a bot with the verified @BotFather (/newbot), copy the HTTP API token, then start your bot and read your numeric Chat ID from @userinfobot.",
-            "Backupino → Settings → Notifications: enable Telegram, paste the Bot Token and Chat ID, Save, then Send Test Message.",
-            "Bale: register a bot in Bale's bot creator, copy the token, and toggle Bale on — Telegram and Bale switches are fully independent.",
-            "Messages are dispatched directly from your host to the provider's API with a built-in retry queue for momentary network interruptions."
-          ] },
-          { "type": "callout", "variant": "info", "text": "Tokens are stored in wp_options, never printed in logs, and are sent strictly as authorization headers to the messaging provider during dispatch." }
+          {
+            "type": "list",
+            "ordered": true,
+            "items": [
+              "Telegram: create a bot with the verified @BotFather (/newbot), copy the HTTP API token, then start your bot and read your numeric Chat ID from @userinfobot.",
+              "Backupino → Settings → Notifications: enable Telegram, paste the Bot Token and Chat ID, Save, then Send Test Message.",
+              "Bale: register a bot in Bale's bot creator, copy the token, and toggle Bale on — Telegram and Bale switches are fully independent.",
+              "Messages are dispatched directly from your host to the provider's API with a built-in retry queue for momentary network interruptions."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "text": "Tokens are stored in wp_options, never printed in logs, and are sent strictly as authorization headers to the messaging provider during dispatch."
+          }
         ]
       },
       "persian-calendar": {
         "title": "Persian & Shamsi Calendar",
         "intro": "Backupino is calendar-aware: Persian sites schedule and timestamp everything against the Solar Hijri (Jalali) calendar natively.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "fa_IR sites — automated monthly runs target the 1st day of every Jalali solar month (1 Farvardin, 1 Ordibehesht, 1 Khordad…) at 00:00 midnight.",
-            "International sites — execution triggers at 00:00 on the first day of each Gregorian month.",
-            "Leap years and variable month lengths (31/30/29 days) resolve through pure mathematical conversion — zero external calendar dependencies.",
-            "Reports, notifications and backup labels render dates in the site's native calendar automatically."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "fa_IR sites — automated monthly runs target the 1st day of every Jalali solar month (1 Farvardin, 1 Ordibehesht, 1 Khordad…) at 00:00 midnight.",
+              "International sites — execution triggers at 00:00 on the first day of each Gregorian month.",
+              "Leap years and variable month lengths (31/30/29 days) resolve through pure mathematical conversion — zero external calendar dependencies.",
+              "Reports, notifications and backup labels render dates in the site's native calendar automatically."
+            ]
+          }
         ]
       },
       "monthly-free": {
         "title": "Monthly Schedule (Free)",
         "intro": "The free core automates a monthly backup using WordPress's native wp_cron subsystem — no server cron needed.",
         "blocks": [
-          { "type": "list", "ordered": true, "items": [
-            "Open Backupino → Settings → Scheduling.",
-            "Toggle Enable Automatic Backups.",
-            "Choose Monthly in the interval selection.",
-            "Save Changes — the job fires at 00:00 on the first day of the month (Jalali or Gregorian, per site locale)."
-          ] },
-          { "type": "callout", "variant": "warning", "text": "wp_cron depends on site traffic. On very quiet sites, pair a real system cron with the heartbeat endpoint — see the WP-Cron guide in Troubleshooting." }
+          {
+            "type": "list",
+            "ordered": true,
+            "items": [
+              "Open Backupino → Settings → Scheduling.",
+              "Toggle Enable Automatic Backups.",
+              "Choose Monthly in the interval selection.",
+              "Save Changes — the job fires at 00:00 on the first day of the month (Jalali or Gregorian, per site locale)."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "warning",
+            "text": "wp_cron depends on site traffic. On very quiet sites, pair a real system cron with the heartbeat endpoint — see the WP-Cron guide in Troubleshooting."
+          }
         ]
       },
       "advanced-pro": {
@@ -1344,11 +2489,30 @@
         "title": "Advanced Scheduling (Pro)",
         "intro": "Pro turns scheduling into a precision instrument: intervals from hourly to fully custom, chained with remote transfer and local cleanup.",
         "blocks": [
-          { "type": "heading", "id": "sched-intervals", "text": "Intervals: hourly to custom" },
-          { "type": "paragraph", "text": "Choose Hourly, Twice Daily, Daily, Weekly or a fully custom interval defined in hours. The scheduler aligns runs to your site's change frequency — high-velocity WooCommerce stores run hourly deltas, while brochure sites settle for weekly runs. Execution state checkpoints between every tick, so no interval ever overlaps or double-fires." },
-          { "type": "heading", "id": "sched-chain", "text": "The automated backup chain" },
-          { "type": "paragraph", "text": "Each scheduled run executes a deterministic chain: create the backup locally, transfer it to every configured remote destination (cloud and/or download host), then clean local copies according to your retention policy. A run only marks success after every transfer verifies its checksum, and failures enter the retry queue with Telegram / Bale or Central Bot reporting." },
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "# Configure an hourly chained schedule from the CLI:\nwp backupino schedule set --interval=hourly --chain=cloud,clean" }
+          {
+            "type": "heading",
+            "id": "sched-intervals",
+            "text": "Intervals: hourly to custom"
+          },
+          {
+            "type": "paragraph",
+            "text": "Choose Hourly, Twice Daily, Daily, Weekly or a fully custom interval defined in hours. The scheduler aligns runs to your site's change frequency — high-velocity WooCommerce stores run hourly deltas, while brochure sites settle for weekly runs. Execution state checkpoints between every tick, so no interval ever overlaps or double-fires."
+          },
+          {
+            "type": "heading",
+            "id": "sched-chain",
+            "text": "The automated backup chain"
+          },
+          {
+            "type": "paragraph",
+            "text": "Each scheduled run executes a deterministic chain: create the backup locally, transfer it to every configured remote destination (cloud and/or download host), then clean local copies according to your retention policy. A run only marks success after every transfer verifies its checksum, and failures enter the retry queue with Telegram / Bale or Central Bot reporting."
+          },
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "# Configure an hourly chained schedule from the CLI:\nwp backupino schedule set --interval=hourly --chain=cloud,clean"
+          }
         ]
       },
       "cloud-overview": {
@@ -1356,13 +2520,24 @@
         "title": "Cloud Storage Overview",
         "intro": "Pro streams every finished package to storage you own — destinations never see your WordPress credentials.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "S3-compatible services — Amazon S3, ArvanCloud, Liara, ParsPack, MinIO, Cloudflare R2, Wasabi, Backblaze B2.",
-            "Google Drive and Dropbox with OAuth connections and folder targeting.",
-            "Download hosts over FTP, FTPS and SFTP with automatic per-domain folders."
-          ] },
-          { "type": "paragraph", "text": "Enable Keep local copy to retain the newest archive on the host alongside cloud copies, or disable it for a strictly off-site flow. Every transfer verifies integrity before the job closes, and the report carries per-destination success states." },
-          { "type": "callout", "variant": "pro", "text": "Your cloud keys stay with you: Pro uses your own buckets and accounts — there is no intermediary storage you do not control (except the optional Backupino Dedicated Cloud on Freelancer and Enterprise)." }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "S3-compatible services — Amazon S3, ArvanCloud, Liara, ParsPack, MinIO, Cloudflare R2, Wasabi, Backblaze B2.",
+              "Google Drive and Dropbox with OAuth connections and folder targeting.",
+              "Download hosts over FTP, FTPS and SFTP with automatic per-domain folders."
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Enable Keep local copy to retain the newest archive on the host alongside cloud copies, or disable it for a strictly off-site flow. Every transfer verifies integrity before the job closes, and the report carries per-destination success states."
+          },
+          {
+            "type": "callout",
+            "variant": "pro",
+            "text": "Your cloud keys stay with you: Pro uses your own buckets and accounts — there is no intermediary storage you do not control (except the optional Backupino Dedicated Cloud on Freelancer and Enterprise)."
+          }
         ]
       },
       "s3": {
@@ -1370,24 +2545,89 @@
         "title": "S3-Compatible Services",
         "intro": "Any S3-compatible object store connects with an endpoint, region, bucket, access key and secret. Transfers use multipart upload with per-part verification.",
         "blocks": [
-          { "type": "code", "title": "Connection fields", "lang": "text", "content": "Endpoint:   https://<provider-endpoint>\nRegion:     <region-or-auto>\nBucket:     my-site-backups\nAccess Key: ••••••••\nSecret Key: ••••••••\nPath style: subdomain/vhost style (default) or path style (MinIO)" },
-          { "type": "heading", "id": "s3-amazon", "text": "Amazon S3" },
-          { "type": "paragraph", "text": "Create a bucket in your preferred region, issue a least-privilege IAM key limited to that bucket, and connect. Versioning and lifecycle rules in the bucket pair naturally with Backupino's version retention." },
-          { "type": "heading", "id": "s3-arvan", "text": "ArvanCloud" },
-          { "type": "paragraph", "text": "Copy the endpoint from your ArvanCloud object storage panel, create an access key, and point Backupino at the bucket — domestic network routing keeps transfers fast for Iranian hosts." },
-          { "type": "heading", "id": "s3-liara", "text": "Liara" },
-          { "type": "paragraph", "text": "Liara's object storage exposes a standard S3 API; paste the endpoint from the Liara console, select the bucket and authenticate with your access key and secret." },
-          { "type": "heading", "id": "s3-parspack", "text": "ParsPack" },
-          { "type": "paragraph", "text": "ParsPack object storage works identically — endpoint, bucket, key and secret from the hosting panel — giving you another domestic, S3-compatible destination." },
-          { "type": "heading", "id": "s3-minio", "text": "MinIO" },
-          { "type": "paragraph", "text": "Self-hosted MinIO is supported with path-style addressing (for example https://minio.internal:9000). Internal DNS names and private networks work without any public exposure." },
-          { "type": "heading", "id": "s3-r2", "text": "Cloudflare R2" },
-          { "type": "paragraph", "text": "R2's S3 endpoint (<account_id>.r2.cloudflarestorage.com) plus an R2 API token is all you need — zero-egress pricing makes deep backup chains inexpensive." },
-          { "type": "heading", "id": "s3-wasabi", "text": "Wasabi" },
-          { "type": "paragraph", "text": "Point to s3.<region>.wasabisys.com with your Wasabi keys for hot-cloud storage pricing without retrieval fees." },
-          { "type": "heading", "id": "s3-b2", "text": "Backblaze B2" },
-          { "type": "paragraph", "text": "Use the B2 S3-compatible endpoint (s3.<region>.backblazeb2.com) with an application key scoped to your backup bucket." },
-          { "type": "callout", "variant": "tip", "text": "Run Test Connection after saving any S3 destination — the panel lists reachable buckets and confirms write permission before your first scheduled transfer." }
+          {
+            "type": "code",
+            "title": "Connection fields",
+            "lang": "text",
+            "content": "Endpoint:   https://<provider-endpoint>\nRegion:     <region-or-auto>\nBucket:     my-site-backups\nAccess Key: ••••••••\nSecret Key: ••••••••\nPath style: subdomain/vhost style (default) or path style (MinIO)"
+          },
+          {
+            "type": "heading",
+            "id": "s3-amazon",
+            "text": "Amazon S3"
+          },
+          {
+            "type": "paragraph",
+            "text": "Create a bucket in your preferred region, issue a least-privilege IAM key limited to that bucket, and connect. Versioning and lifecycle rules in the bucket pair naturally with Backupino's version retention."
+          },
+          {
+            "type": "heading",
+            "id": "s3-arvan",
+            "text": "ArvanCloud"
+          },
+          {
+            "type": "paragraph",
+            "text": "Copy the endpoint from your ArvanCloud object storage panel, create an access key, and point Backupino at the bucket — domestic network routing keeps transfers fast for Iranian hosts."
+          },
+          {
+            "type": "heading",
+            "id": "s3-liara",
+            "text": "Liara"
+          },
+          {
+            "type": "paragraph",
+            "text": "Liara's object storage exposes a standard S3 API; paste the endpoint from the Liara console, select the bucket and authenticate with your access key and secret."
+          },
+          {
+            "type": "heading",
+            "id": "s3-parspack",
+            "text": "ParsPack"
+          },
+          {
+            "type": "paragraph",
+            "text": "ParsPack object storage works identically — endpoint, bucket, key and secret from the hosting panel — giving you another domestic, S3-compatible destination."
+          },
+          {
+            "type": "heading",
+            "id": "s3-minio",
+            "text": "MinIO"
+          },
+          {
+            "type": "paragraph",
+            "text": "Self-hosted MinIO is supported with path-style addressing (for example https://minio.internal:9000). Internal DNS names and private networks work without any public exposure."
+          },
+          {
+            "type": "heading",
+            "id": "s3-r2",
+            "text": "Cloudflare R2"
+          },
+          {
+            "type": "paragraph",
+            "text": "R2's S3 endpoint (<account_id>.r2.cloudflarestorage.com) plus an R2 API token is all you need — zero-egress pricing makes deep backup chains inexpensive."
+          },
+          {
+            "type": "heading",
+            "id": "s3-wasabi",
+            "text": "Wasabi"
+          },
+          {
+            "type": "paragraph",
+            "text": "Point to s3.<region>.wasabisys.com with your Wasabi keys for hot-cloud storage pricing without retrieval fees."
+          },
+          {
+            "type": "heading",
+            "id": "s3-b2",
+            "text": "Backblaze B2"
+          },
+          {
+            "type": "paragraph",
+            "text": "Use the B2 S3-compatible endpoint (s3.<region>.backblazeb2.com) with an application key scoped to your backup bucket."
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "text": "Run Test Connection after saving any S3 destination — the panel lists reachable buckets and confirms write permission before your first scheduled transfer."
+          }
         ]
       },
       "google-drive": {
@@ -1395,13 +2635,20 @@
         "title": "Google Drive",
         "intro": "Connect Drive with a one-click OAuth flow and stream backups into a folder in your own Google account.",
         "blocks": [
-          { "type": "list", "ordered": true, "items": [
-            "Open Backupino → Cloud → Google Drive and click Connect.",
-            "Approve access in Google's OAuth window — the token stores locally in wp_options and never appears in logs.",
-            "Choose or create the target folder (for example Backups/example.com).",
-            "Run Test Upload to verify quota and permissions."
-          ] },
-          { "type": "paragraph", "text": "Large packages upload in resumable chunks, so an interrupted transfer continues from the last confirmed chunk instead of restarting. Revoke access any time from either your Backupino panel or your Google account permissions." }
+          {
+            "type": "list",
+            "ordered": true,
+            "items": [
+              "Open Backupino → Cloud → Google Drive and click Connect.",
+              "Approve access in Google's OAuth window — the token stores locally in wp_options and never appears in logs.",
+              "Choose or create the target folder (for example Backups/example.com).",
+              "Run Test Upload to verify quota and permissions."
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Large packages upload in resumable chunks, so an interrupted transfer continues from the last confirmed chunk instead of restarting. Revoke access any time from either your Backupino panel or your Google account permissions."
+          }
         ]
       },
       "dropbox": {
@@ -1409,12 +2656,19 @@
         "title": "Dropbox",
         "intro": "Dropbox receives packages into your app folder with chunked uploads and automatic version naming.",
         "blocks": [
-          { "type": "list", "ordered": true, "items": [
-            "Open Backupino → Cloud → Dropbox and click Connect to authorize the app.",
-            "Pick the destination directory (default: /Backupino/<domain>).",
-            "Confirm with Test Upload — a small integrity package uploads and verifies end-to-end."
-          ] },
-          { "type": "paragraph", "text": "Dropbox's content-hash verification runs on every upload, so corrupt transfers are impossible to miss. Paired with point-in-time restore, any Drive or Dropbox object becomes a restore source directly from the panel." }
+          {
+            "type": "list",
+            "ordered": true,
+            "items": [
+              "Open Backupino → Cloud → Dropbox and click Connect to authorize the app.",
+              "Pick the destination directory (default: /Backupino/<domain>).",
+              "Confirm with Test Upload — a small integrity package uploads and verifies end-to-end."
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Dropbox's content-hash verification runs on every upload, so corrupt transfers are impossible to miss. Paired with point-in-time restore, any Drive or Dropbox object becomes a restore source directly from the panel."
+          }
         ]
       },
       "download-host": {
@@ -1422,47 +2676,82 @@
         "title": "Download Host (FTP / FTPS / SFTP)",
         "intro": "Push packages to any file server you control — shared boxes, NAS appliances or a dedicated download host.",
         "blocks": [
-          { "type": "code", "title": "Connection fields", "lang": "text", "content": "Protocol: FTP | FTPS (explicit TLS) | SFTP (SSH)\nHost:     dl.example.com\nPort:     21 | 990 | 22\nUsername: backups\nPassword / Key: ••••••••\nBase path: /backups\nPassive mode: recommended behind NAT" },
-          { "type": "paragraph", "text": "Pro creates a per-domain folder structure (<base>/<domain>/<year>/<month>) automatically, so a single download host can serve an entire fleet without collisions. SFTP connections prefer key-based authentication and verify host fingerprints on first contact." },
-          { "type": "callout", "variant": "tip", "text": "If listings time out behind firewalled hosting, enable Passive mode and restrict the server firewall to your control panel's published ports." }
+          {
+            "type": "code",
+            "title": "Connection fields",
+            "lang": "text",
+            "content": "Protocol: FTP | FTPS (explicit TLS) | SFTP (SSH)\nHost:     dl.example.com\nPort:     21 | 990 | 22\nUsername: backups\nPassword / Key: ••••••••\nBase path: /backups\nPassive mode: recommended behind NAT"
+          },
+          {
+            "type": "paragraph",
+            "text": "Pro creates a per-domain folder structure (<base>/<domain>/<year>/<month>) automatically, so a single download host can serve an entire fleet without collisions. SFTP connections prefer key-based authentication and verify host fingerprints on first contact."
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "text": "If listings time out behind firewalled hosting, enable Passive mode and restrict the server firewall to your control panel's published ports."
+          }
         ]
       },
       "creating-backup": {
         "title": "Creating a Backup",
         "intro": "One click on the dashboard — or one WP-CLI command — produces a self-restoring package in four transparent stages.",
         "blocks": [
-          { "type": "list", "ordered": true, "items": [
-            "Open Backupino in the WordPress sidebar and configure Include Files, Include Database and an optional filename label (e.g. pre-update).",
-            "Click Create Backup and watch the live progress card.",
-            "Stage 1 Scan catalogs the filesystem; Stage 2 Database streams rows through a 256 KB buffer with 250-row batches; Stage 3 Files performs adaptive chunk compression; Stage 4 Finalize seals the archive, verifies the manifest and injects installer.php.",
-            "Download the .zip (and installer.php for migration) from the Backups tab."
-          ] },
-          { "type": "callout", "variant": "info", "text": "Switch tabs freely: the Browser Heartbeat (visibilitychange listener) re-synchronizes when you return, and wp_raise_memory_limit('admin') raises memory automatically during the heavy stages." }
+          {
+            "type": "list",
+            "ordered": true,
+            "items": [
+              "Open Backupino in the WordPress sidebar and configure Include Files, Include Database and an optional filename label (e.g. pre-update).",
+              "Click Create Backup and watch the live progress card.",
+              "Stage 1 Scan catalogs the filesystem; Stage 2 Database streams rows through a 256 KB buffer with 250-row batches; Stage 3 Files performs adaptive chunk compression; Stage 4 Finalize seals the archive, verifies the manifest and injects installer.php.",
+              "Download the .zip (and installer.php for migration) from the Backups tab."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "text": "Switch tabs freely: the Browser Heartbeat (visibilitychange listener) re-synchronizes when you return, and wp_raise_memory_limit('admin') raises memory automatically during the heavy stages."
+          }
         ]
       },
       "resumable": {
         "title": "Resumable Step-by-Step Processing",
         "intro": "The anti-timeout engine slices heavy work into micro-batches tracked by persistent checkpoints — the reason backups finish on 30-second shared hosting.",
         "blocks": [
-          { "type": "paragraph", "text": "Files compress in batches (default 300 per execution tick) and SQL streams through 250-row INSERT batches kept beneath max_allowed_packet. Every job records its token, status, stage, progress percentage and a JSON payload with the exact file pointer, table byte offsets and row counters in the wp_backupino_jobs table." },
-          { "type": "list", "ordered": false, "items": [
-            "Killed request? WP-Cron and asynchronous ticks reload the state and resume at the precise file or database row.",
-            "Closed browser tab? Processing continues in the background and the dashboard catches up on your next visit.",
-            "Memory spikes? wp_raise_memory_limit('admin') escalates allocation during scan and compression phases."
-          ] }
+          {
+            "type": "paragraph",
+            "text": "Files compress in batches (default 300 per execution tick) and SQL streams through 250-row INSERT batches kept beneath max_allowed_packet. Every job records its token, status, stage, progress percentage and a JSON payload with the exact file pointer, table byte offsets and row counters in the wp_backupino_jobs table."
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Killed request? WP-Cron and asynchronous ticks reload the state and resume at the precise file or database row.",
+              "Closed browser tab? Processing continues in the background and the dashboard catches up on your next visit.",
+              "Memory spikes? wp_raise_memory_limit('admin') escalates allocation during scan and compression phases."
+            ]
+          }
         ]
       },
       "php-export": {
         "title": "PHP-Based DB Export",
         "intro": "The Pure PHP SQL Streamer dumps entire databases through native PDO / MySQLi — no mysqldump, no exec(), no shell permissions.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Row-by-row streaming into an unbuffered .sql file keeps memory flat regardless of table size.",
-            "UTF-8 / UTF8MB4 encodings, 4-byte emojis and non-Latin URL slugs are preserved byte-perfectly — no intermediate string manipulation.",
-            "Optimized multi-row INSERTs stay deliberately beneath MySQL's max_allowed_packet for smooth imports.",
-            "Views, triggers and custom WooCommerce tables export alongside core tables."
-          ] },
-          { "type": "callout", "variant": "info", "text": "During import, the installer splits oversized INSERTs into micro-statements, recovers from MariaDB tablespace collisions (Error 1813) and sanitizes incompatible DEFINER clauses automatically." }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Row-by-row streaming into an unbuffered .sql file keeps memory flat regardless of table size.",
+              "UTF-8 / UTF8MB4 encodings, 4-byte emojis and non-Latin URL slugs are preserved byte-perfectly — no intermediate string manipulation.",
+              "Optimized multi-row INSERTs stay deliberately beneath MySQL's max_allowed_packet for smooth imports.",
+              "Views, triggers and custom WooCommerce tables export alongside core tables."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "text": "During import, the installer splits oversized INSERTs into micro-statements, recovers from MariaDB tablespace collisions (Error 1813) and sanitizes incompatible DEFINER clauses automatically."
+          }
         ]
       },
       "incremental": {
@@ -1470,42 +2759,110 @@
         "title": "Incremental Backup (Pro)",
         "intro": "After one full base backup, Pro captures only what changed — dramatically smaller transfers, storage use and runtimes.",
         "blocks": [
-          { "type": "heading", "id": "inc-base", "text": "Base backup" },
-          { "type": "paragraph", "text": "Every chain starts with a complete base package (files + database) anchored by a manifest of cryptographic per-file checksums. The base is the recovery root; all subsequent work references it." },
-          { "type": "heading", "id": "inc-delta", "text": "Delta packages" },
-          { "type": "paragraph", "text": "Each scheduled run diffs the live filesystem against the manifest and packages only new, modified and deleted files plus changed database rows. A delta is typically a small fraction of your full size, which makes hourly schedules practical even on busy stores." },
-          { "type": "heading", "id": "inc-chain", "text": "Chain management" },
-          { "type": "paragraph", "text": "Chains self-repair: if a delta's checksum fails verification, the next run automatically re-anchors with a fresh base. Chain length policies cap how many deltas can hang off a base before consolidation, and compaction merges aging deltas to keep restore graphs short." },
-          { "type": "callout", "variant": "pro", "text": "Incremental chains feed Point-in-Time Restore — any snapshot in your history, rebuilt from base + deltas on demand." }
+          {
+            "type": "heading",
+            "id": "inc-base",
+            "text": "Base backup"
+          },
+          {
+            "type": "paragraph",
+            "text": "Every chain starts with a complete base package (files + database) anchored by a manifest of cryptographic per-file checksums. The base is the recovery root; all subsequent work references it."
+          },
+          {
+            "type": "heading",
+            "id": "inc-delta",
+            "text": "Delta packages"
+          },
+          {
+            "type": "paragraph",
+            "text": "Each scheduled run diffs the live filesystem against the manifest and packages only new, modified and deleted files plus changed database rows. A delta is typically a small fraction of your full size, which makes hourly schedules practical even on busy stores."
+          },
+          {
+            "type": "heading",
+            "id": "inc-chain",
+            "text": "Chain management"
+          },
+          {
+            "type": "paragraph",
+            "text": "Chains self-repair: if a delta's checksum fails verification, the next run automatically re-anchors with a fresh base. Chain length policies cap how many deltas can hang off a base before consolidation, and compaction merges aging deltas to keep restore graphs short."
+          },
+          {
+            "type": "callout",
+            "variant": "pro",
+            "text": "Incremental chains feed Point-in-Time Restore — any snapshot in your history, rebuilt from base + deltas on demand."
+          }
         ]
       },
       "managing-versions": {
         "title": "Managing Backup Versions",
         "intro": "The Backups tab is your inventory: inspect, download, pin or prune any package — locally and (with Pro) across every cloud destination.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Every package shows its label, size, type, calendar-aware date and live log.",
-            "Actions: Download, Download Installer, Pin (exclude from retention pruning) and Delete with confirmation.",
-            "Cloud columns (Pro) mirror destination states per package — uploaded, pending or retrying.",
-            "Retention interplays cleanly: pruning removes local copies while remote versions follow their own cloud version policy."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Every package shows its label, size, type, calendar-aware date and live log.",
+              "Actions: Download, Download Installer, Pin (exclude from retention pruning) and Delete with confirmation.",
+              "Cloud columns (Pro) mirror destination states per package — uploaded, pending or retrying.",
+              "Retention interplays cleanly: pruning removes local copies while remote versions follow their own cloud version policy."
+            ]
+          }
         ]
       },
       "installer": {
         "title": "Standalone Installer (Free)",
         "intro": "The ~80 KB installer.php rebuilds your entire site on an empty server — extraction, database, wp-config and URL replacement, no WordPress required.",
         "blocks": [
-          { "type": "heading", "id": "ins-how", "text": "How it works" },
-          { "type": "paragraph", "text": "Upload your backup .zip and installer.php into the destination's empty web root, then open https://yourdomain.com/installer.php. A 7-step wizard runs entirely on AJAX ticks, so even multi-gigabyte sites restore inside strict shared-hosting limits." },
-          { "type": "heading", "id": "ins-extract", "text": "File extraction" },
-          { "type": "paragraph", "text": "Files extract 300 per tick, with automatic quarantine of the source site's .htaccess, .user.ini, php.ini and wp-config.php as .backupino-orig files — eliminating the LiteSpeed/cPanel 500 errors that kill conventional restores mid-flight." },
-          { "type": "heading", "id": "ins-db", "text": "Database import" },
-          { "type": "paragraph", "text": "The SQL dump streams in with packet-size auto-splitting, MariaDB/MySQL 8 error resilience (orphan tablespace recovery), FOREIGN_KEY_CHECKS=0 handling and DEFINER-clause sanitization. Change the table prefix here if you like — user roles and capability keys update automatically." },
-          { "type": "heading", "id": "ins-config", "text": "WordPress configuration" },
-          { "type": "paragraph", "text": "A fresh wp-config.php is generated with cryptographically secure random salts while preserving your custom constants, followed by a standard .htaccess with the exact RewriteBase for the target directory. Custom login slugs from security plugins are detected automatically." },
-          { "type": "heading", "id": "ins-url", "text": "URL replacement (serialized, JSON, nested)" },
-          { "type": "paragraph", "text": "The deep search-and-replace engine rewrites source URLs to the target across every table — recalculating byte lengths inside serialized PHP structures, traversing JSON strings, preserving Elementor dynamic tags (%7B%7D) and keeping Persian/Unicode slugs intact. A final cleanup step purges installer, archive, dump and quarantined files before redirecting to wp-login.php." },
-          { "type": "callout", "variant": "tip", "text": "Keep both files together: the installer pairs its embedded 32-character token with the archive's SHA-256 hash, so mismatched packages are rejected before any destructive step." }
+          {
+            "type": "heading",
+            "id": "ins-how",
+            "text": "How it works"
+          },
+          {
+            "type": "paragraph",
+            "text": "Upload your backup .zip and installer.php into the destination's empty web root, then open https://yourdomain.com/installer.php. A 7-step wizard runs entirely on AJAX ticks, so even multi-gigabyte sites restore inside strict shared-hosting limits."
+          },
+          {
+            "type": "heading",
+            "id": "ins-extract",
+            "text": "File extraction"
+          },
+          {
+            "type": "paragraph",
+            "text": "Files extract 300 per tick, with automatic quarantine of the source site's .htaccess, .user.ini, php.ini and wp-config.php as .backupino-orig files — eliminating the LiteSpeed/cPanel 500 errors that kill conventional restores mid-flight."
+          },
+          {
+            "type": "heading",
+            "id": "ins-db",
+            "text": "Database import"
+          },
+          {
+            "type": "paragraph",
+            "text": "The SQL dump streams in with packet-size auto-splitting, MariaDB/MySQL 8 error resilience (orphan tablespace recovery), FOREIGN_KEY_CHECKS=0 handling and DEFINER-clause sanitization. Change the table prefix here if you like — user roles and capability keys update automatically."
+          },
+          {
+            "type": "heading",
+            "id": "ins-config",
+            "text": "WordPress configuration"
+          },
+          {
+            "type": "paragraph",
+            "text": "A fresh wp-config.php is generated with cryptographically secure random salts while preserving your custom constants, followed by a standard .htaccess with the exact RewriteBase for the target directory. Custom login slugs from security plugins are detected automatically."
+          },
+          {
+            "type": "heading",
+            "id": "ins-url",
+            "text": "URL replacement (serialized, JSON, nested)"
+          },
+          {
+            "type": "paragraph",
+            "text": "The deep search-and-replace engine rewrites source URLs to the target across every table — recalculating byte lengths inside serialized PHP structures, traversing JSON strings, preserving Elementor dynamic tags (%7B%7D) and keeping Persian/Unicode slugs intact. A final cleanup step purges installer, archive, dump and quarantined files before redirecting to wp-login.php."
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "text": "Keep both files together: the installer pairs its embedded 32-character token with the archive's SHA-256 hash, so mismatched packages are rejected before any destructive step."
+          }
         ]
       },
       "in-place": {
@@ -1513,21 +2870,74 @@
         "title": "Secure In-Place Restore (Pro)",
         "intro": "Restore directly on your live site through a guarded seven-stage pipeline — every stage verified before the next begins, with rollback one step away.",
         "blocks": [
-          { "type": "heading", "id": "rs-snapshot", "text": "1 — Pre-restore snapshot" },
-          { "type": "paragraph", "text": "Before anything changes, Pro captures a complete safety snapshot of the current site (files + database). This snapshot is the guaranteed way home." },
-          { "type": "heading", "id": "rs-shadow", "text": "2 — Shadow environment" },
-          { "type": "paragraph", "text": "Your selected backup — local, cloud or incremental chain point — is extracted and prepared in an isolated directory. Your live site keeps serving visitors untouched." },
-          { "type": "heading", "id": "rs-preview", "text": "3 — Preview & health check" },
-          { "type": "paragraph", "text": "A sandboxed preview loads the restored site. Automated checks verify WordPress boot status, database integrity, admin access and key site settings before anything is applied." },
-          { "type": "heading", "id": "rs-confirm", "text": "4 — Owner confirmation" },
-          { "type": "paragraph", "text": "Applying changes requires explicit approval: re-authentication plus a one-time code issued to the account owner. Unattended or unauthorized restores cannot proceed." },
-          { "type": "heading", "id": "rs-apply", "text": "5 — Apply changes" },
-          { "type": "paragraph", "text": "The verified snapshot deploys to production through a controlled, transactional switch — files swap atomically and the database applies with verified statements." },
-          { "type": "heading", "id": "rs-verify", "text": "6 — Post-restore verification" },
-          { "type": "paragraph", "text": "Immediately after deployment, an automated health sweep re-checks boot, database integrity and front-end responses, then reports to your notification channels." },
-          { "type": "heading", "id": "rs-rollback", "text": "7 — Rollback" },
-          { "type": "paragraph", "text": "If the health sweep — or your own eyes — catch a problem, one action reverts the site to the pre-restore snapshot. Rollback itself is verified the same way." },
-          { "type": "callout", "variant": "danger", "text": "Owner confirmation is mandatory by design: restores that bypass re-authentication are rejected, and every attempt is audit-logged to the panel." }
+          {
+            "type": "heading",
+            "id": "rs-snapshot",
+            "text": "1 — Pre-restore snapshot"
+          },
+          {
+            "type": "paragraph",
+            "text": "Before anything changes, Pro captures a complete safety snapshot of the current site (files + database). This snapshot is the guaranteed way home."
+          },
+          {
+            "type": "heading",
+            "id": "rs-shadow",
+            "text": "2 — Shadow environment"
+          },
+          {
+            "type": "paragraph",
+            "text": "Your selected backup — local, cloud or incremental chain point — is extracted and prepared in an isolated directory. Your live site keeps serving visitors untouched."
+          },
+          {
+            "type": "heading",
+            "id": "rs-preview",
+            "text": "3 — Preview & health check"
+          },
+          {
+            "type": "paragraph",
+            "text": "A sandboxed preview loads the restored site. Automated checks verify WordPress boot status, database integrity, admin access and key site settings before anything is applied."
+          },
+          {
+            "type": "heading",
+            "id": "rs-confirm",
+            "text": "4 — Owner confirmation"
+          },
+          {
+            "type": "paragraph",
+            "text": "Applying changes requires explicit approval: re-authentication plus a one-time code issued to the account owner. Unattended or unauthorized restores cannot proceed."
+          },
+          {
+            "type": "heading",
+            "id": "rs-apply",
+            "text": "5 — Apply changes"
+          },
+          {
+            "type": "paragraph",
+            "text": "The verified snapshot deploys to production through a controlled, transactional switch — files swap atomically and the database applies with verified statements."
+          },
+          {
+            "type": "heading",
+            "id": "rs-verify",
+            "text": "6 — Post-restore verification"
+          },
+          {
+            "type": "paragraph",
+            "text": "Immediately after deployment, an automated health sweep re-checks boot, database integrity and front-end responses, then reports to your notification channels."
+          },
+          {
+            "type": "heading",
+            "id": "rs-rollback",
+            "text": "7 — Rollback"
+          },
+          {
+            "type": "paragraph",
+            "text": "If the health sweep — or your own eyes — catch a problem, one action reverts the site to the pre-restore snapshot. Rollback itself is verified the same way."
+          },
+          {
+            "type": "callout",
+            "variant": "danger",
+            "text": "Owner confirmation is mandatory by design: restores that bypass re-authentication are rejected, and every attempt is audit-logged to the panel."
+          }
         ]
       },
       "encryption": {
@@ -1535,13 +2945,21 @@
         "title": "Backup Encryption (AES-256-GCM, XChaCha)",
         "intro": "Pro encrypts packages client-side before transfer or storage — ciphertext is the only thing that ever leaves your server.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "AES-256-GCM — authenticated encryption with integrity proofs for every package.",
-            "XChaCha — extended-nonce stream encryption available for maximum operational safety.",
-            "Encryption happens before upload, so cloud providers, download hosts and networks only ever see ciphertext.",
-            "Decryption occurs locally at restore time; no service — including Backupino's own panel — can read your backups."
-          ] },
-          { "type": "callout", "variant": "warning", "text": "Your encryption key stays with you. Losing it without a configured Key Recovery layer makes encrypted backups unrecoverable — enable key recovery for mission-critical sites." }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "AES-256-GCM — authenticated encryption with integrity proofs for every package.",
+              "XChaCha — extended-nonce stream encryption available for maximum operational safety.",
+              "Encryption happens before upload, so cloud providers, download hosts and networks only ever see ciphertext.",
+              "Decryption occurs locally at restore time; no service — including Backupino's own panel — can read your backups."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "warning",
+            "text": "Your encryption key stays with you. Losing it without a configured Key Recovery layer makes encrypted backups unrecoverable — enable key recovery for mission-critical sites."
+          }
         ]
       },
       "key-management": {
@@ -1549,12 +2967,16 @@
         "title": "Key Management",
         "intro": "Encryption keys generate on your server, stay on your server, and rotate on your schedule.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Keys derive with cryptographically secure randomness and store locally, never transmitted in plaintext.",
-            "Rotation creates a new active key while older packages remain decryptable through the local key ring.",
-            "Restores prompt for the key only when needed and never echo it into logs or API responses.",
-            "The panel displays key fingerprints (not keys) so teams can verify they are restoring with the right material."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Keys derive with cryptographically secure randomness and store locally, never transmitted in plaintext.",
+              "Rotation creates a new active key while older packages remain decryptable through the local key ring.",
+              "Restores prompt for the key only when needed and never echo it into logs or API responses.",
+              "The panel displays key fingerprints (not keys) so teams can verify they are restoring with the right material."
+            ]
+          }
         ]
       },
       "key-recovery": {
@@ -1562,12 +2984,19 @@
         "title": "Key Recovery (Shamir 2-of-3)",
         "intro": "An optional enterprise-grade layer that guarantees you can never be locked out of your own encrypted backups.",
         "blocks": [
-          { "type": "paragraph", "text": "Your encryption key splits into three mathematical shares using Shamir's Secret Sharing. Any two shares reconstruct the key; one share alone reveals nothing." },
-          { "type": "list", "ordered": false, "items": [
-            "Share 1 stays on your server — day-to-day operation is unchanged.",
-            "Share 2 lives in your Backupino account panel, encrypted and unreadable on its own.",
-            "Share 3 downloads to you as an offline recovery file — store it somewhere safe."
-          ] }
+          {
+            "type": "paragraph",
+            "text": "Your encryption key splits into three mathematical shares using Shamir's Secret Sharing. Any two shares reconstruct the key; one share alone reveals nothing."
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Share 1 stays on your server — day-to-day operation is unchanged.",
+              "Share 2 lives in your Backupino account panel, encrypted and unreadable on its own.",
+              "Share 3 downloads to you as an offline recovery file — store it somewhere safe."
+            ]
+          }
         ]
       },
       "recovery-agent": {
@@ -1575,26 +3004,38 @@
         "title": "Standalone Recovery Agent",
         "intro": "A lightweight agent at your site root that executes authorized recovery operations even when WordPress cannot boot.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Deployed at the document root and operates independently of the WordPress runtime.",
-            "Executes only signed, authorized recovery commands issued from your Backupino panel.",
-            "Communicates over authenticated, encrypted channels — unknown or tampered commands are rejected.",
-            "Pairs with in-place restore: when wp-admin is unreachable, the agent performs the same guarded pipeline."
-          ] },
-          { "type": "callout", "variant": "pro", "text": "The agent accepts nothing it cannot cryptographically verify — command signatures are validated against your license's Ed25519 keys before any action." }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Deployed at the document root and operates independently of the WordPress runtime.",
+              "Executes only signed, authorized recovery commands issued from your Backupino panel.",
+              "Communicates over authenticated, encrypted channels — unknown or tampered commands are rejected.",
+              "Pairs with in-place restore: when wp-admin is unreachable, the agent performs the same guarded pipeline."
+            ]
+          },
+          {
+            "type": "callout",
+            "variant": "pro",
+            "text": "The agent accepts nothing it cannot cryptographically verify — command signatures are validated against your license's Ed25519 keys before any action."
+          }
         ]
       },
       "storage-protection": {
         "title": "Local Storage Protection",
         "intro": "Backup archives are never web-accessible — multiple hardening layers guard the packages directory on every server type.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            ".htaccess with Options -Indexes and Require all denied for Apache and LiteSpeed.",
-            "A dedicated web.config providing equivalent rules on Windows / IIS.",
-            "Execution blocking for .php, .py, .cgi and other executable extensions inside the backup directory.",
-            "A blank index.php preventing directory listing fallthrough.",
-            "Every plugin PHP file enforces defined( 'ABSPATH' ) || exit; and installer components enforce defined( 'BACKUPINO_INSTALLER' )."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              ".htaccess with Options -Indexes and Require all denied for Apache and LiteSpeed.",
+              "A dedicated web.config providing equivalent rules on Windows / IIS.",
+              "Execution blocking for .php, .py, .cgi and other executable extensions inside the backup directory.",
+              "A blank index.php preventing directory listing fallthrough.",
+              "Every plugin PHP file enforces defined( 'ABSPATH' ) || exit; and installer components enforce defined( 'BACKUPINO_INSTALLER' )."
+            ]
+          }
         ]
       },
       "central-panel": {
@@ -1602,12 +3043,16 @@
         "title": "Centralized Panel",
         "intro": "Your Backupino account panel is mission control: every connected domain, backup and restore — in one place.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Request backups and restores remotely without logging into each wp-admin.",
-            "Monitor site health, last-backup age and destination states across the whole fleet.",
-            "Approve sensitive operations — owner-confirmed restores require panel-side authorization.",
-            "Audit history records every command, signature check and outcome."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Request backups and restores remotely without logging into each wp-admin.",
+              "Monitor site health, last-backup age and destination states across the whole fleet.",
+              "Approve sensitive operations — owner-confirmed restores require panel-side authorization.",
+              "Audit history records every command, signature check and outcome."
+            ]
+          }
         ]
       },
       "central-bot": {
@@ -1615,8 +3060,15 @@
         "title": "Backupino Central Bot",
         "intro": "One Telegram bot for the entire fleet — unified backup reporting delivered by Backupino's own bot.",
         "blocks": [
-          { "type": "paragraph", "text": "The Central Bot complements (not replaces) the free version's personal bot notifications. Activate it from your account panel, link your Telegram account once, and every connected domain reports into a single stream with domain-tagged messages: backup success, transfer verification, quota warnings and restore audits." },
-          { "type": "callout", "variant": "info", "text": "Personal bots keep working per-site on the free core; the Central Bot simply aggregates — useful when you manage more than a handful of domains." }
+          {
+            "type": "paragraph",
+            "text": "The Central Bot complements (not replaces) the free version's personal bot notifications. Activate it from your account panel, link your Telegram account once, and every connected domain reports into a single stream with domain-tagged messages: backup success, transfer verification, quota warnings and restore audits."
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "text": "Personal bots keep working per-site on the free core; the Central Bot simply aggregates — useful when you manage more than a handful of domains."
+          }
         ]
       },
       "dedicated-cloud": {
@@ -1624,11 +3076,28 @@
         "title": "Backupino Dedicated Cloud",
         "intro": "Cloud storage included with your plan — zero third-party accounts required.",
         "blocks": [
-          { "type": "paragraph", "text": "Freelancer ships with 30 GB and 5 retained cloud versions; Enterprise ships with 100 GB and 10 versions. Dedicated Cloud behaves like any other destination — chains transfer to it automatically and point-in-time restore reads from it directly." },
-          { "type": "heading", "id": "dc-quota", "text": "Quota & alerts" },
-          { "type": "paragraph", "text": "The panel tracks consumption in real time with alerts at 80% and 100% of quota — via the dashboard, email and the Central Bot — so storage never fills silently." },
-          { "type": "heading", "id": "dc-retention", "text": "Retention policies" },
-          { "type": "paragraph", "text": "Automatic version management prunes the oldest cloud versions beyond your plan's count; pinned packages are exempt. Local and cloud retention stay independent, so a trimmed cloud never deletes your last local copy." }
+          {
+            "type": "paragraph",
+            "text": "Freelancer ships with 30 GB and 5 retained cloud versions; Enterprise ships with 100 GB and 10 versions. Dedicated Cloud behaves like any other destination — chains transfer to it automatically and point-in-time restore reads from it directly."
+          },
+          {
+            "type": "heading",
+            "id": "dc-quota",
+            "text": "Quota & alerts"
+          },
+          {
+            "type": "paragraph",
+            "text": "The panel tracks consumption in real time with alerts at 80% and 100% of quota — via the dashboard, email and the Central Bot — so storage never fills silently."
+          },
+          {
+            "type": "heading",
+            "id": "dc-retention",
+            "text": "Retention policies"
+          },
+          {
+            "type": "paragraph",
+            "text": "Automatic version management prunes the oldest cloud versions beyond your plan's count; pinned packages are exempt. Local and cloud retention stay independent, so a trimmed cloud never deletes your last local copy."
+          }
         ]
       },
       "team-members": {
@@ -1636,12 +3105,16 @@
         "title": "Team Members",
         "intro": "Collaborate safely: multiple seats per account with centralized license management.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Personal includes 1 seat, Freelancer includes 3, Enterprise includes up to 10.",
-            "Seats manage domains, destinations and schedules without sharing the owner's credentials.",
-            "Sensitive operations (restores, key material, license actions) remain owner-gated with one-time codes.",
-            "Seats attach and detach instantly from the panel as client rosters change."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Personal includes 1 seat, Freelancer includes 3, Enterprise includes up to 10.",
+              "Seats manage domains, destinations and schedules without sharing the owner's credentials.",
+              "Sensitive operations (restores, key material, license actions) remain owner-gated with one-time codes.",
+              "Seats attach and detach instantly from the panel as client rosters change."
+            ]
+          }
         ]
       },
       "white-label": {
@@ -1649,7 +3122,10 @@
         "title": "White Label",
         "intro": "Deliver client-facing backups with your agency's brand — not ours.",
         "blocks": [
-          { "type": "paragraph", "text": "On selected plans, the Backupino name, menus and report signatures disappear from wp-admin. Clients see a clean, neutral backup screen, and notification templates adopt your wording. White label applies per-domain and toggles per site, so mixed portfolios stay flexible." }
+          {
+            "type": "paragraph",
+            "text": "On selected plans, the Backupino name, menus and report signatures disappear from wp-admin. Clients see a clean, neutral backup screen, and notification templates adopt your wording. White label applies per-domain and toggles per site, so mixed portfolios stay flexible."
+          }
         ]
       },
       "license-structure": {
@@ -1657,9 +3133,21 @@
         "title": "License Structure (Ed25519)",
         "intro": "Pro licenses are signed documents — cryptographically verifiable offline, impossible to forge.",
         "blocks": [
-          { "type": "paragraph", "text": "Each license is a compact JSON document signed with Ed25519. The plugin verifies the signature locally against the published public key, so validation never depends on a remote server being reachable." },
-          { "type": "code", "title": "License document (simplified)", "lang": "json", "content": "{\n  \"plan\": \"freelancer\",\n  \"seats\": 10,\n  \"issued\": \"2026-11-01\",\n  \"expires\": \"2027-11-01\",\n  \"domains\": [\"example.com\"],\n  \"signature\": \"ed25519:9f4c…d21a\"\n}" },
-          { "type": "callout", "variant": "info", "text": "Tampered documents fail signature verification instantly — a license cannot be edited into something it is not." }
+          {
+            "type": "paragraph",
+            "text": "Each license is a compact JSON document signed with Ed25519. The plugin verifies the signature locally against the published public key, so validation never depends on a remote server being reachable."
+          },
+          {
+            "type": "code",
+            "title": "License document (simplified)",
+            "lang": "json",
+            "content": "{\n  \"plan\": \"freelancer\",\n  \"seats\": 10,\n  \"issued\": \"2026-11-01\",\n  \"expires\": \"2027-11-01\",\n  \"domains\": [\"example.com\"],\n  \"signature\": \"ed25519:9f4c…d21a\"\n}"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "text": "Tampered documents fail signature verification instantly — a license cannot be edited into something it is not."
+          }
         ]
       },
       "domain-rules": {
@@ -1667,13 +3155,17 @@
         "title": "Domain Counting Rules",
         "intro": "Licenses bind to your site's home_url — with fair, documented edge rules.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Each unique home_url consumes one seat on your plan.",
-            "Subdomains count as separate domains.",
-            "A WordPress Multisite network counts as one domain regardless of subsite count.",
-            "Local/test hosts — localhost, .test, .local, .dev and raw IP addresses — never consume a seat.",
-            "Up to 2 staging environments per license are exempt."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Each unique home_url consumes one seat on your plan.",
+              "Subdomains count as separate domains.",
+              "A WordPress Multisite network counts as one domain regardless of subsite count.",
+              "Local/test hosts — localhost, .test, .local, .dev and raw IP addresses — never consume a seat.",
+              "Up to 2 staging environments per license are exempt."
+            ]
+          }
         ]
       },
       "activation": {
@@ -1681,12 +3173,16 @@
         "title": "Activation & Deactivation",
         "intro": "Move licenses between domains deliberately — with guardrails that prevent seat churn abuse.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Activate from Backupino → License by pasting your key; the seat binds to the current home_url.",
-            "Deactivate any time from the panel or the plugin to release the seat.",
-            "Released domains carry a 72-hour cooldown before the seat can bind elsewhere.",
-            "Yearly activation caps: Personal 2 changes/year, Freelancer 30 activations/year, Enterprise 100 activations/year — all with unlimited deactivations."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Activate from Backupino → License by pasting your key; the seat binds to the current home_url.",
+              "Deactivate any time from the panel or the plugin to release the seat.",
+              "Released domains carry a 72-hour cooldown before the seat can bind elsewhere.",
+              "Yearly activation caps: Personal 2 changes/year, Freelancer 30 activations/year, Enterprise 100 activations/year — all with unlimited deactivations."
+            ]
+          }
         ]
       },
       "offline-cache": {
@@ -1694,7 +3190,10 @@
         "title": "Offline Cache (7-day)",
         "intro": "Pro keeps working even when the license server is unreachable.",
         "blocks": [
-          { "type": "paragraph", "text": "After each successful validation, the plugin caches your signed license state locally for 7 days. Scheduled chains, transfers, restores and encryption continue uninterrupted during network partitions, firewalled segments or maintenance windows. The cache renews automatically on the first successful contact, and expiry never disables anything mid-run." }
+          {
+            "type": "paragraph",
+            "text": "After each successful validation, the plugin caches your signed license state locally for 7 days. Scheduled chains, transfers, restores and encryption continue uninterrupted during network partitions, firewalled segments or maintenance windows. The cache renews automatically on the first successful contact, and expiry never disables anything mid-run."
+          }
         ]
       },
       "expiration": {
@@ -1702,12 +3201,16 @@
         "title": "Expiration & Grace Period",
         "intro": "Renewal is predictable, forgiving, and never destructive to your data.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "Reminder notifications arrive 3 days before expiry — dashboard, email and Central Bot.",
-            "A 7-day grace period follows expiry with full functionality.",
-            "After grace, Pro features pause; read access to every existing backup — local, cloud and encrypted (with your key) — is preserved indefinitely.",
-            "Renewing reactivates everything exactly where it left off, chains and schedules included."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Reminder notifications arrive 3 days before expiry — dashboard, email and Central Bot.",
+              "A 7-day grace period follows expiry with full functionality.",
+              "After grace, Pro features pause; read access to every existing backup — local, cloud and encrypted (with your key) — is preserved indefinitely.",
+              "Renewing reactivates everything exactly where it left off, chains and schedules included."
+            ]
+          }
         ]
       },
       "plan-comparison": {
@@ -1715,34 +3218,146 @@
         "title": "Plan Comparison",
         "intro": "Every Pro capability, sized to four plans — starting with a free 10-day trial.",
         "blocks": [
-          { "type": "table", "head": ["Attribute", "Trial", "Personal", "Freelancer", "Enterprise"], "rows": [
-            ["Duration", "10 days", "Annual", "Annual", "Annual"],
-            ["Domains", "1", "1", "10", "30"],
-            ["Cloud connections", "Yes", "Yes", "Yes", "Yes"],
-            ["Cloud versions", "2", "2", "5", "10"],
-            ["Dedicated cloud", "—", "—", "30 GB · 5 versions", "100 GB · 10 versions"],
-            ["Multisite", "—", "—", "Yes", "Yes"],
-            ["White label", "—", "—", "Yes", "Yes"],
-            ["Team members", "1", "1", "3", "10"],
-            ["Support response", "—", "48 hours", "24 hours", "12 hours + dedicated group"],
-            ["Domain changes", "—", "2 per year", "Unlimited · 30 activations/yr", "Unlimited · 100 activations/yr"]
-          ] }
+          {
+            "type": "table",
+            "head": [
+              "Attribute",
+              "Trial",
+              "Personal",
+              "Freelancer",
+              "Enterprise"
+            ],
+            "rows": [
+              [
+                "Duration",
+                "10 days",
+                "Annual",
+                "Annual",
+                "Annual"
+              ],
+              [
+                "Domains",
+                "1",
+                "1",
+                "10",
+                "30"
+              ],
+              [
+                "Cloud connections",
+                "Yes",
+                "Yes",
+                "Yes",
+                "Yes"
+              ],
+              [
+                "Cloud versions",
+                "2",
+                "2",
+                "5",
+                "10"
+              ],
+              [
+                "Dedicated cloud",
+                "—",
+                "—",
+                "30 GB · 5 versions",
+                "100 GB · 10 versions"
+              ],
+              [
+                "Multisite",
+                "—",
+                "—",
+                "Yes",
+                "Yes"
+              ],
+              [
+                "White label",
+                "—",
+                "—",
+                "Yes",
+                "Yes"
+              ],
+              [
+                "Team members",
+                "1",
+                "1",
+                "3",
+                "10"
+              ],
+              [
+                "Support response",
+                "—",
+                "48 hours",
+                "24 hours",
+                "12 hours + dedicated group"
+              ],
+              [
+                "Domain changes",
+                "—",
+                "2 per year",
+                "Unlimited · 30 activations/yr",
+                "Unlimited · 100 activations/yr"
+              ]
+            ]
+          }
         ]
       },
       "cli-free": {
         "title": "Available Commands (Free)",
         "intro": "The full backup lifecycle is scriptable with WP-CLI — perfect for cron automation and CI/CD pipelines.",
         "blocks": [
-          { "type": "heading", "id": "cmd-create", "text": "wp backupino create" },
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "wp backupino create\nwp backupino create --label=\"pre-release-v2\"" },
-          { "type": "heading", "id": "cmd-dbonly", "text": "wp backupino create --db-only" },
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "wp backupino create --db-only\nwp backupino create --files-only" },
-          { "type": "heading", "id": "cmd-jobs", "text": "wp backupino jobs" },
-          { "type": "paragraph", "text": "Lists running and recent jobs with their stage, progress percentage and checkpoint state — the terminal view of the dashboard's live progress card." },
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "wp backupino jobs\n# token   status     stage     progress\nc92f…   running    files     64%" },
-          { "type": "heading", "id": "cmd-status", "text": "wp backupino status" },
-          { "type": "paragraph", "text": "Reports installation health: PHP version, required extensions, storage permissions, cron wiring and destination reachability — the same checks as Settings → System Status, in machine-readable form." },
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "wp backupino status\n# php: 8.2 OK | pdo_mysql OK | zip OK | storage writable OK | cron OK" }
+          {
+            "type": "heading",
+            "id": "cmd-create",
+            "text": "wp backupino create"
+          },
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "wp backupino create\nwp backupino create --label=\"pre-release-v2\""
+          },
+          {
+            "type": "heading",
+            "id": "cmd-dbonly",
+            "text": "wp backupino create --db-only"
+          },
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "wp backupino create --db-only\nwp backupino create --files-only"
+          },
+          {
+            "type": "heading",
+            "id": "cmd-jobs",
+            "text": "wp backupino jobs"
+          },
+          {
+            "type": "paragraph",
+            "text": "Lists running and recent jobs with their stage, progress percentage and checkpoint state — the terminal view of the dashboard's live progress card."
+          },
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "wp backupino jobs\n# token   status     stage     progress\nc92f…   running    files     64%"
+          },
+          {
+            "type": "heading",
+            "id": "cmd-status",
+            "text": "wp backupino status"
+          },
+          {
+            "type": "paragraph",
+            "text": "Reports installation health: PHP version, required extensions, storage permissions, cron wiring and destination reachability — the same checks as Settings → System Status, in machine-readable form."
+          },
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "wp backupino status\n# php: 8.2 OK | pdo_mysql OK | zip OK | storage writable OK | cron OK"
+          }
         ]
       },
       "cli-pro": {
@@ -1750,82 +3365,153 @@
         "title": "Extended Commands (Pro)",
         "intro": "Pro extends the CLI with cloud, scheduling, restore and license verbs — full fleet automation from one terminal.",
         "blocks": [
-          { "type": "code", "title": "Terminal", "lang": "bash", "content": "# Cloud destinations\nwp backupino cloud test --destination=s3-main\nwp backupino cloud push --last\n\n# Scheduling\nwp backupino schedule set --interval=hourly --chain=cloud,clean\nwp backupino schedule status\n\n# Restore & points\nwp backupino restore points\nwp backupino restore --chain=abc123 --to=2026-11-01T06:00\n\n# License\nwp backupino license status\nwp backupino license deactivate" },
-          { "type": "callout", "variant": "pro", "text": "Owner-gated operations (in-place restore apply, license changes) always require the one-time confirmation code — even from the CLI." }
+          {
+            "type": "code",
+            "title": "Terminal",
+            "lang": "bash",
+            "content": "# Cloud destinations\nwp backupino cloud test --destination=s3-main\nwp backupino cloud push --last\n\n# Scheduling\nwp backupino schedule set --interval=hourly --chain=cloud,clean\nwp backupino schedule status\n\n# Restore & points\nwp backupino restore points\nwp backupino restore --chain=abc123 --to=2026-11-01T06:00\n\n# License\nwp backupino license status\nwp backupino license deactivate"
+          },
+          {
+            "type": "callout",
+            "variant": "pro",
+            "text": "Owner-gated operations (in-place restore apply, license changes) always require the one-time confirmation code — even from the CLI."
+          }
         ]
       },
       "common-issues": {
         "title": "Common Issues",
         "intro": "Timeouts, memory exhaustion and permission errors on shared hosting — and how Backupino's engine plus a few settings solve them.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "504 / Gateway Timeout — the chunk engine resumes automatically; reduce Batch File Processing from 300 to 100 on constrained hosts.",
-            "memory_limit exhaustion — Backupino raises limits during heavy stages with wp_raise_memory_limit('admin'); set memory_limit to 256 MB where possible.",
-            "max_allowed_packet SQL errors — the streamer and installer auto-split oversized INSERTs; 64 MB packets are recommended for large sites.",
-            "Permission errors — directories 755, files 644; on read-only wp-content, storage automatically falls back to uploads/backupino/.",
-            "500 errors during restore — the installer's server-config quarantine (.backupino-orig) eliminates LiteSpeed/cPanel handler conflicts."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "504 / Gateway Timeout — the chunk engine resumes automatically; reduce Batch File Processing from 300 to 100 on constrained hosts.",
+              "memory_limit exhaustion — Backupino raises limits during heavy stages with wp_raise_memory_limit('admin'); set memory_limit to 256 MB where possible.",
+              "max_allowed_packet SQL errors — the streamer and installer auto-split oversized INSERTs; 64 MB packets are recommended for large sites.",
+              "Permission errors — directories 755, files 644; on read-only wp-content, storage automatically falls back to uploads/backupino/.",
+              "500 errors during restore — the installer's server-config quarantine (.backupino-orig) eliminates LiteSpeed/cPanel handler conflicts."
+            ]
+          }
         ]
       },
       "server-compat": {
         "title": "Server Compatibility",
         "intro": "Notes for specific hosting stacks — verified across cPanel, DirectAdmin, Plesk, LiteSpeed, Nginx, IIS and local environments.",
         "blocks": [
-          { "type": "list", "ordered": false, "items": [
-            "cPanel & WHM / DirectAdmin — database prefixes and ALL PRIVILEGES grants are the standard path; LiteSpeed cache directives are quarantined during migration.",
-            "Nginx (PHP-FPM) — no .htaccess processing applies; Backupino writes equivalent protection rules for its packages directory.",
-            "Microsoft IIS — a dedicated web.config guards archives; restore proceeds identically.",
-            "CloudLinux CageFS — isolated LVE limits are respected by the batch engine; raise LVE memory for the smoothest large-site runs.",
-            "Local environments (XAMPP, Laragon, LocalWP, Docker) — fully supported for migration testing."
-          ] }
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "cPanel & WHM / DirectAdmin — database prefixes and ALL PRIVILEGES grants are the standard path; LiteSpeed cache directives are quarantined during migration.",
+              "Nginx (PHP-FPM) — no .htaccess processing applies; Backupino writes equivalent protection rules for its packages directory.",
+              "Microsoft IIS — a dedicated web.config guards archives; restore proceeds identically.",
+              "CloudLinux CageFS — isolated LVE limits are respected by the batch engine; raise LVE memory for the smoothest large-site runs.",
+              "Local environments (XAMPP, Laragon, LocalWP, Docker) — fully supported for migration testing."
+            ]
+          }
         ]
       },
       "wp-cron": {
         "title": "WP-Cron Limitations",
         "intro": "WordPress cron depends on page views — fine for busy sites, unreliable for quiet ones. Two patterns make schedules deterministic.",
         "blocks": [
-          { "type": "paragraph", "text": "Replace traffic-driven cron with a real system cron hitting wp-cron.php, while leaving WordPress's internal scheduler untouched. Backupino's heartbeat endpoint keeps long chains moving between ticks." },
-          { "type": "code", "title": "Server cron (recommended)", "lang": "bash", "content": "# wp-config.php\ndefine('DISABLE_WP_CRON', true);\n\n# crontab — every 5 minutes\n*/5 * * * * curl -s https://yourdomain.com/wp-cron.php?doing_wp_cron >/dev/null 2>&1" },
-          { "type": "callout", "variant": "tip", "text": "Pro's chained schedules checkpoint between ticks — even a quiet site with infrequent visitors completes hourly chains reliably because each tick only advances a measured slice." }
+          {
+            "type": "paragraph",
+            "text": "Replace traffic-driven cron with a real system cron hitting wp-cron.php, while leaving WordPress's internal scheduler untouched. Backupino's heartbeat endpoint keeps long chains moving between ticks."
+          },
+          {
+            "type": "code",
+            "title": "Server cron (recommended)",
+            "lang": "bash",
+            "content": "# wp-config.php\ndefine('DISABLE_WP_CRON', true);\n\n# crontab — every 5 minutes\n*/5 * * * * curl -s https://yourdomain.com/wp-cron.php?doing_wp_cron >/dev/null 2>&1"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "text": "Pro's chained schedules checkpoint between ticks — even a quiet site with infrequent visitors completes hourly chains reliably because each tick only advances a measured slice."
+          }
         ]
       },
       "faq": {
         "title": "FAQ",
         "intro": "The questions we hear most — answered briefly, linking into the full guides above.",
         "blocks": [
-          { "type": "qa", "items": [
-            { "q": "Does the free version impose size limits or quotas?", "a": "No. No size caps, no file-count limits, no record restrictions — from small sites to massive WooCommerce stores." },
-            { "q": "Is restoring or migrating ever charged?", "a": "Never. The standalone installer and migration are 100% free forever in the core plugin." },
-            { "q": "Do I need WordPress installed on the destination?", "a": "No — installer.php rebuilds everything from an empty directory." },
-            { "q": "Does Backupino work with WooCommerce?", "a": "Yes, 100% compatible — orders, customers, product metadata and custom tables restore flawlessly." },
-            { "q": "Does anything phone home?", "a": "No. The free core is 100% offline-first with zero telemetry; Pro talks only to your own destinations and your panel." },
-            { "q": "What happens when a Pro license expires?", "a": "Features pause after a 7-day grace period; read access to every existing backup is preserved." }
-          ] }
+          {
+            "type": "qa",
+            "items": [
+              {
+                "q": "Does the free version impose size limits or quotas?",
+                "a": "No. No size caps, no file-count limits, no record restrictions — from small sites to massive WooCommerce stores."
+              },
+              {
+                "q": "Is restoring or migrating ever charged?",
+                "a": "Never. The standalone installer and migration are 100% free forever in the core plugin."
+              },
+              {
+                "q": "Do I need WordPress installed on the destination?",
+                "a": "No — installer.php rebuilds everything from an empty directory."
+              },
+              {
+                "q": "Does Backupino work with WooCommerce?",
+                "a": "Yes, 100% compatible — orders, customers, product metadata and custom tables restore flawlessly."
+              },
+              {
+                "q": "Does anything phone home?",
+                "a": "No. The free core is 100% offline-first with zero telemetry; Pro talks only to your own destinations and your panel."
+              },
+              {
+                "q": "What happens when a Pro license expires?",
+                "a": "Features pause after a 7-day grace period; read access to every existing backup is preserved."
+              }
+            ]
+          }
         ]
       },
       "changelog": {
         "title": "Changelog",
         "intro": "Release history following Backupino's custom Major.Minor.Patch versioning — every notable engine, security and documentation change.",
         "blocks": [
-          { "type": "heading", "text": "v1.0.3 — Current stable" },
-          { "type": "list", "ordered": false, "items": [
-            "Documentation synchronization across every section, including the Pro handbook.",
-            "Stability refinements to the chunked archiver and notification retry queue.",
-            "Installer polish: clearer pre-flight reporting and recovery-agent readiness checks."
-          ] },
-          { "type": "heading", "text": "v1.0.1" },
-          { "type": "list", "ordered": false, "items": [
-            "Handbook completion pass: architecture, installer anatomy and troubleshooting playbooks finalized.",
-            "Rate-limiter hardening on the permanent download link (HTTP 429 after 5 failures)."
-          ] },
-          { "type": "heading", "text": "v1.0.0 — Initial production release" },
-          { "type": "list", "ordered": false, "items": [
-            "Resumable Anti-Timeout Engine with persistent job checkpoints.",
-            "Standalone 7-step installer with server-config quarantine eliminating cPanel/LiteSpeed 500 errors.",
-            "Pure PHP SQL Streamer preserving UTF-8 Persian slugs and serialized data.",
-            "Dual messenger notifications (Telegram & Bale) with retry queue.",
-            "100% offline-first architecture — zero external CDN calls, fonts or telemetry."
-          ] }
+          {
+            "type": "heading",
+            "text": "v1.0.3 — Current stable"
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Documentation synchronization across every section, including the Pro handbook.",
+              "Stability refinements to the chunked archiver and notification retry queue.",
+              "Installer polish: clearer pre-flight reporting and recovery-agent readiness checks."
+            ]
+          },
+          {
+            "type": "heading",
+            "text": "v1.0.1"
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Handbook completion pass: architecture, installer anatomy and troubleshooting playbooks finalized.",
+              "Rate-limiter hardening on the permanent download link (HTTP 429 after 5 failures)."
+            ]
+          },
+          {
+            "type": "heading",
+            "text": "v1.0.0 — Initial production release"
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "Resumable Anti-Timeout Engine with persistent job checkpoints.",
+              "Standalone 7-step installer with server-config quarantine eliminating cPanel/LiteSpeed 500 errors.",
+              "Pure PHP SQL Streamer preserving UTF-8 Persian slugs and serialized data.",
+              "Dual messenger notifications (Telegram & Bale) with retry queue.",
+              "100% offline-first architecture — zero external CDN calls, fonts or telemetry."
+            ]
+          }
         ]
       }
     }
@@ -1870,7 +3556,11 @@
       "haveAccount": "Already have an account?",
       "signIn": "Log in",
       "strengthLabel": "Password strength",
-      "strength": ["Weak", "Medium", "Strong"],
+      "strength": [
+        "Weak",
+        "Medium",
+        "Strong"
+      ],
       "success": "Account created — welcome aboard! Check your inbox to verify your email."
     },
     "errors": {
@@ -1880,6 +3570,308 @@
       "mismatch": "Passwords do not match.",
       "weakPassword": "Please choose a stronger password (8+ chars, mixed case & numbers).",
       "mustAgree": "You must agree to the Privacy Policy to continue."
+    }
+  },
+  "download": {
+    "hero": {
+      "badge": "Official WordPress Backup & Migration Plugin v1.0.3",
+      "titleA": "Direct Download",
+      "titleB": "Backupino & Disaster Recovery Tools",
+      "subtitle": "High-performance WordPress backup, site cloning, and seamless migration suite with 100% free unmetered restores, anti-timeout chunk engine, and standalone installer.",
+      "latestRelease": "Latest Stable: v1.0.3",
+      "releaseDate": "November 2026",
+      "license": "Free Software License: GPL v3.0",
+      "testedUpTo": "Tested up to: WordPress 6.7+ & PHP 8.3",
+      "stats": [
+        {
+          "value": "1,000+",
+          "label": "Active Sites"
+        },
+        {
+          "value": "100%",
+          "label": "Free Restore Forever"
+        },
+        {
+          "value": "0s",
+          "label": "Downtime Shadow Restore"
+        },
+        {
+          "value": "GPLv3",
+          "label": "Open-Source & Private"
+        }
+      ]
+    },
+    "packages": {
+      "plugin": {
+        "tag": "Official WordPress Plugin",
+        "badge": "Stable Release v1.0.3",
+        "title": "Download Backupino Official Plugin",
+        "desc": "Intelligent WordPress backup, cloning, and migration suite with 100% free unmetered restores, no feature paywalls, and built-in anti-timeout chunk engine.",
+        "version": "Version 1.0.3",
+        "size": "1.8 MB",
+        "format": "ZIP Archive",
+        "checksum": "8f3c7a91b4d0e2e5f6a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0",
+        "primaryCta": "Direct Download from WordPress.org",
+        "primaryUrl": "https://downloads.wordpress.org/plugin/backupino.zip",
+        "mirrorCta": "Download Mirror from GitHub (backupino.zip)",
+        "mirrorUrl": "https://github.com/Backupino/plugin/releases/latest/download/backupino.zip",
+        "features": [
+          "100% free unmetered restores with zero hidden paywalls or size limits forever",
+          "Anti-timeout chunk engine preventing 504 Gateway Timeouts on budget shared hosts",
+          "Direct offsite streaming to S3, Cloudflare R2, ArvanCloud, and Liara buckets",
+          "Instant backup completion dispatches to Telegram and Bale messenger bots",
+          "Universal compatibility with cPanel, DirectAdmin, LiteSpeed, Nginx, and Apache"
+        ]
+      },
+      "installer": {
+        "tag": "Disaster Recovery Engine",
+        "badge": "Bundled in Package",
+        "title": "Standalone installer.php Script",
+        "desc": "The standalone installer is bundled directly inside Backupino and generated automatically alongside every backup archive. No standalone download is necessary; you can also export it directly with one click from your WordPress admin.",
+        "version": "Core Bundled",
+        "size": "280 KB",
+        "format": "Standalone Script",
+        "learnMoreCta": "Read installer.php Guide in Docs",
+        "features": [
+          "Automatically generated alongside backup archives for bare-metal restorations",
+          "One-click direct export of installer.php from WordPress admin dashboard",
+          "Restores database and file trees onto clean servers without pre-installing WordPress",
+          "Automated deep recursive serialized search-and-replace for domain migrations"
+        ]
+      }
+    },
+    "methods": {
+      "label": "Installation Guide",
+      "title": "Three Simple Ways to Install",
+      "subtitle": "Choose your preferred workflow and activate Backupino in under 2 minutes.",
+      "items": [
+        {
+          "step": "1",
+          "title": "WordPress Admin Dashboard (Easiest)",
+          "desc": "Navigate to Plugins → Add New Plugin → Upload Plugin, select the downloaded .zip archive, and click 'Install & Activate'."
+        },
+        {
+          "step": "2",
+          "title": "WP-CLI Command Line",
+          "desc": "If you have terminal access to your host, execute this single command to pull and activate instantly:",
+          "cmd": "wp plugin install backupino --activate"
+        },
+        {
+          "step": "3",
+          "title": "Manual FTP / File Manager Upload",
+          "desc": "Extract the zip file and upload the backupino folder into your host's wp-content/plugins/ directory, then activate in Plugins."
+        }
+      ]
+    },
+    "requirements": {
+      "label": "System Requirements",
+      "title": "Environment Compatibility",
+      "subtitle": "Engineered to run seamlessly even on resource-constrained shared hosts with strict execution caps.",
+      "items": [
+        {
+          "name": "PHP Version",
+          "value": "PHP 7.4 through 8.3 (fully tested with PHP 8.x)"
+        },
+        {
+          "name": "Database",
+          "value": "MySQL 5.7+ or MariaDB 10.3+ with utf8mb4 collation"
+        },
+        {
+          "name": "WordPress",
+          "value": "WordPress 5.8 or higher"
+        },
+        {
+          "name": "PHP Memory Limit",
+          "value": "64MB minimum (128MB+ recommended)"
+        },
+        {
+          "name": "Required Extensions",
+          "value": "cURL, PDO/mysqli, ZipArchive (bundled PclZip fallback included)"
+        },
+        {
+          "name": "Web Servers",
+          "value": "Apache, Nginx, LiteSpeed, OpenLiteSpeed, Caddy, IIS"
+        }
+      ]
+    },
+    "checksums": {
+      "label": "Security Verification",
+      "title": "Cryptographic Hashes & Ed25519 Signature",
+      "subtitle": "Verify file authenticity by matching the SHA-256 checksum against your local package download.",
+      "copy": "Copy Hash",
+      "copied": "Copied!",
+      "verified": "Official digital signature verified"
+    },
+    "faq": {
+      "label": "Download FAQs",
+      "title": "Frequently Asked Questions about Downloading Backupino",
+      "subtitle": "Clear answers to the most common inquiries regarding installation, recovery, and licensing.",
+      "items": [
+        {
+          "q": "Is restoring and migrating sites with the free edition really 100% free?",
+          "a": "Yes, absolutely. Unlike proprietary plugins that let you backup for free but hold restores hostage behind a paywall, Backupino provides unlimited restores and bare-metal migrations with installer.php completely free forever."
+        },
+        {
+          "q": "What is standalone installer.php and how does it enable WordPress-free restores?",
+          "a": "installer.php is a self-contained recovery engine. You simply upload your backup ZIP package and installer.php to any clean host directory, open yoursite.com/installer.php in your browser, and it provisions your site from scratch without WordPress pre-installed."
+        },
+        {
+          "q": "How does the anti-timeout chunk engine prevent 504 Gateway Timeouts on budget shared hosts?",
+          "a": "Backupino slices backup jobs into adaptive 3 to 5-second micro-chunks. State is safely saved to the database after each chunk, allowing subsequent requests to resume effortlessly without triggering host max_execution_time limits."
+        },
+        {
+          "q": "Can I connect Backupino to S3-compatible cloud storage providers?",
+          "a": "Yes. Backupino supports standard S3 API buckets including Amazon S3, Cloudflare R2, Wasabi, MinIO, ArvanCloud, and Liara for offsite security."
+        },
+        {
+          "q": "Does Backupino affect frontend website speed or search engine rankings?",
+          "a": "No. Backupino is strictly offline-first. It injects zero scripts or fonts onto your public visitor frontend, ensuring your Core Web Vitals and SEO rankings remain pristine."
+        }
+      ]
+    }
+  },
+  "contact": {
+    "hero": {
+      "badge": "Official Support Hub & Direct Engineering Outreach",
+      "title": "We Are Always Here to Assist Your WordPress Journey",
+      "subtitle": "Have questions regarding site cloning, enterprise multi-gigabyte migrations, or cloud configurations? Our technical team is ready to guide you."
+    },
+    "channels": {
+      "label": "Direct Channels",
+      "title": "Fast Communication Tracks",
+      "items": [
+        {
+          "icon": "telegram",
+          "title": "Telegram Bot & Community",
+          "desc": "Fast responses, real-time alerting integration, and direct inquiries via our official bot.",
+          "action": "Connect with @Backupino_Bot",
+          "link": "https://t.me/Backupino_Bot"
+        },
+        {
+          "icon": "github",
+          "title": "GitHub Issues & Dev Tracker",
+          "desc": "File reproducible bugs, propose feature requests, and follow development roadmap PRs.",
+          "action": "Open an Issue on GitHub",
+          "link": "https://github.com/Backupino/plugin/issues"
+        },
+        {
+          "icon": "mail",
+          "title": "Direct Email Assistance",
+          "desc": "For commercial licensing queries, enterprise SLAs, and business collaboration proposals.",
+          "action": "support@backupino.com",
+          "link": "mailto:support@backupino.com"
+        },
+        {
+          "icon": "forum",
+          "title": "WordPress.org Community Forum",
+          "desc": "Public support portal for international WordPress community members and agencies.",
+          "action": "Visit WordPress.org Forum",
+          "link": "https://wordpress.org/support/plugin/backupino/"
+        }
+      ]
+    },
+    "form": {
+      "label": "Online Contact Form",
+      "title": "Submit a Support Ticket or Inquiry",
+      "subtitle": "Fill out the form below and an engineer will respond within 24 hours.",
+      "name": "Full Name",
+      "namePlaceholder": "e.g. Alex Morgan",
+      "email": "Email Address",
+      "emailPlaceholder": "alex@example.com",
+      "category": "Inquiry Category",
+      "categoryOptions": [
+        {
+          "id": "tech",
+          "label": "Technical Support & Troubleshooting"
+        },
+        {
+          "id": "sales",
+          "label": "Sales & Pro Licensing"
+        },
+        {
+          "id": "migration",
+          "label": "Large Enterprise Site Migration"
+        },
+        {
+          "id": "partnership",
+          "label": "Partnership & White-label"
+        },
+        {
+          "id": "feedback",
+          "label": "General Feedback & Ideas"
+        }
+      ],
+      "priority": "Priority Level",
+      "priorities": [
+        {
+          "id": "normal",
+          "label": "Normal"
+        },
+        {
+          "id": "urgent",
+          "label": "Urgent (Site Down or Data Loss)"
+        }
+      ],
+      "siteUrl": "Website URL (Optional)",
+      "siteUrlPlaceholder": "https://example.com",
+      "message": "Message Details",
+      "messagePlaceholder": "Please describe your setup, PHP version, hosting environment, and any error notices...",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "successTitle": "Message Delivered Successfully!",
+      "successDesc": "Our engineering support team has received your ticket and will follow up shortly via email.",
+      "sendAnother": "Send Another Message"
+    },
+    "sla": {
+      "label": "Service Level Agreement (SLA)",
+      "title": "Guaranteed Turnaround Times",
+      "items": [
+        {
+          "title": "Community Edition",
+          "desc": "Forum and ticket replies within 24 business hours"
+        },
+        {
+          "title": "Pro License Holders",
+          "desc": "Priority ticket queue with under 2-hour SLA response"
+        },
+        {
+          "title": "Coverage Hours",
+          "desc": "Monday – Friday 9:00 - 18:00 (Emergency recovery on-call 24/7)"
+        }
+      ]
+    },
+    "emergency": {
+      "badge": "Disaster Recovery Emergency Desk",
+      "title": "Is your site down or experiencing critical data corruption?",
+      "desc": "If you are in the middle of a failed migration or severe database breakdown, reach out via our 24/7 on-call Telegram emergency desk immediately.",
+      "action": "Contact Emergency Telegram Desk"
+    },
+    "faq": {
+      "label": "Support FAQs",
+      "title": "Frequently Asked Questions about Backupino Support",
+      "subtitle": "Everything you need to know about turnaround times, data privacy, and SLA commitments.",
+      "items": [
+        {
+          "q": "What is the typical response time for support inquiries?",
+          "a": "Free community inquiries are answered within 24 business hours. For Pro license holders, guaranteed turnaround is under 2 hours via priority SLA."
+        },
+        {
+          "q": "Can you help migrate high-volume WooCommerce stores over 10 GB?",
+          "a": "Yes. Our engineers specialize in high-concurrency database optimizations and shadow restore workflows for multi-gigabyte WooCommerce stores."
+        },
+        {
+          "q": "Does Backupino staff ever have access to my database credentials or site contents?",
+          "a": "Never. Backupino adheres strictly to a Zero-Knowledge security architecture. All operations occur on your own server, and we never collect or hold your encryption keys."
+        },
+        {
+          "q": "How does the 14-day 100% money-back guarantee work?",
+          "a": "Every Pro plan comes with a 14-day risk-free guarantee. If you are not completely satisfied, submit a refund request through this form and we will issue a full refund within 24 hours."
+        },
+        {
+          "q": "How do I test Telegram or Bale bot alerts?",
+          "a": "Navigate to the Notifications tab inside Backupino settings, start @Backupino_Bot on your messenger, and click 'Test Connection' to receive your first instant dispatch."
+        }
+      ]
     }
   }
 }

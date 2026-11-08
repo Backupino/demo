@@ -21,7 +21,7 @@ export function getInitialLang(): Lang {
   } catch {
     /* no-op */
   }
-  return "en";
+  return "fa";
 }
 
 export function applyLangAttributes(lang: Lang) {

@@ -1,0 +1,31 @@
+<svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;height:auto;">
+  <style>
+    @keyframes artFloatA { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes artFloatB { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes artSpinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes artPulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; } }
+    .cloud { animation: artFloatA 4s ease-in-out infinite; }
+    .spin { animation: artSpinSlow 12s linear infinite; transform-origin: 200px 165px; }
+    .pulse { animation: artPulse 2s ease-in-out infinite; transform-origin: center; }
+  </style>
+  <g class="cloud" opacity="0.9">
+    <path d="M62 78c0-10 8-18 18-18 2 0 4 .4 5.8 1.1C89.4 54 97.5 48 107 48c13.3 0 24 10.7 24 24 0 .6 0 1.2-.1 1.8.6-.1 1.2-.1 1.9-.1 8.8 0 16 7.2 16 16H62V78z" fill="#dbeafe"/>
+    <path d="M292 52c0-8 6.5-14.5 14.5-14.5 1.6 0 3.2.3 4.6.9C314 34.5 320.5 30 328 30c10.5 0 19 8.5 19 19 0 .5 0 1-.1 1.4.5 0 1 .1 1.5.1 7 0 12.6 5.6 12.6 12.5H292V52z" fill="#dbeafe" opacity="0.7"/>
+  </g>
+  <g class="spin" stroke="#2563eb" stroke-width="3" stroke-linecap="round">
+    <path d="M263 115a74 74 0 0 1 6 30" opacity="0.55"/>
+    <path d="M137 215a74 74 0 0 1-6-30" opacity="0.55"/>
+    <path d="m256 102 9 15-17-3z" fill="#2563eb" stroke="none" opacity="0.55"/>
+    <path d="m144 228-9-15 17 3z" fill="#2563eb" stroke="none" opacity="0.55"/>
+  </g>
+  <g class="cloud" style="animation-delay: 1s;">
+    <rect x="58" y="128" width="34" height="26" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+    <path d="M65 141h20" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+  </g>
+  <g>
+    <path d="M200 68l78 28v58c0 52-34 84-78 102-44-18-78-50-78-102V96l78-28z" fill="#dbeafe" stroke="#2563eb" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M200 88l58 21v45c0 40-25 65-58 80-33-15-58-40-58-80v-45l58-21z" fill="#ffffff" opacity="0.85"/>
+    <path d="m176 160 16 16 34-36" stroke="#2563eb" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <circle cx="318" cy="205" r="5" fill="#10b981" class="pulse"/>
+</svg>
