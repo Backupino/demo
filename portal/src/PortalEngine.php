@@ -26,11 +26,13 @@ use Backupino\Portal\Commerce\OrderSyncService;
 use Backupino\Portal\Commerce\PaymentGatewayManager;
 use Backupino\Portal\Lifecycle\LicenseLifecycleManager;
 use Backupino\Portal\Ui\CustomerDashboardController;
+use Backupino\Portal\Ui\PublicSiteAssets;
 use Backupino\Portal\Admin\OperatorDashboardController;
 use Backupino\Portal\Notifications\NotificationService;
 use Backupino\Portal\Notifications\WooCommerceEmailStyler;
 use Backupino\Portal\Seo\SeoMetaManager;
 use Backupino\Portal\Seo\PerformanceOptimizer;
+use Backupino\Portal\Support\LiveStatsProvider;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -90,10 +92,14 @@ final class PortalEngine {
 
 		// Register Customer Dashboard & My Account hooks (S3-T08)
 		CustomerDashboardController::init();
+		PublicSiteAssets::init();
 
 		// Register SEO, GEO, and Performance Optimizers (S3-T15)
 		SeoMetaManager::init();
 		PerformanceOptimizer::init();
+
+		// Register Live Remote Stats and Dynamic Versioning (GitHub & WP.org)
+		LiveStatsProvider::init();
 
 		// Register Internal Operator Dashboard hooks (S3-T09)
 		if ( is_admin() ) {

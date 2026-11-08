@@ -71,6 +71,11 @@ final class CustomerDashboardController {
 		add_action( 'wp_ajax_backupino_customer_add_domain', array( self::class, 'ajax_add_domain' ) );
 		add_action( 'wp_ajax_backupino_customer_change_domain', array( self::class, 'ajax_change_domain' ) );
 		add_action( 'wp_ajax_backupino_customer_delete_domain', array( self::class, 'ajax_delete_domain' ) );
+
+		// Strict Template Isolation: Ensure Customer Dashboard always uses Canvas mode
+		// and never renders the public Elementor Theme Builder Header & Footer
+		add_filter( 'template_include', array( self::class, 'enforce_dashboard_canvas_template' ), 999 );
+		add_filter( 'elementor/theme/need_override_location', array( self::class, 'prevent_elementor_theme_on_dashboard' ), 10, 2 );
 	}
 
 	/**
@@ -117,6 +122,60 @@ final class CustomerDashboardController {
 			}
 		}
 		return $located;
+	}
+
+	/**
+	 * Force Elementor canvas template when viewing the Customer Dashboard page.
+	 *
+	 * @param string $template
+	 * @return string
+	 */
+	public static function enforce_dashboard_canvas_template( string $template ): string {
+		if ( self::is_customer_dashboard_view() ) {
+			$canvas_paths = array(
+				WP_PLUGIN_DIR . '/elementor/modules/page-templates/templates/canvas.php',
+				WP_PLUGIN_DIR . '/elementor/includes/page-templates/canvas.php',
+			);
+			foreach ( $canvas_paths as $canvas ) {
+				if ( file_exists( $canvas ) ) {
+					return $canvas;
+				}
+			}
+		}
+		return $template;
+	}
+
+	/**
+	 * Prevent Elementor Theme Builder from overriding header/footer on Dashboard.
+	 *
+	 * @param bool $need_override
+	 * @param string $location
+	 * @return bool
+	 */
+	public static function prevent_elementor_theme_on_dashboard( bool $need_override, string $location ): bool {
+		if ( ( 'header' === $location || 'footer' === $location ) && self::is_customer_dashboard_view() ) {
+			return false;
+		}
+		return $need_override;
+	}
+
+	/**
+	 * Check if current request is for the customer dashboard or account page.
+	 *
+	 * @return bool
+	 */
+	public static function is_customer_dashboard_view(): bool {
+		if ( is_page( 'dashboard' ) ) {
+			return true;
+		}
+		if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+			return true;
+		}
+		$uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		if ( str_contains( $uri, '/dashboard' ) || str_contains( $uri, '/my-account' ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

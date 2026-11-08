@@ -1,0 +1,521 @@
+/* ==========================================================================
+   Backupino — Official Public Portal & Landing Design System (S3-T16, D-036)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Design Tokens & CSS Variables
+   -------------------------------------------------------------------------- */
+:root,
+:root[data-theme="light"] {
+  --bk-blue: #2563eb;
+  --bk-blue-hover: #1d4ed8;
+  --bk-blue-deep: #1e3a8a;
+  --bk-cyan: #06b6d4;
+  --bk-cyan-glow: #38bdf8;
+  --bk-emerald: #10b981;
+  --bk-emerald-hover: #059669;
+  --bk-amber: #f59e0b;
+  --bk-rose: #ef4444;
+
+  --bk-bg: #ffffff;
+  --bk-bg-alt: #f8fafc;
+  --bk-bg-card: rgba(255, 255, 255, 0.9);
+  --bk-border: #e2e8f0;
+  --bk-border-focus: #3b82f6;
+
+  --bk-text: #0f172a;
+  --bk-text-secondary: #334155;
+  --bk-text-muted: #64748b;
+
+  --bk-header-bg: rgba(255, 255, 255, 0.85);
+  --bk-header-border: rgba(226, 232, 240, 0.8);
+  --bk-footer-bg: #090d16;
+  --bk-footer-text: #94a3b8;
+
+  --bk-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --bk-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --bk-shadow-lg: 0 12px 32px rgba(37, 99, 235, 0.08);
+
+  --bk-glow-primary: rgba(37, 99, 235, 0.15);
+  --bk-glow-cyan: rgba(6, 182, 212, 0.12);
+  --bk-code-bg: #0f172a;
+  --bk-code-text: #38bdf8;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bk-blue: #3b82f6;
+  --bk-blue-hover: #60a5fa;
+  --bk-blue-deep: #1e3a8a;
+  --bk-cyan: #22d3ee;
+  --bk-cyan-glow: #38bdf8;
+  --bk-emerald: #10b981;
+  --bk-emerald-hover: #34d399;
+  --bk-amber: #fbbf24;
+  --bk-rose: #f87171;
+
+  --bk-bg: #0b0f19;
+  --bk-bg-alt: #0f172a;
+  --bk-bg-card: rgba(22, 30, 49, 0.7);
+  --bk-border: rgba(255, 255, 255, 0.08);
+  --bk-border-focus: #60a5fa;
+
+  --bk-text: #f8fafc;
+  --bk-text-secondary: #cbd5e1;
+  --bk-text-muted: #94a3b8;
+
+  --bk-header-bg: rgba(11, 15, 25, 0.85);
+  --bk-header-border: rgba(255, 255, 255, 0.08);
+  --bk-footer-bg: #060910;
+  --bk-footer-text: #94a3b8;
+
+  --bk-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --bk-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --bk-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+
+  --bk-glow-primary: rgba(59, 130, 246, 0.22);
+  --bk-glow-cyan: rgba(34, 211, 238, 0.18);
+  --bk-code-bg: #070b13;
+  --bk-code-text: #38bdf8;
+
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   Font & Typography (Arad for Persian / Arabic RTL)
+   -------------------------------------------------------------------------- */
+body {
+  background-color: var(--bk-bg);
+  color: var(--bk-text);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.rtl,
+html[lang="fa"] body,
+html[lang="ar"] body,
+[dir="rtl"] {
+  font-family: 'Arad', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+body.ltr,
+html[lang="en"] body,
+html[lang="ru"] body,
+html[lang="zh"] body,
+[dir="ltr"] {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   Header Trust Chip (WP.org Active Installs & Rating)
+   -------------------------------------------------------------------------- */
+.bk-header-trust-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--bk-blue);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+.bk-header-trust-chip:hover {
+  background: rgba(37, 99, 235, 0.15);
+  border-color: var(--bk-blue);
+  transform: translateY(-1px);
+}
+.bk-chip-star {
+  color: #fbbf24;
+  font-size: 13px;
+}
+.bk-chip-divider {
+  opacity: 0.4;
+}
+.bk-chip-wp {
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   Global Sticky Header
+   -------------------------------------------------------------------------- */
+.bk-site-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: var(--bk-header-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--bk-header-border);
+  transition: all 0.3s ease;
+}
+.bk-site-header.is-scrolled {
+  box-shadow: var(--bk-shadow-md);
+}
+.bk-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 12px 24px;
+}
+.bk-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--bk-text);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.bk-brand svg {
+  display: block;
+}
+.bk-brand-version {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--bk-emerald);
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.bk-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bk-nav-links a {
+  text-decoration: none;
+  color: var(--bk-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.bk-nav-links a:hover,
+.bk-nav-links a.active {
+  color: var(--bk-blue);
+}
+.bk-pro-pill {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.bk-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bk-icon-btn {
+  background: transparent;
+  border: 1px solid var(--bk-border);
+  border-radius: 8px;
+  padding: 7px;
+  cursor: pointer;
+  color: var(--bk-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.bk-icon-btn:hover {
+  background: var(--bk-bg-alt);
+  color: var(--bk-text);
+  border-color: var(--bk-border-focus);
+}
+
+/* Language Dropdown */
+.bk-lang-dropdown {
+  position: relative;
+}
+.bk-lang-menu {
+  position: absolute;
+  top: 100%;
+  inset-inline-end: 0;
+  margin-top: 6px;
+  background: var(--bk-bg-card);
+  border: 1px solid var(--bk-border);
+  border-radius: 10px;
+  box-shadow: var(--bk-shadow-lg);
+  padding: 6px;
+  min-width: 140px;
+  display: none;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+}
+.bk-lang-dropdown.open .bk-lang-menu {
+  display: block;
+}
+.bk-lang-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  color: var(--bk-text-secondary);
+  transition: all 0.15s ease;
+}
+.bk-lang-item:hover,
+.bk-lang-item.active {
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--bk-blue);
+  font-weight: 600;
+}
+
+/* CTA Buttons */
+.bk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+.bk-btn-outline {
+  border-color: var(--bk-border);
+  color: var(--bk-text);
+  background: transparent;
+}
+.bk-btn-outline:hover {
+  border-color: var(--bk-blue);
+  color: var(--bk-blue);
+  background: rgba(37, 99, 235, 0.04);
+}
+.bk-btn-primary {
+  background: linear-gradient(135deg, var(--bk-blue), var(--bk-blue-hover));
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+.bk-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+.bk-btn-emerald {
+  background: linear-gradient(135deg, var(--bk-emerald), var(--bk-emerald-hover));
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+.bk-btn-emerald:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+}
+
+/* Hamburger mobile button */
+.bk-mobile-toggle {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .bk-nav-links,
+  .bk-header-actions .bk-btn-desktop,
+  .bk-header-trust-chip {
+    display: none !important;
+  }
+  .bk-mobile-toggle {
+    display: inline-flex;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Global Footer
+   -------------------------------------------------------------------------- */
+.bk-site-footer {
+  background: var(--bk-footer-bg);
+  color: var(--bk-footer-text);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 64px 24px 24px;
+  font-size: 14px;
+}
+.bk-footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.bk-footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+@media (max-width: 860px) {
+  .bk-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+.bk-footer-brand p {
+  color: var(--bk-text-muted);
+  line-height: 1.6;
+  margin: 16px 0;
+  max-width: 380px;
+}
+.bk-footer-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bk-footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.bk-footer-social a:hover {
+  background: var(--bk-blue);
+  color: #ffffff;
+  border-color: var(--bk-blue);
+}
+.bk-footer-col h4 {
+  color: #f8fafc;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.bk-footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bk-footer-col li {
+  margin-bottom: 10px;
+}
+.bk-footer-col a {
+  color: var(--bk-footer-text);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.bk-footer-col a:hover {
+  color: #38bdf8;
+}
+.bk-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* --------------------------------------------------------------------------
+   Live Animated Backup Pipeline Demo Widget (HTML Component)
+   -------------------------------------------------------------------------- */
+.bk-pipeline-card {
+  background: var(--bk-bg-card);
+  border: 1px solid var(--bk-border);
+  border-radius: 16px;
+  box-shadow: var(--bk-shadow-lg);
+  overflow: hidden;
+  max-width: 520px;
+  margin: 0 auto;
+  backdrop-filter: blur(12px);
+}
+.bk-pipeline-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--bk-border);
+  background: rgba(0, 0, 0, 0.02);
+}
+.bk-traffic-dots {
+  display: flex;
+  gap: 6px;
+}
+.bk-traffic-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+.bk-traffic-dots span:nth-child(1) { background: #ef4444; }
+.bk-traffic-dots span:nth-child(2) { background: #f59e0b; }
+.bk-traffic-dots span:nth-child(3) { background: #10b981; }
+
+.bk-pipeline-body {
+  padding: 20px;
+}
+.bk-stage-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.bk-stage-track {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+:root[data-theme="dark"] .bk-stage-track {
+  background: rgba(255, 255, 255, 0.08);
+}
+.bk-stage-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  transition: width 0.1s linear;
+}
+.bk-stage-fill.done {
+  background: #10b981;
+}
+.bk-pipeline-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  border-top: 1px solid var(--bk-border);
+  padding-top: 16px;
+  text-align: center;
+}
+.bk-mini-stat b {
+  display: block;
+  font-size: 15px;
+  color: var(--bk-text);
+}
+.bk-mini-stat span {
+  font-size: 11px;
+  color: var(--bk-text-muted);
+}
